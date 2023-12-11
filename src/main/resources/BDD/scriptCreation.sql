@@ -16,6 +16,13 @@ CREATE TABLE CategorieIntervenant (
     estCompléter BOOLEAN,
 );
 
+CREATE TABLE Intervenant (
+    nom VARCHAR(255) PRIMARY KEY,
+    prenom VARCHAR(255) PRIMARY KEY,
+    mail varchar(255),
+    total FLOAT
+);
+
 CREATE TABLE SAE (
     code VARCHAR(255) PRIMARY KEY,
     nom VARCHAR,
@@ -43,4 +50,15 @@ CREATE TABLE Semestre (
     numero INT PRIMARY KEY,
     estPair BOOLEAN,
     service INT
+);
+
+CREATE TABLE Ressource (
+    code VARCHAR(255) PRIMARY KEY,
+    nom VARCHAR(255),
+    commentaire VARCHAR(255),
+    nb_heure_sem INT,
+    semestre INT REFERENCES Semestre(numero),
+    nb_heure_ttl INT,
+    nb_grp INT,
+    nb_semaine INT
 );
