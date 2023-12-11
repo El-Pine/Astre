@@ -1,4 +1,4 @@
-package fr.elpine.astre.objet;
+package fr.elpine.astre.metier.objet;
 
 public class SAE extends Module
 {
