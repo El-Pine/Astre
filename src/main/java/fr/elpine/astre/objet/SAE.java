@@ -14,7 +14,13 @@ public class SAE extends Module
         this.nbHeure      = nbHeure;
     }
 
+    /*   GETTER    */
     public int getNbHeurePnSem() { return nbHeurePnSem ;}
     public int getNbHeureTut  () { return nbHeureTut   ;}
     public int getNbHeure     () { return nbHeure      ;}
+
+    /*   SETTER   */
+    public void setNbHeurePnSem ( int nbHeurePnSem) { this.nbHeurePnSem = nbHeurePnSem;}
+    public void setNbHeureTut   ( int nbHeureTut  ) { this.nbHeureTut   = nbHeureTut  ;}
+    public void setNbHeure      ( int nbHeure     ) { this.nbHeure      = nbHeure     ;}
 }

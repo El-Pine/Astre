@@ -20,12 +20,16 @@ public class CategorieIntervenant //Statut
         this.estCompleter = estCompleter;
     }
 
+    /*   GETTER    */
+
     public String getCode        () { return code         ;}
     public String getNom         () { return nom          ;}
     public int getNbHeureMax     () { return nbHeureMax   ;}
     public int getService        () { return service      ;}
     public double getRatioTd     () { return ratioTd      ;}
     public boolean estCompleter  () { return estCompleter ;}
+
+    /*   SETTER   */
 
     public void setCode         ( String code          ) { this.code         = code         ;}
     public void setNom          ( String nom           ) { this.nom          = nom          ;}

@@ -30,6 +30,8 @@ public class Intervenant
         this.alSemestre = new ArrayList<Semestre>();
     }
 
+    /*   GETTER    */
+
 
     public String    getNom                    () { return nom      ;}
     public String    getPrenom                 () { return prenom   ;}
@@ -42,6 +44,7 @@ public class Intervenant
     public double    getTotal                  () { return total    ;}
     public ArrayList<Semestre> getAlSemestre   () { return this.alSemestre;}
 
+    /*   SETTER   */
 
     public void setNom     (String nom                 ) { this.nom = nom           ;}
     public void setPrenom  (String prenom              ) { this.prenom = prenom     ;}

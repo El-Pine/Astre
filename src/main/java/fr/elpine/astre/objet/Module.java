@@ -17,10 +17,14 @@ public class Module
         this.ensIntervenant = new ArrayList<>();
     }
 
+    /*   GETTER    */
+
     public String getNom                            () { return nom                ;}
     public String getCode                           () { return code               ;}
     public String getCommentaire                    () { return commentaire        ;}
     public ArrayList<Intervenant> getEnsIntervenant () { return this.ensIntervenant;}
+
+    /*   SETTER   */
 
     public void setNom            ( String nom        ) { this.nom         = nom        ;}
     public void setCode           ( String code       ) { this.code        = code       ;}

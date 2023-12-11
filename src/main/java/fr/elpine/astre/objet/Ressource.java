@@ -9,7 +9,8 @@ public class Ressource extends Module
     private HashMap<String,Integer> heureSemestre;
     private int nbHeuretll;
 
-    public Ressource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretll) {
+    public Ressource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretll)
+    {
         super(nom, code, commentaire);
         this.nbHeurePn = nbHeurePn;
         this.nbHeurePnCours = nbHeurePnCours;
@@ -17,20 +18,18 @@ public class Ressource extends Module
         this.nbHeuretll = nbHeuretll;
     }
 
-    public int getNbHeurePn() {return nbHeurePn;}
+    /*   GETTER    */
 
-    public int getNbHeurePnCours() {
-        return nbHeurePnCours;}
+    public int getNbHeurePn                         () { return nbHeurePn      ;}
+    public int getNbHeurePnCours                    () { return nbHeurePnCours ;}
+    public HashMap<String, Integer> getHeureSemestre() { return heureSemestre  ;}
 
-    public HashMap<String, Integer> getHeureSemestre() { return heureSemestre; }
+    public int getNbHeuretll      (                                      )  { return nbHeuretll                    ;}
 
-    public int getNbHeuretll() { return nbHeuretll; }
+    /*   SETTER   */
 
-    public void setNbHeurePn(int nbHeurePn) { this.nbHeurePn = nbHeurePn; }
-
-    public void setNbHeurePnCours(int nbHeurePnCours) { this.nbHeurePnCours = nbHeurePnCours; }
-
-    public void setHeureSemestre(HashMap<String, Integer> heureSemestre) { this.heureSemestre = heureSemestre; }
-
-    public void setNbHeuretll(int nbHeuretll) { this.nbHeuretll = nbHeuretll; }
+    public void setNbHeurePn      ( int nbHeurePn                         ) { this.nbHeurePn      = nbHeurePn      ;}
+    public void setNbHeurePnCours ( int nbHeurePnCours                    ) { this.nbHeurePnCours = nbHeurePnCours ;}
+    public void setHeureSemestre  ( HashMap<String, Integer> heureSemestre) { this.heureSemestre  = heureSemestre  ;}
+    public void setNbHeuretll     ( int nbHeuretll                        ) { this.nbHeuretll     = nbHeuretll     ;}
 }
