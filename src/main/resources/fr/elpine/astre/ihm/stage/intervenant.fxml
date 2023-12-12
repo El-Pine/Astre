@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
+   <bottom>
+       <Pane prefHeight="123.0" prefWidth="680.0" BorderPane.alignment="CENTER">
+           <Button onAction="#onBtnClickEnregistrer" layoutX="22.0" layoutY="84.0" mnemonicParsing="false" prefWidth="75.0"
+                   text="Enregister"/>
+           <Button onAction="#onBtnClickAnnuler" layoutX="108.0" layoutY="84.0" mnemonicParsing="false" prefWidth="75.0"
+                   text="Annuler"/>
+           <Button onAction="#onBtnClickAjouter" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" prefWidth="75.0"
+                   text="Ajouter"/>
+           <Button onAction="#onBtnClickSupprimer" layoutX="108.0" layoutY="14.0" mnemonicParsing="false" prefWidth="75.0"
+                   text="Supprimer"/>
+       </Pane>
+   </bottom>
+   <left>
+      <Pane prefWidth="20.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane prefHeight="285.0" prefWidth="20.0" BorderPane.alignment="CENTER" />
+   </right>
+   <top>
+       <Pane prefHeight="49.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+           <TextFlow layoutX="89.0" layoutY="-43.0" prefHeight="200.0" prefWidth="200.0"/>
+           <Label layoutX="21.0" layoutY="27.0" text="Liste des intervenants"/>
+       </Pane>
+   </top>
+   <center>
+      <TableView fx:id="tabAffInter" snapToPixel="false" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="60.0" text="Catégorie" />
+          <TableColumn prefWidth="65.0" text="Nom" />
+            <TableColumn prefWidth="65.0" text="Prénom" />
+            <TableColumn prefWidth="37.0" text="hServ" />
+            <TableColumn prefWidth="37.0" text="hMax" />
+            <TableColumn prefWidth="45.0" text="CoefTP" />
+            <TableColumn prefWidth="35.0" text="s1" />
+            <TableColumn prefWidth="35.0" text="s3" />
+            <TableColumn prefWidth="35.0" text="s5" />
+            <TableColumn prefWidth="35.0" text="stot" />
+            <TableColumn prefWidth="35.0" text="s2" />
+            <TableColumn prefWidth="35.0" text="s4" />
+            <TableColumn prefWidth="35.0" text="s6" />
+            <TableColumn prefWidth="35.0" text="sTot" />
+            <TableColumn maxWidth="1.7976931348623157E308" prefWidth="45.0" text="Total" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>
