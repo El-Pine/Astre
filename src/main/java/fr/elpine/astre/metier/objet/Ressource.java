@@ -6,10 +6,10 @@ public class Ressource extends Module
 {
     private int nbHeurePn;
     private int nbHeurePnCours;
-    private HashMap<Integer,Integer> heureSemestre;
+    private HashMap<String,Integer> heureSemestre;
     private int nbHeuretl;
 
-    public Ressource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<Integer, Integer> heureSemestre, int nbHeuretl)
+    public Ressource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretl)
     {
         super(nom, code, commentaire);
         this.nbHeurePn = nbHeurePn;
