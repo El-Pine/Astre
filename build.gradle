@@ -15,13 +15,15 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.27'
 }
 
-tasks.withType(JavaCompile).configureEach {
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
 application {
     mainModule = 'fr.elpine.astre'
-    mainClass = 'fr.elpine.astre.HelloApplication'
+    mainClass = 'fr.elpine.astre.Controleur'
 }
 
 javafx {
