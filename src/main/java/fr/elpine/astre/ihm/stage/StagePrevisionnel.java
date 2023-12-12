@@ -1,10 +1,8 @@
 package fr.elpine.astre.ihm.stage;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,6 +23,11 @@ public class StagePrevisionnel
 
 		stage.setTitle("Previsions");
 		stage.setScene(scene);
+
+		stage.setOnCloseRequest(e -> {
+			// perform actions before closing
+			try { StagePrincipal.creer().show(); } catch (IOException ignored) {}
+		});
 
 		return stage;
 	}
