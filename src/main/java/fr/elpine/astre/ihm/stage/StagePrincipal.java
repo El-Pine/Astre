@@ -1,31 +1,33 @@
 package fr.elpine.astre.ihm.stage;
 
-import javafx.application.Application;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StagePrincipal extends Stage
+public class StagePrincipal
 {
-	public StagePrincipal()
+	private Stage stage;
+
+	public static Stage creer() throws IOException
 	{
+		Stage stage = new Stage();
+
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueil.fxml"));
 
-		Scene scene = null;
-		try {
-			scene = new Scene(fxmlLoader.load(), 300, 200);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		Scene scene = new Scene(fxmlLoader.load(), 300, 200);
 
-		this.setTitle("Accueil");
-		this.setScene(scene);
+		((StagePrincipal) fxmlLoader.getController()).setStage(stage);
+
+		stage.setTitle("Accueil");
+		stage.setScene(scene);
+
+		return stage;
 	}
+
+	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
 	protected void onBtnClickParametre() {
@@ -33,13 +35,17 @@ public class StagePrincipal extends Stage
 	}
 
 	@FXML
-	protected void onBtnClickPrevisionnel() {
+	protected void onBtnClickPrevisionnel() throws IOException {
 		// A FAIRE
+		stage.close();
+		StagePrevisionnel.creer().showAndWait();
 	}
 
 	@FXML
-	protected void onBtnClickIntervenant() {
+	protected void onBtnClickIntervenant() throws IOException {
 		// A FAIRE
+		stage.close();
+		StageIntervenant.creer().showAndWait();
 	}
 
 	@FXML
