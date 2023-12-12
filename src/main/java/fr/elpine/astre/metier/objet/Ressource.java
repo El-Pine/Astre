@@ -12,10 +12,10 @@ public class Ressource extends Module
     public Ressource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretl)
     {
         super(nom, code, commentaire);
-        this.nbHeurePn = nbHeurePn;
+        this.nbHeurePn      = nbHeurePn;
         this.nbHeurePnCours = nbHeurePnCours;
-        this.heureSemestre = heureSemestre;
-        this.nbHeuretl = nbHeuretl;
+        this.heureSemestre  = heureSemestre;
+        this.nbHeuretl      = nbHeuretl;
     }
 
     /*   GETTER    */
@@ -28,8 +28,8 @@ public class Ressource extends Module
 
     /*   SETTER   */
 
-    public void setNbHeurePn      ( int nbHeurePn                         ) { this.nbHeurePn      = nbHeurePn      ;}
-    public void setNbHeurePnCours ( int nbHeurePnCours                    ) { this.nbHeurePnCours = nbHeurePnCours ;}
+    public void setNbHeurePn        ( int nbHeurePn                         ) { this.nbHeurePn      = nbHeurePn      ;}
+    public void setNbHeurePnCours   ( int nbHeurePnCours                    ) { this.nbHeurePnCours = nbHeurePnCours ;}
     //public void setHeureSemestre  ( HashMap<String, Integer> heureSemestre) { this.heureSemestre  = heureSemestre  ;}
     //public void setNbHeuretl      ( int nbHeuretll                        ) { this.nbHeuretll     = nbHeuretll     ;}
 }
