@@ -41,4 +41,11 @@ public class Astre
 
         ctrl.getDb().ajouterSAE(sae);
     }
+
+    public void ajouterCategorieIntervenant(String code, String nom, int nbHeureMax,int service, double ratioTd, boolean estCompleter)
+    {
+        CategorieIntervenant catInter = new CategorieIntervenant(code, nom, nbHeureMax,service,ratioTd,estCompleter);
+
+        ctrl.getDb().ajouterCategorieIntervenant(catInter);
+    }
 }
