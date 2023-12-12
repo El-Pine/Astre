@@ -1,23 +1,38 @@
 package fr.elpine.astre;
 
-import fr.elpine.astre.ihm.StagePrincipal;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
+import fr.elpine.astre.ihm.stage.StagePrincipal;
 import javafx.application.Application;
+
+import java.io.IOException;
 
 public class Controleur
 {
     private static Controleur ctrl;
 
     private DB db;
-    private Astre astre;
 
     private Controleur()
     {
         this.db = new DB();
-        this.astre = new Astre( this );
 
-        Application.launch(StagePrincipal.class);
+        Astre astre = new Astre( this );
+
+        System.out.println("test222222222");
+
+        //Application.launch(StagePrincipal.class);
+        Application.launch(AstreApplication.class);
+
+        System.out.println("testtttttttt");
+
+        StagePrincipal stage = new StagePrincipal();
+        stage.show();
+
+	    //StageIntervenant stageIntervenant = new StageIntervenant();
+
+        //stageIntervenant.show();
 
         //init
 
