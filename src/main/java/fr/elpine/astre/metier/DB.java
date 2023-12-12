@@ -3,8 +3,6 @@ package fr.elpine.astre.metier;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.SAE;
 
-import javax.xml.transform.stream.StreamSource;
-import java.net.StandardSocketOptions;
 import java.sql.*;
 
 public class DB
