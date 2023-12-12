@@ -16,24 +16,17 @@ public class DB
             Class.forName("org.postgresql.Driver");
             co = DriverManager.getConnection("jdbc:postgresql://localhost/***REMOVED***", "***REMOVED***", "***REMOVED***");
             /*
-            * Pour créer un tunnel SSH
-            * -> ssh -L 5432:***REMOVED***:5432 -p 4660 ***REMOVED***@***REMOVED***
-            *
-            * Donc la BdD est accessible sur localhost:5432
-            *
-            * */
+             * Pour créer un tunnel SSH
+             * -> ssh -L 5432:***REMOVED***:5432 -p 4660 ***REMOVED***@***REMOVED***
+             *
+             * Donc la BdD est accessible sur localhost:5432
+             *
+             * */
             System.out.println("connection ok");
         } catch (ClassNotFoundException | SQLException e){
             System.out.println(e);
         }
     }
-
-    /*public static DB getInstance()
-    {
-        if(dbInstance == null)
-            dbInstance = new DB();
-        return dbInstance;
-    }*/
 
     public void ajouterIntervenant(Intervenant inter)
     {
@@ -60,15 +53,15 @@ public class DB
         String req = "INSERT INTO Ressource VALUES (?,?,?,?,?,?,?)";
         try
         {
-             ps = co.prepareStatement( req );
-             ps.setString(1,res.getNom            ());
-             ps.setString(2,res.getCode           ());
-             ps.setString(3,res.getCommentaire    ());
-             ps.setInt   (4,res.getNbHeurePn      ());
-             ps.setInt   (5,res.getNbHeurePnCours ());
-             //ps.setString(6,res.getHeureSemestre()); //TODO:A Compléter !!!!!
-             //ps.setInt   (7,res.getNbHeuretl());
-             ps.executeUpdate();
+            ps = co.prepareStatement( req );
+            ps.setString(1,res.getNom            ());
+            ps.setString(2,res.getCode           ());
+            ps.setString(3,res.getCommentaire    ());
+            ps.setInt   (4,res.getNbHeurePn      ());
+            ps.setInt   (5,res.getNbHeurePnCours ());
+            //ps.setString(6,res.getHeureSemestre()); //TODO:A Compléter !!!!!
+            //ps.setInt   (7,res.getNbHeuretl());
+            ps.executeUpdate();
         }
         catch (SQLException e)
         {
@@ -95,8 +88,8 @@ public class DB
 
         }
     }
-    
-  public void ajouterCategorieHeure(CategorieHeure categorieHeure)
+
+    public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
         String req = "INSERT INTO CategorieHeure VALUES (?,?)";
         try

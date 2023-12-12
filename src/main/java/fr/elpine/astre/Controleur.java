@@ -1,12 +1,9 @@
 package fr.elpine.astre;
 
+import fr.elpine.astre.ihm.StagePrincipal;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Controleur
 {
@@ -20,7 +17,7 @@ public class Controleur
         this.db = new DB();
         this.astre = new Astre( this );
 
-        Application.launch(HelloApplication.class);
+        Application.launch(StagePrincipal.class);
 
         //init
 
