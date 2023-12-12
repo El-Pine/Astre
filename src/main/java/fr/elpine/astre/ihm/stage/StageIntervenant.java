@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,6 +26,11 @@ public class StageIntervenant
 
 		stage.setTitle("Intervenants");
 		stage.setScene(scene);
+
+		stage.setOnCloseRequest(e -> {
+			// perform actions before closing
+			try { StagePrincipal.creer().show(); } catch (IOException ignored) {}
+		});
 
 		return stage;
 	}
