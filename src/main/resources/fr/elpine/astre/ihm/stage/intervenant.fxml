@@ -7,14 +7,10 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
    <bottom>
        <Pane prefHeight="123.0" prefWidth="680.0" BorderPane.alignment="CENTER">
-           <Button onAction="#onBtnClickEnregistrer" layoutX="22.0" layoutY="84.0" mnemonicParsing="false" prefWidth="75.0"
-                   text="Enregister"/>
-           <Button onAction="#onBtnClickAnnuler" layoutX="108.0" layoutY="84.0" mnemonicParsing="false" prefWidth="75.0"
-                   text="Annuler"/>
-           <Button onAction="#onBtnClickAjouter" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" prefWidth="75.0"
-                   text="Ajouter"/>
-           <Button onAction="#onBtnClickSupprimer" layoutX="108.0" layoutY="14.0" mnemonicParsing="false" prefWidth="75.0"
-                   text="Supprimer"/>
+           <Button layoutX="22.0" layoutY="84.0" mnemonicParsing="false" onAction="#onBtnClickEnregistrer" prefWidth="75.0" text="Enregister" />
+           <Button layoutX="108.0" layoutY="84.0" mnemonicParsing="false" onAction="#onBtnClickAnnuler" prefWidth="75.0" text="Annuler" />
+           <Button layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickAjouter" prefWidth="75.0" text="Ajouter" />
+           <Button layoutX="108.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickSupprimer" prefWidth="75.0" text="Supprimer" />
        </Pane>
    </bottom>
    <left>
@@ -25,29 +21,32 @@
    </right>
    <top>
        <Pane prefHeight="49.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-           <TextFlow layoutX="89.0" layoutY="-43.0" prefHeight="200.0" prefWidth="200.0"/>
-           <Label layoutX="21.0" layoutY="27.0" text="Liste des intervenants"/>
+           <TextFlow layoutX="89.0" layoutY="-43.0" prefHeight="200.0" prefWidth="200.0" />
+           <Label layoutX="21.0" layoutY="27.0" text="Liste des intervenants" />
        </Pane>
    </top>
    <center>
       <TableView fx:id="tabAffInter" snapToPixel="false" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="60.0" text="Catégorie" />
-          <TableColumn prefWidth="65.0" text="Nom" />
-            <TableColumn prefWidth="65.0" text="Prénom" />
-            <TableColumn prefWidth="37.0" text="hServ" />
-            <TableColumn prefWidth="37.0" text="hMax" />
-            <TableColumn prefWidth="45.0" text="CoefTP" />
-            <TableColumn prefWidth="35.0" text="s1" />
-            <TableColumn prefWidth="35.0" text="s3" />
-            <TableColumn prefWidth="35.0" text="s5" />
-            <TableColumn prefWidth="35.0" text="stot" />
-            <TableColumn prefWidth="35.0" text="s2" />
-            <TableColumn prefWidth="35.0" text="s4" />
-            <TableColumn prefWidth="35.0" text="s6" />
-            <TableColumn prefWidth="35.0" text="sTot" />
-            <TableColumn maxWidth="1.7976931348623157E308" prefWidth="45.0" text="Total" />
+          <TableColumn editable="false" prefWidth="60.0" resizable="false" reorderable="false" text="Catégorie" />
+          <TableColumn editable="false" prefWidth="65.0" resizable="false" reorderable="false" text="Nom" />
+            <TableColumn editable="false" prefWidth="65.0" resizable="false" reorderable="false" text="Prénom" />
+            <TableColumn editable="false" prefWidth="37.0" resizable="false" reorderable="false" text="hServ" />
+            <TableColumn editable="false" prefWidth="37.0" resizable="false" reorderable="false" text="hMax" />
+            <TableColumn editable="false" prefWidth="45.0" resizable="false" reorderable="false" text="CoefTP" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s1" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s3" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s5" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="stot" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s2" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s4" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s6" />
+            <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="sTot" />
+            <TableColumn editable="false" prefWidth="45.0" resizable="false" reorderable="false" text="Total" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
    </center>
 </BorderPane>
