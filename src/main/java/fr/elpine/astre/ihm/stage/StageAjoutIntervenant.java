@@ -13,7 +13,7 @@ public class StageAjoutIntervenant
     {
         Stage stage = new Stage();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(StageAjoutIntervenant.class.getResource("saisieSAE.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StageAjoutIntervenant.class.getResource("saisieIntervenant.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
         StageAjoutIntervenant stagectrl = fxmlLoader.getController();
