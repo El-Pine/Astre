@@ -7,6 +7,7 @@ import fr.elpine.astre.metier.objet.Module;
 
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleSql implements ModuleInterface {
@@ -15,47 +16,32 @@ public class ModuleSql implements ModuleInterface {
     private Connection co;
     private PreparedStatement ps;
 
-    public void ajouterModule(Module md)
+
+    @Override
+    public ArrayList<Module> getModules()
     {
-        String req = "INSERT INTO Module VALUES (?,?,?)";
+        ArrayList<> ensModule = new ArrayList<>();
+        String req = "SELECT * FROM Ressource";
         try
         {
-            ps = co.prepareStatement( req );
-            ps.setString(1,md.getNom()          );
-            ps.setString(2,md.getCode()         );
-            ps.setString(3,md.getCommentaire()  );
-            ps.executeUpdate();
+            ps = co.prepareStatement(req);
+            ensModule.add((Module)ps.executeQuery());
+
+
+            req = "SELECT * FROM SAE";
+            ps = co.prepareStatement(req);
+            ensModule.add((Module)ps.executeQuery());
+
+            req = "SELECT * FROM Stage";
+            ps = co.prepareStatement(req);
+            ensModule.add((Module)ps.executeQuery());
+
+            req = "SELECT * FROM PPP";
+            ps = co.prepareStatement(req);
+            ensModule.add((Module)ps.executeQuery());
         }
-        catch (SQLException e)
-        {
-            System.out.println(e);
-        }
+        catch(SQLException e) {}
 
-    }
-
-
-    @Override
-    public void ajoutModule(Module module) {
-
-    }
-
-    @Override
-    public void majModule(Module module) {
-
-    }
-
-    @Override
-    public void supprModule(int moduleId) {
-
-    }
-
-    @Override
-    public Module getModulebyNom(String moduleNom) {
-        return null;
-    }
-
-    @Override
-    public List<Module> getModules() {
-        return null;
+        return ensModule;
     }
 }

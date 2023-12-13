@@ -62,3 +62,4 @@ CREATE TABLE Ressource (
     nb_grp INT,
     nb_semaine INT
 );
+
