@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SAESQL implements SAEInterface
+public class SaeSql implements SAEInterface
 {
     private DB db = Controleur.get().getDb();
     private Connection co;

@@ -7,7 +7,7 @@ import fr.elpine.astre.metier.objet.Ressource;
 
 import java.sql.*;
 import java.util.List;
-public class RessourceSQL implements RessourceInterface
+public class RessourceSql implements RessourceInterface
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
