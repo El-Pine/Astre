@@ -58,7 +58,9 @@ public class StagePrevisionnel
 	}
 
 	@FXML
-	public void onBtnCreeRessource(ActionEvent actionEvent) {
+	public void onBtnCreeRessource(ActionEvent actionEvent) throws IOException {
+		stage.close();
+		StageSaisieRessource.creer().show();
 	}
 
 	@FXML
