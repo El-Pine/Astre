@@ -1,4 +1,4 @@
-package fr.elpine.astre.db;
+package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
