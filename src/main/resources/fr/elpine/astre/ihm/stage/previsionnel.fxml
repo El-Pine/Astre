@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -89,30 +89,25 @@
    <bottom>
       <FlowPane alignment="CENTER" prefHeight="44.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button onAction="#onBtnCreeRessource" fx:id="creeRessource" mnemonicParsing="false" text="Créer Ressource" />
-            <Button onAction="#onBtnCreeSAE" fx:id="creeSAE" mnemonicParsing="false" text="Créer SAE">
+            <Button fx:id="creeRessource" mnemonicParsing="false" text="Créer Ressource" />
+            <Button fx:id="creeSAE" mnemonicParsing="false" text="Créer SAE">
                <FlowPane.margin>
                   <Insets left="20.0" />
                </FlowPane.margin>
             </Button>
-            <Button onAction="#onBtnCreeStage" fx:id="creeStage" mnemonicParsing="false" text="Créer Stage/Suivi">
+            <Button fx:id="creeStage" mnemonicParsing="false" text="Créer Stage/Suivi">
                <FlowPane.margin>
                   <Insets left="20.0" />
                </FlowPane.margin>
             </Button>
-            <Button onAction="#onBtnModifierPre" fx:id="modifierPre" mnemonicParsing="false" text="Modifier">
+            <Button fx:id="modifierPre" mnemonicParsing="false" text="Modifier">
                <FlowPane.margin>
                   <Insets left="20.0" />
                </FlowPane.margin>
             </Button>
-            <Button onAction="#onBtnModifierSuppr" fx:id="modifierSuppr" mnemonicParsing="false" text="Supprimer">
+            <Button fx:id="modifierSuppr" mnemonicParsing="false" text="Supprimer">
                <FlowPane.margin>
                   <Insets left="20.0" />
-               </FlowPane.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#onBtnRetour" text="Retour">
-               <FlowPane.margin>
-                  <Insets left="10.0" />
                </FlowPane.margin>
             </Button>
          </children>
