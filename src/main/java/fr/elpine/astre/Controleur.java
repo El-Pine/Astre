@@ -2,7 +2,7 @@ package fr.elpine.astre;
 
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.Astre;
-import fr.elpine.astre.metier.db.DB;
+import fr.elpine.astre.metier.DB;
 import javafx.application.Application;
 
 public class Controleur
