@@ -12,9 +12,9 @@ public class Ressource extends Module
     public Ressource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretl)
     {
         super(nom, code, commentaire);
-        this.nbHeurePn      = nbHeurePn;
-        this.nbHeurePnCours = nbHeurePnCours;
-        this.heureSemestre  = heureSemestre;
+        this.nbHeurePn      = nbHeurePn; // nb d'heure du programme nationnal
+        this.nbHeurePnCours = nbHeurePnCours; //
+        this.heureSemestre  = heureSemestre; // nb d'heure par semestre
         this.nbHeuretl      = nbHeuretl;
     }
 
