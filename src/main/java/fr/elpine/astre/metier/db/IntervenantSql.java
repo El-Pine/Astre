@@ -1,4 +1,4 @@
 package fr.elpine.astre.metier.db;
 
-public class IntervenantSQL {
+public class IntervenantSql {
 }
