@@ -2,7 +2,7 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.SAEInterface;
+import fr.elpine.astre.metier.interfaces.Isae;
 import fr.elpine.astre.metier.objet.SAE;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SaeSql implements SAEInterface
+public class SaeSql implements Isae
 {
     private DB db = Controleur.get().getDb();
     private Connection co;

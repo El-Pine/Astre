@@ -2,14 +2,14 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.ModuleInterface;
+import fr.elpine.astre.metier.interfaces.IModule;
 import fr.elpine.astre.metier.objet.Module;
 
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ModuleSql implements ModuleInterface {
+public class ModuleSql implements IModule {
 
     private DB db = Controleur.get().getDb();
     private Connection co;
