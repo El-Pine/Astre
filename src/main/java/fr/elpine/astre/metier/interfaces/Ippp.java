@@ -4,7 +4,7 @@ import fr.elpine.astre.metier.objet.PPP;
 
 import java.util.List;
 
-public interface PPPInterface
+public interface Ippp
 {
     void ajoutPPP(PPP ppp);
     void majPPP(PPP ppp);

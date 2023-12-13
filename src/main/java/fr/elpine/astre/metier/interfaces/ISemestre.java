@@ -3,7 +3,7 @@ package fr.elpine.astre.metier.interfaces;
 import fr.elpine.astre.metier.objet.Semestre;
 import java.util.*;
 
-public interface SemestreInterface {
+public interface ISemestre {
     void ajoutSemestre(Module module);
     void majSemestre(Module module);
     void supprSemestre(String code);

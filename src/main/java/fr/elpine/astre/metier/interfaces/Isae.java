@@ -4,7 +4,7 @@ import fr.elpine.astre.metier.objet.SAE;
 
 import java.util.List;
 
-public interface SAEInterface {
+public interface Isae {
     void ajoutSAE(SAE sae);
     void majSAE(SAE sae);
     void supprSAE(String code);
