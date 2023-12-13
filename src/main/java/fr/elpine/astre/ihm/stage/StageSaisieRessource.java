@@ -1,16 +1,31 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.ihm.model.SaisieRessource;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class StageSaisieRessource
+public class StageSaisieRessource implements Initializable
 {
-	public TableView tabAffInter;
+	public TableView<SaisieRessource> tableau;
+	public TableColumn<SaisieRessource, String> tableauIntervenant;
+	public TableColumn<SaisieRessource, String> tableauType;
+	public TableColumn<SaisieRessource, Integer> tableauNbH;
+	public TableColumn<SaisieRessource, Double> tableauTotalEqtd;
+	public TableColumn<SaisieRessource, String> tableauCommentaire;
 	private Stage stage;
 
 	public static Stage creer() throws IOException
@@ -60,5 +75,83 @@ public class StageSaisieRessource
 	protected void onBtnAnnuler() throws IOException {
 		stage.close();
 		StagePrevisionnel.creer().show();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+		tableauIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant()));
+		tableauType.setCellValueFactory        (cellData -> new SimpleStringProperty(cellData.getValue().getType()));
+		tableauNbH.setCellValueFactory         (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbH()).asObject());
+		tableauTotalEqtd.setCellValueFactory   (cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalEqtd()).asObject());
+		tableauCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
+
+		ObservableList<SaisieRessource> elements = FXCollections.observableArrayList(
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
+				new SaisieRessource("aaaaaa", "bbbbbb", 156, 10.2, "ccccc")
+		);
+
+		tableau.setItems(elements);
 	}
 }
