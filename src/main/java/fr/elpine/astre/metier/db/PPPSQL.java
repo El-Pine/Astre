@@ -1,13 +1,9 @@
-package fr.elpine.astre.db;
+package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.RessourceInterface;
-import fr.elpine.astre.metier.objet.Ressource;
 import fr.elpine.astre.metier.objet.PPP;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PPPSQL 
