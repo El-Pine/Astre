@@ -1,14 +1,13 @@
 package fr.elpine.astre.metier.interfaces;
 
-import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.objet.PPP;
 
 import java.util.List;
 
 public interface PPPInterface
 {
-    void ajoutPPP(Module module);
-    void majPPP(Module module);
-    void supprPPP(int moduleId);
-    Module getPPPbyNom(String moduleNom);
-    List<Module> getPPPs();
+    void ajoutPPP(PPP ppp);
+    void majPPP(PPP ppp);
+    void supprPPP(String code);
+    List<PPP> getPPPs();
 }
