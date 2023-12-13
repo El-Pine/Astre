@@ -19,13 +19,12 @@ public class ModuleSql implements ModuleInterface {
     @Override
     public ArrayList<Module> getModules()
     {
-        ArrayList<> ensModule = new ArrayList<>();
+        ArrayList<Module> ensModule = new ArrayList<>();
         String req = "SELECT * FROM Ressource";
         try
         {
             ps = co.prepareStatement(req);
             ensModule.add((Module)ps.executeQuery());
-
 
             req = "SELECT * FROM SAE";
             ps = co.prepareStatement(req);
@@ -43,4 +42,5 @@ public class ModuleSql implements ModuleInterface {
 
         return ensModule;
     }
+
 }

@@ -18,7 +18,6 @@ public class Semestre {
         this.service = service;
         this.ratioTD = ratioTD;
     }
-
     public int getNumero() {return numero;}
     public void setNumero(int numero) {this.numero = numero;}
     public boolean estPair(){ return this.numero % 2 == 0;}
