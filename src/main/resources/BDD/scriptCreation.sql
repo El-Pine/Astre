@@ -58,7 +58,7 @@ CREATE TABLE Ressource (
     commentaire VARCHAR(255),
     nb_heure_sem INT,
     semestre INT REFERENCES Semestre(numero),
-    nb_heure_ttl INT,
+    nb_heure_tl INT,
     nb_grp INT,
     nb_semaine INT
 );
