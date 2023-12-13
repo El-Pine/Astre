@@ -1,9 +1,7 @@
-package fr.elpine.astre.db;
+package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.interfaces.SAEInterface;
-import fr.elpine.astre.metier.objet.SAE;
 import fr.elpine.astre.metier.objet.SAE;
 
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package fr.elpine.astre.metier;
+package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.SAE;
