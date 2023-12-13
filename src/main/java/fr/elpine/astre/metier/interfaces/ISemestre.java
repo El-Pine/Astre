@@ -7,7 +7,7 @@ public interface ISemestre {
     void ajoutSemestre(Semestre module);
     void majSemestre(Semestre module);
     void supprSemestre(String code);
-    Semestre getSemestreId(int semestreId);
+    Semestre getSemestreByNumero(int semestreId);
 
     ArrayList<Semestre> getSemestres();
 }

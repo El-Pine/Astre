@@ -36,6 +36,8 @@ public class StageIntervenant
 		return stage;
 	}
 
+
+
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
@@ -53,8 +55,9 @@ public class StageIntervenant
 	}
 
 	@FXML
-	protected void onBtnClickAjouter() {
-		// A FAIRE
+	protected void onBtnClickAjouter() throws IOException
+	{
+		StageAjoutIntervenant.creer().show();
 	}
 
 	@FXML
