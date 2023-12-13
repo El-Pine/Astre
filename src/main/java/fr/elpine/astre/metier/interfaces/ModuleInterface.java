@@ -4,5 +4,5 @@ import fr.elpine.astre.metier.objet.Module;
 import java.util.*;
 
 public interface ModuleInterface {
-    void getModules();
+    ArrayList<Module> getModules();
 }
