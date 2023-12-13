@@ -6,9 +6,14 @@ import java.util.*;
 public interface SemestreInterface {
     void ajoutSemestre(Module module);
     void majSemestre(Module module);
+    void supprSemestre(String code);
     Module getModuleId(int moduleId);
+    ArrayList<Module> getModules();
+    void supprModule(int moduleId);
+    void ajoutModule(Module module);
+    void majModule(Module module);
 
-    List<Semestre> getSemestres();
+    ArrayList<Semestre> getSemestres();
 }
 
 
