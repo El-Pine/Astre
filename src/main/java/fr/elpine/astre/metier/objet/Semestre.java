@@ -8,13 +8,15 @@ import java.util.HashMap;
 public class Semestre {
 
     private int numero;
-    private ArrayList<Module> alModule;
+    private boolean estPair;
+    private HashMap<Double, ArrayList<Intervenant>> HashIntervenant;
     private int service ;
     private double ratioTD ;
 
-    public Semestre(int numero, int service, double ratioTD) {
+    public Semestre(int numero, boolean estPair, HashMap<Double, ArrayList<Intervenant>> hashIntervenant, int service, double ratioTD) {
         this.numero = numero;
-        this.alModule = new ArrayList<Module>();
+        this.estPair = estPair;
+        HashIntervenant = hashIntervenant;
         this.service = service;
         this.ratioTD = ratioTD;
     }
@@ -22,11 +24,33 @@ public class Semestre {
     public int getNumero() {
         return numero;
     }
+
+    public boolean estPair(){ return this.numero % 2 == 0;}
+
+    public HashMap<Double, ArrayList<Intervenant>> getHashIntervenant() {
+        return HashIntervenant;
+    }
+
     public void setNumero(int numero) {
         this.numero = numero;
     }
-    public boolean estPair(){ return this.numero % 2 == 0;}
-    public ArrayList<Module> getAlModules() {return alModule;}
-    public void ajoutModule(Module module) {this.alModule.add(module);}
-    public void supprModule(Module module) {this.alModule.remove(module);}
+
+    public void setHashIntervenant(HashMap<Double, ArrayList<Intervenant>> hashIntervenant) {
+        HashIntervenant = hashIntervenant;
+    }
+
+    public void addIntervenant(Intervenant intervenant, double nbHeure)
+    {
+        if(this.HashIntervenant.containsKey(nbHeure))
+        {
+            this.HashIntervenant.get(nbHeure).add(intervenant);
+        }
+        else
+        {
+            ArrayList<Intervenant> list = new ArrayList<Intervenant>();
+            list.add(intervenant);
+            this.HashIntervenant.put(nbHeure,list);
+        }
+    }
+
 }
