@@ -6,8 +6,12 @@ public class Ressource extends Module
 {
     private int nbHeurePn;
     private int nbHeurePnCours;
+    private int semestre;
     private HashMap<String,Integer> heureSemestre;
     private int nbHeuretl;
+    private int raf;
+    private int nbGrp;
+    private int nbSemaine;
 
     public Ressource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretl)
     {
@@ -22,9 +26,18 @@ public class Ressource extends Module
 
     public int getNbHeurePn                         () { return nbHeurePn      ;}
     public int getNbHeurePnCours                    () { return nbHeurePnCours ;}
-    public HashMap<String, Integer> getHeureSemestre() { return heureSemestre  ;}
+    public int getSemestre                       () { return this.semestre  ;}
 
-    //public int getNbHeuretl       (                                      )  { return nbHeuretll                    ;}
+    public int getHeureSemestre(Integer numSemestre)
+    {
+        this.heureSemestre.forEach((key,value) -> {
+            if(key.equals(Integer.toString(numSemestre))) {this.raf = value;}
+        });
+        return this.raf;
+    }
+    public int getNbHeuretl  () { return nbHeuretl     ;}
+    public int getNbGrp      () { return this.nbGrp    ;}
+    public int getNbSemaine  () { return this.nbSemaine;}
 
     /*   SETTER   */
 
