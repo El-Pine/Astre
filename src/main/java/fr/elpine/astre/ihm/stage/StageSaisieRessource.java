@@ -29,7 +29,7 @@ public class StageSaisieRessource
 
 		stage.setOnCloseRequest(e -> {
 			// perform actions before closing
-			try { StagePrincipal.creer().show(); } catch (IOException ignored) {}
+			try { StagePrevisionnel.creer().show(); } catch (IOException ignored) {}
 		});
 
 		return stage;

@@ -4,7 +4,7 @@ import fr.elpine.astre.metier.objet.CategorieHeure;
 
 import java.util.List;
 
-public interface CategorieHeureInterface {
+public interface ICategorieHeure {
     void ajoutCatHeure(CategorieHeure catHeure);
     void majCatHeure(CategorieHeure catHeure);
     void supprCatHeure(String code);

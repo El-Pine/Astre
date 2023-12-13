@@ -4,7 +4,7 @@ import fr.elpine.astre.metier.objet.CategorieIntervenant;
 
 import java.util.List;
 
-public interface CategorieIntervenantInterface {
+public interface ICategorieIntervenant {
     void ajoutCatInter(CategorieIntervenant catInter);
     void majCatInter(CategorieIntervenant catInter);
     void supprCatInter(String code);

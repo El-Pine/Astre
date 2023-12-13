@@ -7,7 +7,7 @@ import fr.elpine.astre.metier.objet.PPP;
 import java.sql.*;
 import java.util.List;
 
-public class PPPSQL 
+public class PppSql
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
