@@ -39,7 +39,7 @@ public class Intervenant
 
     public void setNom     (String nom                 ) { this.nom = nom           ;}
     public void setPrenom  (String prenom              ) { this.prenom = prenom     ;}
-    public void setEmail   (String email               ) { this.email = email;       }
+    public void setEmail   (String email               ) { this.email = email       ;}
     public void setStatut  (CategorieIntervenant statut) { this.statut = statut     ;}
     public void setService (int service                ) { this.service = service   ;}
     public void setTotal   (double total               ) { this.total = total       ;}
