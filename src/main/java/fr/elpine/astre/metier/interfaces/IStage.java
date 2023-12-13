@@ -4,7 +4,7 @@ import fr.elpine.astre.metier.objet.Stage;
 
 import java.util.List;
 
-public interface StageInterface {
+public interface IStage {
     void ajoutStage(Stage stage);
     void majStage(Stage stage);
     void supprStage(String code);

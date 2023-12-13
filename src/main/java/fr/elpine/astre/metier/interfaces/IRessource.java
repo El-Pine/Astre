@@ -4,7 +4,7 @@ import fr.elpine.astre.metier.objet.Ressource;
 
 import java.util.List;
 
-public interface RessourceInterface {
+public interface IRessource {
     void ajoutRessource(Ressource ressource);
     void majRessource(Ressource ressource);
     void supprRessource(String code);
