@@ -18,7 +18,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
    <top>
       <GridPane prefHeight="125.0" BorderPane.alignment="CENTER">
@@ -170,7 +169,7 @@
                            <left>
                               <AnchorPane prefHeight="100.0" prefWidth="225.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <GridPane prefHeight="100.0" prefWidth="225.0" style="-fx-border-color: BLACK; -fx-background-color: White;">
+                                    <GridPane prefHeight="100.0" prefWidth="225.0" style="-fx-border-color: black; -fx-background-color: white;">
                                       <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -268,9 +267,9 @@
                            <center>
                               <AnchorPane prefHeight="150.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <BorderPane prefHeight="150.0" style="-fx-border-color: Black; -fx-background-color: White;">
+                                    <BorderPane prefHeight="150.0" style="-fx-background-color: White;">
                                        <right>
-                                          <GridPane prefHeight="150.0" prefWidth="420.0" BorderPane.alignment="CENTER">
+                                          <GridPane prefHeight="150.0" prefWidth="420.0" style="-fx-border-color: black; -fx-border-width: 1px 1px 1px 0px;" BorderPane.alignment="CENTER">
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -436,7 +435,7 @@
                                           </GridPane>
                                        </right>
                                        <left>
-                                          <TabPane prefHeight="150.0" prefWidth="325.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                                          <TabPane prefHeight="150.0" prefWidth="325.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                                             <tabs>
                                                 <Tab text="CM">
                                                    <content>

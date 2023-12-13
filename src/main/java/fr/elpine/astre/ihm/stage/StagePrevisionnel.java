@@ -38,35 +38,29 @@ public class StagePrevisionnel
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
-	public void onBtnCreeSAE(ActionEvent actionEvent)
+	public void onBtnCreerSae(ActionEvent actionEvent)
 	{
 
 	}
 
 	@FXML
-	public void onBtnCreeStage(ActionEvent actionEvent)
+	public void onBtnCreerStage(ActionEvent actionEvent)
 	{
 	}
 
 	@FXML
-	public void onBtnModifierPre(ActionEvent actionEvent)
-	{
-	}
-
-	@FXML
-	public void onBtnModifierSuppr(ActionEvent actionEvent)
-	{
-	}
-
-	@FXML
-	public void onBtnCreeRessource(ActionEvent actionEvent) throws IOException {
+	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException {
 		stage.close();
 		StageSaisieRessource.creer().show();
 	}
 
 	@FXML
-	public void onBtnRetour(ActionEvent actionEvent) throws IOException {
-		stage.close();
-		StagePrincipal.creer().show();
+	public void onBtnSupprimer(ActionEvent actionEvent)
+	{
+	}
+
+	@FXML
+	public void onBtnModifier(ActionEvent actionEvent)
+	{
 	}
 }
