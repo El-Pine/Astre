@@ -21,7 +21,8 @@ public class StageSaisieRessource
 
 		Scene scene = new Scene(fxmlLoader.load(), 1000, 660);
 
-		((StageSaisieRessource) fxmlLoader.getController()).setStage(stage);
+		StageSaisieRessource stageCtrl = fxmlLoader.getController();
+		if (stageCtrl != null) stageCtrl.setStage(stage);
 
 		stage.setTitle("SaisieRessource");
 		stage.setScene(scene);
