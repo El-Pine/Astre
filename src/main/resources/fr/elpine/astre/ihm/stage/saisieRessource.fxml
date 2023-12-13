@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
    <top>
       <GridPane prefHeight="125.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -167,11 +167,11 @@
                      <content>
                         <BorderPane>
                            <left>
-                              <AnchorPane prefHeight="100.0" prefWidth="225.0" BorderPane.alignment="CENTER">
+                              <AnchorPane prefHeight="100.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <GridPane prefHeight="100.0" prefWidth="225.0" style="-fx-border-color: black; -fx-background-color: white;">
+                                    <GridPane prefHeight="110.0" prefWidth="250.0" style="-fx-border-color: black; -fx-background-color: white;">
                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -204,13 +204,11 @@
                                                 <Label text="Σ" />
                                              </children>
                                           </FlowPane>
-                                          <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                                          <FlowPane GridPane.rowIndex="2">
                                              <children>
-                                                <Label text="Total " />
-                                                <Label prefHeight="18.0" prefWidth="46.0" text="promo" />
+                                                <Label prefHeight="34.0" prefWidth="66.0" text="Total (eqtd) promo" wrapText="true" />
                                              </children>
                                           </FlowPane>
-                                          <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
                                           <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                              <children>
                                                 <TextField prefHeight="26.0" prefWidth="35.0" />
@@ -367,12 +365,12 @@
                                                    <children>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                                          <children>
-                                                            <Label text="Total promo" />
+                                                            <Label text="Total promo (eqtd)" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                                                          <children>
-                                                            <Label text="Total affecté" />
+                                                            <Label text="Total affecté (eqtd)" />
                                                          </children>
                                                       </FlowPane>
                                                    </children>
@@ -435,7 +433,7 @@
                                           </GridPane>
                                        </right>
                                        <left>
-                                          <TabPane prefHeight="150.0" prefWidth="325.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                                          <TabPane prefHeight="150.0" prefWidth="275.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                                             <tabs>
                                                 <Tab text="CM">
                                                    <content>
@@ -578,29 +576,36 @@
                </opaqueInsets>
             </Accordion>
          </top>
-         <center>
-            <TableView BorderPane.alignment="CENTER">
-               <columns>
-                  <TableColumn maxWidth="150.0" minWidth="50.0" prefWidth="150.0" text="Intervenant" />
-                  <TableColumn maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" text="Type" />
-                  <TableColumn maxWidth="95.199951171875" minWidth="50.0" prefWidth="68.7999267578125" text="Nb H" />
-                  <TableColumn maxWidth="148.800048828125" minWidth="75.0" prefWidth="104.800048828125" text="Total Eqtd" />
-                  <TableColumn maxWidth="290.4000183105469" minWidth="180.0" prefWidth="216.79995727539062" text="Commentaire" />
-               </columns>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <BorderPane.margin>
-                  <Insets top="10.0" />
-               </BorderPane.margin>
-            </TableView>
-         </center>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
+         <center>
+            <BorderPane BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin>
+               <center>
+                  <TableView fx:id="tableau">
+                     <columns>
+                        <TableColumn fx:id="tableauIntervenant" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" text="Intervenant" />
+                        <TableColumn fx:id="tableauType" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" text="Type" />
+                        <TableColumn fx:id="tableauNbH" maxWidth="95.199951171875" minWidth="50.0" prefWidth="68.7999267578125" text="Nb H" />
+                        <TableColumn fx:id="tableauTotalEqtd" maxWidth="148.800048828125" minWidth="75.0" prefWidth="104.800048828125" text="Total Eqtd" />
+                        <TableColumn fx:id="tableauCommentaire" maxWidth="290.4000183105469" minWidth="180.0" prefWidth="216.79995727539062" text="Commentaire" />
+                     </columns>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TableView>
+               </center>
+               <top>
+                  <Label text="Affectation" BorderPane.alignment="BOTTOM_LEFT" />
+               </top>
+            </BorderPane>
+         </center>
       </BorderPane>
    </center>
 </BorderPane>
