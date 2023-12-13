@@ -22,7 +22,8 @@ public class StageIntervenant
 
 		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
-		((StageIntervenant) fxmlLoader.getController()).setStage(stage);
+		StageIntervenant stageCtrl = fxmlLoader.getController();
+		if (stageCtrl != null) stageCtrl.setStage(stage);
 
 		stage.setTitle("Intervenants");
 		stage.setScene(scene);

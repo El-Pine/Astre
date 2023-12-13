@@ -19,7 +19,8 @@ public class StagePrincipal
 
 		Scene scene = new Scene(fxmlLoader.load(), 300, 200);
 
-		((StagePrincipal) fxmlLoader.getController()).setStage(stage);
+		StagePrincipal stageCtrl = fxmlLoader.getController();
+		if (stageCtrl != null) stageCtrl.setStage(stage);
 
 		stage.setTitle("Accueil");
 		stage.setScene(scene);

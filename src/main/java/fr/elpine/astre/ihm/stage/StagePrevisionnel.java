@@ -21,7 +21,8 @@ public class StagePrevisionnel
 
 		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
-		((StagePrevisionnel) fxmlLoader.getController()).setStage(stage);
+		StagePrevisionnel stageCtrl = fxmlLoader.getController();
+		if (stageCtrl != null) stageCtrl.setStage(stage);
 
 		stage.setTitle("Previsions");
 		stage.setScene(scene);
