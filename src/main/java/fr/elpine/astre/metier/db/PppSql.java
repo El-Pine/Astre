@@ -67,7 +67,6 @@ public class PppSql implements Ippp
         catch (SQLException e){}
     }
 
-    @Override
     public PPP getPPPbyCode(String code)
     {
         String req = "SELECT * FROM PPP WHERE code = ?";

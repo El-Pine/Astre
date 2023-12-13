@@ -8,6 +8,7 @@ import fr.elpine.astre.metier.objet.Semestre;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SemestreSQL implements ISemestre
@@ -15,18 +16,14 @@ public class SemestreSQL implements ISemestre
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
-    public void ajoutSemestre(Semestre Semestre)
+    public void ajoutSemestre(Semestre semestre)
     {
-        String req = "INSERT INTO Semestre VALUES (?,?,?,?,?,?)";
+        String req = "INSERT INTO Semestre VALUES (?,?)";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(1,Semestre.getCode          () );
-            ps.setString(2,Semestre.getNom           () );
-            ps.setString(3,Semestre.getCommentaire   () );
-            ps.setInt   (4,Semestre.getNbHeurePnSem  () );
-            ps.setInt   (5,Semestre.getNbHeureTut    () );
-            ps.setInt   (6,Semestre.getNbHeure       () );
+            ps.setInt( 1,semestre.getNumero          () );
+            ps.setInt(2, semestre.getNbHeureTotPlacer() );
             ps.executeUpdate();
         }
         catch  (SQLException e)
@@ -36,25 +33,20 @@ public class SemestreSQL implements ISemestre
     @Override
     public void majSemestre(Semestre Semestre)
     {
-        String req = "UPDATE Semestre SET code = ?,nom = ?,commentaire = ?, nb_heure_pn_sem = ?, nb_heure_tut = ?, nb_heure = ? WHERE code == ?";
+        String req = "UPDATE Semestre SET numero = ?, nb_heure_tot_placer = ?";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(1,Semestre.getCode          () );
-            ps.setString(2,Semestre.getNom           () );
-            ps.setString(3,Semestre.getCommentaire   () );
-            ps.setInt   (4,Semestre.getNbHeurePnSem  () );
-            ps.setInt   (5,Semestre.getNbHeureTut    () );
-            ps.setInt   (6,Semestre.getNbHeure       () );
+            ps.setInt(1,Semestre.getNumero           () );
+            ps.setInt(2,Semestre.getNbHeureTotPlacer () );
             ps.executeUpdate();
         }
         catch(SQLException e) {}
     }
-
     @Override
     public void supprSemestre(String code)
     {
-        String req = "DELETE FROM Semestre WHERE code = ?";
+        String req = "DELETE FROM Semestre WHERE numero = ?";
         try
         {
             ps = co.prepareStatement(req);
@@ -65,13 +57,13 @@ public class SemestreSQL implements ISemestre
     }
 
     @Override
-    public Semestre getSemestrebyCode(String code)
+    public Semestre getSemestreByNumero(int numero)
     {
-        String req = "SELECT * FROM Semestre WHERE code = ?";
+        String req = "SELECT * FROM Semestre WHERE numero = ?";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(1,code);
+            ps.setInt(1,numero);
             return (Semestre) ps.executeQuery();
         }
         catch(SQLException e) {}
@@ -79,14 +71,13 @@ public class SemestreSQL implements ISemestre
         return null;
     }
 
-    @Override
-    public List<Semestre> getSemestre()
+    public ArrayList<Semestre> getSemestres()
     {
         String req = "SELECT * FROM Semestre";
         try
         {
             ps = co.prepareStatement(req);
-            List<Semestre> ensSemestre  = (List<Semestre>) ps.executeQuery();
+            ArrayList<Semestre> ensSemestre  = (ArrayList<Semestre>) ps.executeQuery();
             return ensSemestre;
         }
         catch(SQLException e) {}

@@ -62,23 +62,24 @@ public class CategorieIntervenantSql implements ICategorieIntervenant
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(code);
+            ps.setString(1,code);
             ps.executeUpdate();
         }
         catch(SQLException e){}
     }
 
-    @Override
     public CategorieIntervenant getcatInterbyCode(String code) {
         String req = "SELECT * FROM CategorieIntervenant WHERE code = ?";
         try
         {
             ps = co.prepareStatement(req);
-            ps.
+            ps.setString(1,code);
+            return (CategorieIntervenant) ps.executeQuery();
         }
+        catch (SQLException e){}
+        return null;
     }
 
-    @Override
     public List<CategorieIntervenant> getCatInter() {
         return null;
     }
