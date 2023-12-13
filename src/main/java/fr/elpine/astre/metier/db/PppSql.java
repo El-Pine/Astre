@@ -2,12 +2,13 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
+import fr.elpine.astre.metier.interfaces.Ippp;
 import fr.elpine.astre.metier.objet.PPP;
 
 import java.sql.*;
 import java.util.List;
 
-public class PppSql
+public class PppSql implements Ippp
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
@@ -82,7 +83,7 @@ public class PppSql
     }
 
     @Override
-    public List<PPP> getPPP()
+    public List<PPP> getPPPs()
     {
         String req = "SELECT * FROM PPP";
         try

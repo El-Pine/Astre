@@ -2,7 +2,7 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.StageInterface;
+import fr.elpine.astre.metier.interfaces.IStage;
 import fr.elpine.astre.metier.objet.Stage;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class StageSQL implements StageInterface
+public class StageSQL implements IStage
 {
     private DB db = Controleur.get().getDb();
     private Connection co;

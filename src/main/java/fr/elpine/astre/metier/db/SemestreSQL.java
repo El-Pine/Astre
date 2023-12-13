@@ -2,7 +2,7 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.SemestreInterface;
+import fr.elpine.astre.metier.interfaces.ISemestre;
 import fr.elpine.astre.metier.objet.Semestre;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SemestreSQL implements SemestreInterface
+public class SemestreSQL implements ISemestre
 {
     private DB db = Controleur.get().getDb();
     private Connection co;

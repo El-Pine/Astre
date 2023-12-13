@@ -8,21 +8,16 @@ import java.util.HashMap;
 public class Semestre {
 
     private int numero;
-    private ArrayList<Module> alModules;
-    private int service ;
-    private double ratioTD ;
+    private int nbHeureTotPlacer;
 
-    public Semestre(int numero, int service, double ratioTD) {
-        this.numero = numero;
-        this.alModules = new ArrayList<Module>();
-        this.service = service;
-        this.ratioTD = ratioTD;
+    public Semestre (int numero, int nbHeureTotPlacer)
+    {
+        this.numero           = numero;
+        this.nbHeureTotPlacer = nbHeureTotPlacer;
     }
-    public int getNumero() {return numero;}
-    public void setNumero(int numero) {this.numero = numero;}
-    public boolean estPair(){ return this.numero % 2 == 0;}
-    public ArrayList<Module> getAlModules() {return alModules;}
-    public void ajouterModule(Module module) {this.alModules.add(module);}
-    public void supprModule(Module module) {this.alModules.remove(module);}
+    public int getNumero           () { return numero;           }
+    public int getNbHeureTotPlacer () { return nbHeureTotPlacer; }
 
+    public void setNumero          ( int numero          ) { this.numero = numero;                     }
+    public void setNbHeureTotPlacer( int nbHeureTotPlacer) { this.nbHeureTotPlacer = nbHeureTotPlacer; }
 }

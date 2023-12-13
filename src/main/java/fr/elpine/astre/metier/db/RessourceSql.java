@@ -2,12 +2,12 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.RessourceInterface;
+import fr.elpine.astre.metier.interfaces.IRessource;
 import fr.elpine.astre.metier.objet.Ressource;
 
 import java.sql.*;
 import java.util.List;
-public class RessourceSql implements RessourceInterface
+public class RessourceSql implements IRessource
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
