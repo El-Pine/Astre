@@ -22,7 +22,7 @@ public class IntervenantSql
 		return null;
 	}
 
-	public ArrayList<Intervenant> getIntervenant() {
+	public ArrayList<Intervenant> getIntervenants() {
 		return null;
 	}
 }

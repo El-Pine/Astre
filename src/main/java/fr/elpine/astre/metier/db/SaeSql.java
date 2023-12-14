@@ -16,42 +16,42 @@ public class SaeSql
     private PreparedStatement ps;
 
 
-    public void ajoutSAE(SAE SAE)
+    public void ajoutSae(SAE sae)
     {
         String req = "INSERT INTO SAE VALUES (?,?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(1,SAE.getCode          () );
-            ps.setString(2,SAE.getNom           () );
-            ps.setString(3,SAE.getCommentaire   () );
-            ps.setInt   (4,SAE.getNbHeurePnSem  () );
-            ps.setInt   (5,SAE.getNbHeureTut    () );
-            ps.setInt   (6,SAE.getNbHeure       () );
+            ps.setString(1,sae.getCode          () );
+            ps.setString(2,sae.getNom           () );
+            ps.setString(3,sae.getCommentaire   () );
+            ps.setInt   (4,sae.getNbHeurePnSem  () );
+            ps.setInt   (5,sae.getNbHeureTut    () );
+            ps.setInt   (6,sae.getNbHeure       () );
             ps.executeUpdate();
         }
         catch  (SQLException e)
         {}
     }
 
-    public void majSAE(SAE SAE)
+    public void majSae(SAE sae)
     {
         String req = "UPDATE SAE SET code = ?,nom = ?,commentaire = ?, nb_heure_pn_sem = ?, nb_heure_tut = ?, nb_heure = ? WHERE code == ?";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(1,SAE.getCode          () );
-            ps.setString(2,SAE.getNom           () );
-            ps.setString(3,SAE.getCommentaire   () );
-            ps.setInt   (4,SAE.getNbHeurePnSem  () );
-            ps.setInt   (5,SAE.getNbHeureTut    () );
-            ps.setInt   (6,SAE.getNbHeure       () );
+            ps.setString(1,sae.getCode          () );
+            ps.setString(2,sae.getNom           () );
+            ps.setString(3,sae.getCommentaire   () );
+            ps.setInt   (4,sae.getNbHeurePnSem  () );
+            ps.setInt   (5,sae.getNbHeureTut    () );
+            ps.setInt   (6,sae.getNbHeure       () );
             ps.executeUpdate();
         }
         catch(SQLException e) {}
     }
 
-    public void supprSAE(String code)
+    public void supprSae(String code)
     {
         String req = "DELETE FROM SAE WHERE code = ?";
         try
@@ -63,7 +63,7 @@ public class SaeSql
         catch (SQLException e){}
     }
 
-    public SAE getSAEbyCode(String code)
+    public SAE getSaeByCode(String code)
     {
         String req = "SELECT * FROM SAE WHERE code = ?";
         try
@@ -77,7 +77,7 @@ public class SaeSql
         return null;
     }
 
-    public ArrayList<SAE> getSAE()
+    public ArrayList<SAE> getSae()
     {
         String req = "SELECT * FROM SAE";
         try

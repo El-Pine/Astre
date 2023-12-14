@@ -80,7 +80,7 @@ public class RessourceSql
         return null;
     }
 
-    public ArrayList<Ressource> getRessource()
+    public ArrayList<Ressource> getRessources()
     {
         String req = "SELECT * FROM Ressource";
         try

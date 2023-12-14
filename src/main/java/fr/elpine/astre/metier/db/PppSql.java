@@ -14,7 +14,7 @@ public class PppSql
     private PreparedStatement ps;
 
 
-    public void ajoutPPP(PPP ppp)
+    public void ajoutPpp(PPP ppp)
     {
         String req = "INSERT INTO PPP VALUES (?,?,?,?,?,?)";
         try
@@ -34,7 +34,7 @@ public class PppSql
         {}
     }
 
-    public void majPPP(PPP ppp)
+    public void majPpp(PPP ppp)
     {
         String req = "UPDATE PPP SET code = ?,nom = ?,commentaire = ?, nb_heure_sem = ?, semestre = ?, nb_heure_tl = ?, nb_grp = ?,nb_semaine = ? WHERE code == ?";
         try
@@ -53,7 +53,7 @@ public class PppSql
         catch(SQLException e) {}
     }
 
-    public void supprPPP(String code)
+    public void supprPpp(String code)
     {
         String req = "DELETE FROM PPP WHERE code = ?";
         try
@@ -65,7 +65,7 @@ public class PppSql
         catch (SQLException e){}
     }
 
-    public PPP getPPPbyCode(String code)
+    public PPP getPppByCode(String code)
     {
         String req = "SELECT * FROM PPP WHERE code = ?";
         try
@@ -79,7 +79,7 @@ public class PppSql
         return null;
     }
 
-    public ArrayList<PPP> getPPPs()
+    public ArrayList<PPP> getPpp()
     {
         String req = "SELECT * FROM PPP";
         try

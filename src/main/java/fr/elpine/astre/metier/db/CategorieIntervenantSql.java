@@ -74,7 +74,7 @@ public class CategorieIntervenantSql
         return null;
     }
 
-    public ArrayList<CategorieIntervenant> getCatInter() {
+    public ArrayList<CategorieIntervenant> getCatInters() {
         return null;
     }
 }

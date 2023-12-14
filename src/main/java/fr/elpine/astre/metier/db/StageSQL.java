@@ -16,36 +16,36 @@ public class StageSQL
     private PreparedStatement ps;
 
 
-    public void ajoutStage(Stage Stage)
+    public void ajoutStage(Stage stage)
     {
         String req = "INSERT INTO Stage VALUES (?,?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(1,Stage.getCode        () );
-            ps.setString(2,Stage.getNom         () );
-            ps.setString(3,Stage.getCommentaire () );
-            ps.setInt   (4,Stage.getNbHeureREH  () );
-            ps.setInt   (5,Stage.getNbHeureTut  () );
-            ps.setInt   (6,Stage.getNbHeure     () );
+            ps.setString(1,stage.getCode        () );
+            ps.setString(2,stage.getNom         () );
+            ps.setString(3,stage.getCommentaire () );
+            ps.setInt   (4,stage.getNbHeureREH  () );
+            ps.setInt   (5,stage.getNbHeureTut  () );
+            ps.setInt   (6,stage.getNbHeure     () );
             ps.executeUpdate();
         }
         catch  (SQLException e)
         {}
     }
 
-    public void majStage(Stage Stage)
+    public void majStage(Stage stage)
     {
         String req = "UPDATE Stage SET code = ?,nom = ?,commentaire = ?, nb_heure_pn_sem = ?, nb_heure_tl = ?,nb_semaine = ? WHERE code == ?";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setString(1,Stage.getCode        () );
-            ps.setString(2,Stage.getNom         () );
-            ps.setString(3,Stage.getCommentaire () );
-            ps.setInt   (4,Stage.getNbHeureREH  () );
-            ps.setInt   (5,Stage.getNbHeureTut  () );
-            ps.setInt   (6,Stage.getNbHeure     () );
+            ps.setString(1,stage.getCode        () );
+            ps.setString(2,stage.getNom         () );
+            ps.setString(3,stage.getCommentaire () );
+            ps.setInt   (4,stage.getNbHeureREH  () );
+            ps.setInt   (5,stage.getNbHeureTut  () );
+            ps.setInt   (6,stage.getNbHeure     () );
             ps.executeUpdate();
         }
         catch(SQLException e) {}
@@ -77,7 +77,7 @@ public class StageSQL
         return null;
     }
 
-    public ArrayList<Stage> getStage()
+    public ArrayList<Stage> getStages()
     {
         String req = "SELECT * FROM Stage";
         try
