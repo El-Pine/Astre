@@ -1,129 +1,161 @@
-DROP TABLE IF EXISTS CategorieIntervenant;
+-- Suppression des anciennes tables
+
+DROP TABLE IF EXISTS AffectationPPP;
+DROP TABLE IF EXISTS AffectationStage;
+DROP TABLE IF EXISTS AffectationSAE;
+DROP TABLE IF EXISTS AffectationRessource;
+DROP TABLE IF EXISTS Attribution;
 DROP TABLE IF EXISTS Intervenant;
+DROP TABLE IF EXISTS CategorieIntervenant;
+DROP TABLE IF EXISTS CategorieHeure;
+DROP TABLE IF EXISTS Module;
 DROP TABLE IF EXISTS Semestre;
-DROP TABLE IF EXISTS Ressource;
-DROP TABLE IF EXISTS SAE;
-DROP TABLE IF EXISTS Stage;
-DROP TABLE IF EXISTS typeHeure;
-DROP TABLE IF EXISTS PPP;
+DROP TABLE IF EXISTS Annee;
 
-CREATE TABLE CategorieIntervenant (
-    code VARCHAR(255) PRIMARY KEY,
-    nom VARCHAR(255),
-    nbHeureMax INT,
-    service INT,
-    ratioTP FLOAT,
-);
+-- Création des tables
 
-CREATE TABLE CategorieHeure(
-    nom VARCHAR(255) PRIMARY KEY,
-    nbHeureMax INT,
-    service INT,
-    ratioTP FLOAT,
-);
-
-CREATE TABLE Intervenant (
-    nom VARCHAR(255) PRIMARY KEY,
-    prenom VARCHAR(255) PRIMARY KEY,
-    mail varchar(255),
-    statut varchar(255),
-    service varchar(255),
-    total FLOAT,
-);
-
-
--- liaisons internvenant avec sa categorie
-CREATE TABLE Intervenant_CategorieIntervenant (
-    intervenant_nom VARCHAR(255),
-    intervenant_prenom VARCHAR(255),
-    categorieIntervenant_code VARCHAR(255),
-    FOREIGN KEY (intervenant_nom, intervenant_prenom) REFERENCES Intervenant(nom, prenom),
-    FOREIGN KEY (categorieIntervenant_code) REFERENCES CategorieIntervenant(code),
-    PRIMARY KEY (intervenant_nom, intervenant_prenom, categorieIntervenant_code)
-);
-
--- liaisons intervenants avec ses semestres
-CREATE TABLE Intervenant_Semestre (
-    intervenant_nom VARCHAR(255),
-    intervenant_prenom VARCHAR(255),
-    semestre_id INT,
-    FOREIGN KEY (intervenant_nom, intervenant_prenom) REFERENCES Intervenant(nom, prenom),
-    FOREIGN KEY (semestre_id) REFERENCES Semestre(id),
-    PRIMARY KEY (intervenant_nom, intervenant_prenom, semestre_id)
-);
-
-CREATE TABLE Module (
-    code VARCHAR(255) PRIMARY KEY,
-    nom VARCHAR(255),
-    commentaire VARCHAR(255),
-    nb_heure_pn_sem INT,
-    nb_heure_tut INT,
-    nb_heure INT
+CREATE TABLE Annee (
+	nom VARCHAR(255) PRIMARY KEY,
+	debut DATE,
+	fin DATE
 );
 
 CREATE TABLE Semestre (
-  numero INT PRIMARY KEY,
-  estPair BOOLEAN,
-  service INT
+	numero INT,
+	annee VARCHAR(255),
+	nbGrpTD INT,
+	nbGrpTP INT,
+	nbEtd INT,
+	nbSemaine INT,
+
+	FOREIGN KEY (annee) REFERENCES Annee(nom),
+
+	PRIMARY KEY (numero, annee)
 );
 
---liaison module avec semestre
-CREATE TABLE Semestre_Module (
-     semestre_id INT,
-     module_id INT,
-     FOREIGN KEY (semestre_id) REFERENCES Semestre(id),
-     FOREIGN KEY (module_id) REFERENCES Module(id),
-     PRIMARY KEY (semestre_id, module_id)
+CREATE TABLE Module (
+	code VARCHAR(255),
+	numeroSemestre INT,
+	annee VARCHAR(255),
+	nom VARCHAR(255),
+	abreviation VARCHAR(255),
+	typeModule VARCHAR(255),
+	validation BOOLEAN,
+
+	FOREIGN KEY (numeroSemestre, annee) REFERENCES Semestre(numero, annee),
+
+	PRIMARY KEY (code, numeroSemestre, annee)
 );
 
---liaison module avec categorieHeure
-CREATE TABLE Module_CategorieHeure (
-     module_id INT,
-     categorieHeure_id INT,
-     FOREIGN KEY (module_id) REFERENCES Module(id),
-     FOREIGN KEY (categorieHeure_id) REFERENCES CategorieHeure(id),
-     PRIMARY KEY (module_id, categorieHeure_id)
+CREATE TABLE CategorieHeure (
+	nom VARCHAR(255) PRIMARY KEY,
+	eqtd FLOAT,
+
+	ressource BOOLEAN,
+	sae BOOLEAN,
+	ppp BOOLEAN,
+	stage BOOLEAN
 );
 
-CREATE TABLE SAE (
-    code VARCHAR(255) PRIMARY KEY,
-    nom VARCHAR,
-    commentaire VARCHAR,
-    nb_heure_pn_sem INT,
-    nb_heure_tut INT,
-    nb_heure INT
+CREATE TABLE CategorieIntervenant (
+	code VARCHAR(255) PRIMARY KEY,
+	nom VARCHAR(255),
+	nbHeureMaxDefaut INT,
+	nbHeureServiceDefaut INT,
+	ratioTPDefaut FLOAT
 );
 
-CREATE TABLE Stage (
-    code VARCHAR(255) PRIMARY KEY,
-    nom VARCHAR(255),
-    commentaire VARCHAR(255),
-    nb_heure_pn_sem INT,
-    nb_heure_tut INT,
-    nb_heure INT
+CREATE TABLE Intervenant (
+	idInter SERIAL PRIMARY KEY,
+	nom VARCHAR(255),
+	prenom VARCHAR(255),
+	mail varchar(255),
+	codeCategorie VARCHAR(255),
+	heureService INT,
+	heureMax INT,
+	ratioTP FLOAT,
+
+	FOREIGN KEY (codeCategorie) REFERENCES CategorieIntervenant(code)
 );
 
-CREATE TABLE PPP(
-    -- Module
-    code VARCHAR(255) PRIMARY KEY,
-    nom VARCHAR(255),
-    commentaire VARCHAR(255),
-    --PPP
-    nbHeureCM INT,
-    nbHeureTD INT,
-    nbHeureTP INT,
-    nbHeureTuto INT,
-    nbHeurePonct INT
+-- Associations
+
+CREATE TABLE Attribution (
+	codeModule VARCHAR(255),
+	numeroSemestreModule INT,
+	anneeModule VARCHAR(255),
+	nomCategorieHeure VARCHAR(255),
+	nbHeure INT,
+	nbSemaine INT,
+
+	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
+	FOREIGN KEY (nomCategorieHeure) REFERENCES CategorieHeure(nom),
+
+    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, nomCategorieHeure)
 );
 
+CREATE TABLE AffectationRessource (
+	codeModule VARCHAR(255),
+    numeroSemestreModule INT,
+    anneeModule VARCHAR(255),
+    idInter INT,
 
-CREATE TABLE Ressource (
-    code VARCHAR(255) PRIMARY KEY,
-    nom VARCHAR(255),
-    commentaire VARCHAR(255),
-    nb_heure_sem INT,
-    semestre INT REFERENCES Semestre(numero),
-    nb_heure_tl INT,
-    nb_grp INT,
-    nb_semaine INT
+    typeHeure VARCHAR(255),
+    nbGroupe INT,
+    nbSemaine INT,
+    nbHeure INT,
+    commentaire LONGTEXT,
+
+	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
+	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
+
+    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
+);
+
+CREATE TABLE AffectationSAE (
+	codeModule VARCHAR(255),
+    numeroSemestreModule INT,
+    anneeModule VARCHAR(255),
+    idInter INT,
+
+    typeHeure VARCHAR(255),
+    nbHeure INT,
+    commentaire LONGTEXT,
+
+	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
+	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
+
+    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
+);
+
+CREATE TABLE AffectationStage (
+	codeModule VARCHAR(255),
+    numeroSemestreModule INT,
+    anneeModule VARCHAR(255),
+    idInter INT,
+
+    typeHeure VARCHAR(255),
+    nbHeure INT,
+    commentaire LONGTEXT,
+
+	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
+	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
+
+    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
+);
+
+CREATE TABLE AffectationPPP (
+	codeModule VARCHAR(255),
+    numeroSemestreModule INT,
+    anneeModule VARCHAR(255),
+    idInter INT,
+
+    typeHeure VARCHAR(255),
+    nbHeure INT,
+    commentaire LONGTEXT,
+
+	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
+	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
+
+    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
 );
