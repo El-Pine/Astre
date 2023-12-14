@@ -15,6 +15,7 @@ public class CategorieIntervenantSql
     private Connection co;
     private PreparedStatement ps;
 
+    public CategorieIntervenantSql(Controleur ctrl) { this.db = ctrl.getDb(); }
 
     public void ajoutCatInter(CategorieIntervenant catInter)
     {

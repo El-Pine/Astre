@@ -10,10 +10,11 @@ import java.util.ArrayList;
 
 public class ModuleSql
 {
-    private DB db = Controleur.get().getDb();
+    private DB db;
     private Connection co;
     private PreparedStatement ps;
 
+    public ModuleSql(Controleur ctrl) { this.db = ctrl.getDb(); }
 
     public void ajoutModule(Module module) {
 
