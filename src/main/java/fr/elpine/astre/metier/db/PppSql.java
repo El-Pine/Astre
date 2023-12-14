@@ -9,10 +9,11 @@ import java.util.ArrayList;
 
 public class PppSql
 {
-    private DB db = Controleur.get().getDb();
+    private DB db;
     private Connection co;
     private PreparedStatement ps;
 
+    public PppSql(Controleur ctrl) { this.db = ctrl.getDb(); }
 
     public void ajoutPpp(PPP ppp)
     {
