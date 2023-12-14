@@ -331,8 +331,6 @@ public class DB
     /*  Categorie Heure  */
     /*-------------------*/
 
-    //TODO:A faire après la mise a jour de la BADO
-
     public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
         String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?)";
@@ -341,19 +339,53 @@ public class DB
             ps = co.prepareStatement( req );
             ps.setString (1, categorieHeure.getNom          () );
             ps.setDouble (2, categorieHeure.getEquivalentTD () );
-            ps.setBoolean(3, categorieHeure.estRessource());
-            ps.setBoolean(4, categorieHeure.estSae());
-            ps.setBoolean(5, categorieHeure.estPpp());
-            ps.setBoolean(6, categorieHeure.estStage());
+            ps.setBoolean(3, categorieHeure.estRessource    () );
+            ps.setBoolean(4, categorieHeure.estSae          () );
+            ps.setBoolean(5, categorieHeure.estPpp          () );
+            ps.setBoolean(6, categorieHeure.estStage        () );
             ps.executeUpdate();
         }
         catch (SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
-    public ArrayList<CategorieHeure> getCategorieHeure()
+    public void majCategorieHeure(CategorieHeure catHr)
+    {
+        String req = "UPDATE CategorieHeure SET nom = ?,eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ? WHERE nom = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString  (1,catHr.getNom         ());
+            ps.setDouble  (2,catHr.getEquivalentTD());
+            ps.setBoolean (3,catHr.estRessource   ());
+            ps.setBoolean (4,catHr.estSae         ());
+            ps.setBoolean (5,catHr.estStage       ());
+            ps.setBoolean (6,catHr.estPpp         ());
+            ps.setString  (7,catHr.getNom         ());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void supprimerCategorieHeure(CategorieHeure catHr)
+    {
+        String req = "DELETE FROM CategorieHeure WHERE nom = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,catHr.getNom());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<CategorieHeure> getAllCategorieHeure()
     {
         ArrayList<CategorieHeure> resultats = new ArrayList<>();
         String req = "SELECT * FROM CategorieHeure";
@@ -365,17 +397,20 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     CategorieHeure categorie = new CategorieHeure(
-                            rs.getString()
+                            rs.getString  ("nom"       ),
+                            rs.getDouble  ("eqtd"      ),
+                            rs.getBoolean ("ressource" ),
+                            rs.getBoolean ("sae"       ),
+                            rs.getBoolean ("ppp"       ),
+                            rs.getBoolean ("stage"     )
                     );
                     resultats.add(categorie);
                 }
             }
         } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
+
             e.printStackTrace();
         }
-
-        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
     }
 }
