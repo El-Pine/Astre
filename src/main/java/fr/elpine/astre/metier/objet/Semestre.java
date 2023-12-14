@@ -15,7 +15,7 @@ public class Semestre {
     private Annee annee;
 
 
-    public Semestre(int numero, int nbGrpTD, int nbGrpTP, int nbEtd, int nbSemaine,String annee) {
+    public Semestre(int numero, int nbGrpTD, int nbGrpTP, int nbEtd, int nbSemaine,Annee annee) {
         this.numero    = numero;
         this.nbGrpTD   = nbGrpTD;
         this.nbGrpTP   = nbGrpTP;
