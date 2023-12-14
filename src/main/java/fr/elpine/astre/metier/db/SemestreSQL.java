@@ -11,9 +11,15 @@ import java.util.ArrayList;
 
 public class SemestreSQL
 {
-    private DB db = Controleur.get().getDb();
+    private DB db;
     private Connection co;
     private PreparedStatement ps;
+
+
+    public SemestreSQL(Controleur ctrl)
+    {
+        this.db = ctrl.getDb();
+    }
 
 
     public void ajoutSemestre(Semestre semestre)

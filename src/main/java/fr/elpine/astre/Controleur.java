@@ -4,7 +4,10 @@ import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.db.RessourceSql;
+import fr.elpine.astre.metier.objet.Ressource;
 import javafx.application.Application;
+
+import java.util.ArrayList;
 
 public class Controleur
 {
@@ -16,10 +19,13 @@ public class Controleur
 
     private Controleur()
     {
-        this.db    = new DB();
-        this.ressources = new RessourceSql();
-        this.astre = new Astre( this );
+        this.db         = new DB();
+        this.ressources = new RessourceSql( this );
+        this.astre      = new Astre( this );
+    }
 
+    public void start()
+    {
         Application.launch(AstreApplication.class);
     }
 
@@ -32,15 +38,14 @@ public class Controleur
 
     public DB getDb() { return this.db; }
 
-    public void getRessources()
+    public ArrayList<Ressource> getRessources()
     {
-        this.ressources.getRessources();
-
+        return this.ressources.getRessources();
     }
 
 
     public static void main(String[] args)
     {
-        Controleur.get();
+        Controleur.get().start();
     }
 }

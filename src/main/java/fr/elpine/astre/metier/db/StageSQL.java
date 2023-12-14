@@ -11,9 +11,15 @@ import java.util.ArrayList;
 
 public class StageSQL
 {
-    private DB db = Controleur.get().getDb();
+    private DB db;
     private Connection co;
     private PreparedStatement ps;
+
+
+    public StageSQL(Controleur ctrl)
+    {
+        this.db = ctrl.getDb();
+    }
 
 
     public void ajoutStage(Stage stage)
