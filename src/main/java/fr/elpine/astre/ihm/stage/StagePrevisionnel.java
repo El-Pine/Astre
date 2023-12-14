@@ -38,9 +38,9 @@ public class StagePrevisionnel
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
-	public void onBtnCreerSae(ActionEvent actionEvent)
-	{
-
+	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
+		stage.close();
+		StageSaisieSae.creer().show();
 	}
 
 	@FXML
