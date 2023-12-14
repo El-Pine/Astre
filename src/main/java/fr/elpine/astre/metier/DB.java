@@ -502,7 +502,7 @@ public class DB
         }
         return null;
     }
-    
+
     /*-------------------*/
     /*  Categorie Heure  */
     /*-------------------*/
