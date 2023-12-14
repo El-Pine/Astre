@@ -4,6 +4,7 @@ import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.SAE;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DB
 {
@@ -30,14 +31,13 @@ public class DB
 
     public void ajouterIntervenant(Intervenant inter)
     {
-        String req = "INSERT INTO Intervenant VALUES(?,?,?,?,?,?)";
+        String req = "INSERT INTO Intervenant VALUES(?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement( req );
             ps.setString   (1,inter.getNom              ()  );
             ps.setString   (2,inter.getPrenom           ()  );
             ps.setString   (3,inter.getStatut().getCode ()  );
-            ps.setArray    (4,(Array)inter.getAlSemestre()  );
             ps.setInt      (5,inter.getService          ()  );
             ps.setDouble   (6,inter.getTotal            ()  );
             ps.executeUpdate();
@@ -122,6 +122,37 @@ public class DB
         {
 
         }
+    }
+
+    public ArrayList<CategorieIntervenant> getCategorieIntervenant()
+    {
+        ArrayList<CategorieIntervenant> resultats = new ArrayList<>();
+        String req = "SELECT * FROM CategorieIntervenant";
+
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            try (ResultSet rs = ps.executeQuery())
+            {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    CategorieIntervenant categorie = new CategorieIntervenant(
+                            rs.getString ("code"         ),
+                            rs.getString ("nom"          ),
+                            rs.getInt    ("nbHeureMax"   ),
+                            rs.getInt    ("service"      ),
+                            rs.getFloat  ("ratioTP"      ),
+                            rs.getBoolean("estCompleter" )
+                    );
+                    resultats.add(categorie);
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+
+        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
+        return resultats;
     }
     public void ajouterSAE(SAE sae)
     {

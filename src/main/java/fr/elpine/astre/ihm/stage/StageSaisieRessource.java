@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class StageSaisieRessource implements Initializable
 {
-	public TableView<SaisieRessource> tableau;
+	public TableView  <SaisieRessource> tableau;
 	public TableColumn<SaisieRessource, String> tableauIntervenant;
 	public TableColumn<SaisieRessource, String> tableauType;
 	public TableColumn<SaisieRessource, Integer> tableauNbH;

@@ -1,7 +1,10 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.objet.CategorieIntervenant;
+import fr.elpine.astre.metier.objet.Intervenant;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -13,11 +16,17 @@ import java.io.IOException;
 public class StageAjoutIntervenant
 {
     private Stage stage;
+    @FXML
     private TextField txtNom;
+    @FXML
     private TextField txtPrenom;
+    @FXML
     private ComboBox  cpbContrat;
+    @FXML
     private TextField txtService;
+    @FXML
     private TextField txtComplementaire;
+    @FXML
     private TextField txtEmail;
 
     public static Stage creer() throws IOException
@@ -50,13 +59,22 @@ public class StageAjoutIntervenant
 
     }
 
+    public void setCpbContrat()
+    {
+        for (CategorieIntervenant catInter : Controleur.get().getDb().getCategorieIntervenant())
+            cpbContrat.setValue(catInter);
+    }
+
     public void onBtnValider(ActionEvent actionEvent)
     {
-        System.out.println(txtNom.getText());
-        System.out.println(txtPrenom.getText());
-        System.out.println(txtEmail.getText());
-        System.out.println(txtService.getText());
-        System.out.println(txtComplementaire.getText());
+        String nom                  = txtNom   .getText();
+        String prenom               = txtPrenom.getText();
+        String email                = txtEmail .getText();
+        CategorieIntervenant statut = (CategorieIntervenant) cpbContrat.getValue();
+        int heureService            = Integer.parseInt(txtService.getText());
+        int total                   = Integer.parseInt(txtComplementaire.getText()) + heureService;
+
+        Controleur.get().getDb().ajouterIntervenant(new Intervenant(nom,prenom,email,statut,heureService,total));
     }
 
     public void btnAnnuler(ActionEvent actionEvent) {
