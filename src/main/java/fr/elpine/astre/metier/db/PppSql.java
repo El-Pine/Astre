@@ -5,7 +5,7 @@ import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.PPP;
 
 import java.sql.*;
-import java.util.List;
+import java.util.ArrayList;
 
 public class PppSql
 {
@@ -79,13 +79,13 @@ public class PppSql
         return null;
     }
 
-    public List<PPP> getPPPs()
+    public ArrayList<PPP> getPPPs()
     {
         String req = "SELECT * FROM PPP";
         try
         {
             ps = co.prepareStatement(req);
-            List<PPP> ensPPP  = (List<PPP>) ps.executeQuery();
+            ArrayList<PPP> ensPPP  = (ArrayList<PPP>) ps.executeQuery();
             return ensPPP;
         }
         catch(SQLException e) {}

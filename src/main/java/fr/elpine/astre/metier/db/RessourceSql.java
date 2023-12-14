@@ -5,7 +5,8 @@ import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.Ressource;
 
 import java.sql.*;
-import java.util.List;
+import java.util.ArrayList;
+
 public class RessourceSql
 {
     private DB db = Controleur.get().getDb();
@@ -79,13 +80,13 @@ public class RessourceSql
         return null;
     }
 
-    public List<Ressource> getRessource()
+    public ArrayList<Ressource> getRessource()
     {
         String req = "SELECT * FROM Ressource";
         try
         {
             ps = co.prepareStatement(req);
-            List<Ressource> ensRessource  = (List<Ressource>) ps.executeQuery();
+            ArrayList<Ressource> ensRessource  = (ArrayList<Ressource>) ps.executeQuery();
             return ensRessource;
         }
         catch(SQLException e) {}

@@ -2,9 +2,10 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.metier.objet.Intervenant;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class IntervenantSql {
+public class IntervenantSql
+{
 	public void ajoutIntervenant(Intervenant intervenant) {
 
 	}
@@ -21,7 +22,7 @@ public class IntervenantSql {
 		return null;
 	}
 
-	public List<Intervenant> getIntervenant() {
+	public ArrayList<Intervenant> getIntervenant() {
 		return null;
 	}
 }
