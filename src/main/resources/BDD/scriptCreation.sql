@@ -1,3 +1,5 @@
+-- Suppression des anciennes tables
+
 DROP TABLE IF EXISTS AffectationPPP;
 DROP TABLE IF EXISTS AffectationStage;
 DROP TABLE IF EXISTS AffectationSAE;
@@ -9,6 +11,8 @@ DROP TABLE IF EXISTS CategorieHeure;
 DROP TABLE IF EXISTS Module;
 DROP TABLE IF EXISTS Semestre;
 DROP TABLE IF EXISTS Annee;
+
+-- Création des tables
 
 CREATE TABLE Annee (
 	nom VARCHAR(255) PRIMARY KEY,
@@ -74,7 +78,7 @@ CREATE TABLE Intervenant (
 	FOREIGN KEY (codeCategorie) REFERENCES CategorieIntervenant(code)
 );
 
--- ASSOCIATION
+-- Associations
 
 CREATE TABLE Attribution (
 	codeModule VARCHAR(255),
