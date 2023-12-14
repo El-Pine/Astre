@@ -1,6 +1,7 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.metier.objet.*;
+import fr.elpine.astre.metier.objet.Module;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,6 +27,91 @@ public class DB
         } catch (ClassNotFoundException | SQLException e){
             System.out.println(e);
         }
+    }
+
+    /*-----------------*/
+    /*     Module      */
+    /*-----------------*/
+
+    //Méthode d'insert
+    public void ajouterModule(Module module)
+    {
+        String req = "INSERT INTO Module VALUES(?,?,?,?,?)";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString  (1,module.getCode        ());
+            ps.setString  (2,module.getNom         ());
+            ps.setString  (3,module.getAbreviation ());
+            ps.setString  (4,module.getTypeModule  ());
+            ps.setBoolean (5,module.estValide      ());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Méthode d'update
+    public void majModule(Module module)
+    {
+        String req = "UPDATE Module SET code = ?, nom = ?, abreviation = ?, typeModule = ?, validation = ? WHERE code = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString  (1,module.getCode        ());
+            ps.setString  (2,module.getNom         ());
+            ps.setString  (3,module.getAbreviation ());
+            ps.setString  (4,module.getTypeModule  ());
+            ps.setBoolean (5,module.estValide      ());
+            ps.setString  (6,module.getCode        ());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Méthode delete
+    public void supprimerModule(Module module)
+    {
+        String req = "DELETE FORM Module WHERE code = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,module.getCode());
+            ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Méthode select all
+    public ArrayList<Module> getAllModule()
+    {
+        ArrayList<Module> ensModule = new ArrayList<>();
+        String req = "SELECT * FROM Module";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            try(ResultSet rs = ps.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Module mod = new Module(rs.getString ("nom"        ),
+                                            rs.getString ("code"       ),
+                                            rs.getString ("abreviation"),
+                                            rs.getString ("typeModule" ),
+                                            rs.getBoolean("validation" ));
+                    ensModule.add(mod);
+                }
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -245,25 +331,61 @@ public class DB
     /*  Categorie Heure  */
     /*-------------------*/
 
-    //TODO:A faire après la mise a jour de la BADO
-    /*
     public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
-        String req = "INSERT INTO CategorieHeure VALUES (?,?)";
+        String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement( req );
             ps.setString (1, categorieHeure.getNom          () );
             ps.setDouble (2, categorieHeure.getEquivalentTD () );
+            ps.setBoolean(3, categorieHeure.estRessource    () );
+            ps.setBoolean(4, categorieHeure.estSae          () );
+            ps.setBoolean(5, categorieHeure.estPpp          () );
+            ps.setBoolean(6, categorieHeure.estStage        () );
             ps.executeUpdate();
         }
         catch (SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
-    public ArrayList<CategorieHeure> getCategorieHeure()
+    public void majCategorieHeure(CategorieHeure catHr)
+    {
+        String req = "UPDATE CategorieHeure SET nom = ?,eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ? WHERE nom = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString  (1,catHr.getNom         ());
+            ps.setDouble  (2,catHr.getEquivalentTD());
+            ps.setBoolean (3,catHr.estRessource   ());
+            ps.setBoolean (4,catHr.estSae         ());
+            ps.setBoolean (5,catHr.estStage       ());
+            ps.setBoolean (6,catHr.estPpp         ());
+            ps.setString  (7,catHr.getNom         ());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void supprimerCategorieHeure(CategorieHeure catHr)
+    {
+        String req = "DELETE FROM CategorieHeure WHERE nom = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,catHr.getNom());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<CategorieHeure> getAllCategorieHeure()
     {
         ArrayList<CategorieHeure> resultats = new ArrayList<>();
         String req = "SELECT * FROM CategorieHeure";
@@ -275,18 +397,20 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     CategorieHeure categorie = new CategorieHeure(
-                            rs.getString()
+                            rs.getString  ("nom"       ),
+                            rs.getDouble  ("eqtd"      ),
+                            rs.getBoolean ("ressource" ),
+                            rs.getBoolean ("sae"       ),
+                            rs.getBoolean ("ppp"       ),
+                            rs.getBoolean ("stage"     )
                     );
                     resultats.add(categorie);
                 }
             }
         } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
+
             e.printStackTrace();
         }
-
-        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
     }
-    */
 }

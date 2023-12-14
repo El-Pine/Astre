@@ -23,14 +23,15 @@ public class CategorieHeure
 
     public String getNom          () { return this.nom          ;}
     public double getEquivalentTD () { return this.equivalentTD ;}
+    public boolean estRessource() { return ressource;}
+    public boolean estSae      () { return sae;      }
+    public boolean estPpp      () { return ppp;      }
+    public boolean estStage    () { return stage;    }
 
     /*  SETTER   */
 
     public void setNom            ( String nom          ) { this.nom          = nom          ;}
     public void setEquivalentTD   ( double equivalentTD ) { this.equivalentTD = equivalentTD ;}
 
-    public boolean estRessource() { return ressource;}
-    public boolean estSae      () { return sae;      }
-    public boolean estPpp      () { return ppp;      }
-    public boolean estStage    () { return stage;    }
+
 }
