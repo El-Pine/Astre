@@ -114,6 +114,30 @@ public class DB
         return null;
     }
 
+    public Module getModuleByNumero(String numero)
+    {
+        String req = "SELECT * FROM Module WHERE code = ?";
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,numero);
+            try (ResultSet rs = ps.executeQuery())
+            {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    Module mod = new Module(rs.getString ("nom"        ),
+                                            rs.getString ("code"       ),
+                                            rs.getString ("abreviation"),
+                                            rs.getString ("typeModule" ),
+                                            rs.getBoolean("validation" ));
+                    return mod;
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /*-----------------*/
     /*   Intervenant   */
@@ -382,8 +406,6 @@ public class DB
         return null;
     }
 
-
-
     /*-------------------------*/
     /*  Catégorie Intervenant  */
     /*-------------------------*/
@@ -592,5 +614,115 @@ public class DB
             e.printStackTrace();
         }
         return resultats;
+    }
+
+    public CategorieHeure getCatHrByNom(String nom)
+    {
+        String req = "SELECT * FROM CategorieHeure WHERE nom = ?";
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,nom);
+            try (ResultSet rs = ps.executeQuery())
+            {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    CategorieHeure categorie = new CategorieHeure(
+                            rs.getString  ("nom"       ),
+                            rs.getDouble  ("eqtd"      ),
+                            rs.getBoolean ("ressource" ),
+                            rs.getBoolean ("sae"       ),
+                            rs.getBoolean ("ppp"       ),
+                            rs.getBoolean ("stage"     )
+                    );
+                    return categorie;
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /*---------------------------*/
+    /*        ASSOCIATION        */
+    /*---------------------------*/
+
+    // Méthode insert pour la classe Attribution
+    public void ajouterAttribution(Attribution attribution) {
+        String req = "INSERT INTO Attribution VALUES (?,?,?,?,?,?)";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            ps.setString(1, attribution.getCodeModule           ());
+            ps.setInt   (2, attribution.getNumeroSemestreModule ());
+            ps.setString(3, attribution.getAnneeModule          ());
+            ps.setString(4, attribution.getNomCategorieHeure    ());
+            ps.setInt   (5, attribution.getNbHeure              ());
+            ps.setInt   (6, attribution.getNbSemaine            ());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Méthode d'update pour la classe Attribution
+    public void majAttribution(Attribution att) {
+        String req = "UPDATE Attribution SET codeModule = ?, numeroSemestreModule = ?, anneeModule = ?, nomCategorieHeure = ?, nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ?, anneeModule = ?, nomCategorieHeure = ?";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            ps.setString (1 ,att.getCodeModule           ());
+            ps.setInt    (2 ,att.getNumeroSemestreModule ());
+            ps.setString (3 ,att.getAnneeModule          ());
+            ps.setString (4 ,att.getNomCategorieHeure    ());
+            ps.setInt    (5 ,att.getNbHeure              ());
+            ps.setInt    (6 ,att.getNbSemaine            ());
+            ps.setString (7 ,att.getCodeModule           ());
+            ps.setInt    (8 ,att.getNumeroSemestreModule ());
+            ps.setString (9 ,att.getAnneeModule          ());
+            ps.setString (10,att.getNomCategorieHeure    ());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    // Méthode delete pour la classe Attribution
+    public void supprimerAttribution(Attribution att) {
+        String req = "DELETE FROM Attribution WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString (1,att.getCodeModule           ());
+            ps.setInt    (2,att.getNumeroSemestreModule ());
+            ps.setString (3,att.getAnneeModule          ());
+            ps.setString (4,att.getNomCategorieHeure    ());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Méthode select * pour la classe Attribution
+    public ArrayList<Attribution> getAllAttribution() {
+        ArrayList<Attribution> ensAttribution = new ArrayList<>();
+        String req = "SELECT * FROM Attribution";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    Attribution attribution = new Attribution(
+                                              rs.getInt   ("numeroSemestreModule"),
+                                              rs.getInt   ("nbHeure"             ),
+                                              rs.getInt   ("nbSemaine"           ),
+                                              rs.getString("anneeModule"         ),
+                                              rs.getString("nomCategorieHeure"   ),
+                                              rs.getString("codeModule"          ),
+                            getModuleByNumero(rs.getString("module"              )),
+                            getCatHrByNom    (rs.getString("catHr"               ))
+                    );
+                    ensAttribution.add(attribution);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ensAttribution;
     }
 }
