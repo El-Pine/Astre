@@ -3,8 +3,6 @@ package fr.elpine.astre;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.db.RessourceSql;
-import fr.elpine.astre.metier.objet.Ressource;
 import javafx.application.Application;
 
 import java.util.ArrayList;

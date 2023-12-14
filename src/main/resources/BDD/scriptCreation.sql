@@ -13,7 +13,6 @@ CREATE TABLE CategorieIntervenant (
     nbHeureMax INT,
     service INT,
     ratioTP FLOAT,
-    estCompleter BOOLEAN,
 );
 
 CREATE TABLE CategorieHeure(
@@ -21,7 +20,6 @@ CREATE TABLE CategorieHeure(
     nbHeureMax INT,
     service INT,
     ratioTP FLOAT,
-    estCompleter BOOLEAN,
 );
 
 CREATE TABLE Intervenant (
