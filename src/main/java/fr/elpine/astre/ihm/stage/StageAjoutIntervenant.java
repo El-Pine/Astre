@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -37,5 +38,11 @@ public class StageAjoutIntervenant
     protected void onBtnEnregistrer()
     {
 
+    }
+
+    public void btnValider(ActionEvent actionEvent) {
+    }
+
+    public void btnAnnuler(ActionEvent actionEvent) {
     }
 }
