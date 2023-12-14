@@ -9,9 +9,15 @@ import java.util.ArrayList;
 
 public class RessourceSql
 {
-    private DB db = Controleur.get().getDb();
+    private DB db;
     private Connection co;
     private PreparedStatement ps;
+
+
+    public RessourceSql(Controleur ctrl)
+    {
+        this.db = ctrl.getDb();
+    }
 
 
     public void ajoutRessource(Ressource ressource)
