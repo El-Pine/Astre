@@ -33,6 +33,7 @@ public class DB
     /*     Module      */
     /*-----------------*/
 
+    //Méthode d'insert
     public void ajouterModule(Module module)
     {
         String req = "INSERT INTO Module VALUES(?,?,?,?,?)";
@@ -51,6 +52,7 @@ public class DB
         }
     }
 
+    //Méthode d'update
     public void majModule(Module module)
     {
         String req = "UPDATE Module SET code = ?, nom = ?, abreviation = ?, typeModule = ?, validation = ? WHERE code = ?";
@@ -70,6 +72,7 @@ public class DB
         }
     }
 
+    //Méthode delete
     public void supprimerModule(Module module)
     {
         String req = "DELETE FORM Module WHERE code = ?";
@@ -84,8 +87,10 @@ public class DB
         }
     }
 
+    //Méthode select all
     public ArrayList<Module> getAllModule()
     {
+        ArrayList<Module> ensModule = new ArrayList<>();
         String req = "SELECT * FROM Module";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
@@ -98,9 +103,15 @@ public class DB
                                             rs.getString ("abreviation"),
                                             rs.getString ("typeModule" ),
                                             rs.getBoolean("validation" ));
+                    ensModule.add(mod);
                 }
             }
         }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
