@@ -321,15 +321,19 @@ public class DB
     /*-------------------*/
 
     //TODO:A faire après la mise a jour de la BADO
-    /*
+
     public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
-        String req = "INSERT INTO CategorieHeure VALUES (?,?)";
+        String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement( req );
             ps.setString (1, categorieHeure.getNom          () );
             ps.setDouble (2, categorieHeure.getEquivalentTD () );
+            ps.setBoolean(3, categorieHeure.estRessource());
+            ps.setBoolean(4, categorieHeure.estSae());
+            ps.setBoolean(5, categorieHeure.estPpp());
+            ps.setBoolean(6, categorieHeure.estStage());
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -363,5 +367,4 @@ public class DB
         // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
     }
-    */
 }
