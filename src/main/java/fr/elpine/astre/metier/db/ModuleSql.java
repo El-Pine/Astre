@@ -8,8 +8,8 @@ import fr.elpine.astre.metier.objet.Module;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ModuleSql {
-
+public class ModuleSql
+{
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
@@ -52,5 +52,4 @@ public class ModuleSql {
 
         return ensModule;
     }
-
 }

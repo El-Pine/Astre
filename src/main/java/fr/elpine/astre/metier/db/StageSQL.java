@@ -7,7 +7,7 @@ import fr.elpine.astre.metier.objet.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class StageSQL
 {
@@ -77,13 +77,13 @@ public class StageSQL
         return null;
     }
 
-    public List<Stage> getStage()
+    public ArrayList<Stage> getStage()
     {
         String req = "SELECT * FROM Stage";
         try
         {
             ps = co.prepareStatement(req);
-            List<Stage> ensStage  = (List<Stage>) ps.executeQuery();
+            ArrayList<Stage> ensStage  = (ArrayList<Stage>) ps.executeQuery();
             return ensStage;
         }
         catch(SQLException e) {}

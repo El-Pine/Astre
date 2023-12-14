@@ -2,11 +2,10 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.metier.objet.CategorieHeure;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class CategorieHeureSQL {
-
-
+public class CategorieHeureSQL
+{
 	public void ajoutCatHeure(CategorieHeure catHeure) {
 
 	}
@@ -23,7 +22,7 @@ public class CategorieHeureSQL {
 		return null;
 	}
 
-	public List<CategorieHeure> getCatHeure() {
+	public ArrayList<CategorieHeure> getCatHeure() {
 		return null;
 	}
 }

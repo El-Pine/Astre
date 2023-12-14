@@ -7,7 +7,7 @@ import fr.elpine.astre.metier.objet.SAE;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class SaeSql
 {
@@ -77,13 +77,13 @@ public class SaeSql
         return null;
     }
 
-    public List<SAE> getSAE()
+    public ArrayList<SAE> getSAE()
     {
         String req = "SELECT * FROM SAE";
         try
         {
             ps = co.prepareStatement(req);
-            List<SAE> ensSAE  = (List<SAE>) ps.executeQuery();
+            ArrayList<SAE> ensSAE  = (ArrayList<SAE>) ps.executeQuery();
             return ensSAE;
         }
         catch(SQLException e) {}

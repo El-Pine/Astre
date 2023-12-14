@@ -2,24 +2,20 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.ICategorieIntervenant;
-import fr.elpine.astre.metier.interfaces.IIntervenant;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
-import fr.elpine.astre.metier.objet.Intervenant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
-public class CategorieIntervenantSql implements ICategorieIntervenant
+public class CategorieIntervenantSql
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
 
 
-    @Override
     public void ajoutCatInter(CategorieIntervenant catInter)
     {
         String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?,?)";
@@ -37,7 +33,6 @@ public class CategorieIntervenantSql implements ICategorieIntervenant
         catch(SQLException e){}
     }
 
-    @Override
     public void majCatInter(CategorieIntervenant catInter)
     {
         String req = "UPDATE CategorieIntervenant SET code = ?, nom = ?, nbHeureMax = ?, service = ?, ratioTP = ?, estCompleter = ?";
@@ -55,7 +50,6 @@ public class CategorieIntervenantSql implements ICategorieIntervenant
         catch(SQLException e){}
     }
 
-    @Override
     public void supprCatInter(String code)
     {
         String req = "DELETE FROM CategorieIntervenant WHERE code = ?";
@@ -80,7 +74,7 @@ public class CategorieIntervenantSql implements ICategorieIntervenant
         return null;
     }
 
-    public List<CategorieIntervenant> getCatInter() {
+    public ArrayList<CategorieIntervenant> getCatInter() {
         return null;
     }
 }
