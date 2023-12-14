@@ -21,13 +21,13 @@
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
    <top>
       <GridPane prefHeight="125.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="994.3999633789062" minWidth="10.0" prefWidth="994.3999633789062" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="59.599981689453124" minHeight="10.0" prefHeight="58.799993896484374" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="69.8000244140625" minHeight="10.0" prefHeight="62.39999999999999" vgrow="SOMETIMES" />
-        </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="994.3999633789062" minWidth="10.0" prefWidth="994.3999633789062" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="59.599981689453124" minHeight="10.0" prefHeight="58.799993896484374" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="69.8000244140625" minHeight="10.0" prefHeight="62.39999999999999" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <FlowPane prefHeight="60.0" prefWidth="831.0">
                <children>
@@ -56,23 +56,23 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="txtTypeModule" editable="false" prefHeight="26.0" prefWidth="100.0" text="Ressource">
+                  <TextField fx:id="txtTypeModule" editable="false" prefHeight="26.0" prefWidth="100.0" text="Stage">
                      <FlowPane.margin>
                         <Insets left="10.0" right="10.0" />
                      </FlowPane.margin>
                   </TextField>
-                  <TextField fx:id="txtSemestre" editable="false" prefHeight="26.0" prefWidth="54.0" text="1">
+                  <TextField fx:id="txtSemestre" editable="false" prefHeight="26.0" prefWidth="54.0" text="4">
                      <FlowPane.margin>
                         <Insets right="10.0" />
                      </FlowPane.margin>
                   </TextField>
-                  <TextField fx:id="txtCode" prefHeight="26.0" prefWidth="50.0" text="R1.01">
+                  <TextField fx:id="txtCode" prefHeight="26.0" prefWidth="50.0" text="ST4.01">
                      <FlowPane.margin>
                         <Insets right="10.0" />
                      </FlowPane.margin>
                   </TextField>
-                  <TextField fx:id="txtLibelleLong" prefHeight="26.0" prefWidth="200.0" text="Initiation au développement" />
-                  <TextField fx:id="txtLibelleCourt" prefWidth="180.0" text="Init Dev">
+                  <TextField fx:id="txtLibelleLong" prefHeight="26.0" prefWidth="200.0" />
+                  <TextField fx:id="txtLibelleCourt" prefWidth="180.0">
                      <FlowPane.margin>
                         <Insets left="10.0" />
                      </FlowPane.margin>
@@ -114,14 +114,14 @@
    </top>
    <bottom>
       <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.5999755859375" minWidth="10.0" prefWidth="358.79998779296875" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="657.2000122070312" minWidth="10.0" prefWidth="637.2000122070312" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.5999755859375" minWidth="10.0" prefWidth="358.79998779296875" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="657.2000122070312" minWidth="10.0" prefWidth="637.2000122070312" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
@@ -162,44 +162,38 @@
          </left>
          <top>
             <Accordion BorderPane.alignment="CENTER">
-              <panes>
-                <TitledPane animated="false" text="Détails">
+               <panes>
+                  <TitledPane animated="false" text="Détails">
                      <content>
                         <BorderPane>
                            <left>
                               <AnchorPane prefHeight="100.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                                  <children>
                                     <GridPane prefHeight="110.0" prefWidth="250.0" style="-fx-border-color: black; -fx-background-color: white;">
-                                      <columnConstraints>
+                                       <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
                                        <children>
                                           <FlowPane prefHeight="200.0" prefWidth="200.0" />
                                           <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                              <children>
-                                                <Label text="CM" />
+                                                <Label text="HT" />
                                              </children>
                                           </FlowPane>
                                           <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                              <children>
-                                                <Label text="TP" />
+                                                <Label text="REH" />
                                              </children>
                                           </FlowPane>
                                           <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
-                                             <children>
-                                                <Label text="TD" />
-                                             </children>
-                                          </FlowPane>
-                                          <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
                                              <children>
                                                 <Label text="Σ" />
                                              </children>
@@ -229,22 +223,12 @@
                                                 <TextField prefHeight="26.0" prefWidth="35.0" />
                                              </children>
                                           </FlowPane>
-                                          <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                                             <children>
-                                                <TextField prefHeight="26.0" prefWidth="35.0" />
-                                             </children>
-                                          </FlowPane>
                                           <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                              <children>
                                                 <TextField prefHeight="26.0" prefWidth="35.0" />
                                              </children>
                                           </FlowPane>
                                           <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                             <children>
-                                                <TextField prefHeight="26.0" prefWidth="35.0" />
-                                             </children>
-                                          </FlowPane>
-                                          <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                                              <children>
                                                 <TextField prefHeight="26.0" prefWidth="35.0" />
                                              </children>
@@ -268,42 +252,36 @@
                                     <BorderPane prefHeight="150.0" style="-fx-background-color: White;">
                                        <right>
                                           <GridPane prefHeight="150.0" prefWidth="420.0" style="-fx-border-color: black; -fx-border-width: 1px 1px 1px 0px;" BorderPane.alignment="CENTER">
-                                            <columnConstraints>
+                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
                                              <children>
                                                 <GridPane alignment="CENTER" hgap="5.0" vgap="5.0" GridPane.columnIndex="1">
-                                                  <columnConstraints>
+                                                   <columnConstraints>
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                  </columnConstraints>
-                                                  <rowConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                  </rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
                                                    <children>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
-                                                            <Label text="CM" />
+                                                            <Label text="HT" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                                                          <children>
-                                                            <Label text="TD" />
-                                                         </children>
-                                                      </FlowPane>
-                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-                                                         <children>
-                                                            <Label text="TP" />
+                                                            <Label text="REH" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -312,11 +290,6 @@
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                         <children>
-                                                            <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                         </children>
-                                                      </FlowPane>
-                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                                          <children>
                                                             <TextField prefHeight="26.0" prefWidth="35.0" />
                                                          </children>
@@ -331,11 +304,6 @@
                                                             <TextField prefHeight="26.0" prefWidth="35.0" />
                                                          </children>
                                                       </FlowPane>
-                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                                         <children>
-                                                            <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                         </children>
-                                                      </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                                                          <children>
                                                             <TextField prefHeight="26.0" prefWidth="35.0" />
@@ -346,43 +314,38 @@
                                                             <TextField prefHeight="26.0" prefWidth="35.0" />
                                                          </children>
                                                       </FlowPane>
+                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                         <children>
+                                                            <TextField prefHeight="26.0" prefWidth="35.0" />
+                                                         </children>
+                                                      </FlowPane>
+                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                         <children>
+                                                            <TextField prefHeight="26.0" prefWidth="35.0" />
+                                                         </children>
+                                                      </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                                          <children>
                                                             <TextField prefHeight="26.0" prefWidth="35.0" />
                                                          </children>
                                                       </FlowPane>
-                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                                          <children>
-                                                            <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                         </children>
-                                                      </FlowPane>
-                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                                                         <children>
-                                                            <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                         </children>
-                                                      </FlowPane>
-                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                                                         <children>
-                                                            <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                         </children>
-                                                      </FlowPane>
-                                                      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
-                                                         <children>
-                                                            <Label text="HP" />
+                                                            <Label alignment="CENTER" prefHeight="18.0" prefWidth="22.0" text="HP" />
                                                          </children>
                                                       </FlowPane>
                                                    </children>
                                                 </GridPane>
                                                 <GridPane prefHeight="105.0" prefWidth="140.0">
-                                                  <columnConstraints>
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                  </columnConstraints>
-                                                  <rowConstraints>
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   <columnConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                  </rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
                                                    <children>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                                          <children>
@@ -397,15 +360,15 @@
                                                    </children>
                                                 </GridPane>
                                                 <GridPane alignment="CENTER" hgap="5.0" vgap="5.0" GridPane.columnIndex="2">
-                                                  <columnConstraints>
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                  </columnConstraints>
-                                                  <rowConstraints>
+                                                   <columnConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                   </columnConstraints>
+                                                   <rowConstraints>
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                  </rowConstraints>
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                   </rowConstraints>
                                                    <children>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                                                          <children>
@@ -434,14 +397,13 @@
                                        </right>
                                        <left>
                                           <TabPane prefHeight="150.0" prefWidth="275.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-                                            <tabs>
-                                                <Tab text="CM">
+                                             <tabs>
+                                                <Tab text="HT">
                                                    <content>
                                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="121.0" prefWidth="311.0">
                                                          <children>
-                                                            <GridPane prefHeight="77.0" prefWidth="250.0">
+                                                            <GridPane prefHeight="78.0" prefWidth="275.0">
                                                                <columnConstraints>
-                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                                </columnConstraints>
                                                                <rowConstraints>
@@ -449,22 +411,12 @@
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                                </rowConstraints>
                                                                <children>
-                                                                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                                                                  <FlowPane alignment="CENTER" prefHeight="31.0" prefWidth="184.0">
                                                                      <children>
-                                                                        <Label text="Nombre Semaine" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                                  <FlowPane alignment="CENTER" prefHeight="31.0" prefWidth="184.0" GridPane.columnIndex="1">
-                                                                     <children>
-                                                                        <Label text="Nombre heure / semaine" />
+                                                                        <Label text="Nombre heure" />
                                                                      </children>
                                                                   </FlowPane>
                                                                   <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                                                                     <children>
-                                                                        <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                                      <children>
                                                                         <TextField prefHeight="26.0" prefWidth="35.0" />
                                                                      </children>
@@ -475,13 +427,12 @@
                                                       </AnchorPane>
                                                    </content>
                                                 </Tab>
-                                                <Tab text="TD">
+                                                <Tab text="REH">
                                                    <content>
                                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="121.0" prefWidth="311.0">
                                                          <children>
-                                                            <GridPane prefHeight="77.0" prefWidth="250.0">
+                                                            <GridPane prefHeight="78.0" prefWidth="275.0">
                                                                <columnConstraints>
-                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                                </columnConstraints>
                                                                <rowConstraints>
@@ -489,22 +440,12 @@
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                                </rowConstraints>
                                                                <children>
-                                                                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                                                                  <FlowPane alignment="CENTER" prefHeight="31.0" prefWidth="184.0">
                                                                      <children>
-                                                                        <Label text="Nombre Semaine" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                                  <FlowPane alignment="CENTER" prefHeight="31.0" prefWidth="184.0" GridPane.columnIndex="1">
-                                                                     <children>
-                                                                        <Label text="Nombre heure / semaine" />
+                                                                        <Label text="Nombre heure" />
                                                                      </children>
                                                                   </FlowPane>
                                                                   <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                                                                     <children>
-                                                                        <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                                      <children>
                                                                         <TextField prefHeight="26.0" prefWidth="35.0" />
                                                                      </children>
@@ -515,47 +456,7 @@
                                                       </AnchorPane>
                                                    </content>
                                                 </Tab>
-                                                <Tab text="TP">
-                                                   <content>
-                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="121.0" prefWidth="311.0">
-                                                         <children>
-                                                            <GridPane prefHeight="77.0" prefWidth="250.0">
-                                                               <columnConstraints>
-                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                               </columnConstraints>
-                                                               <rowConstraints>
-                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                               </rowConstraints>
-                                                               <children>
-                                                                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
-                                                                     <children>
-                                                                        <Label text="Nombre Semaine" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                                  <FlowPane alignment="CENTER" prefHeight="31.0" prefWidth="184.0" GridPane.columnIndex="1">
-                                                                     <children>
-                                                                        <Label text="Nombre heure / semaine" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                                                                     <children>
-                                                                        <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                                     <children>
-                                                                        <TextField prefHeight="26.0" prefWidth="35.0" />
-                                                                     </children>
-                                                                  </FlowPane>
-                                                               </children>
-                                                            </GridPane>
-                                                         </children>
-                                                      </AnchorPane>
-                                                   </content>
-                                                </Tab>
-                                            </tabs>
+                                             </tabs>
                                           </TabPane>
                                        </left>
                                     </BorderPane>
@@ -570,7 +471,7 @@
                         <Insets />
                      </opaqueInsets>
                   </TitledPane>
-              </panes>
+               </panes>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -590,11 +491,11 @@
                <center>
                   <TableView fx:id="tableau">
                      <columns>
-                        <TableColumn fx:id="tableauIntervenant" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" reorderable="false" text="Intervenant" />
-                        <TableColumn fx:id="tableauType" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" reorderable="false" text="Type" />
-                        <TableColumn fx:id="tableauNbH" maxWidth="95.199951171875" minWidth="50.0" prefWidth="68.7999267578125" reorderable="false" text="Nb H" />
-                        <TableColumn fx:id="tableauTotalEqtd" maxWidth="148.800048828125" minWidth="75.0" prefWidth="104.800048828125" reorderable="false" text="Total Eqtd" />
-                        <TableColumn fx:id="tableauCommentaire" maxWidth="290.4000183105469" minWidth="180.0" prefWidth="216.79995727539062" reorderable="false" text="Commentaire" />
+                        <TableColumn fx:id="tableauIntervenant" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" text="Intervenant" />
+                        <TableColumn fx:id="tableauType" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" text="Type" />
+                        <TableColumn fx:id="tableauNbH" maxWidth="95.199951171875" minWidth="50.0" prefWidth="68.7999267578125" text="Nb H" />
+                        <TableColumn fx:id="tableauTotalEqtd" maxWidth="148.800048828125" minWidth="75.0" prefWidth="104.800048828125" text="Total Eqtd" />
+                        <TableColumn fx:id="tableauCommentaire" maxWidth="290.4000183105469" minWidth="180.0" prefWidth="216.79995727539062" text="Commentaire" />
                      </columns>
                      <opaqueInsets>
                         <Insets />
