@@ -1,7 +1,6 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.metier.objet.*;
-import fr.elpine.astre.metier.objet.SAE;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -60,12 +59,12 @@ public class DB
         String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, statut = ?, service = ?, total = ? WHERE nom = ? AND prenom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,inter.getNom());
-            ps.setString(2,inter.getPrenom());
-            ps.setString(3, inter.getEmail());
-            ps.setString(4,inter.getStatut().getCode());
-            ps.setString(5,Integer.toString(inter.getService()));
-            ps.setString(6,Double.toString(inter.getTotal()));
+            ps.setString(1,                 inter.getNom    ()           );
+            ps.setString(2,                 inter.getPrenom ()           );
+            ps.setString(3,                 inter.getEmail  ()           );
+            ps.setString(4,                 inter.getStatut ().getCode() );
+            ps.setString(5,Integer.toString(inter.getService())          );
+            ps.setString(6,Double .toString(inter.getTotal  ())          );
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -80,8 +79,8 @@ public class DB
         String req = "DELETE FROM Intervenant WHERE nom = ? AND prenom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,inter.getNom());
-            ps.setString(2, inter.getPrenom());
+            ps.setString(1, inter.getNom   () );
+            ps.setString(2, inter.getPrenom() );
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -108,7 +107,7 @@ public class DB
                             rs.getString                     ("mail"    ),
                             selectCatInterByCode(rs.getString("statut") ),
                             rs.getInt                        ("service" ),
-                            rs.getFloat                      ("total")
+                            rs.getFloat                      ("total"   )
                     );
                     resultats.add(categorie);
                 }
@@ -120,67 +119,6 @@ public class DB
 
         // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
-    }
-
-
-
-
-
-    public void ajouterRessource(Ressource res)
-    {
-        String req = "INSERT INTO Ressource VALUES (?,?,?,?,?,?,?)";
-        try
-        {
-            ps = co.prepareStatement( req );
-            ps.setString(1,res.getNom            ());
-            ps.setString(2,res.getCode           ());
-            ps.setString(3,res.getCommentaire    ());
-            ps.setInt   (4,res.getNbHeurePn      ());
-            ps.setInt   (5,res.getNbHeurePnCours ());
-            //ps.setString(6,res.getHeureSemestre()); //TODO:A Compléter !!!!!
-            //ps.setInt   (7,res.getNbHeuretl());
-            ps.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-    }
-
-    public void ajouterStage(Stage stage)
-    {
-        String req = "INSERT INTO Stage VALUES (?,?,?,?,?,?)";
-        try
-        {
-            ps = co.prepareStatement( req );
-            ps.setString (1, stage.getNom        () );
-            ps.setString (2, stage.getCode       () );
-            ps.setString (3, stage.getCommentaire() );
-            ps.setInt    (4,stage.getNbHeureREH  () );
-            ps.setInt    (5,stage.getNbHeureTut  () );
-            ps.setInt    (6,stage.getNbHeure     () );
-            ps.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-
-        }
-    }
-
-    public void ajouterCategorieHeure(CategorieHeure categorieHeure)
-    {
-        String req = "INSERT INTO CategorieHeure VALUES (?,?)";
-        try
-        {
-            ps = co.prepareStatement( req );
-            ps.setString (1, categorieHeure.getNom          () );
-            ps.setDouble (2, categorieHeure.getEquivalentTD () );
-            ps.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-
-        }
     }
 
 
@@ -303,9 +241,28 @@ public class DB
         return null;
     }
 
+    /*-------------------*/
+    /*  Categorie Heure  */
+    /*-------------------*/
 
-    //TODO:A changer après la refonte de la base de données
+    //TODO:A faire après la mise a jour de la BADO
     /*
+    public void ajouterCategorieHeure(CategorieHeure categorieHeure)
+    {
+        String req = "INSERT INTO CategorieHeure VALUES (?,?)";
+        try
+        {
+            ps = co.prepareStatement( req );
+            ps.setString (1, categorieHeure.getNom          () );
+            ps.setDouble (2, categorieHeure.getEquivalentTD () );
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+
+        }
+    }
+
     public ArrayList<CategorieHeure> getCategorieHeure()
     {
         ArrayList<CategorieHeure> resultats = new ArrayList<>();
@@ -332,25 +289,4 @@ public class DB
         return resultats;
     }
     */
-
-    public void ajouterSAE(SAE sae)
-    {
-        String req = "INSERT INTO SAE VALUES (?,?,?,?,?,?)";
-        try
-        {
-            ps = co.prepareStatement( req );
-            ps.setString(1,sae.getNom()          );
-            ps.setString(2,sae.getCode()         );
-            ps.setString(3,sae.getCommentaire()  );
-            ps.setInt   (4,sae.getNbHeurePnSem() );
-            ps.setInt   (5,sae.getNbHeureTut()   );
-            ps.setInt   (6,sae.getNbHeure()      );
-            ps.executeUpdate();
-
-        }
-        catch (SQLException e)
-        {
-            System.out.println(e);
-        }
-    }
 }
