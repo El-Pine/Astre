@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAccueilConfig">
+   <bottom>
+      <ToolBar BorderPane.alignment="CENTER_LEFT">
+        <items>
+          <Button fx:id="btnConfigBd" mnemonicParsing="false" text="Configurer la base de données" />
+            <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="100.0" text="Ajouter" />
+            <Button fx:id="btnSupprimer" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="100.0" text="Supprimer" />
+        </items>
+      </ToolBar>
+   </bottom>
+   <center>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TableView prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="56.20001220703125" text="Code" />
+                <TableColumn prefWidth="81.39999389648438" text="Nom" />
+                  <TableColumn prefWidth="51.39996337890625" text="H Max" />
+                  <TableColumn prefWidth="59.5999755859375" text="H Service" />
+                  <TableColumn prefWidth="48.79998779296875" text="Ratio" />
+              </columns>
+            </TableView>
+            <TableView GridPane.columnIndex="1">
+              <columns>
+                <TableColumn prefWidth="81.20001220703125" text="Nom" />
+                <TableColumn prefWidth="41.0" text="Eqtd" />
+                  <TableColumn prefWidth="66.4000244140625" text="Ressources" />
+                  <TableColumn prefWidth="33.0" text="SAE" />
+                  <TableColumn prefWidth="32.20001220703125" text="PPP" />
+                  <TableColumn prefWidth="40.4000244140625" text="Stage" />
+              </columns>
+            </TableView>
+         </children>
+      </GridPane>
+   </center>
+   <top>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Intervenants">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Heures" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+      </GridPane>
+   </top>
+</BorderPane>

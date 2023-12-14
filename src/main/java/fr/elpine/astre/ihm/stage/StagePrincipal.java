@@ -31,8 +31,9 @@ public class StagePrincipal
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
-	protected void onBtnClickParametre() {
-		// A FAIRE
+	protected void onBtnClickParametre() throws IOException {
+		stage.close();
+		StageAccueilConfig.creer().show();
 	}
 
 	@FXML
