@@ -14,10 +14,7 @@ public class RessourceSql
     private PreparedStatement ps;
 
 
-    public RessourceSql(Controleur ctrl)
-    {
-        this.db = ctrl.getDb();
-    }
+    public RessourceSql(Controleur ctrl) { this.db = ctrl.getDb(); }
 
 
     public void ajoutRessource(Ressource ressource)
