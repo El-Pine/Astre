@@ -57,6 +57,7 @@ public class StageIntervenant
 	@FXML
 	protected void onBtnClickAjouter() throws IOException
 	{
+		stage.close();
 		StageAjoutIntervenant.creer().show();
 	}
 
