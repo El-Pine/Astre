@@ -21,6 +21,7 @@ public class Astre
         ctrl.getDb().ajouterIntervenant(intervenant);
     }
 
+    /*
     public void ajouterRessource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretl)
     {
         Ressource ressource = new Ressource(nom,code, commentaire, nbHeurePn, nbHeurePnCours, heureSemestre, nbHeuretl);
@@ -48,4 +49,5 @@ public class Astre
 
         ctrl.getDb().ajouterCategorieIntervenant(catInter);
     }
+    */
 }
