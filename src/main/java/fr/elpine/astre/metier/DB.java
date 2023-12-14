@@ -1,6 +1,7 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.metier.objet.*;
+import fr.elpine.astre.metier.objet.Module;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,6 +26,80 @@ public class DB
             System.out.println("connection ok");
         } catch (ClassNotFoundException | SQLException e){
             System.out.println(e);
+        }
+    }
+
+    /*-----------------*/
+    /*     Module      */
+    /*-----------------*/
+
+    public void ajouterModule(Module module)
+    {
+        String req = "INSERT INTO Module VALUES(?,?,?,?,?)";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString  (1,module.getCode        ());
+            ps.setString  (2,module.getNom         ());
+            ps.setString  (3,module.getAbreviation ());
+            ps.setString  (4,module.getTypeModule  ());
+            ps.setBoolean (5,module.estValide      ());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void majModule(Module module)
+    {
+        String req = "UPDATE Module SET code = ?, nom = ?, abreviation = ?, typeModule = ?, validation = ? WHERE code = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString  (1,module.getCode        ());
+            ps.setString  (2,module.getNom         ());
+            ps.setString  (3,module.getAbreviation ());
+            ps.setString  (4,module.getTypeModule  ());
+            ps.setBoolean (5,module.estValide      ());
+            ps.setString  (6,module.getCode        ());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void supprimerModule(Module module)
+    {
+        String req = "DELETE FORM Module WHERE code = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,module.getCode());
+            ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Module> getAllModule()
+    {
+        String req = "SELECT * FROM Module";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            try(ResultSet rs = ps.executeQuery())
+            {
+                while(rs.next())
+                {
+                    Module mod = new Module(rs.getString ("nom"        ),
+                                            rs.getString ("code"       ),
+                                            rs.getString ("abreviation"),
+                                            rs.getString ("typeModule" ),
+                                            rs.getBoolean("validation" ));
+                }
+            }
         }
     }
 
