@@ -22,7 +22,7 @@ public class CategorieHeureSQL
 		return null;
 	}
 
-	public ArrayList<CategorieHeure> getCatHeure() {
+	public ArrayList<CategorieHeure> getCatHeures() {
 		return null;
 	}
 }
