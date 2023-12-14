@@ -16,7 +16,7 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#btnValider" text="Valider" />
+          <Button mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#btnAnnuler" text="Annuler" />
         </buttons>
          <BorderPane.margin>
