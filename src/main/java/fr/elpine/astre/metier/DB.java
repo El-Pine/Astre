@@ -1,5 +1,6 @@
 package fr.elpine.astre.metier;
 
+import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 
@@ -23,9 +24,9 @@ public class DB
              * Donc la BdD est accessible sur localhost:5432
              *
              * */
-            System.out.println("connection ok");
+            Controleur.lancementInterface(0);
         } catch (ClassNotFoundException | SQLException e){
-            System.out.println(e);
+            Controleur.lancementInterface(1);
         }
     }
 

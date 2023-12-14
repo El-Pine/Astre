@@ -8,7 +8,7 @@
    <bottom>
       <ToolBar BorderPane.alignment="CENTER_LEFT">
         <items>
-          <Button fx:id="btnConfigBd" mnemonicParsing="false" text="Configurer la base de données" />
+          <Button fx:id="btnConfigBd" mnemonicParsing="false" onAction="#onBtnConfigBdd" text="Configurer la base de données" />
             <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="100.0" text="Ajouter" />
             <Button fx:id="btnSupprimer" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="100.0" text="Supprimer" />
         </items>

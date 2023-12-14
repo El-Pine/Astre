@@ -10,7 +10,7 @@ import java.io.IOException;
 public class StageAjouterCategories
 {
     private Stage stage;
-    private static StageAccueilConfig parent;
+    static StageAccueilConfig parent;
 
     public static Stage creer( StageAccueilConfig parent ) throws IOException
     {

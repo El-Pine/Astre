@@ -35,6 +35,11 @@ public class StageAccueilConfig
 
     private void setStage(Stage stage) { this.stage = stage; }
 
+    public void onBtnConfigBdd(ActionEvent actionEvent) throws IOException {
+        desactiver();
+        StageInitBd.creer( this ).show();
+    }
+
     public void onBtnAjouter(ActionEvent actionEvent) throws IOException {
         desactiver();
         StageAjouterCategories.creer( this ).show();
@@ -47,8 +52,7 @@ public class StageAccueilConfig
         this.stage.getScene().lookup("#btnSupprimer").setDisable(true);
     }
 
-    public void activer()
-    {
+    public void activer() {
         this.stage.getScene().lookup("#btnConfigBd").setDisable(false);
         this.stage.getScene().lookup("#btnAjouter").setDisable(false);
         this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
