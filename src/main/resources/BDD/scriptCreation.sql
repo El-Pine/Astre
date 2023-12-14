@@ -104,7 +104,7 @@ CREATE TABLE AffectationRessource (
     nbGroupe INT,
     nbSemaine INT,
     nbHeure INT,
-    commentaire LONGTEXT,
+    commentaire TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
 	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
@@ -120,7 +120,7 @@ CREATE TABLE AffectationSAE (
 
     typeHeure VARCHAR(255),
     nbHeure INT,
-    commentaire LONGTEXT,
+    commentaire TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
 	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
@@ -136,7 +136,7 @@ CREATE TABLE AffectationStage (
 
     typeHeure VARCHAR(255),
     nbHeure INT,
-    commentaire LONGTEXT,
+    commentaire TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
 	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
@@ -152,7 +152,7 @@ CREATE TABLE AffectationPPP (
 
     typeHeure VARCHAR(255),
     nbHeure INT,
-    commentaire LONGTEXT,
+    commentaire TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
 	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
