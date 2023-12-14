@@ -29,6 +29,12 @@ public class DB
         }
     }
 
+
+    /*-----------------*/
+    /*   Intervenant   */
+    /*-----------------*/
+
+    //Méthode d'insert
     public void ajouterIntervenant(Intervenant inter)
     {
         String req = "INSERT INTO Intervenant VALUES(?,?,?,?,?)";
@@ -47,6 +53,78 @@ public class DB
             System.out.println(e);
         }
     }
+
+    //Méthode d'update
+    public void majIntervenant(Intervenant inter)
+    {
+        String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, statut = ?, service = ?, total = ? WHERE nom = ? AND prenom = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,inter.getNom());
+            ps.setString(2,inter.getPrenom());
+            ps.setString(3, inter.getEmail());
+            ps.setString(4,inter.getStatut().getCode());
+            ps.setString(5,Integer.toString(inter.getService()));
+            ps.setString(6,Double.toString(inter.getTotal()));
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Méthode delete
+    public void supprimerIntervenant(Intervenant inter)
+    {
+        String req = "DELETE FROM Intervenant WHERE nom = ? AND prenom = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,inter.getNom());
+            ps.setString(2, inter.getPrenom());
+            ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Méthode select *
+    public ArrayList<Intervenant> getAllIntervenant()
+    {
+        ArrayList<Intervenant> resultats = new ArrayList<>();
+        String req = "SELECT * FROM Intervenant";
+
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            try (ResultSet rs = ps.executeQuery())
+            {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    Intervenant categorie = new Intervenant(
+                            rs.getString                     ("nom"     ),
+                            rs.getString                     ("prenom"  ),
+                            rs.getString                     ("mail"    ),
+                            selectCatInterByCode(rs.getString("statut") ),
+                            rs.getInt                        ("service" ),
+                            rs.getFloat                      ("total")
+                    );
+                    resultats.add(categorie);
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+
+        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
+        return resultats;
+    }
+
+
+
+
 
     public void ajouterRessource(Ressource res)
     {
@@ -198,6 +276,32 @@ public class DB
         }
     }
 
+    public CategorieIntervenant selectCatInterByCode(String code)
+    {
+        String req = "SELECT * FROM CategorieIntervenant WHERE code = ?";
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,code);
+            try (ResultSet rs = ps.executeQuery())
+            {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    CategorieIntervenant categorie = new CategorieIntervenant(
+                            rs.getString ("code"                ),
+                            rs.getString ("nom"                 ),
+                            rs.getInt    ("NbHeureMaxDefaut"    ),
+                            rs.getInt    ("nbHeureServiceDefaut"),
+                            rs.getDouble ("ratioTPDefaut"       )
+                    );
+                    return categorie;
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
     //TODO:A changer après la refonte de la base de données
