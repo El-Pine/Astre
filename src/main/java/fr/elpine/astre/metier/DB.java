@@ -207,6 +207,92 @@ public class DB
         return resultats;
     }
 
+    /*--------------*/
+    /*   SEMESTRE   */
+    /*--------------*/
+
+    public void ajouterSemestre(Semestre semestre)
+    {
+        String req = "INSERT INTO Semestre VALUES (?,?,?,?,?)";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setInt(1,semestre.getNumero   ());
+            ps.setInt(2,semestre.getNbGrpTD  ());
+            ps.setInt(3,semestre.getNbGrpTP  ());
+            ps.setInt(4,semestre.getNbEtd    ());
+            ps.setInt(5,semestre.getNbSemaine());
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void majSemestre(Semestre semestre)
+    {
+        String req = "UPDATE Semestre SET numero = ?, nbGrpTD = ?, nbGrpTP = ?, nbEtd = ?, nbSemaine = ? WHERE numero = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setInt(1,semestre.getNumero   () );
+            ps.setInt(2,semestre.getNbGrpTD  () );
+            ps.setInt(3,semestre.getNbGrpTP  () );
+            ps.setInt(4,semestre.getNbEtd    () );
+            ps.setInt(5,semestre.getNbSemaine() );
+            ps.setInt(6,semestre.getNbSemaine() );
+            ps.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void supprimerSemestre(Semestre semestre)
+    {
+        String req = "DELETE FROM Semestre WHERE numero = ? AND annee = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setInt   (1,semestre.getNumero()          );
+            ps.setString(2,semestre.getAnnee ().getNom() );
+            ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Semestre> getAllSemestre()
+    {
+        ArrayList<Semestre> ensSemestre = new ArrayList<>();
+        String req                      = "SELECT * FROM Semestre";
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            try (ResultSet rs = ps.executeQuery())
+            {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    Semestre semestre = new Semestre(
+                            rs.getInt                      ("numero"    ),
+                            rs.getInt                      ("nbGrpTD"   ),
+                            rs.getInt                      ("nbGrpTP"   ),
+                            rs.getInt                      ("nbEtd"     ),
+                            rs.getInt                      ("nbSemaine" ),
+                            getAnneeByNumero((rs.getString ("annee"     ))
+                            ));
+                    ensSemestre.add(semestre);
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+        return ensSemestre;
+    }
+
+
+
 
     /*-------------------------*/
     /*  Catégorie Intervenant  */
@@ -331,6 +417,7 @@ public class DB
     /*  Categorie Heure  */
     /*-------------------*/
 
+    //Méthode insert
     public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
         String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?)";
@@ -351,6 +438,7 @@ public class DB
         }
     }
 
+    //Méthode update
     public void majCategorieHeure(CategorieHeure catHr)
     {
         String req = "UPDATE CategorieHeure SET nom = ?,eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ? WHERE nom = ?";
@@ -371,6 +459,7 @@ public class DB
         }
     }
 
+    //Méthode delete
     public void supprimerCategorieHeure(CategorieHeure catHr)
     {
         String req = "DELETE FROM CategorieHeure WHERE nom = ?";
@@ -385,6 +474,7 @@ public class DB
         }
     }
 
+    //Méthode select *
     public ArrayList<CategorieHeure> getAllCategorieHeure()
     {
         ArrayList<CategorieHeure> resultats = new ArrayList<>();

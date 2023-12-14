@@ -7,17 +7,38 @@ import java.util.HashMap;
 
 public class Semestre {
 
-    private int numero;
-    private int nbHeureTotPlacer;
+    private int numero   ;
+    private int nbGrpTD  ;
+    private int nbGrpTP  ;
+    private int nbEtd    ;
+    private int nbSemaine;
+    private Annee annee;
 
-    public Semestre (int numero, int nbHeureTotPlacer)
-    {
-        this.numero           = numero;
-        this.nbHeureTotPlacer = nbHeureTotPlacer;
+
+    public Semestre(int numero, int nbGrpTD, int nbGrpTP, int nbEtd, int nbSemaine,String annee) {
+        this.numero    = numero;
+        this.nbGrpTD   = nbGrpTD;
+        this.nbGrpTP   = nbGrpTP;
+        this.nbEtd     = nbEtd;
+        this.nbSemaine = nbSemaine;
+        this.annee     = annee;
     }
-    public int getNumero           () { return numero;           }
-    public int getNbHeureTotPlacer () { return nbHeureTotPlacer; }
 
-    public void setNumero          ( int numero          ) { this.numero = numero;                     }
-    public void setNbHeureTotPlacer( int nbHeureTotPlacer) { this.nbHeureTotPlacer = nbHeureTotPlacer; }
+    /* GETTER */
+
+    public int   getNumero   () { return numero;    }
+    public int   getNbGrpTD  () { return nbGrpTD;   }
+    public int   getNbGrpTP  () { return nbGrpTP;   }
+    public int   getNbEtd    () { return nbEtd;     }
+    public int   getNbSemaine() { return nbSemaine; }
+    public Annee getAnnee    () { return annee;     }
+
+    /* SETTER */
+
+    public void setNumero   (int numero   ) { this.numero    = numero;    }
+    public void setNbGrpTD  (int nbGrpTD  ) { this.nbGrpTD   = nbGrpTD;   }
+    public void setNbGrpTP  (int nbGrpTP  ) { this.nbGrpTP   = nbGrpTP;   }
+    public void setNbEtd    (int nbEtd    ) { this.nbEtd     = nbEtd;     }
+    public void setNbSemaine(int nbSemaine) { this.nbSemaine = nbSemaine; }
+    public void setAnnee    (Annee annee  ) { this.annee = annee;         }
 }
