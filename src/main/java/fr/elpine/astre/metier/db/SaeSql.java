@@ -11,9 +11,11 @@ import java.util.ArrayList;
 
 public class SaeSql
 {
-    private DB db = Controleur.get().getDb();
+    private DB db;
     private Connection co;
     private PreparedStatement ps;
+
+    public SaeSql(Controleur ctrl) { this.db = ctrl.getDb(); }
 
 
     public void ajoutSae(SAE sae)
