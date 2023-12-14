@@ -211,6 +211,7 @@ public class DB
     /*   SEMESTRE   */
     /*--------------*/
 
+    //Méthode insert
     public void ajouterSemestre(Semestre semestre)
     {
         String req = "INSERT INTO Semestre VALUES (?,?,?,?,?)";
@@ -229,6 +230,7 @@ public class DB
         }
     }
 
+    //Méthode d'update
     public void majSemestre(Semestre semestre)
     {
         String req = "UPDATE Semestre SET numero = ?, nbGrpTD = ?, nbGrpTP = ?, nbEtd = ?, nbSemaine = ? WHERE numero = ?";
@@ -248,13 +250,14 @@ public class DB
         }
     }
 
+    //Méthode delete
     public void supprimerSemestre(Semestre semestre)
     {
         String req = "DELETE FROM Semestre WHERE numero = ? AND annee = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setInt   (1,semestre.getNumero()          );
-            ps.setString(2,semestre.getAnnee ().getNom() );
+            ps.setString(2,semestre.getAnnee ().getNumero() );
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -263,6 +266,7 @@ public class DB
         }
     }
 
+    //Méthode select *
     public ArrayList<Semestre> getAllSemestre()
     {
         ArrayList<Semestre> ensSemestre = new ArrayList<>();
@@ -291,6 +295,92 @@ public class DB
         return ensSemestre;
     }
 
+    /*-----------*/
+    /*   Annee   */
+    /*-----------*/
+
+    // Méthode insert
+    public void ajouterAnnee(Annee annee) {
+        String req = "INSERT INTO Annee VALUES (?,?,?)";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            ps.setString(1, annee.getNumero());
+            ps.setString(2, annee.getDateDeb());
+            ps.setString(3, annee.getDateFin());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Méthode d'update
+    public void majAnnee(Annee annee) {
+        String req = "UPDATE Annee SET numero = ?, dateDeb = ?, dateFin = ? WHERE numero = ?";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            ps.setString(1, annee.getNumero());
+            ps.setString(2, annee.getDateDeb());
+            ps.setString(3, annee.getDateFin());
+            ps.setString(4, annee.getNumero());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Méthode delete
+    public void supprimerAnnee(Annee annee) {
+        String req = "DELETE FROM Annee WHERE numero = ?";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            ps.setString(1, annee.getNumero());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Annee> getAllAnnee() {
+        ArrayList<Annee> ensAnnee = new ArrayList<>();
+        String req = "SELECT * FROM Annee";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    Annee annee = new Annee(
+                            rs.getString("numero"),
+                            rs.getString("dateDeb"),
+                            rs.getString("dateFin")
+                    );
+                    ensAnnee.add(annee);
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+        return ensAnnee;
+    }
+
+    public Annee getAnneeByNumero(String numero)
+    {
+        String req = "SELECT * FROM Annee WHERE numero = ?";
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            ps.setString(1, numero);
+            try (ResultSet rs = ps.executeQuery()) {
+                // Traiter les résultats du ResultSet
+                while (rs.next()) {
+                    Annee annee = new Annee(
+                            rs.getString("numero"),
+                            rs.getString("dateDeb"),
+                            rs.getString("dateFin")
+                    );
+                    return annee;
+                }
+            }
+        } catch (SQLException e) {
+            // Gérer l'exception (journalisation, affichage, etc.)
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 
 
@@ -412,7 +502,7 @@ public class DB
         }
         return null;
     }
-
+    
     /*-------------------*/
     /*  Categorie Heure  */
     /*-------------------*/
