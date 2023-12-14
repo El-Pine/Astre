@@ -2,18 +2,18 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.Ippp;
 import fr.elpine.astre.metier.objet.PPP;
 
 import java.sql.*;
 import java.util.List;
 
-public class PppSql implements Ippp
+public class PppSql
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
-    
+
+
     public void ajoutPPP(PPP ppp)
     {
         String req = "INSERT INTO PPP VALUES (?,?,?,?,?,?)";
@@ -34,7 +34,6 @@ public class PppSql implements Ippp
         {}
     }
 
-    @Override
     public void majPPP(PPP ppp)
     {
         String req = "UPDATE PPP SET code = ?,nom = ?,commentaire = ?, nb_heure_sem = ?, semestre = ?, nb_heure_tl = ?, nb_grp = ?,nb_semaine = ? WHERE code == ?";
@@ -54,7 +53,6 @@ public class PppSql implements Ippp
         catch(SQLException e) {}
     }
 
-    @Override
     public void supprPPP(String code)
     {
         String req = "DELETE FROM PPP WHERE code = ?";
@@ -81,7 +79,6 @@ public class PppSql implements Ippp
         return null;
     }
 
-    @Override
     public List<PPP> getPPPs()
     {
         String req = "SELECT * FROM PPP";

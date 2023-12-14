@@ -2,7 +2,6 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.Isae;
 import fr.elpine.astre.metier.objet.SAE;
 
 import java.sql.Connection;
@@ -10,11 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SaeSql implements Isae
+public class SaeSql
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
+
+
     public void ajoutSAE(SAE SAE)
     {
         String req = "INSERT INTO SAE VALUES (?,?,?,?,?,?)";
@@ -33,7 +34,6 @@ public class SaeSql implements Isae
         {}
     }
 
-    @Override
     public void majSAE(SAE SAE)
     {
         String req = "UPDATE SAE SET code = ?,nom = ?,commentaire = ?, nb_heure_pn_sem = ?, nb_heure_tut = ?, nb_heure = ? WHERE code == ?";
@@ -51,7 +51,6 @@ public class SaeSql implements Isae
         catch(SQLException e) {}
     }
 
-    @Override
     public void supprSAE(String code)
     {
         String req = "DELETE FROM SAE WHERE code = ?";
@@ -64,7 +63,6 @@ public class SaeSql implements Isae
         catch (SQLException e){}
     }
 
-    @Override
     public SAE getSAEbyCode(String code)
     {
         String req = "SELECT * FROM SAE WHERE code = ?";
@@ -79,7 +77,6 @@ public class SaeSql implements Isae
         return null;
     }
 
-    @Override
     public List<SAE> getSAE()
     {
         String req = "SELECT * FROM SAE";

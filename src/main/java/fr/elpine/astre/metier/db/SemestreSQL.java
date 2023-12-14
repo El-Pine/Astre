@@ -2,7 +2,6 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.ISemestre;
 import fr.elpine.astre.metier.objet.Semestre;
 
 import java.sql.Connection;
@@ -11,11 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SemestreSQL implements ISemestre
+public class SemestreSQL
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
+
+
     public void ajoutSemestre(Semestre semestre)
     {
         String req = "INSERT INTO Semestre VALUES (?,?)";
@@ -30,20 +31,19 @@ public class SemestreSQL implements ISemestre
         {}
     }
 
-    @Override
-    public void majSemestre(Semestre Semestre)
+    public void majSemestre(Semestre semestre)
     {
         String req = "UPDATE Semestre SET numero = ?, nb_heure_tot_placer = ?";
         try
         {
             ps = co.prepareStatement(req);
-            ps.setInt(1,Semestre.getNumero           () );
-            ps.setInt(2,Semestre.getNbHeureTotPlacer () );
+            ps.setInt(1,semestre.getNumero           () );
+            ps.setInt(2,semestre.getNbHeureTotPlacer () );
             ps.executeUpdate();
         }
         catch(SQLException e) {}
     }
-    @Override
+
     public void supprSemestre(String code)
     {
         String req = "DELETE FROM Semestre WHERE numero = ?";
@@ -56,7 +56,6 @@ public class SemestreSQL implements ISemestre
         catch (SQLException e){}
     }
 
-    @Override
     public Semestre getSemestreByNumero(int numero)
     {
         String req = "SELECT * FROM Semestre WHERE numero = ?";

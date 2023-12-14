@@ -2,21 +2,31 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.IModule;
 import fr.elpine.astre.metier.objet.Module;
 
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ModuleSql implements IModule {
+public class ModuleSql {
 
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
 
 
-    @Override
+    public void ajoutModule(Module module) {
+
+    }
+
+    public void majModule(Module module) {
+
+    }
+
+    public void supprModule(String code) {
+
+    }
+
     public ArrayList<Module> getModules()
     {
         ArrayList<Module> ensModule = new ArrayList<>();

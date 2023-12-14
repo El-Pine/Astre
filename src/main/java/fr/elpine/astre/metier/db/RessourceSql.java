@@ -2,18 +2,17 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.IRessource;
 import fr.elpine.astre.metier.objet.Ressource;
 
 import java.sql.*;
 import java.util.List;
-public class RessourceSql implements IRessource
+public class RessourceSql
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
 
-    @Override
+
     public void ajoutRessource(Ressource ressource)
     {
         String req = "INSERT INTO Ressource VALUES (?,?,?,?,?,?,?,?)";
@@ -34,7 +33,6 @@ public class RessourceSql implements IRessource
         {}
     }
 
-    @Override
     public void majRessource(Ressource ressource)
     {
         String req = "UPDATE Ressource SET code = ?,nom = ?,commentaire = ?, nb_heure_sem = ?, semestre = ?, nb_heure_tl = ?, nb_grp = ?,nb_semaine = ? WHERE code == ?";
@@ -55,7 +53,6 @@ public class RessourceSql implements IRessource
         catch(SQLException e) {}
     }
 
-    @Override
     public void supprRessource(String code)
     {
         String req = "DELETE FROM Ressource WHERE code = ?";
@@ -68,7 +65,6 @@ public class RessourceSql implements IRessource
         catch (SQLException e){}
     }
 
-    @Override
     public Ressource getRessourcebyCode(String code)
     {
         String req = "SELECT * FROM Ressource WHERE code = ?";
@@ -83,7 +79,6 @@ public class RessourceSql implements IRessource
         return null;
     }
 
-    @Override
     public List<Ressource> getRessource()
     {
         String req = "SELECT * FROM Ressource";
