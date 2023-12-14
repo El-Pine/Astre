@@ -2,7 +2,6 @@ package fr.elpine.astre.metier.db;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.interfaces.IStage;
 import fr.elpine.astre.metier.objet.Stage;
 
 import java.sql.Connection;
@@ -10,11 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class StageSQL implements IStage
+public class StageSQL
 {
     private DB db = Controleur.get().getDb();
     private Connection co;
     private PreparedStatement ps;
+
 
     public void ajoutStage(Stage Stage)
     {
@@ -34,7 +34,6 @@ public class StageSQL implements IStage
         {}
     }
 
-    @Override
     public void majStage(Stage Stage)
     {
         String req = "UPDATE Stage SET code = ?,nom = ?,commentaire = ?, nb_heure_pn_sem = ?, nb_heure_tl = ?,nb_semaine = ? WHERE code == ?";
@@ -52,7 +51,6 @@ public class StageSQL implements IStage
         catch(SQLException e) {}
     }
 
-    @Override
     public void supprStage(String code)
     {
         String req = "DELETE FROM Stage WHERE code = ?";
@@ -65,7 +63,6 @@ public class StageSQL implements IStage
         catch (SQLException e){}
     }
 
-    @Override
     public Stage getStagebyCode(String code)
     {
         String req = "SELECT * FROM Stage WHERE code = ?";
@@ -80,7 +77,6 @@ public class StageSQL implements IStage
         return null;
     }
 
-    @Override
     public List<Stage> getStage()
     {
         String req = "SELECT * FROM Stage";
