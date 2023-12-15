@@ -2,6 +2,7 @@ module fr.elpine.astre {
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires java.sql;
+	requires org.postgresql.jdbc;
 
 	exports fr.elpine.astre;
 	exports fr.elpine.astre.ihm;
