@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="570.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="134.39998779296874" minHeight="10.0" prefHeight="134.39998779296874" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="259.39996948242185" minHeight="10.0" prefHeight="220.00001220703123" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="132.2000183105469" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" text="Intervenant : " />
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <ComboBox prefWidth="150.0" />
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Commentaire : " />
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <TextField prefHeight="26.0" prefWidth="241.0" />
+               </children>
+            </FlowPane>
+         </children>
+      </GridPane>
+      <GridPane GridPane.rowIndex="1">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="79.79997940063477" minHeight="10.0" prefHeight="50.39997787475586" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="117.99997940063477" minHeight="10.0" prefHeight="109.60002212524414" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label text="Choisir répartition des heures :">
+                     <FlowPane.margin>
+                        <Insets right="40.0" />
+                     </FlowPane.margin>
+                  </Label>
+                  <RadioButton mnemonicParsing="false" text="HP">
+                     <FlowPane.margin>
+                        <Insets right="30.0" />
+                     </FlowPane.margin>
+                  </RadioButton>
+                  <RadioButton mnemonicParsing="false" text="Autre types heure" />
+               </children>
+            </FlowPane>
+            <GridPane style="-fx-border-style: solid;" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Nb Heure : " />
+                        <TextField prefHeight="26.0" prefWidth="71.0" />
+                     </children>
+                  </FlowPane>
+                  <GridPane style="-fx-border-style: solid;" GridPane.columnIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.4000244140625" minWidth="10.0" prefWidth="110.60003662109376" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.20001220703125" minWidth="10.0" prefWidth="187.39996337890625" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Nb Semaine : " />
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                           <children>
+                              <Label text="Nb Gp : " />
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <children>
+                              <TextField prefHeight="26.0" prefWidth="50.0" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <children>
+                              <TextField prefWidth="50.0" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label text="Catégorie Heure : " />
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <ComboBox prefWidth="150.0" />
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <children>
+            <Button mnemonicParsing="false" prefWidth="60.0" text="Ajouter">
+               <FlowPane.margin>
+                  <Insets right="30.0" />
+               </FlowPane.margin>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" prefWidth="60.0" text="Annuler" />
+         </children>
+      </FlowPane>
+   </children>
+</GridPane>
