@@ -3,6 +3,8 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,9 +58,11 @@ public class StageAjoutIntervenant
 
     public void setCpbContrat()
     {
-        for (CategorieIntervenant catInter : Controleur.get().getDb().getAllCategorieIntervenant())
-            cpbContrat.setValue(catInter);
+        ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getDb().getAllCategorieIntervenant());
+        cpbContrat.setItems(enscatInter);
     }
+
+
 
     public void onBtnValider(ActionEvent actionEvent)
     {

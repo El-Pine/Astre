@@ -36,4 +36,9 @@ public class CategorieIntervenant //Statut
     public void setService      ( int service          ) { this.service      = service      ;}
     public void setRatioTd      ( double ratioTd       ) { this.ratioTd      = ratioTd      ;}
 
+    public String toString()
+    {
+        return this.getNom();
+    }
+
 }

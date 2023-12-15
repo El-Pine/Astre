@@ -1,15 +1,33 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.objet.CategorieIntervenant;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class StageAccueilConfig
 {
     private Stage stage;
+    @FXML
+    private TableColumn tcCode;
+    @FXML
+    private TableColumn tcNom;
+    @FXML
+    private TableColumn tcHMax;
+    @FXML
+    private TableColumn tcHServ;
+
 
     public static Stage creer() throws IOException
     {
@@ -24,6 +42,7 @@ public class StageAccueilConfig
 
         stage.setTitle("Accueil Config");
         stage.setScene(scene);
+        stageCtrl.majTableauCatInter();
 
         stage.setOnCloseRequest(e -> {
             // perform actions before closing
@@ -31,6 +50,14 @@ public class StageAccueilConfig
         });
 
         return stage;
+    }
+
+    private void majTableauCatInter()
+    {
+
+        ArrayList<CategorieIntervenant> ensCatInter = Controleur.get().getDb().getAllCategorieIntervenant();
+
+
     }
 
     private void setStage(Stage stage) { this.stage = stage; }
@@ -57,4 +84,6 @@ public class StageAccueilConfig
         this.stage.getScene().lookup("#btnAjouter").setDisable(false);
         this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
     }
+
+
 }
