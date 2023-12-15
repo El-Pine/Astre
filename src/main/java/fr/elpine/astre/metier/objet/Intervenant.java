@@ -11,10 +11,12 @@ public class Intervenant
     private ArrayList<Semestre>  alSemestre;
     private int                  service;
     private double               total;
+    private int                  id;
 
 
     public Intervenant(String nom, String prenom, String email,CategorieIntervenant statut, int service, double total)
     {
+        this.id     = id;
         this.nom        = nom;
         this.prenom     = prenom;
         this.email      = email;
@@ -25,8 +27,7 @@ public class Intervenant
     }
 
     /*   GETTER    */
-
-
+    public int      getId                     () { return id       ;}
     public String    getNom                    () { return nom      ;}
     public String    getPrenom                 () { return prenom   ;}
     public String    getEmail                  () { return email    ;}
@@ -37,6 +38,7 @@ public class Intervenant
 
     /*   SETTER   */
 
+    public int     setId     (int id                  ) { return this.id = id     ;}
     public void setNom     (String nom                 ) { this.nom = nom           ;}
     public void setPrenom  (String prenom              ) { this.prenom = prenom     ;}
     public void setEmail   (String email               ) { this.email = email       ;}

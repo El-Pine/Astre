@@ -17,7 +17,7 @@ public class DB
 
     public DB()
     {
-        AstreApplication.erreur = !connexionDB("localhostt", 5432, "***REMOVED***", "***REMOVED***", "***REMOVED***");
+        AstreApplication.erreur = !connexionDB("localhost", 5432, "***REMOVED***", "***REMOVED***", "***REMOVED***");
 
         /*
          * Pour créer un tunnel SSH
