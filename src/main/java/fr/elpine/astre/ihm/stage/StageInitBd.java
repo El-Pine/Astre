@@ -1,15 +1,31 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class StageInitBd
 {
+    
+    @FXML
+    public TextField txtfPort;
+    @FXML
+    public TextField txtfId;
+    @FXML
+    public TextField txtfMdp;
+    @FXML
+    public TextField txtfBdd;
+    @FXML
+    public TextField txtfIp;
+
     private Stage stage;
     private static StageAccueilConfig parent;
 
@@ -38,16 +54,24 @@ public class StageInitBd
 
     private void setStage(Stage stage) { this.stage = stage; }
 
-    public void onBtnValider(ActionEvent actionEvent){
-        boolean dbReloaded = Controleur.get().getDb().reloadDb();
+    public void onBtnValider(ActionEvent actionEvent)
+    {
+        String ip    = txtfIp   .getText();
+        String port  = txtfPort .getText();
+        String id    = txtfId   .getText();
+        String mdp   = txtfMdp  .getText();
+        String bdd   = txtfBdd  .getText();
+
+        boolean dbReloaded = Controleur.get().getDb().reloadDb(ip,port,id,mdp,bdd);
 
         if (dbReloaded) {
             stage.close();
-
-            try {
-                StagePrincipal.creer().show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            if (parent != null)
+                parent.activer();
+            else {
+                try {
+                    StagePrincipal.creer().show();
+                } catch (IOException e) { throw new RuntimeException(e); }
             }
         }
         else

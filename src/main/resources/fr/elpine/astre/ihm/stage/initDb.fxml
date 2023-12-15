@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageInitBd">
    <center>
@@ -28,7 +24,7 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="IP" />
-                  <TextField prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfIp" prefHeight="30.0" prefWidth="200.0" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -37,25 +33,25 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Port" />
-                  <TextField prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfPort" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Identifiant" />
-                  <TextField prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfId" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Mot de passe" />
-                  <TextField prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfMdp" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Base de données" />
-                  <TextField prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfBdd" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
          </children>
@@ -65,7 +61,7 @@
       <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
-            <Button cancelButton="true" onAction="#onBtnAnnuler" mnemonicParsing="false" text="Annuler" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" text="Annuler" />
          </children>
       </FlowPane>
    </bottom>
