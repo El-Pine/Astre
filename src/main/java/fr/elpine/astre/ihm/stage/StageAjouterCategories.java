@@ -1,11 +1,10 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
-<<<<<<< HEAD
+
 import fr.elpine.astre.metier.objet.CategorieHeure;
-=======
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
->>>>>>> origin/main
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,12 +19,18 @@ public class StageAjouterCategories
 {
     private Stage stage;
 
-    private TextField txtfCodeCatInter;
-    private TextField txtfNomCatInter;
-    private TextField txtfRatioCatInter;
-    private TextField txtfNbHMCatInter;
-    private TextField txtfNbHServCatInter;
 
+    @FXML
+    private TextField txtfCodeCatInter;
+    @FXML
+    private TextField txtfNomCatInter;
+    @FXML
+    private TextField txtfRatioCatInter;
+    @FXML
+    private TextField txtfNbHMCatInter;
+    @FXML
+    private TextField txtfNbHServCatInter;
+    @FXML
     static StageAccueilConfig parent;
 
     @FXML
@@ -73,9 +78,11 @@ public class StageAjouterCategories
         int    nbHM    = Integer.parseInt   (txtfNbHMCatInter   .getText());
         int    nbHServ = Integer.parseInt   (txtfNbHServCatInter.getText());
 
-        if(estValide(code,nom))
-            Controleur.get().getDb().ajouterCategorieIntervenant(new CategorieIntervenant(code, nom,nbHM,nbHServ,ratioTD));
+        if(estValide(code,nom)){
 
+            System.out.println("Erreur");
+            Controleur.get().getDb().ajouterCategorieIntervenant(new CategorieIntervenant(code, nom,nbHM,nbHServ,ratioTD));
+        }
         parent.activer();
         stage.close();
     }
@@ -102,11 +109,8 @@ public class StageAjouterCategories
         boolean c_ppp = cbPppCatH.isSelected();
         boolean c_stage = cbStageCatH.isSelected();
 
-        System.out.println(nom + " "+ eqtd + " " + ressources + " " + c_sae + " " + c_ppp + " " + c_stage);
-
-        // create new CategorieHeure
         CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage);
-        // add to DB
+
         Controleur.get().getDb().ajouterCategorieHeure(cat);
 
         parent.activer();
