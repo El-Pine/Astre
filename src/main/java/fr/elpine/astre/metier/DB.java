@@ -550,11 +550,11 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     CategorieIntervenant categorie = new CategorieIntervenant(
-                            rs.getString ("code"         ),
-                            rs.getString ("nom"          ),
-                            rs.getInt    ("nbHeureMax"   ),
-                            rs.getInt    ("service"      ),
-                            rs.getFloat  ("ratioTP"      )
+                            rs.getString (1),
+                            rs.getString (2),
+                            rs.getInt    (3),
+                            rs.getInt    (4),
+                            rs.getFloat  (5)
                     );
                     resultats.add(categorie);
                 }
