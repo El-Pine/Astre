@@ -520,7 +520,7 @@ public class DB
     //Méthode d'insert
     public void ajouterCategorieIntervenant(CategorieIntervenant categorieIntervenant)
     {
-        String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?,?,?)";
+        String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement( req );
@@ -533,7 +533,7 @@ public class DB
         }
         catch (SQLException e)
         {
-
+            e.printStackTrace();
         }
     }
 
