@@ -1,9 +1,6 @@
 -- Suppression des anciennes tables
 
-DROP TABLE IF EXISTS AffectationPPP;
-DROP TABLE IF EXISTS AffectationStage;
-DROP TABLE IF EXISTS AffectationSAE;
-DROP TABLE IF EXISTS AffectationRessource;
+DROP TABLE IF EXISTS Affectation;
 DROP TABLE IF EXISTS Attribution;
 DROP TABLE IF EXISTS Intervenant;
 DROP TABLE IF EXISTS CategorieIntervenant;
@@ -89,12 +86,12 @@ CREATE TABLE Attribution (
 	nbSemaine INT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
-	FOREIGN KEY (nomCategorieHeure) REFERENCES CategorieHeure(nom),
+	FOREIGN KEY (nomCategorieHeure)                             REFERENCES CategorieHeure(nom),
 
     PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, nomCategorieHeure)
 );
 
-CREATE TABLE AffectationRessource (
+CREATE TABLE Affectation (
 	codeModule VARCHAR(255),
     numeroSemestreModule INT,
     anneeModule VARCHAR(255),
@@ -107,55 +104,7 @@ CREATE TABLE AffectationRessource (
     commentaire TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
-	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
-
-    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
-);
-
-CREATE TABLE AffectationSAE (
-	codeModule VARCHAR(255),
-    numeroSemestreModule INT,
-    anneeModule VARCHAR(255),
-    idInter INT,
-
-    typeHeure VARCHAR(255),
-    nbHeure INT,
-    commentaire TEXT,
-
-	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
-	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
-
-    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
-);
-
-CREATE TABLE AffectationStage (
-	codeModule VARCHAR(255),
-    numeroSemestreModule INT,
-    anneeModule VARCHAR(255),
-    idInter INT,
-
-    typeHeure VARCHAR(255),
-    nbHeure INT,
-    commentaire TEXT,
-
-	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
-	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
-
-    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
-);
-
-CREATE TABLE AffectationPPP (
-	codeModule VARCHAR(255),
-    numeroSemestreModule INT,
-    anneeModule VARCHAR(255),
-    idInter INT,
-
-    typeHeure VARCHAR(255),
-    nbHeure INT,
-    commentaire TEXT,
-
-	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
-	FOREIGN KEY (typeHeure) REFERENCES CategorieHeure(nom),
+	FOREIGN KEY (typeHeure)                                     REFERENCES CategorieHeure(nom),
 
     PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
 );
