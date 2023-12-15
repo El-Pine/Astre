@@ -72,13 +72,13 @@ public class DB
         } catch (ClassNotFoundException | SQLException e) { return false; }
     }
 
-    public boolean reloadDb(String ip, String port, String id, String mdp, String bdd )
+    public boolean reloadDb(String ip, String port, String bdd, String id, String mdp )
     {
         try
         {
             BufferedWriter writer = new BufferedWriter(new FileWriter("infoBd.txt"));
 
-            writer.write(ip+"<"+port+"<"+id+"<"+mdp+"<"+bdd);
+            writer.write(ip+"<"+port+"<"+bdd+"<"+id+"<"+mdp);
             writer.close();
 
         } catch (IOException e) { System.out.println("erreur2"); }
