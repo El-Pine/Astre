@@ -1,20 +1,32 @@
-package fr.elpine.astre.ihm.model;
+package fr.elpine.astre.metier.objet;
 
-public class SaisieRessource
+public class SaisiePpp
 {
 	private String intervenant;
 	private String type;
 	private int nbH;
 	private double totalEqtd;
 	private String commentaire;
+	private int nbSemaine;
+	private int nbGp;
 
-	public SaisieRessource(String intervenant, String type, int nbH, double totalEqtd, String commentaire) {
+	public SaisiePpp(String intervenant, String type, int nbSemaine, int nbH, int nbGp, double totalEqtd, String commentaire) {
 		this.intervenant = intervenant;
 		this.type = type;
 		this.nbH = nbH;
 		this.totalEqtd = totalEqtd;
 		this.commentaire = commentaire;
+		this.nbSemaine = nbSemaine;
+		this.nbGp = nbGp;
 	}
+
+	public int getNbSemaine() {return nbSemaine;}
+
+	public int getNbGp() {return nbGp;}
+
+	public void setNbGp(int nbGp) {this.nbGp = nbGp;}
+
+	public void setNbSemaine(int nbSemaine) {this.nbSemaine = nbSemaine;}
 
 	public String getIntervenant() {
 		return intervenant;

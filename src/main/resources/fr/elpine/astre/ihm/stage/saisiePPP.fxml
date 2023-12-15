@@ -131,7 +131,7 @@
                      </FlowPane.margin>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#onBtnSupprimer" prefWidth="80.0" text="Supprimer" />
-                  <Button mnemonicParsing="false" onAction="#onBtnDetail" prefWidth="80.0" text="Modifier">
+                  <Button mnemonicParsing="false" onAction="#onBtnModifier" prefWidth="80.0" text="Modifier">
                      <FlowPane.margin>
                         <Insets left="20.0" />
                      </FlowPane.margin>
