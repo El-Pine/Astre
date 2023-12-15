@@ -23,11 +23,6 @@ public class Controleur
         Application.launch(AstreApplication.class);
     }
 
-    public boolean reloadDb()
-    {
-        return this.db.reloadDb();
-    }
-
     public static Controleur get()
     {
         if (Controleur.ctrl == null) Controleur.ctrl = new Controleur();

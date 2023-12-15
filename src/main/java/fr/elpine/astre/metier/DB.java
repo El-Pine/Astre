@@ -30,17 +30,7 @@ public class DB
         boolean valid = true;
 
         for (String table : Arrays.asList(
-                "AffectationPPP",
-                "AffectationStage",
-                "AffectationSAE",
-                "Affectation",
-                "Attribution",
-                "Intervenant",
-                "CategorieIntervenant",
-                "CategorieHeure",
-                "Module",
-                "Semestre",
-                "Annee"
+                "Affectation", "Attribution", "Intervenant", "CategorieIntervenant", "CategorieHeure", "Module", "Semestre", "Annee"
         ))
         {
             ResultSet set = co.getMetaData().getTables(null, null, table.toLowerCase(), null);
@@ -864,7 +854,7 @@ public class DB
     /*-----------------------*/
 
     //Méthode insert
-    public void ajouteraff(Affectation affs)
+    public void ajouterAff(Affectation affs)
     {
         String req = "INSERT INTO Affectation VALUES(?,?,?,?,?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req))
