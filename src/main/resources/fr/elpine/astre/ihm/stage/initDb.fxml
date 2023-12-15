@@ -45,7 +45,7 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Mot de passe" />
-                  <TextField fx:id="txtfMdp" prefHeight="30.0" prefWidth="200.0" />
+                  <PasswordField fx:id="txtfMdp" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
