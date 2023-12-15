@@ -26,11 +26,11 @@
          <children>
             <TableView fx:id="tabVCatInter" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                  <TableColumn fx:id="tcCode" prefWidth="56.20001220703125" text="Code" />
-                  <TableColumn fx:id="tcNom" prefWidth="81.39999389648438" text="Nom" />
-                  <TableColumn fx:id="tcHMax" prefWidth="51.39996337890625" text="H Max" />
-                  <TableColumn fx:id="tcHSer" prefWidth="59.5999755859375" text="H Service" />
-                  <TableColumn fx:id="tcRatio" prefWidth="48.79998779296875" text="Ratio" />
+                  <TableColumn fx:id="tcCodeInter" prefWidth="56.20001220703125" text="Code" />
+                  <TableColumn fx:id="tcNomInter" prefWidth="81.39999389648438" text="Nom" />
+                  <TableColumn fx:id="tcHMaxInter" prefWidth="51.39996337890625" text="H Max" />
+                  <TableColumn fx:id="tcHServInter" prefWidth="59.5999755859375" text="H Service" />
+                  <TableColumn fx:id="tcRatioInter" prefWidth="48.79998779296875" text="Ratio" />
               </columns>
             </TableView>
             <TableView GridPane.columnIndex="1">

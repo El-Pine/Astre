@@ -2,7 +2,10 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,13 +23,17 @@ public class StageAccueilConfig
 {
     private Stage stage;
     @FXML
-    private TableColumn tcCode;
+    private TableView<CategorieIntervenant> tableau;
     @FXML
-    private TableColumn tcNom;
+    private TableColumn<CategorieIntervenant,String> tcCode;
     @FXML
-    private TableColumn tcHMax;
+    private TableColumn<CategorieIntervenant,String> tcNom;
     @FXML
-    private TableColumn tcHServ;
+    private TableColumn<CategorieIntervenant,Integer> tcHMax;
+    @FXML
+    private TableColumn<CategorieIntervenant,Integer> tcHServ;
+    @FXML
+    private TableColumn<CategorieIntervenant,Double> tcRatioInter;
 
 
     public static Stage creer() throws IOException
@@ -42,7 +49,7 @@ public class StageAccueilConfig
 
         stage.setTitle("Accueil Config");
         stage.setScene(scene);
-        stageCtrl.majTableauCatInter();
+        //stageCtrl.majTableauCatInter();
 
         stage.setOnCloseRequest(e -> {
             // perform actions before closing
@@ -52,13 +59,20 @@ public class StageAccueilConfig
         return stage;
     }
 
+    /*
     private void majTableauCatInter()
     {
+        tcCode      .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCode      ()));
+        tcNom       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getNom       ()));
+        tcHMax      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMax()).asObject());
+        tcHServ     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getService   ()).asObject());
+        tcRatioInter.setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTd   ()).asObject());
 
-        ArrayList<CategorieIntervenant> ensCatInter = Controleur.get().getDb().getAllCategorieIntervenant();
+        ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
 
-
+        tableau.setItems(ensCatInter);
     }
+    */
 
     private void setStage(Stage stage) { this.stage = stage; }
 
