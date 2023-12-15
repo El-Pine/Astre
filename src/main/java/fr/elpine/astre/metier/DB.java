@@ -538,7 +538,7 @@ public class DB
     }
 
     //Méthode : SELECT * FROM CategorieIntervenant
-    public ArrayList<CategorieIntervenant> getCategorieIntervenant()
+    public ArrayList<CategorieIntervenant> getAllCategorieIntervenant()
     {
         ArrayList<CategorieIntervenant> resultats = new ArrayList<>();
         String req = "SELECT * FROM CategorieIntervenant";

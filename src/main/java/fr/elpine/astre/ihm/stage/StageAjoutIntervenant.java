@@ -42,6 +42,7 @@ public class StageAjoutIntervenant
 
         stage.setTitle("Ajout Intervenant");
         stage.setScene(scene);
+        stagectrl.setCpbContrat();
 
         stage.setOnCloseRequest(e -> {
             // perform actions before closing
@@ -55,7 +56,7 @@ public class StageAjoutIntervenant
 
     public void setCpbContrat()
     {
-        for (CategorieIntervenant catInter : Controleur.get().getDb().getCategorieIntervenant())
+        for (CategorieIntervenant catInter : Controleur.get().getDb().getAllCategorieIntervenant())
             cpbContrat.setValue(catInter);
     }
 
