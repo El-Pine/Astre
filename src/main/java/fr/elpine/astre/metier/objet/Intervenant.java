@@ -8,7 +8,6 @@ public class Intervenant
     private String               prenom;
     private String               email;
     private CategorieIntervenant statut;
-    private ArrayList<Semestre>  alSemestre;
     private int                  service;
     private double               total;
     private int                  id;
@@ -16,14 +15,13 @@ public class Intervenant
 
     public Intervenant(String nom, String prenom, String email,CategorieIntervenant statut, int service, double total)
     {
-        this.id     = id;
+        this.id         = id;
         this.nom        = nom;
         this.prenom     = prenom;
         this.email      = email;
         this.statut     = statut;
         this.service    = service;
         this.total      = total;
-        this.alSemestre = new ArrayList<Semestre>();
     }
 
     /*   GETTER    */

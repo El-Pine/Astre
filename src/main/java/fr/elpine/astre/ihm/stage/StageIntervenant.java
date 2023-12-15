@@ -42,14 +42,12 @@ public class StageIntervenant
 
 	@FXML
 	protected void onBtnClickEnregistrer() throws IOException {
-		// A FAIRE
 		stage.close();
 		StagePrincipal.creer().show();
 	}
 
 	@FXML
 	protected void onBtnClickAnnuler() throws IOException {
-		// A FAIRE
 		stage.close();
 		StagePrincipal.creer().show();
 	}
