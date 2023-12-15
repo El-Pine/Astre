@@ -1,10 +1,15 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.stage.StagePrincipal;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +22,7 @@ public class DB
 
     public DB()
     {
-        AstreApplication.erreur = !connexionDB("localhostt", 5432, "bt220243", "Tho2004mas", "bt220243");
+        AstreApplication.erreur = !connexionDB();
 
         /*
          * Pour créer un tunnel SSH
@@ -32,14 +37,29 @@ public class DB
     /*    Connexion    */
     /*-----------------*/
 
-    public boolean connexionDB(String ip, int port, String identifiant, String motdepasse, String database)
+    public boolean connexionDB()
     {
+        String[] elements = null;
+
+        try
+        {
+            BufferedReader reader = new BufferedReader(new FileReader("infoBd.txt"));
+            // Lecture de la ligne depuis le fichier
+            String line = reader.readLine();
+            if(line !=null)
+            {
+                // Division de la ligne en utilisant le séparateur donné
+                elements = line.split("<");
+            }
+        } catch (IOException e) { throw new RuntimeException(e); }
+
+        if ( elements == null || elements.length != 5 ) { return false; }
+
         try {
             Class.forName("org.postgresql.Driver");
-            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s", ip, port, database), identifiant, motdepasse);
+            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%s/%s", elements[0], elements[1], elements[2]), elements[3], elements[4]);
 
             boolean valid = this.verify();
-
             if (valid)
                 System.out.println("DB VALID !");
             /*else {
@@ -49,16 +69,21 @@ public class DB
             }*/
 
             return true;
-        }
-        catch (ClassNotFoundException | SQLException e)
-        {
-            return false;
-        }
+        } catch (ClassNotFoundException | SQLException e) { return false; }
     }
 
-    public boolean reloadDb()
+    public boolean reloadDb(String ip, String port, String id, String mdp, String bdd )
     {
-        return connexionDB("localhost", 5432, "bt220243", "Tho2004mas", "bt220243");
+        try
+        {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("infoBd.txt"));
+
+            writer.write(ip+"<"+port+"<"+id+"<"+mdp+"<"+bdd);
+            writer.close();
+
+        } catch (IOException e) { System.out.println("erreur2"); }
+
+        return connexionDB();
     }
 
     /*-----------------*/
