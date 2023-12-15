@@ -1,11 +1,11 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,31 +18,7 @@ public class DB
 
     public DB()
     {
-        try {
-            Class.forName("org.postgresql.Driver");
-            co = DriverManager.getConnection("jdbc:postgresql://localhost/***REMOVED***", "***REMOVED***", "***REMOVED***");
-
-            /*
-             * Pour créer un tunnel SSH
-             * -> ssh -L 5432:***REMOVED***:5432 -p 4660 ***REMOVED***@***REMOVED***
-             *
-             * Donc la BdD est accessible sur localhost:5432
-             *
-             * */
-
-            Controleur.lancementInterface(0);
-
-            boolean valid = verify();
-
-            if (valid) System.out.println("VALID !");
-            else {
-                System.out.println("reset . . .");
-                reset();
-                System.out.println("reset ok !");
-            }
-        } catch (ClassNotFoundException | SQLException e){
-            Controleur.lancementInterface(1);
-        }
+        AstreApplication.erreur = !connectionDb();
     }
 
     /*-----------------*/
@@ -80,6 +56,63 @@ public class DB
     public void reset() throws SQLException
     {
         co.createStatement().executeUpdate(loadSQL("scriptCreation.sql"));
+    }
+
+    public boolean reloadDb()
+    {
+        String filePath = "DB.java"; // Chemin vers votre fichier
+
+        try {
+            File file = new File(filePath);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            StringBuilder content = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("DriverManager.getConnection")) {
+                    // Remplacer la ligne par "bonjour"
+                    content.append("bonjour").append(System.lineSeparator());
+                } else {
+                    content.append(line).append(System.lineSeparator());
+                }
+            }
+
+            reader.close();
+
+            // Écrire le contenu modifié dans le fichier
+            FileWriter writer = new FileWriter(file);
+            writer.write(content.toString());
+            writer.close();
+
+            System.out.println("Remplacement effectué avec succès.");
+        } catch (IOException e) { return false; }
+        return true;
+    }
+
+    public boolean connectionDb()
+    {
+        try {
+            Class.forName("org.postgresql.Driver");
+            co = DriverManager.getConnection("jdbc:postgresql://localhost/***REMOVED***", "***REMOVED***", "***REMOVED***");
+
+            /*
+             * Pour créer un tunnel SSH
+             * -> ssh -L 5432:***REMOVED***:5432 -p 4660 ***REMOVED***@***REMOVED***
+             *
+             * Donc la BdD est accessible sur localhost:5432
+             *
+             * */
+
+            boolean valid = verify();
+
+            if (valid) System.out.println("VALID !");
+            else {
+                System.out.println("reset . . .");
+                reset();
+                System.out.println("reset ok !");
+            }
+        } catch (ClassNotFoundException | SQLException e){ return false; }
+        return true;
     }
 
     private static String loadSQL(String file)
