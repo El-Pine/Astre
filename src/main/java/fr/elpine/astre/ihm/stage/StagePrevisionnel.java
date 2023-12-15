@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+
 import java.io.IOException;
 
 public class StagePrevisionnel
@@ -40,7 +41,7 @@ public class StagePrevisionnel
 	@FXML
 	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageSaisieSae.creer().show();
+		StageAffectation.creer().show();
 	}
 
 	@FXML
@@ -51,7 +52,7 @@ public class StagePrevisionnel
 	@FXML
 	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageSaisieRessource.creer().show();
+		StageAffectation.creer().show();
 	}
 
 	@FXML

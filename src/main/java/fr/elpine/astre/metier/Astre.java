@@ -14,12 +14,7 @@ public class Astre
         this.ctrl = ctrl;
     }
     
-    public void ajouterIntervenant(String nom, String prenom, String email, CategorieIntervenant statut, int service,double total)
-    {
-        Intervenant intervenant = new Intervenant(nom,prenom,email,statut,service,total);
 
-        ctrl.getDb().ajouterIntervenant(intervenant);
-    }
 
     /*
     public void ajouterRessource(String nom, String code, String commentaire, int nbHeurePn, int nbHeurePnCours, HashMap<String, Integer> heureSemestre, int nbHeuretl)

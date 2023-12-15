@@ -24,7 +24,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="tabVCatInter" prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="tabCatInter" prefHeight="200.0" prefWidth="200.0">
               <columns>
                   <TableColumn fx:id="tcCodeInter" prefWidth="56.20001220703125" text="Code" />
                   <TableColumn fx:id="tcNomInter" prefWidth="81.39999389648438" text="Nom" />
