@@ -40,14 +40,14 @@ public class StagePrincipal
 	protected void onBtnClickPrevisionnel() throws IOException {
 		// A FAIRE
 		stage.close();
-		StagePrevisionnel.creer().showAndWait();
+		StagePrevisionnel.creer().show();
 	}
 
 	@FXML
 	protected void onBtnClickIntervenant() throws IOException {
 		// A FAIRE
 		stage.close();
-		StageIntervenant.creer().showAndWait();
+		StageIntervenant.creer().show();
 	}
 
 	@FXML
