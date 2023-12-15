@@ -1,6 +1,5 @@
 package fr.elpine.astre.metier;
 
-import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
@@ -18,7 +17,48 @@ public class DB
 
     public DB()
     {
-        AstreApplication.erreur = !connectionDb();
+        AstreApplication.erreur = !connexionDB("localhostt", 5432, "***REMOVED***", "***REMOVED***", "***REMOVED***");
+
+        /*
+         * Pour créer un tunnel SSH
+         * -> ssh -L 5432:***REMOVED***:5432 -p 4660 ***REMOVED***@***REMOVED***
+         *
+         * Donc la BdD est accessible sur localhost:5432
+         *
+         * */
+    }
+
+    /*-----------------*/
+    /*    Connexion    */
+    /*-----------------*/
+
+    public boolean connexionDB(String ip, int port, String identifiant, String motdepasse, String database)
+    {
+        try {
+            Class.forName("org.postgresql.Driver");
+            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s", ip, port, database), identifiant, motdepasse);
+
+            boolean valid = this.verify();
+
+            if (valid)
+                System.out.println("DB VALID !");
+            /*else {
+                System.out.println("DB Reset . . .");
+                this.reset();
+                System.out.println("DB Reset ok !");
+            }*/
+
+            return true;
+        }
+        catch (ClassNotFoundException | SQLException e)
+        {
+            return false;
+        }
+    }
+
+    public boolean reloadDb()
+    {
+        return connexionDB("localhost", 5432, "***REMOVED***", "***REMOVED***", "***REMOVED***");
     }
 
     /*-----------------*/
@@ -46,37 +86,6 @@ public class DB
     public void reset() throws SQLException
     {
         co.createStatement().executeUpdate(loadSQL("scriptCreation.sql"));
-    }
-
-    public boolean reloadDb()
-    {
-        return connectionDb();
-    }
-
-    private boolean connectionDb()
-    {
-        try {
-            Class.forName("org.postgresql.Driver");
-            co = DriverManager.getConnection("jdbc:postgresql://localhost/***REMOVED***", "***REMOVED***", "***REMOVED***");
-
-            /*
-             * Pour créer un tunnel SSH
-             * -> ssh -L 5432:***REMOVED***:5432 -p 4660 ***REMOVED***@***REMOVED***
-             *
-             * Donc la BdD est accessible sur localhost:5432
-             *
-             * */
-
-            boolean valid = verify();
-
-            if (valid) System.out.println("VALID !");
-            else {
-                System.out.println("reset . . .");
-                //reset();
-                System.out.println("reset ok !");
-            }
-        } catch (ClassNotFoundException | SQLException e){ return false; }
-        return true;
     }
 
     private static String loadSQL(String file)

@@ -19,7 +19,10 @@ public class Controleur
     {
         this.db         = new DB();
         this.astre      = new Astre( this );
+    }
 
+    public void start()
+    {
         Application.launch(AstreApplication.class);
     }
 
@@ -34,6 +37,6 @@ public class Controleur
 
     public static void main(String[] args)
     {
-        Controleur.get();
+        Controleur.get().start();
     }
 }
