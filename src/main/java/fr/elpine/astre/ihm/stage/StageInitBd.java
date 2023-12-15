@@ -62,7 +62,7 @@ public class StageInitBd
         String mdp   = txtfMdp  .getText();
         String bdd   = txtfBdd  .getText();
 
-        boolean dbReloaded = Controleur.get().getDb().reloadDb(ip,port,id,mdp,bdd);
+        boolean dbReloaded = Controleur.get().getDb().reloadDb(ip,port,bdd,id,mdp);
 
         if (dbReloaded) {
             stage.close();
