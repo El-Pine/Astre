@@ -1,6 +1,5 @@
 package fr.elpine.astre.metier;
 
-import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
@@ -18,7 +17,15 @@ public class DB
 
     public DB()
     {
-        AstreApplication.erreur = !connectionDb();
+        AstreApplication.erreur = !this.connectionDb();
+
+        /*
+         * Pour créer un tunnel SSH
+         * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
+         *
+         * Donc la BdD est accessible sur localhost:5432
+         *
+         * */
     }
 
     /*-----------------*/
@@ -30,17 +37,7 @@ public class DB
         boolean valid = true;
 
         for (String table : Arrays.asList(
-                "AffectationPPP",
-                "AffectationStage",
-                "AffectationSAE",
-                "AffectationRessource",
-                "Attribution",
-                "Intervenant",
-                "CategorieIntervenant",
-                "CategorieHeure",
-                "Module",
-                "Semestre",
-                "Annee"
+                "Affectation", "Attribution", "Intervenant", "CategorieIntervenant", "CategorieHeure", "Module", "Semestre", "Annee"
         ))
         {
             ResultSet set = co.getMetaData().getTables(null, null, table.toLowerCase(), null);
@@ -94,14 +91,6 @@ public class DB
         try {
             Class.forName("org.postgresql.Driver");
             co = DriverManager.getConnection("jdbc:postgresql://localhost/bt220243", "bt220243", "Tho2004mas");
-
-            /*
-             * Pour créer un tunnel SSH
-             * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
-             *
-             * Donc la BdD est accessible sur localhost:5432
-             *
-             * */
 
             boolean valid = verify();
 
