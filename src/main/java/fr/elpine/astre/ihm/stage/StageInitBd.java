@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.Controleur;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -36,4 +37,25 @@ public class StageInitBd
     }
 
     private void setStage(Stage stage) { this.stage = stage; }
+
+    public void onBtnValider(ActionEvent actionEvent){
+        if (Controleur.get().reloadDb()) {
+            stage.close();
+            if (parent != null)
+                parent.activer();
+            else {
+                try {
+                    StagePrincipal.creer().show();
+                } catch (IOException e) { throw new RuntimeException(e); }
+            }
+        }
+    }
+
+    public void onBtnAnnuler(ActionEvent actionEvent) throws IOException {
+        stage.close();
+        if (parent != null)
+            parent.activer();
+        else
+            StagePrincipal.creer().show();
+    }
 }

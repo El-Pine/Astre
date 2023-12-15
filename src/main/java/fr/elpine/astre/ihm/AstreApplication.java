@@ -10,19 +10,14 @@ import java.io.IOException;
 
 public class AstreApplication extends Application
 {
-	private static int codeInit;
+	public static boolean erreur = false;
+
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
-		StagePrincipal.creer().show();
-		if (codeInit!=0)
-		{
-			StageInitBd.creer(null).show();
-		}
-	}
-
-	public static void init(int codeInit)
-	{
-		AstreApplication.codeInit = codeInit;
+		if ( erreur )
+			StageInitBd.creer( null ).show();
+		else
+			StagePrincipal.creer().show();
 	}
 }
