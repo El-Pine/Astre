@@ -6,21 +6,21 @@ public class Affectation
     private Module codeModule;
     private int    numeroSemestreModule;
     private String anneeModule;
-    private int    idInter;
+    private Intervenant   inter;
     private CategorieHeure typeHeure;
     private int nbGroupe;
     private int nbSemaine;
     private int nbHeure;
     private String commentaire;
 
-    public Affectation(Module codeModule, int numeroSemestreModule, String anneeModule,
-                       int idInter, CategorieHeure typeHeure, int nbGroupe, int nbSemaine,
+    public Affectation( Module codeModule, int numeroSemestreModule, String anneeModule,
+                        Intervenant inter, CategorieHeure typeHeure, int nbGroupe, int nbSemaine,
                        int nbHeure, String commentaire)
     {
         this.codeModule           = codeModule;
         this.numeroSemestreModule = numeroSemestreModule;
         this.anneeModule          = anneeModule;
-        this.idInter              = idInter;
+        this.inter                = inter;
         this.typeHeure            = typeHeure;
         this.nbGroupe             = nbGroupe;
         this.nbSemaine            = nbSemaine;
@@ -45,5 +45,5 @@ public class Affectation
     public String getCodeModule          () { return codeModule.getCode();}
     public int    getNumeroSemestreModule() { return numeroSemestreModule;}
     public String getAnneeModule         () { return anneeModule;         }
-    public int    getIdInter             () { return idInter;             }
+    public Intervenant    getIdInter             () { return inter;             }
 }

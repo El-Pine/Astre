@@ -63,7 +63,7 @@ public class StageAjoutIntervenant
     }
 
 
-
+/*
     public void onBtnValider(ActionEvent actionEvent)
     {
         String nom                  = txtNom   .getText();
@@ -73,9 +73,9 @@ public class StageAjoutIntervenant
         int heureService            = Integer.parseInt(txtService.getText());
         int total                   = Integer.parseInt(txtComplementaire.getText()) + heureService;
 
-        Controleur.get().getDb().ajouterIntervenant(new Intervenant(nom,prenom,email,statut,heureService,total));
+        Controleur.get().getDb().ajouterIntervenant(new Intervenant(1,nom,prenom,email,statut,heureService,total));
     }
-
+*/
     public void btnAnnuler(ActionEvent actionEvent) throws IOException
     {
         this.stage.close();

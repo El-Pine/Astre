@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class StageAjouterCategories implements Initializable
+public class StageAjouterCategories
 {
     private Stage stage;
 
@@ -34,7 +34,7 @@ public class StageAjouterCategories implements Initializable
     @FXML
     private TextField txtfNbHServCatInter;
 
-    private Label lblErreur;
+    //private Label lblErreur;
 
     static StageAccueilConfig parent;
 
@@ -88,7 +88,7 @@ public class StageAjouterCategories implements Initializable
             Controleur.get().getDb().ajouterCategorieIntervenant(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
         }
         else
-            lblErreur.setText("Les champs code et nom doivent être remplis");
+            //lblErreur.setText("Les champs code et nom doivent être remplis");
 
         parent.activer();
         stage.close();
@@ -130,8 +130,5 @@ public class StageAjouterCategories implements Initializable
         stage.close();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
 
-    }
 }

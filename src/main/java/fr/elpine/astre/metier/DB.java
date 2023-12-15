@@ -255,7 +255,7 @@ public class DB
             ps.setString   (2,inter.getPrenom           ()  );
             ps.setString   (3,inter.getStatut().getCode ()  );
             ps.setInt      (5,inter.getService          ()  );
-            ps.setDouble   (6,inter.getTotal            ()  );
+            ps.setDouble   (6,inter.getHeureMax         ()  );
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -275,7 +275,7 @@ public class DB
             ps.setString(3,                 inter.getEmail  ()           );
             ps.setString(4,                 inter.getStatut ().getCode() );
             ps.setString(5,Integer.toString(inter.getService())          );
-            ps.setString(6,Double .toString(inter.getTotal  ())          );
+            ps.setString(6,Integer.toString(inter.getHeureMax  ())          );
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -313,12 +313,13 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     Intervenant categorie = new Intervenant(
-                            rs.getString                     ("nom"     ),
-                            rs.getString                     ("prenom"  ),
-                            rs.getString                     ("mail"    ),
-                            selectCatInterByCode(rs.getString("statut") ),
-                            rs.getInt                        ("service" ),
-                            rs.getFloat                      ("total"   )
+                            rs.getInt                    (1   ),
+                            rs.getString                     (2 ),
+                            rs.getString                     (3   ),
+                            selectCatInterByCode(rs.getString(4) ),
+                            rs.getInt                        (5 ),
+                            rs.getInt                      (6  ),
+                            rs.getInt(7)
                     );
                     resultats.add(categorie);
                 }
@@ -330,6 +331,36 @@ public class DB
 
         // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
+    }
+
+    public Intervenant getIntervenantById(int code)
+    {
+        String req = "SELECT * FROM Intervenant WHERE idInter = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setInt(1,code);
+            try (ResultSet rs = ps.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Intervenant inter = new Intervenant(
+                                                  rs.getInt   (1 ),
+                                                  rs.getString(2 ),
+                                                  rs.getString(3 ),
+                            selectCatInterByCode( rs.getString(4)),
+                                                  rs.getInt   (5),
+                                                  rs.getInt   (6),
+                                                  rs.getInt   (7)
+                            );
+                    return inter;
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /*--------------*/
@@ -870,7 +901,7 @@ public class DB
             ps.setString(1,affs.getCodeModule          ()         );
             ps.setInt   (2,affs.getNumeroSemestreModule()         );
             ps.setString(3,affs.getAnneeModule         ()         );
-            ps.setInt   (4,affs.getIdInter             ()         );
+            ps.setInt   (4,affs.getIdInter             ().getId() );
             ps.setString(5,affs.getTypeHeure           ().getNom());
             ps.setInt   (6,affs.getNbGroupe            ()         );
             ps.setInt   (7,affs.getNbSemaine           ()         );
@@ -894,7 +925,7 @@ public class DB
             ps.setString (1,aff.getCodeModule          ());
             ps.setInt    (2,aff.getNumeroSemestreModule());
             ps.setString (3,aff.getAnneeModule         ());
-            ps.setInt    (4,aff.getIdInter             ());
+            ps.setInt    (4,aff.getIdInter             ().getId());
 
             ps.setString (5,aff.getTypeHeure           ().getNom());
             ps.setInt    (6,aff.getNbGroupe            ());
@@ -940,15 +971,15 @@ public class DB
             {
                 while (rs.next()) {
                     Affectation Affectation = new Affectation(
-                            getModuleByNumero(rs.getString("codeModule"          )),
-                                              rs.getInt   ("numeroSemestreModule"),
-                                              rs.getString("anneeModule"         ),
-                                              rs.getInt   ("idInter"             ),
-                            getCatHrByNom    (rs.getString("typeHeure"           )),
-                                              rs.getInt   ("nbGroupe"            ),
-                                              rs.getInt   ("nbSemaine"           ),
-                                              rs.getInt   ("nbHeure"             ),
-                                              rs.getString("commentaire"         )
+                            getModuleByNumero( rs.getString("codeModule"          )),
+                                               rs.getInt   ("numeroSemestreModule"),
+                                               rs.getString("anneeModule"         ),
+                            getIntervenantById(rs.getInt   ("idInter")             ),
+                            getCatHrByNom     (rs.getString("typeHeure"           )),
+                                               rs.getInt   ("nbGroupe"            ),
+                                               rs.getInt   ("nbSemaine"           ),
+                                               rs.getInt   ("nbHeure"             ),
+                                               rs.getString("commentaire"         )
 
                     );
 

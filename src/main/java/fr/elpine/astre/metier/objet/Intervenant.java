@@ -9,38 +9,46 @@ public class Intervenant
     private String               email;
     private CategorieIntervenant statut;
     private int                  service;
-    private double               total;
+    private int                  heureMax;
+    private double               ratioTP;
     private int                  id;
 
 
-    public Intervenant(String nom, String prenom, String email,CategorieIntervenant statut, int service, double total)
+    public Intervenant(int id,String nom, String prenom,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
     {
         this.id         = id;
         this.nom        = nom;
         this.prenom     = prenom;
-        this.email      = email;
         this.statut     = statut;
         this.service    = service;
-        this.total      = total;
+        this.heureMax   = heureMax;
+        this.ratioTP    = ratioTP;
     }
 
     /*   GETTER    */
     public int      getId                     () { return id       ;}
     public String    getNom                    () { return nom      ;}
     public String    getPrenom                 () { return prenom   ;}
-    public String    getEmail                  () { return email    ;}
     public CategorieIntervenant getStatut      () { return statut   ;}
     public int       getService                () { return service  ;}
-    public double    getTotal                  () { return total    ;}
-    public ArrayList<Semestre> getAlSemestre   () { return this.alSemestre;}
 
     /*   SETTER   */
 
     public int     setId     (int id                  ) { return this.id = id     ;}
     public void setNom     (String nom                 ) { this.nom = nom           ;}
     public void setPrenom  (String prenom              ) { this.prenom = prenom     ;}
-    public void setEmail   (String email               ) { this.email = email       ;}
     public void setStatut  (CategorieIntervenant statut) { this.statut = statut     ;}
     public void setService (int service                ) { this.service = service   ;}
-    public void setTotal   (double total               ) { this.total = total       ;}
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getHeureMax() {
+        return heureMax;
+    }
+
+    public double getRatioTP() {
+        return ratioTP;
+    }
 }

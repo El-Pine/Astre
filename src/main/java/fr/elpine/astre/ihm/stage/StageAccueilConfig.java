@@ -1,7 +1,9 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,27 +13,49 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class StageAccueilConfig
+public class StageAccueilConfig implements Initializable
 {
     private Stage stage;
     @FXML
-    private TableView<CategorieIntervenant> tableau;
+    private TableView<CategorieIntervenant> tabCatInter;
     @FXML
-    private TableColumn<CategorieIntervenant,String> tcCode;
+    private TableColumn<CategorieIntervenant,String> tcCodeInter;
     @FXML
-    private TableColumn<CategorieIntervenant,String> tcNom;
+    private TableColumn<CategorieIntervenant,String> tcNomInter;
     @FXML
-    private TableColumn<CategorieIntervenant,Integer> tcHMax;
+    private TableColumn<CategorieIntervenant,Integer> tcHMaxInter;
     @FXML
-    private TableColumn<CategorieIntervenant,Integer> tcHServ;
+    private TableColumn<CategorieIntervenant,Integer> tcHServInter;
     @FXML
     private TableColumn<CategorieIntervenant,Double> tcRatioInter;
+
+    @FXML
+    private TableView<CategorieHeure>       tabCatHeures;
+
+    @FXML
+    private TableColumn<CategorieHeure,String >  tcNomHeures;
+    @FXML
+    private TableColumn<CategorieHeure,Double > tcEqtdHeures;
+    @FXML
+    private TableColumn<CategorieHeure,Boolean> tcRessourcesHeures;
+    @FXML
+    private TableColumn<CategorieHeure,Boolean> tcSaeHeures;
+    @FXML
+    private TableColumn<CategorieHeure,Boolean> tcPppHeures;
+    @FXML
+    private TableColumn<CategorieHeure,Boolean> tcStageHeures;
 
 
     public static Stage creer() throws IOException
@@ -57,21 +81,6 @@ public class StageAccueilConfig
         return stage;
     }
 
-    /*
-    private void majTableauCatInter()
-    {
-        tcCode      .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCode      ()));
-        tcNom       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getNom       ()));
-        tcHMax      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMax()).asObject());
-        tcHServ     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getService   ()).asObject());
-        tcRatioInter.setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTd   ()).asObject());
-
-        ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
-
-        tableau.setItems(ensCatInter);
-    }
-    */
-
     private void setStage(Stage stage) { this.stage = stage; }
 
     public void onBtnConfigBdd(ActionEvent actionEvent) throws IOException {
@@ -92,9 +101,32 @@ public class StageAccueilConfig
     }
 
     public void activer() {
-        this.stage.getScene().lookup("#btnConfigBd").setDisable(false);
-        this.stage.getScene().lookup("#btnAjouter").setDisable(false);
+        this.stage.getScene().lookup("#btnConfigBd" ).setDisable(false);
+        this.stage.getScene().lookup("#btnAjouter"  ).setDisable(false);
         this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        tcCodeInter      .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCode      ()));
+        tcNomInter       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getNom       ()));
+        tcHMaxInter      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMax()).asObject());
+        tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getService   ()).asObject());
+        tcRatioInter.setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTd   ()).asObject());
+
+        ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
+        tabCatInter.setItems(ensCatInter);
+
+        tcNomHeures        .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getNom         ()));
+        tcEqtdHeures       .setCellValueFactory (cellData -> new SimpleDoubleProperty  (cellData.getValue().getEquivalentTD()).asObject());
+        tcRessourcesHeures .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estRessource   ()));
+        tcSaeHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estSae         ()));
+        tcPppHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estPpp         ()));
+        tcStageHeures      .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estStage       ()));
+
+        ObservableList ensCatHeure = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieHeure());
+        tabCatHeures.setItems(ensCatHeure);
     }
 
 
