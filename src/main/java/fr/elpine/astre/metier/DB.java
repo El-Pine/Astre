@@ -797,6 +797,7 @@ public class DB
     /* Affectation Ressource */
     /*-----------------------*/
 
+    //Méthode insert
     public void ajouterAffRes(AffectationRessource affRess)
     {
         String req = "INSERT INTO AffectationRessource VALUES(?,?,?,?,?,?,?,?,?)";
@@ -819,19 +820,80 @@ public class DB
         }
     }
 
+    //Méthode d'update
     public void updateAffRes(AffectationRessource affRes)
     {
         String req = "UPDATE AffectationRessource SET codeModule = ?, numeroSemesreModule = ?, anneeModule = ?, idInter = ?, typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
-        try(PreparedStatement ps = co.prepareStatement())
+        try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,affRes.getCodeModule());
-            ps.setInt(2,affRes.getNumeroSemestreModule());
-            ps.setString(3,affRes.getAnneeModule());
-            ps.setInt(4,affRes.getIdInter());
+            //SET
+            ps.setString (1,affRes.getCodeModule          ());
+            ps.setInt    (2,affRes.getNumeroSemestreModule());
+            ps.setString (3,affRes.getAnneeModule         ());
+            ps.setInt    (4,affRes.getIdInter             ());
 
-            ps.setString(5,affRes.getTypeHeure().getNom());
-            ps.setInt(6,affRes.getNbGroupe());
-            ps.setInt(7,affRes.getNbSemaine());
+            ps.setString (5,affRes.getTypeHeure           ().getNom());
+            ps.setInt    (6,affRes.getNbGroupe            ());
+            ps.setInt    (7,affRes.getNbSemaine           ());
+            ps.setInt    (8,affRes.getNbHeure             ());
+            ps.setString (9,affRes.getCommentaire         ());
+
+            // WHERE
+            ps.setString (1,affRes.getCodeModule          ());
+            ps.setInt    (2,affRes.getNumeroSemestreModule());
+            ps.setString (3,affRes.getAnneeModule         ());
         }
+        catch (SQLException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Méthode delete
+    public void supprimerAffRes(AffectationRessource affRes)
+    {
+        String req = "DELETE FROM AffectationRessource WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString (1,affRes.getCodeModule           ());
+            ps.setInt    (2,affRes.getNumeroSemestreModule ());
+            ps.setString (3,affRes.getAnneeModule          ());
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    //Méthode select *
+    public ArrayList<AffectationRessource> getAllAffRes()
+    {
+        ArrayList<AffectationRessource> ensAffRes = new ArrayList<>();
+        String req = "SELECT * FROM Attribution";
+        try (PreparedStatement ps = co.prepareStatement(req))
+        {
+            try (ResultSet rs = ps.executeQuery())
+            {
+                while (rs.next()) {
+                    AffectationRessource affectationRessource = new AffectationRessource(
+                            getModuleByNumero(rs.getString("codeModule"          )),
+                                              rs.getInt   ("numeroSemestreModule"),
+                                              rs.getString("anneeModule"         ),
+                                              rs.getInt   ("idInter"             ),
+                            getCatHrByNom    (rs.getString("typeHeure"           )),
+                                              rs.getInt   ("nbGroupe"            ),
+                                              rs.getInt   ("nbSemaine"           ),
+                                              rs.getInt   ("nbHeure"             ),
+                                              rs.getString("commentaire"         )
+
+                    );
+
+                    ensAffRes.add(affectationRessource);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ensAffRes;
     }
 }
