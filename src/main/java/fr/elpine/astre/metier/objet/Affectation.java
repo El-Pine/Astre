@@ -1,6 +1,6 @@
 package fr.elpine.astre.metier.objet;
 
-public class AffectationRessource
+public class Affectation
 {
 
     private Module codeModule;
@@ -13,9 +13,9 @@ public class AffectationRessource
     private int nbHeure;
     private String commentaire;
 
-    public AffectationRessource(Module codeModule, int numeroSemestreModule, String anneeModule,
-                                int idInter, CategorieHeure typeHeure, int nbGroupe, int nbSemaine,
-                                int nbHeure, String commentaire)
+    public Affectation(Module codeModule, int numeroSemestreModule, String anneeModule,
+                       int idInter, CategorieHeure typeHeure, int nbGroupe, int nbSemaine,
+                       int nbHeure, String commentaire)
     {
         this.codeModule           = codeModule;
         this.numeroSemestreModule = numeroSemestreModule;
