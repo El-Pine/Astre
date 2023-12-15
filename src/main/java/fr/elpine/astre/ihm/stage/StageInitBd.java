@@ -39,7 +39,7 @@ public class StageInitBd
     private void setStage(Stage stage) { this.stage = stage; }
 
     public void onBtnValider(ActionEvent actionEvent){
-        if (Controleur.get().reloadDb()) {
+        if (Controleur.get().getDb().reloadDb()) {
             stage.close();
             if (parent != null)
                 parent.activer();
