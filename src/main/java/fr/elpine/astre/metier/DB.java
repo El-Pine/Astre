@@ -33,7 +33,7 @@ public class DB
                 "AffectationPPP",
                 "AffectationStage",
                 "AffectationSAE",
-                "AffectationRessource",
+                "Affectation",
                 "Attribution",
                 "Intervenant",
                 "CategorieIntervenant",
@@ -198,11 +198,12 @@ public class DB
             {
                 while(rs.next())
                 {
-                    Module mod = new Module(rs.getString ("nom"        ),
-                                            rs.getString ("code"       ),
-                                            rs.getString ("abreviation"),
-                                            rs.getString ("typeModule" ),
-                                            rs.getBoolean("validation" ));
+                    Module mod = new Module(rs.getString ("nom"           ),
+                                            rs.getString ("code"          ),
+                                            rs.getString ("abreviation"   ),
+                                            rs.getString ("typeModule"    ),
+                                            rs.getBoolean("validation"    ),
+                            getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee")));
                     ensModule.add(mod);
                 }
             }
@@ -224,11 +225,13 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-                    Module mod = new Module(rs.getString ("nom"        ),
-                                            rs.getString ("code"       ),
-                                            rs.getString ("abreviation"),
-                                            rs.getString ("typeModule" ),
-                                            rs.getBoolean("validation" ));
+                    Module mod = new Module(rs.getString ("nom"           ),
+                                            rs.getString ("code"          ),
+                                            rs.getString ("abreviation"   ),
+                                            rs.getString ("typeModule"    ),
+                                            rs.getBoolean("validation"    ),
+                            getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee"))
+                    );
                     return mod;
                 }
             }
@@ -417,6 +420,36 @@ public class DB
             e.printStackTrace();
         }
         return ensSemestre;
+    }
+
+    public Semestre getSemestreById(int numeroSemestre, String annee)
+    {
+        String req = "SELECT * FROM Semestre WHERE numero = ? AND annee = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setInt(1,numeroSemestre);
+            ps.setString(2,annee);
+            try (ResultSet rs = ps.executeQuery())
+            {
+                while (rs.next())
+                {
+                    Semestre semestre = new Semestre(
+                            rs.getInt                      ("numero"    ),
+                            rs.getInt                      ("nbGrpTD"   ),
+                            rs.getInt                      ("nbGrpTP"   ),
+                            rs.getInt                      ("nbEtd"     ),
+                            rs.getInt                      ("nbSemaine" ),
+                            getAnneeByNumero((rs.getString ("annee"     ))
+                            ));
+                    return semestre;
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /*-----------*/
@@ -831,20 +864,20 @@ public class DB
     /*-----------------------*/
 
     //Méthode insert
-    public void ajouterAffRes(AffectationRessource affRess)
+    public void ajouteraff(Affectation affs)
     {
-        String req = "INSERT INTO AffectationRessource VALUES(?,?,?,?,?,?,?,?,?)";
+        String req = "INSERT INTO Affectation VALUES(?,?,?,?,?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,affRess.getCodeModule          ()         );
-            ps.setInt   (2,affRess.getNumeroSemestreModule()         );
-            ps.setString(3,affRess.getAnneeModule         ()         );
-            ps.setInt   (4,affRess.getIdInter             ()         );
-            ps.setString(5,affRess.getTypeHeure           ().getNom());
-            ps.setInt   (6,affRess.getNbGroupe            ()         );
-            ps.setInt   (7,affRess.getNbSemaine           ()         );
-            ps.setInt   (8,affRess.getNbHeure             ()         );
-            ps.setString(9,affRess.getCommentaire         ()         );
+            ps.setString(1,affs.getCodeModule          ()         );
+            ps.setInt   (2,affs.getNumeroSemestreModule()         );
+            ps.setString(3,affs.getAnneeModule         ()         );
+            ps.setInt   (4,affs.getIdInter             ()         );
+            ps.setString(5,affs.getTypeHeure           ().getNom());
+            ps.setInt   (6,affs.getNbGroupe            ()         );
+            ps.setInt   (7,affs.getNbSemaine           ()         );
+            ps.setInt   (8,affs.getNbHeure             ()         );
+            ps.setString(9,affs.getCommentaire         ()         );
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -854,27 +887,27 @@ public class DB
     }
 
     //Méthode d'update
-    public void updateAffRes(AffectationRessource affRes)
+    public void updateaff(Affectation aff)
     {
-        String req = "UPDATE AffectationRessource SET codeModule = ?, numeroSemesreModule = ?, anneeModule = ?, idInter = ?, typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
+        String req = "UPDATE Affectation SET codeModule = ?, numeroSemesreModule = ?, anneeModule = ?, idInter = ?, typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             //SET
-            ps.setString (1,affRes.getCodeModule          ());
-            ps.setInt    (2,affRes.getNumeroSemestreModule());
-            ps.setString (3,affRes.getAnneeModule         ());
-            ps.setInt    (4,affRes.getIdInter             ());
+            ps.setString (1,aff.getCodeModule          ());
+            ps.setInt    (2,aff.getNumeroSemestreModule());
+            ps.setString (3,aff.getAnneeModule         ());
+            ps.setInt    (4,aff.getIdInter             ());
 
-            ps.setString (5,affRes.getTypeHeure           ().getNom());
-            ps.setInt    (6,affRes.getNbGroupe            ());
-            ps.setInt    (7,affRes.getNbSemaine           ());
-            ps.setInt    (8,affRes.getNbHeure             ());
-            ps.setString (9,affRes.getCommentaire         ());
+            ps.setString (5,aff.getTypeHeure           ().getNom());
+            ps.setInt    (6,aff.getNbGroupe            ());
+            ps.setInt    (7,aff.getNbSemaine           ());
+            ps.setInt    (8,aff.getNbHeure             ());
+            ps.setString (9,aff.getCommentaire         ());
 
             // WHERE
-            ps.setString (1,affRes.getCodeModule          ());
-            ps.setInt    (2,affRes.getNumeroSemestreModule());
-            ps.setString (3,affRes.getAnneeModule         ());
+            ps.setString (1,aff.getCodeModule          ());
+            ps.setInt    (2,aff.getNumeroSemestreModule());
+            ps.setString (3,aff.getAnneeModule         ());
         }
         catch (SQLException e )
         {
@@ -883,14 +916,14 @@ public class DB
     }
 
     //Méthode delete
-    public void supprimerAffRes(AffectationRessource affRes)
+    public void supprimeraff(Affectation aff)
     {
-        String req = "DELETE FROM AffectationRessource WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
+        String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString (1,affRes.getCodeModule           ());
-            ps.setInt    (2,affRes.getNumeroSemestreModule ());
-            ps.setString (3,affRes.getAnneeModule          ());
+            ps.setString (1,aff.getCodeModule           ());
+            ps.setInt    (2,aff.getNumeroSemestreModule ());
+            ps.setString (3,aff.getAnneeModule          ());
         }
         catch(SQLException e)
         {
@@ -899,16 +932,16 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<AffectationRessource> getAllAffRes()
+    public ArrayList<Affectation> getAllaff()
     {
-        ArrayList<AffectationRessource> ensAffRes = new ArrayList<>();
+        ArrayList<Affectation> ensaff = new ArrayList<>();
         String req = "SELECT * FROM Attribution";
         try (PreparedStatement ps = co.prepareStatement(req))
         {
             try (ResultSet rs = ps.executeQuery())
             {
                 while (rs.next()) {
-                    AffectationRessource affectationRessource = new AffectationRessource(
+                    Affectation Affectation = new Affectation(
                             getModuleByNumero(rs.getString("codeModule"          )),
                                               rs.getInt   ("numeroSemestreModule"),
                                               rs.getString("anneeModule"         ),
@@ -921,12 +954,12 @@ public class DB
 
                     );
 
-                    ensAffRes.add(affectationRessource);
+                    ensaff.add(Affectation);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return ensAffRes;
+        return ensaff;
     }
 }
