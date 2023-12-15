@@ -57,36 +57,10 @@ public class DB
 
     public boolean reloadDb()
     {
-        String filePath = "DB.java"; // Chemin vers votre fichier
-
-        try {
-            File file = new File(filePath);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-            StringBuilder content = new StringBuilder();
-
-            while ((line = reader.readLine()) != null) {
-                if (line.contains("DriverManager.getConnection")) {
-                    // Remplacer la ligne par "bonjour"
-                    content.append("bonjour").append(System.lineSeparator());
-                } else {
-                    content.append(line).append(System.lineSeparator());
-                }
-            }
-
-            reader.close();
-
-            // Écrire le contenu modifié dans le fichier
-            FileWriter writer = new FileWriter(file);
-            writer.write(content.toString());
-            writer.close();
-
-            System.out.println("Remplacement effectué avec succès.");
-        } catch (IOException e) { return false; }
-        return true;
+        return connectionDb();
     }
 
-    public boolean connectionDb()
+    private boolean connectionDb()
     {
         try {
             Class.forName("org.postgresql.Driver");
@@ -97,7 +71,7 @@ public class DB
             if (valid) System.out.println("VALID !");
             else {
                 System.out.println("reset . . .");
-                reset();
+                //reset();
                 System.out.println("reset ok !");
             }
         } catch (ClassNotFoundException | SQLException e){ return false; }
