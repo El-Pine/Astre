@@ -64,8 +64,8 @@
    <bottom>
       <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Valider" />
-            <Button cancelButton="true" mnemonicParsing="false" text="Annuler" />
+            <Button mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
+            <Button cancelButton="true" onAction="#onBtnAnnuler" mnemonicParsing="false" text="Annuler" />
          </children>
       </FlowPane>
    </bottom>
