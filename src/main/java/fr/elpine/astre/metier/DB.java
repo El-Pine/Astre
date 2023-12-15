@@ -1,10 +1,15 @@
 package fr.elpine.astre.metier;
 
+import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class DB
 {
@@ -16,6 +21,7 @@ public class DB
         try {
             Class.forName("org.postgresql.Driver");
             co = DriverManager.getConnection("jdbc:postgresql://localhost/bt220243", "bt220243", "Tho2004mas");
+
             /*
              * Pour créer un tunnel SSH
              * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
@@ -23,11 +29,72 @@ public class DB
              * Donc la BdD est accessible sur localhost:5432
              *
              * */
-            System.out.println("connection ok");
+
+            Controleur.lancementInterface(0);
+
+            boolean valid = verify();
+
+            if (valid) System.out.println("VALID !");
+            else {
+                System.out.println("reset . . .");
+                reset();
+                System.out.println("reset ok !");
+            }
         } catch (ClassNotFoundException | SQLException e){
-            System.out.println(e);
+            Controleur.lancementInterface(1);
         }
     }
+
+    /*-----------------*/
+    /*  Verifications  */
+    /*-----------------*/
+
+    public boolean verify() throws SQLException
+    {
+        boolean valid = true;
+
+        for (String table : Arrays.asList(
+                "AffectationPPP",
+                "AffectationStage",
+                "AffectationSAE",
+                "AffectationRessource",
+                "Attribution",
+                "Intervenant",
+                "CategorieIntervenant",
+                "CategorieHeure",
+                "Module",
+                "Semestre",
+                "Annee"
+        ))
+        {
+            ResultSet set = co.getMetaData().getTables(null, null, table.toLowerCase(), null);
+            if (!set.next())
+            {
+                valid = false; System.out.printf("Table %s introuvable !\n", table);
+            }
+        }
+
+        return valid;
+    }
+
+    public void reset() throws SQLException
+    {
+        co.createStatement().executeUpdate(loadSQL("scriptCreation.sql"));
+    }
+
+    private static String loadSQL(String file)
+    {
+        StringBuilder content = new StringBuilder();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(DB.class.getResourceAsStream(file)))))
+        {
+            reader.lines().forEach(line -> content.append(line).append('\n'));
+        }
+        catch (Exception e) { e.printStackTrace(); }
+
+        return content.toString();
+    }
+
 
     /*-----------------*/
     /*     Module      */

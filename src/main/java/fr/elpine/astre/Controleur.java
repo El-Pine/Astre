@@ -1,9 +1,12 @@
 package fr.elpine.astre;
 
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.stage.StageInitBd;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
 import javafx.application.Application;
+
+import java.io.IOException;
 
 public class Controleur
 {
@@ -16,8 +19,6 @@ public class Controleur
     {
         this.db         = new DB();
         this.astre      = new Astre( this );
-
-        Application.launch(AstreApplication.class);
     }
 
     public static Controleur get()
@@ -25,6 +26,11 @@ public class Controleur
         if (Controleur.ctrl == null) Controleur.ctrl = new Controleur();
 
         return Controleur.ctrl;
+    }
+
+    public static void lancementInterface(int code) {
+        AstreApplication.init(code);
+        Application.launch(AstreApplication.class);
     }
 
     public DB getDb() { return this.db; }
