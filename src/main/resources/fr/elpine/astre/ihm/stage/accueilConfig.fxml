@@ -33,14 +33,14 @@
                   <TableColumn fx:id="tcRatioInter" prefWidth="48.79998779296875" text="Ratio" />
               </columns>
             </TableView>
-            <TableView GridPane.columnIndex="1">
+            <TableView fx:id="tabCatHeures" GridPane.columnIndex="1">
               <columns>
-                <TableColumn prefWidth="81.20001220703125" text="Nom" />
-                <TableColumn prefWidth="41.0" text="Eqtd" />
-                  <TableColumn prefWidth="66.4000244140625" text="Ressources" />
-                  <TableColumn prefWidth="33.0" text="SAE" />
-                  <TableColumn prefWidth="32.20001220703125" text="PPP" />
-                  <TableColumn prefWidth="40.4000244140625" text="Stage" />
+                <TableColumn fx:id="tcNomHeures" prefWidth="81.20001220703125" text="Nom" />
+                <TableColumn fx:id="tcEqtdHeures" prefWidth="41.0" text="Eqtd" />
+                  <TableColumn fx:id="tcRessourcesHeures" prefWidth="66.4000244140625" text="Ressources" />
+                  <TableColumn fx:id="tcSaeHeures" prefWidth="33.0" text="SAE" />
+                  <TableColumn fx:id="tcPppHeures" prefWidth="32.20001220703125" text="PPP" />
+                  <TableColumn fx:id="tcStageHeures" prefWidth="40.4000244140625" text="Stage" />
               </columns>
             </TableView>
          </children>
