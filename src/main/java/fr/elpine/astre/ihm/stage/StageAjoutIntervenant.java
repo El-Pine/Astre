@@ -53,12 +53,6 @@ public class StageAjoutIntervenant
 
     private void setStage(Stage stage) { this.stage = stage; }
 
-
-    protected void onBtnEnregistrer()
-    {
-
-    }
-
     public void setCpbContrat()
     {
         for (CategorieIntervenant catInter : Controleur.get().getDb().getCategorieIntervenant())
@@ -77,6 +71,9 @@ public class StageAjoutIntervenant
         Controleur.get().getDb().ajouterIntervenant(new Intervenant(nom,prenom,email,statut,heureService,total));
     }
 
-    public void btnAnnuler(ActionEvent actionEvent) {
+    public void btnAnnuler(ActionEvent actionEvent) throws IOException
+    {
+        this.stage.close();
+        StageIntervenant.creer().show();
     }
 }
