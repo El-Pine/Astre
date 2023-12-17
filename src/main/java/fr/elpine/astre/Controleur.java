@@ -17,13 +17,17 @@ public class Controleur
 
     private Controleur()
     {
+        this.startApplication();
+
         this.db         = new DB();
         this.astre      = new Astre( this );
     }
 
-    public void start()
+    private void startApplication()
     {
-        Application.launch(AstreApplication.class);
+        new Thread(() -> {
+            Application.launch(AstreApplication.class);
+        }).start();
     }
 
     public static Controleur get()
@@ -37,6 +41,6 @@ public class Controleur
 
     public static void main(String[] args)
     {
-        Controleur.get().start();
+        Controleur.get();
     }
 }
