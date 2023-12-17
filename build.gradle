@@ -30,3 +30,9 @@ javafx {
     version = '17.0.6'
     modules = ['javafx.controls', 'javafx.fxml']
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
+}
