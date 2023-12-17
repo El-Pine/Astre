@@ -62,11 +62,11 @@ public class DB
             boolean valid = this.verify();
             if (valid)
                 System.out.println("DB VALID !");
-            /*else {
+            else {
                 System.out.println("DB Reset . . .");
                 this.reset();
                 System.out.println("DB Reset ok !");
-            }*/
+            }
 
             return true;
         } catch (ClassNotFoundException | SQLException e) { return false; }
