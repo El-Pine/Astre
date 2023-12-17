@@ -17,10 +17,6 @@ dependencies {
 
 compileJava.options.encoding = 'UTF-8'
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
 application {
     mainModule = 'fr.elpine.astre'
     mainClass = 'fr.elpine.astre.Controleur'
