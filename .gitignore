@@ -42,4 +42,5 @@ bin/
 .DS_Store
 
 ### Autre ###
-infoBd.txt
+/infoBd.txt
+/.idea/dataSources.xml

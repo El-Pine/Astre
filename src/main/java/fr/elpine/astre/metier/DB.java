@@ -26,7 +26,7 @@ public class DB
 
         /*
          * Pour créer un tunnel SSH
-         * -> ssh -L 5432:***REMOVED***:5432 -p 4660 ***REMOVED***@***REMOVED***
+         * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
          *
          * Donc la BdD est accessible sur localhost:5432
          *
