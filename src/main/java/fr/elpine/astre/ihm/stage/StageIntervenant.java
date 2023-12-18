@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Intervenant;
 import javafx.application.Platform;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class StageIntervenant implements Initializable
 {
+	@FXML
 	private TableView<Intervenant> tabAffInter;
 
 	@FXML
@@ -82,13 +84,29 @@ public class StageIntervenant implements Initializable
 	@FXML
 	protected void onBtnClickAjouter() throws IOException
 	{
-		stage.close();
-		StageAjoutIntervenant.creer().show();
+		this.desactiver();
+		StageAjoutIntervenant.creer( this ).show();
 	}
 
 	@FXML
 	protected void onBtnClickSupprimer() {
-		// A FAIRE
+		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
+		Controleur.get().getDb().supprimerIntervenant(inter);
+	}
+
+	public void desactiver()
+	{
+		this.stage.getScene().lookup("#onBtnClickEnregistrer").setDisable(true);
+		this.stage.getScene().lookup("#onBtnClickAnnuler").setDisable(true);
+		this.stage.getScene().lookup("#onBtnClickAjouter").setDisable(true);
+		this.stage.getScene().lookup("#onBtnClickSupprimer").setDisable(true);
+	}
+
+	public void activer() {
+		this.stage.getScene().lookup("#onBtnClickEnregistrer").setDisable(false);
+		this.stage.getScene().lookup("#onBtnClickAnnuler").setDisable(false);
+		this.stage.getScene().lookup("#onBtnClickAjouter").setDisable(false);
+		this.stage.getScene().lookup("#onBtnClickSupprimer").setDisable(false);
 	}
 
 	@Override
@@ -109,4 +127,3 @@ public class StageIntervenant implements Initializable
 
 	}
 }
-

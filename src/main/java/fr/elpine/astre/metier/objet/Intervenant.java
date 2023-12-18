@@ -1,6 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,11 +14,12 @@ public class Intervenant
     private int                  service;
     private int                  heureMax;
     private double               ratioTP;
-    private int                  id;
+    private Integer                  id;
 
 
-    public Intervenant(String nom, String prenom,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
+    private Intervenant(String nom, String prenom, String email,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
     {
+        this.id         = null;
         this.nom        = nom;
         this.prenom     = prenom;
         this.statut     = statut;
@@ -26,15 +28,12 @@ public class Intervenant
         this.ratioTP    = ratioTP;
     }
 
-    public Intervenant(int id,String nom, String prenom,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
+    public static Intervenant creerIntervenant(String nom, String prenom, String email,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
     {
-        this.nom        = nom;
-        this.prenom     = prenom;
-        this.statut     = statut;
-        this.service    = service;
-        this.heureMax   = heureMax;
-        this.ratioTP    = ratioTP;
-        this.id         = id;
+        String emailTmt = email.toLowerCase();
+        if (validateEmail(emailTmt))
+            return new Intervenant(nom, prenom, email, statut, service, heureMax, ratioTP);
+        return null;
     }
 
     public static boolean validateEmail(String email) {
