@@ -92,9 +92,12 @@ public class StageInitBd implements Initializable
     {
         String[] elements = Controleur.get().getDb().getInformations();
 
-        this.txtfIp  .setText(elements[0]);
-        this.txtfPort.setText(elements[1]);
-        this.txtfBdd .setText(elements[2]);
-        this.txtfId  .setText(elements[3]);
+        if ( elements != null )
+        {
+            this.txtfIp.setText(elements[0]);
+            this.txtfPort.setText(elements[1]);
+            this.txtfBdd.setText(elements[2]);
+            this.txtfId.setText(elements[3]);
+        }
     }
 }
