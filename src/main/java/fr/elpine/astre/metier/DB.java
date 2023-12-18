@@ -1,18 +1,10 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.ihm.stage.StagePrincipal;
 import fr.elpine.astre.metier.objet.*;
-import fr.elpine.astre.metier.objet.Module;
-import org.w3c.dom.ls.LSOutput;
+import fr.elpine.astre.metier.objet.Modules;
 
-import javax.crypto.spec.PSource;
-import javax.sound.midi.Soundbank;
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,16 +149,16 @@ public class DB
     /*-----------------*/
 
     //Méthode d'insert
-    public void ajouterModule(Module module)
+    public void ajouterModule(Modules modules)
     {
         String req = "INSERT INTO Module VALUES(?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString  (1,module.getCode        ());
-            ps.setString  (2,module.getNom         ());
-            ps.setString  (3,module.getAbreviation ());
-            ps.setString  (4,module.getTypeModule  ());
-            ps.setBoolean (5,module.estValide      ());
+            ps.setString  (1, modules.getCode        ());
+            ps.setString  (2, modules.getNom         ());
+            ps.setString  (3, modules.getAbreviation ());
+            ps.setString  (4, modules.getTypeModule  ());
+            ps.setBoolean (5, modules.estValide      ());
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -176,17 +168,17 @@ public class DB
     }
 
     //Méthode d'update
-    public void majModule(Module module)
+    public void majModule(Modules modules)
     {
         String req = "UPDATE Module SET code = ?, nom = ?, abreviation = ?, typeModule = ?, validation = ? WHERE code = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString  (1,module.getCode        ());
-            ps.setString  (2,module.getNom         ());
-            ps.setString  (3,module.getAbreviation ());
-            ps.setString  (4,module.getTypeModule  ());
-            ps.setBoolean (5,module.estValide      ());
-            ps.setString  (6,module.getCode        ());
+            ps.setString  (1, modules.getCode        ());
+            ps.setString  (2, modules.getNom         ());
+            ps.setString  (3, modules.getAbreviation ());
+            ps.setString  (4, modules.getTypeModule  ());
+            ps.setBoolean (5, modules.estValide      ());
+            ps.setString  (6, modules.getCode        ());
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -196,12 +188,12 @@ public class DB
     }
 
     //Méthode delete
-    public void supprimerModule(Module module)
+    public void supprimerModule(Modules modules)
     {
         String req = "DELETE FORM Module WHERE code = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,module.getCode());
+            ps.setString(1, modules.getCode());
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -211,9 +203,9 @@ public class DB
     }
 
     //Méthode select all
-    public ArrayList<Module> getAllModule()
+    public ArrayList<Modules> getAllModule()
     {
-        ArrayList<Module> ensModule = new ArrayList<>();
+        ArrayList<Modules> ensModules = new ArrayList<>();
         String req = "SELECT * FROM Module";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
@@ -221,13 +213,13 @@ public class DB
             {
                 while(rs.next())
                 {
-                    Module mod = new Module(rs.getString ("nom"           ),
+                    Modules mod = new Modules(rs.getString ("nom"           ),
                                             rs.getString ("code"          ),
                                             rs.getString ("abreviation"   ),
                                             rs.getString ("typeModule"    ),
                                             rs.getBoolean("validation"    ),
                             getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee")));
-                    ensModule.add(mod);
+                    ensModules.add(mod);
                 }
             }
         }
@@ -238,7 +230,7 @@ public class DB
         return null;
     }
 
-    public Module getModuleByNumero(String numero)
+    public Modules getModuleByNumero(String numero)
     {
         String req = "SELECT * FROM Module WHERE code = ?";
         try (PreparedStatement ps = co.prepareStatement(req))
@@ -248,7 +240,7 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-                    Module mod = new Module(rs.getString ("nom"           ),
+                    Modules mod = new Modules(rs.getString ("nom"           ),
                                             rs.getString ("code"          ),
                                             rs.getString ("abreviation"   ),
                                             rs.getString ("typeModule"    ),

@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Intervenant;
+import fr.elpine.astre.metier.objet.Modules;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,6 +27,11 @@ public class StagePrevisionnel
 {
 	private Stage stage;
 
+
+
+
+
+
 	public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
@@ -38,6 +45,7 @@ public class StagePrevisionnel
 
 		stage.setTitle("Previsions");
 		stage.setScene(scene);
+
 
 		stage.setOnCloseRequest(e -> {
 			// perform actions before closing

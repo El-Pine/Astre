@@ -10,13 +10,13 @@ public class Attribution
     private String nomCategorieHeure;
     private String codeModule;
 
-    private Module module;
+    private Modules modules;
     private CategorieHeure catHr;
 
 
     public Attribution(int numeroSemestreModule, int nbHeure, int nbSemaine,
                        String anneeModule, String nomCategorieHeure, String codeModule,
-                       Module module, CategorieHeure catHr)
+                       Modules modules, CategorieHeure catHr)
     {
         this.numeroSemestreModule = numeroSemestreModule;
         this.nbHeure = nbHeure;
@@ -24,7 +24,7 @@ public class Attribution
         this.anneeModule = anneeModule;
         this.nomCategorieHeure = nomCategorieHeure;
         this.codeModule = codeModule;
-        this.module = module;
+        this.modules = modules;
         this.catHr = catHr;
     }
 
@@ -34,7 +34,7 @@ public class Attribution
     public String         getAnneeModule         () { return anneeModule;          }
     public String         getNomCategorieHeure   () { return nomCategorieHeure;    }
     public String         getCodeModule          () { return codeModule;           }
-    public Module         getModule              () { return module;               }
+    public Modules getModule              () { return modules;               }
     public CategorieHeure getCatHr               () { return catHr;                }
 
     public void setNumeroSemestreModule(int numeroSemestreModule) { this.numeroSemestreModule = numeroSemestreModule; }
@@ -43,6 +43,6 @@ public class Attribution
     public void setAnneeModule         (String anneeModule      ) { this.anneeModule          = anneeModule;          }
     public void setNomCategorieHeure   (String nomCategorieHeure) { this.nomCategorieHeure    = nomCategorieHeure;    }
     public void setCodeModule          (String codeModule       ) { this.codeModule           = codeModule;           }
-    public void setModule              (Module module           ) { this.module               = module;               }
+    public void setModule              (Modules modules) { this.modules = modules;               }
     public void setCatHr               (CategorieHeure catHr    ) { this.catHr                = catHr;                }
 }

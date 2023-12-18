@@ -1,6 +1,6 @@
 package fr.elpine.astre.metier.objet;
 
-public class Module
+public class Modules
 {
     private String nom;
     private String code;
@@ -9,7 +9,7 @@ public class Module
     private boolean validation;
     private Semestre semestre;
 
-    public Module(String nom, String code, String abreviation, String typeModule, boolean validation,Semestre semestre)
+    public Modules(String nom, String code, String abreviation, String typeModule, boolean validation, Semestre semestre)
     {
         this.nom            = nom;
         this.code           = code;
