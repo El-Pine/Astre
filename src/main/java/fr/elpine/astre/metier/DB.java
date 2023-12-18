@@ -570,16 +570,16 @@ public class DB
 
     public Annee getAnneeByNumero(String numero)
     {
-        String req = "SELECT * FROM Annee WHERE numero = ?";
+        String req = "SELECT * FROM Annee WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, numero);
             try (ResultSet rs = ps.executeQuery()) {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     Annee annee = new Annee(
-                            rs.getString("numero"),
-                            rs.getString("dateDeb"),
-                            rs.getString("dateFin")
+                            rs.getString(1),
+                            rs.getString(2),
+                            rs.getString(3)
                     );
                     return annee;
                 }

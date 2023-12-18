@@ -349,7 +349,7 @@
                   <Insets left="20.0" />
                </FlowPane.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#onBtnModifier" text="Modifier">
+            <Button mnemonicParsing="false"  text="Modifier">
                <FlowPane.margin>
                   <Insets left="20.0" />
                </FlowPane.margin>

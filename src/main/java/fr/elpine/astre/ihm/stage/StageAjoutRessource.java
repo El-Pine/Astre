@@ -41,8 +41,6 @@ public class StageAjoutRessource implements Initializable {
 
     private void setStage(Stage stage) { this.stage = stage; }
 
-    private
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

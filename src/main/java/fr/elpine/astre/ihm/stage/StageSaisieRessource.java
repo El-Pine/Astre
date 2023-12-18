@@ -64,7 +64,7 @@ public class StageSaisieRessource implements Initializable
     @FXML
     protected void onBtnAjouter(ActionEvent e) throws IOException {
         this.desactiver();
-        //TODO pas oublier d'affciher la fenetre
+        //TODO:pas oublier d'affciher la fenetre
     }
 
     @FXML
