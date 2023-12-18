@@ -27,7 +27,7 @@
        </Pane>
    </top>
    <center>
-      <TableView fx:id="tabAffInter" snapToPixel="false" BorderPane.alignment="CENTER">
+      <TableView fx:id="tabAffInter" editable="true" snapToPixel="false" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="tcCategorie" editable="false" prefWidth="60.0" reorderable="false" resizable="false" text="Catégorie" />
           <TableColumn fx:id="tcNom" editable="false" prefWidth="65.0" reorderable="false" resizable="false" text="Nom" />

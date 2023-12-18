@@ -91,6 +91,7 @@ public class StageAjouterCategories
             //lblErreur.setText("Les champs code et nom doivent être remplis");
 
         parent.activer();
+        parent.refreshCatInter();
         stage.close();
     }
 
@@ -104,6 +105,7 @@ public class StageAjouterCategories
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {
         parent.activer();
+        parent.refreshCatInter();
         stage.close();
     }
 
@@ -121,6 +123,7 @@ public class StageAjouterCategories
         Controleur.get().getDb().ajouterCategorieHeure(cat);
 
         parent.activer();
+        parent.refreshCatHr();
         stage.close();
     }
 

@@ -15,10 +15,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,6 +60,12 @@ public class StageAccueilConfig implements Initializable
     @FXML
     private TableColumn<CategorieHeure,Boolean> tcStageHeures;
 
+    @FXML
+    private Label lblErreur;
+
+    public static ObservableList<CategorieHeure> ensCatHeure;
+    public static ObservableList<CategorieIntervenant> ensCatInter;
+
 
     public static Stage creer() throws IOException
     {
@@ -64,7 +73,7 @@ public class StageAccueilConfig implements Initializable
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueilConfig.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 700, 400);
 
         StageAccueilConfig stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) stageCtrl.setStage(stage);
@@ -88,9 +97,38 @@ public class StageAccueilConfig implements Initializable
         StageInitBd.creer( this ).show();
     }
 
-    public void onBtnAjouter(ActionEvent actionEvent) throws IOException {
+    public void onBtnAjouter(ActionEvent actionEvent) throws IOException
+    {
         desactiver();
+
         StageAjouterCategories.creer( this ).show();
+    }
+
+    public void onBtnSupprimer(ActionEvent e) throws IOException
+    {
+        boolean estSupprimer = true;
+        CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
+        CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
+
+        if(catInter != null)
+            estSupprimer = Controleur.get().getDb().supprimerCatIntervenant(catInter);
+        if(catHr != null)
+            estSupprimer = Controleur.get().getDb().supprimerCategorieHeure(catHr);
+
+        if(!estSupprimer)
+        {
+            lblErreur.setText("La catégorie est affectées quelque part");
+            Controleur.get().getDb().reloadDB();
+        }
+        else
+        {
+            lblErreur.setText("");
+        }
+
+
+
+        this.refreshCatInter();
+        this.refreshCatHr   ();
     }
 
     public void desactiver()
@@ -127,6 +165,16 @@ public class StageAccueilConfig implements Initializable
 
         ObservableList ensCatHeure = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieHeure());
         tabCatHeures.setItems(ensCatHeure);
+    }
+
+    public void refreshCatHr() {
+        StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieHeure());
+        tabCatHeures.setItems(StageAccueilConfig.ensCatHeure);
+    }
+
+    public void refreshCatInter() {
+        StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
+        tabCatInter.setItems(StageAccueilConfig.ensCatInter);
     }
 
 
