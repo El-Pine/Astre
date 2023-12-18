@@ -45,5 +45,5 @@ public class Affectation
     public String getCodeModule          () { return codeModule.getCode();}
     public int    getNumeroSemestreModule() { return numeroSemestreModule;}
     public String getAnneeModule         () { return anneeModule;         }
-    public Intervenant  getIdInter             () { return inter;             }
+    public Intervenant  getInter             () { return inter;         }
 }

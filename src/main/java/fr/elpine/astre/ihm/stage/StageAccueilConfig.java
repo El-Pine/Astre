@@ -100,7 +100,6 @@ public class StageAccueilConfig implements Initializable
     public void onBtnAjouter(ActionEvent actionEvent) throws IOException
     {
         desactiver();
-
         StageAjouterCategories.creer( this ).show();
     }
 
@@ -151,7 +150,7 @@ public class StageAccueilConfig implements Initializable
         tcNomInter       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getNom       ()));
         tcHMaxInter      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMax()).asObject());
         tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getService   ()).asObject());
-        tcRatioInter.setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTd   ()).asObject());
+        tcRatioInter     .setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTd   ()).asObject());
 
         ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
         tabCatInter.setItems(ensCatInter);
