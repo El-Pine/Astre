@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
    <bottom>
        <Pane prefHeight="123.0" prefWidth="680.0" BorderPane.alignment="CENTER">
            <Button layoutX="22.0" layoutY="84.0" mnemonicParsing="false" onAction="#onBtnClickEnregistrer" prefWidth="75.0" text="Enregister" />
