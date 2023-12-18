@@ -93,6 +93,7 @@ public class StageIntervenant implements Initializable
 	protected void onBtnClickSupprimer() {
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
 		Controleur.get().getDb().supprimerIntervenant(inter);
+		this.refresh();
 	}
 
 	public void desactiver()
