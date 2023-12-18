@@ -36,7 +36,7 @@ public class StageAjouterCategories
 
     //private Label lblErreur;
 
-    static StageAccueilConfig parent;
+    private static StageAccueilConfig parent;
 
     @FXML
     private TextField txtfNomCatH;
