@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -79,6 +80,7 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        /*
         tableauIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant()));
         tableauType.setCellValueFactory        (cellData -> new SimpleStringProperty(cellData.getValue().getType()));
         tableauNbH.setCellValueFactory         (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbH()).asObject());
@@ -115,5 +117,7 @@ public class StageSaisieRessource implements Initializable
         );
 
         tableau.setItems(elements);
+
+         */
     }
 }

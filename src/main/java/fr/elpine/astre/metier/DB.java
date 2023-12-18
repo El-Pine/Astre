@@ -247,15 +247,17 @@ public class DB
     //Méthode d'insert
     public void ajouterIntervenant(Intervenant inter)
     {
-        String req = "INSERT INTO Intervenant VALUES(?,?,?,?,?)";
+        String req = "INSERT INTO Intervenant (nom, prenom, mail, codeCategorie, heureService, heureMax, ratioTP) VALUES (?, ?, ?, ?,?, ?, ?)";
         try
         {
             ps = co.prepareStatement( req );
             ps.setString   (1,inter.getNom              ()  );
             ps.setString   (2,inter.getPrenom           ()  );
-            ps.setString   (3,inter.getStatut().getCode ()  );
+            ps.setString   (3, inter.getEmail           ()  );
+            ps.setString   (4,inter.getStatut().getCode ()  );
             ps.setInt      (5,inter.getService          ()  );
-            ps.setDouble   (6,inter.getHeureMax         ()  );
+            ps.setInt      (6,inter.getHeureMax         ()  );
+            ps.setDouble   (7,inter.getRatioTP          ()  );
             ps.executeUpdate();
         }
         catch(SQLException e)
