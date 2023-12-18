@@ -91,6 +91,7 @@ public class StageAjoutIntervenant
             parent.activer();
         } catch (Exception e) {
             lblErreur.setVisible(true);
+            e.printStackTrace();
         }
     }
 
