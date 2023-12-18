@@ -425,13 +425,13 @@
                <center>
                   <TableView fx:id="tableau">
                      <columns>
-                        <TableColumn fx:id="tableauIntervenant" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" text="Intervenant" />
-                        <TableColumn fx:id="tableauType" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" text="Type" />
-                        <TableColumn prefWidth="82.4000244140625" text="Nb Semaine" />
-                        <TableColumn fx:id="tableauNbH" maxWidth="95.199951171875" minWidth="50.0" prefWidth="61.5999755859375" text="Nb H" />
-                        <TableColumn prefWidth="75.0" text="Nb Gp" />
-                        <TableColumn fx:id="tableauTotalEqtd" maxWidth="148.800048828125" minWidth="75.0" prefWidth="104.800048828125" text="Total Eqtd" />
-                        <TableColumn fx:id="tableauCommentaire" maxWidth="290.4000183105469" minWidth="180.0" prefWidth="216.79995727539062" text="Commentaire" />
+                        <TableColumn editable="false" reorderable="false" resizable="false" fx:id="tableauIntervenant" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" text="Intervenant" />
+                        <TableColumn editable="false" reorderable="false" resizable="false" fx:id="tableauType" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" text="Type" />
+                        <TableColumn editable="false" reorderable="false" resizable="false" prefWidth="82.4000244140625" text="Nb Semaine" />
+                        <TableColumn editable="false" reorderable="false" resizable="false" fx:id="tableauNbH" maxWidth="95.199951171875" minWidth="50.0" prefWidth="61.5999755859375" text="Nb H" />
+                        <TableColumn editable="false" reorderable="false" resizable="false" prefWidth="75.0" text="Nb Gp" />
+                        <TableColumn editable="false" reorderable="false" resizable="false" fx:id="tableauTotalEqtd" maxWidth="148.800048828125" minWidth="75.0" prefWidth="104.800048828125" text="Total Eqtd" />
+                        <TableColumn editable="false" reorderable="false" resizable="false" fx:id="tableauCommentaire" maxWidth="290.4000183105469" minWidth="180.0" prefWidth="216.79995727539062" text="Commentaire" />
                      </columns>
                      <opaqueInsets>
                         <Insets />
