@@ -1,17 +1,21 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Affectation;
+import fr.elpine.astre.metier.objet.Intervenant;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,11 +30,16 @@ public class StageSaisieRessource implements Initializable
     public TableColumn<Affectation, Integer> tableauNbH;
     public TableColumn<Affectation, Double> tableauTotalEqtd;
     public TableColumn<Affectation, String> tableauCommentaire;
+    public static ObservableList<Affectation> ensAff;
     private Stage stage;
+
+    @FXML
+    private TextField txtCode;
 
     public static Stage creer() throws IOException
     {
         Stage stage = new Stage();
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllaff());
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieRessource.fxml"));
 
@@ -53,16 +62,36 @@ public class StageSaisieRessource implements Initializable
     private void setStage(Stage stage) { this.stage = stage; }
 
     @FXML
-    protected void onBtnAjouter() throws IOException {
+    protected void onBtnAjouter(ActionEvent e) throws IOException {
+        this.desactiver();
+        //TODO pas oublier d'affciher la fenetre
     }
 
     @FXML
-    protected void onBtnSupprimer() throws IOException {
+    protected void onBtnSupprimer(ActionEvent e) throws IOException {
+        Affectation affectation = tableau.getSelectionModel().getSelectedItem();
+
+        if(affectation != null) {
+            tableau.getItems().remove(affectation);
+            Controleur.get().getDb().supprimeraff(affectation);
+        }
+        else
+            System.out.println("Pb objet pas supprimer");
     }
 
-    @FXML
-    protected void onBtnDetail() {
-        // A FAIRE
+    public void desactiver()
+    {
+        this.stage.getScene().lookup("#btnEnregistrer").setDisable(true);
+        this.stage.getScene().lookup("#btnAnnuler").setDisable(true);
+        this.stage.getScene().lookup("#btnAjouter").setDisable(true);
+        this.stage.getScene().lookup("#btnSupprimer").setDisable(true);
+    }
+
+    public void activer() {
+        this.stage.getScene().lookup("#btnEnregistrer").setDisable(false);
+        this.stage.getScene().lookup("#btnAnnuler").setDisable(false);
+        this.stage.getScene().lookup("#btnAjouter").setDisable(false);
+        this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
     }
 
     @FXML
@@ -80,44 +109,18 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        /*
-        tableauIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant()));
-        tableauType.setCellValueFactory        (cellData -> new SimpleStringProperty(cellData.getValue().getType()));
-        tableauNbH.setCellValueFactory         (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbH()).asObject());
-        tableauTotalEqtd.setCellValueFactory   (cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalEqtd()).asObject());
+
+        tableauIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIdInter().getPrenom()));
+        tableauType.setCellValueFactory        (cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
+        tableauNbH.setCellValueFactory         (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject());
+        tableauTotalEqtd.setCellValueFactory   (cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeure()).asObject());
         tableauCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
 
-        ObservableList<Affectation> elements = FXCollections.observableArrayList(
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 15, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 16, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 17, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 18, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc"),
-                new Affectation("aaaaaa", "bbbbbb", 156, 10.2, "ccccc")
-        );
+        tableau.setItems(StageSaisieRessource.ensAff);
+    }
 
-        tableau.setItems(elements);
-
-         */
+    public void refresh() {
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllaff());
+        tableau.setItems(StageSaisieRessource.ensAff);
     }
 }
