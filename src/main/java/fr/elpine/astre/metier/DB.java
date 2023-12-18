@@ -312,17 +312,16 @@ public class DB
             {
                 while (rs.next())
                 {
-                    Intervenant intervenant = new Intervenant(
-                                                 rs.getInt   (1 ),
-                                                 rs.getString(2 ),
-                                                 rs.getString(4 ),
-                            selectCatInterByCode(rs.getString(5 )),
-                                                 rs.getInt   (5 ),
-                                                 rs.getInt   (6 ),
-                                                 rs.getDouble(7)
-                    );
+                    Intervenant inter = Intervenant.creerIntervenant(
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        selectCatInterByCode(rs.getString(5)),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getDouble(8));
                     System.out.println("jee suis la ");
-                    resultats.add(intervenant);
+                    resultats.add(inter);
                 }
             }
         } catch (SQLException e) {
@@ -344,14 +343,14 @@ public class DB
             {
                 while (rs.next())
                 {
-                    Intervenant inter = new Intervenant(
-                                                  rs.getString(2 ),
-                                                  rs.getString(3 ),
-                            selectCatInterByCode( rs.getString(4)),
-                                                  rs.getInt   (5),
-                                                  rs.getInt   (6),
-                                                  rs.getInt   (7)
-                            );
+                    Intervenant inter = Intervenant.creerIntervenant(
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            selectCatInterByCode(rs.getString(5)),
+                            rs.getInt(6),
+                            rs.getInt(7),
+                            rs.getDouble(8));
                     return inter;
                 }
             }

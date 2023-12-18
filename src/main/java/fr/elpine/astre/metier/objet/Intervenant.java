@@ -1,7 +1,6 @@
 package fr.elpine.astre.metier.objet;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +15,16 @@ public class Intervenant
     private double               ratioTP;
     private Integer                  id;
 
+
+    public Intervenant(String nom, String prenom,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
+    {
+        this.nom        = nom;
+        this.prenom     = prenom;
+        this.statut     = statut;
+        this.service    = service;
+        this.heureMax   = heureMax;
+        this.ratioTP    = ratioTP;
+    }
 
     private Intervenant(String nom, String prenom, String email,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
     {
