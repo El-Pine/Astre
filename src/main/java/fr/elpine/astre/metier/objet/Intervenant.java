@@ -1,6 +1,8 @@
 package fr.elpine.astre.metier.objet;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Intervenant
 {
@@ -23,6 +25,20 @@ public class Intervenant
         this.service    = service;
         this.heureMax   = heureMax;
         this.ratioTP    = ratioTP;
+    }
+
+    public static boolean validateEmail(String email) {
+        // Expression régulière pour vérifier l'adresse e-mail
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        // Création du pattern avec l'expression régulière
+        Pattern pattern = Pattern.compile(emailRegex);
+
+        // Correspondance du pattern avec l'adresse e-mail fournie
+        Matcher matcher = pattern.matcher(email);
+
+        // Vérification de la correspondance
+        return matcher.matches();
     }
 
     /*   GETTER    */
