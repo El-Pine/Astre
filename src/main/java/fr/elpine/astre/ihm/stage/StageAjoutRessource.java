@@ -16,8 +16,7 @@ import java.util.ResourceBundle;
 public class StageAjoutRessource implements Initializable {
     private Stage stage;
 
-    @FXML
-    private ComboBox cbb
+
     public static Stage creer() throws IOException
     {
         Stage stage = new Stage();

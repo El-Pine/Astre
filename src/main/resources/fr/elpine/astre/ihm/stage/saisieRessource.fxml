@@ -125,12 +125,12 @@
          <children>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onBtnAjouter" prefHeight="26.0" prefWidth="80.0" text="Ajouter">
+                  <Button mnemonicParsing="false" fx:id="BtnAjouter" onAction="#onBtnAjouter" prefHeight="26.0" prefWidth="80.0" text="Ajouter">
                      <FlowPane.margin>
                         <Insets right="20.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onBtnSupprimer" prefWidth="80.0" text="Supprimer" />
+                  <Button mnemonicParsing="false"  fx:id="BtnSupprimer" onAction="#onBtnSupprimer" prefWidth="80.0" text="Supprimer" />
                   <Button mnemonicParsing="false" onAction="#onBtnModifier" prefWidth="80.0" text="Modifier">
                      <FlowPane.margin>
                         <Insets left="20.0" />
@@ -140,12 +140,12 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#onBtnEnregistrer" text="Enregistrer">
+                  <Button alignment="CENTER" mnemonicParsing="false" fx:id="BtnEnregistrer" onAction="#onBtnEnregistrer" text="Enregistrer">
                      <FlowPane.margin>
                         <Insets right="20.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onBtnAnnuler" text="Annuler" />
+                  <Button mnemonicParsing="false" fx:id="tnAnnuler" onAction="#onBtnAnnuler" text="Annuler" />
                </children>
             </FlowPane>
          </children>
