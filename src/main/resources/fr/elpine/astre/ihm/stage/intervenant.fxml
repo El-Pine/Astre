@@ -11,6 +11,7 @@
            <Button fx:id="btnAnnuler" layoutX="108.0" layoutY="84.0" mnemonicParsing="false" onAction="#onBtnClickAnnuler" prefWidth="75.0" text="Annuler" />
            <Button fx:id="btnAjouter" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickAjouter" prefWidth="75.0" text="Ajouter" />
            <Button fx:id="btnSupprimer" layoutX="108.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickSupprimer" prefWidth="75.0" text="Supprimer" />
+         <TextField fx:id="txtFieldRecherche" layoutX="400.0" layoutY="14.0" onAction="#onBtnRechercher" prefWidth="250.0" promptText="Rehercher (Categorie,nom,prénom)" />
        </Pane>
    </bottom>
    <left>
