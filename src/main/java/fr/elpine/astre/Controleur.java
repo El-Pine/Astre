@@ -1,7 +1,6 @@
 package fr.elpine.astre;
 
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.ihm.stage.StageInitBd;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
 import javafx.application.Application;
@@ -19,15 +18,13 @@ public class Controleur
     {
         this.startApplication();
 
-        this.db         = new DB();
-        this.astre      = new Astre( this );
+	    this.db    = new DB();
+        this.astre = new Astre( this );
     }
 
     private void startApplication()
     {
-        new Thread(() -> {
-            Application.launch(AstreApplication.class);
-        }).start();
+        new Thread(() -> Application.launch(AstreApplication.class)).start();
     }
 
     public static Controleur get()
