@@ -22,7 +22,12 @@ public class DB
 
     public DB()
     {
-        AstreApplication.erreur = !connexionDB();
+        // Verification de l'existance du fichier de connexion
+        File fichier = new File("infoBd.txt");
+        try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
+
+        // Connexion
+        AstreApplication.erreur = !this.reloadDB();
 
         /*
          * Pour créer un tunnel SSH
@@ -37,53 +42,61 @@ public class DB
     /*    Connexion    */
     /*-----------------*/
 
-    public boolean connexionDB()
+    private boolean connexion(String ip, int port, String database, String identifiant, String password)
+    {
+        try {
+            Class.forName("org.postgresql.Driver");
+            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s", ip, port, database), identifiant, password);
+
+            try {
+                if (!this.verify()) this.reset();
+            }
+            catch (Exception e) { e.printStackTrace(); }
+
+            return true;
+        } catch (Exception e) { return false; }
+    }
+
+    public boolean reloadDB()
+    {
+        String[] elements = this.getInformations();
+
+        return this.connexion( elements[0], Integer.parseInt(elements[1]), elements[2], elements[3], elements[4] );
+    }
+
+    public boolean reloadDB( String ip, int port, String database, String identifiant, String password )
+    {
+        boolean valid = this.connexion( ip, port, database, identifiant, password );
+
+        if (valid)
+            try
+            {
+                FileWriter writer = new FileWriter("infoBd.txt", false);
+
+                writer.write(String.format("%s\t%s\t%s\t%s\t%s", ip, port, database, identifiant, password));
+                writer.close();
+            }
+            catch (IOException e) { e.printStackTrace(); }
+
+        return valid;
+    }
+
+    public String[] getInformations()
     {
         String[] elements = null;
 
         try
         {
             BufferedReader reader = new BufferedReader(new FileReader("infoBd.txt"));
-            // Lecture de la ligne depuis le fichier
+
             String line = reader.readLine();
-            if(line !=null)
-            {
-                // Division de la ligne en utilisant le séparateur donné
-                elements = line.split("<");
-            }
-        } catch (IOException e) { throw new RuntimeException(e); }
+            if ( line != null ) elements = line.split("\t");
+        }
+        catch (IOException e) { e.printStackTrace(); }
 
-        if ( elements == null || elements.length != 5 ) { return false; }
+        if ( elements == null || elements.length != 5 ) { return null; }
 
-        try {
-            Class.forName("org.postgresql.Driver");
-            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%s/%s", elements[0], elements[1], elements[2]), elements[3], elements[4]);
-
-            boolean valid = this.verify();
-            if (valid)
-                System.out.println("DB VALID !");
-            else {
-                System.out.println("DB Reset . . .");
-                this.reset();
-                System.out.println("DB Reset ok !");
-            }
-
-            return true;
-        } catch (ClassNotFoundException | SQLException e) { return false; }
-    }
-
-    public boolean reloadDb(String ip, String port, String bdd, String id, String mdp )
-    {
-        try
-        {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("infoBd.txt"));
-
-            writer.write(ip+"<"+port+"<"+bdd+"<"+id+"<"+mdp);
-            writer.close();
-
-        } catch (IOException e) { System.out.println("erreur2"); }
-
-        return connexionDB();
+        return elements;
     }
 
     /*-----------------*/

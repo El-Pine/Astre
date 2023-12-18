@@ -1,1 +1,1 @@
-localhost<5432<bt220243<bt220243<Tho2004mas
+localhost	5432	bt220243	bt220243	Tho2004mas
