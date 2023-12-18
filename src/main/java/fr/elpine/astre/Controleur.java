@@ -18,15 +18,13 @@ public class Controleur
     {
         this.startApplication();
 
-	    this.db         = new DB();
-        this.astre      = new Astre( this );
+	    this.db    = new DB();
+        this.astre = new Astre( this );
     }
 
     private void startApplication()
     {
-        new Thread(() -> {
-            Application.launch(AstreApplication.class);
-        }).start();
+        new Thread(() -> Application.launch(AstreApplication.class)).start();
     }
 
     public static Controleur get()
