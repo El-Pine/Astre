@@ -125,6 +125,6 @@ public class StageIntervenant implements Initializable
 
 	public void refresh() {
 		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
-		tabAffInter.refresh();
+		tabAffInter.setItems(StageIntervenant.ensInter);
 	}
 }
