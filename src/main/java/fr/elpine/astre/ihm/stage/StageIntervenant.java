@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class StageIntervenant implements Initializable
@@ -71,13 +72,15 @@ public class StageIntervenant implements Initializable
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
-	protected void onBtnClickEnregistrer() throws IOException {
+	protected void onBtnClickEnregistrer() throws IOException, SQLException {
+		Controleur.get().getDb().enregistrer();
 		stage.close();
 		StagePrincipal.creer().show();
 	}
 
 	@FXML
-	protected void onBtnClickAnnuler() throws IOException {
+	protected void onBtnClickAnnuler() throws IOException, SQLException {
+		Controleur.get().getDb().annuler();
 		stage.close();
 		StagePrincipal.creer().show();
 	}
