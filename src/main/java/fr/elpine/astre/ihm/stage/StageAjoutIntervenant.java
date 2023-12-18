@@ -78,19 +78,18 @@ public class StageAjoutIntervenant
         int total                   = Integer.parseInt(txtComplementaire.getText()) + heureService;
         int ratio                   = 0;
 
-        Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
-        if ( inter != null )
-        {
+        try {
+            Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
             Controleur.get().getDb().ajouterIntervenant(inter);
+
             this.stage.close();
             parent.activer();
-        }
-        else
-        {
+        } catch (Exception e) {
             lblErreur.setVisible(true);
             try {
                 Thread.sleep(7000);
             } catch (InterruptedException ignored) { }
+            lblErreur.setVisible(false);
         }
     }
 
