@@ -81,6 +81,7 @@ public class StageAjoutIntervenant
         try {
             Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
             Controleur.get().getDb().ajouterIntervenant(inter);
+            parent.refresh();
             this.stage.close();
             parent.activer();
         } catch (Exception e) {

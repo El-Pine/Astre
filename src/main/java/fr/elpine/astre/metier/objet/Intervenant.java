@@ -41,7 +41,7 @@ public class Intervenant
     {
         String emailTmt = email.toLowerCase();
         if (validateEmail(emailTmt))
-            return new Intervenant(nom, prenom, email, statut, service, heureMax, ratioTP);
+            return new Intervenant(nom, prenom, emailTmt, statut, service, heureMax, ratioTP);
         return null;
     }
 

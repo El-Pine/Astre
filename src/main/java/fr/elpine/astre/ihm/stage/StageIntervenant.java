@@ -39,13 +39,14 @@ public class StageIntervenant implements Initializable
 	@FXML
 	private TableColumn<Intervenant, Double> tcRatioTP;
 
-
+	private static ObservableList<Intervenant> ensInter;
 
 	private Stage stage;
 
 	public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
+		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StageIntervenant.class.getResource("intervenant.fxml"));
 
@@ -119,11 +120,11 @@ public class StageIntervenant implements Initializable
 		tcHMax     .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureMax() ).asObject ());
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTP () ).asObject ());
 
-		ObservableList<Intervenant> ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
+		tabAffInter.setItems(StageIntervenant.ensInter);
+	}
 
-		System.out.println(ensInter);
-
-		tabAffInter.setItems(ensInter);
-
+	public void refresh() {
+		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
+		tabAffInter.refresh();
 	}
 }
