@@ -5,14 +5,17 @@ import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class StageInitBd
+public class StageInitBd implements Initializable
 {
     
     @FXML
@@ -56,35 +59,42 @@ public class StageInitBd
 
     public void onBtnValider(ActionEvent actionEvent)
     {
-        String ip    = txtfIp   .getText();
-        String port  = txtfPort .getText();
-        String id    = txtfId   .getText();
-        String mdp   = txtfMdp  .getText();
-        String bdd   = txtfBdd  .getText();
+        String ip          = txtfIp   .getText();
+        String port        = txtfPort .getText();
+        String identifiant = txtfId   .getText();
+        String password    = txtfMdp  .getText();
+        String database    = txtfBdd  .getText();
 
-        boolean dbReloaded = Controleur.get().getDb().reloadDb(ip,port,bdd,id,mdp);
+        boolean dbReloaded = Controleur.get().getDb().reloadDB( ip, Integer.parseInt(port), database, identifiant, password );
 
-        if (dbReloaded) {
+        if (dbReloaded)
+        {
             stage.close();
-            if (parent != null)
-                parent.activer();
-            else {
+
+            if ( parent != null ) parent.activer();
+            else
+            {
                 try {
                     StagePrincipal.creer().show();
                 } catch (IOException e) { throw new RuntimeException(e); }
             }
         }
-        else
-        {
-            System.out.println("erreur");
-        }
     }
 
-    public void onBtnAnnuler(ActionEvent actionEvent) throws IOException {
-        stage.close();
-        if (parent != null)
-            parent.activer();
-        else
-            StagePrincipal.creer().show();
+    public void onBtnAnnuler(ActionEvent actionEvent) throws IOException
+    {
+        if ( parent != null ) parent.activer();
+        else stage.close();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        String[] elements = Controleur.get().getDb().getInformations();
+
+        this.txtfIp  .setText(elements[0]);
+        this.txtfPort.setText(elements[1]);
+        this.txtfBdd .setText(elements[2]);
+        this.txtfId  .setText(elements[3]);
     }
 }
