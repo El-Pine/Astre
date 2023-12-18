@@ -989,6 +989,7 @@ public class DB
             ps.setString (1,aff.getCodeModule          ());
             ps.setInt    (2,aff.getNumeroSemestreModule());
             ps.setString (3,aff.getAnneeModule         ());
+            ps.setInt    (4,aff.getIdInter             ().getId());
             ps.setString (5,aff.getTypeHeure           ().getNom());
             ps.setInt    (6,aff.getNbGroupe            ());
             ps.setInt    (7,aff.getNbSemaine           ());
