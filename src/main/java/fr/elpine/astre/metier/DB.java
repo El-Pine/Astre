@@ -1045,4 +1045,33 @@ public class DB
         }
         return ensaff;
     }
+
+    public ArrayList<Modules> getPrevisionsbySemestre(int semestre) {
+        ArrayList<Modules> ensaff = new ArrayList<>();
+        String req = "SELECT * FROM module WHERE numerosemestre = ?";
+
+        try (PreparedStatement ps = co.prepareStatement(req)) {
+            ps.setInt(1, semestre);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Modules mod = new Modules(
+                            rs.getString("nom"),
+                            rs.getString("code"),
+                            rs.getString("abreviation"),
+                            rs.getString("typeModule"),
+                            rs.getBoolean("validation"),
+                            getSemestreById(rs.getInt("numeroSemestre"), rs.getString("annee"))
+                    );
+                    ensaff.add(mod);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ensaff;
+    }
+
+
+
+
 }

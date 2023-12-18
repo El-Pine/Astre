@@ -54,11 +54,11 @@
                         </GridPane>
                      </top>
                      <center>
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tabs1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Code" />
-                            <TableColumn prefWidth="245.6000213623047" text="libelle long" />
-                              <TableColumn prefWidth="193.5999755859375" text="Heure Affecté / Heure PN" />
+                            <TableColumn fx:id="s1code" prefWidth="75.0" text="Code" />
+                            <TableColumn fx:id="s1liblong" prefWidth="245.6000213623047" text="libelle long" />
+                              <TableColumn fx:id="s1hahpn" prefWidth="193.5999755859375" text="Heure Affecté / Heure PN" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -114,11 +114,11 @@
                         </GridPane>
                      </top>
                      <center>
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tabs2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Code" />
-                            <TableColumn prefWidth="259.1999969482422" text="Libelle long" />
-                              <TableColumn prefWidth="180.0" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s2code" prefWidth="75.0" text="Code" />
+                            <TableColumn fx:id="s2liblong" prefWidth="259.1999969482422" text="Libelle long" />
+                              <TableColumn fx:id="s2hahpn" prefWidth="180.0" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
@@ -171,11 +171,11 @@
                         </GridPane>
                      </top>
                      <center>
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tabs3" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Code" />
-                            <TableColumn prefWidth="259.99998474121094" text="Libelle long" />
-                              <TableColumn prefWidth="179.20001220703125" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s3code" prefWidth="75.0" text="Code" />
+                            <TableColumn fx:id="s3liblong" prefWidth="259.99998474121094" text="Libelle long" />
+                              <TableColumn fx:id="s3hahpn" prefWidth="179.20001220703125" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
@@ -228,11 +228,11 @@
                         </GridPane>
                      </top>
                      <center>
-                        <TableView fx:id="tabS4" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tabs4" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Code" />
-                            <TableColumn prefWidth="265.59996032714844" text="Libelle long" />
-                              <TableColumn prefWidth="174.39996337890625" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s4code" prefWidth="75.0" text="Code" />
+                            <TableColumn fx:id="s4liblong" prefWidth="265.59996032714844" text="Libelle long" />
+                              <TableColumn fx:id="s4hahpn" prefWidth="174.39996337890625" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
@@ -285,11 +285,11 @@
                         </GridPane>
                      </top>
                      <center>
-                        <TableView fx:id="tabS5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tabs5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Code" />
-                            <TableColumn prefWidth="268.80003356933594" text="Libelle long" />
-                              <TableColumn prefWidth="170.39996337890625" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s5code" prefWidth="75.0" text="Code" />
+                            <TableColumn fx:id="s5liblong" prefWidth="268.80003356933594" text="Libelle long" />
+                              <TableColumn fx:id="s5hahpn" prefWidth="170.39996337890625" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
@@ -342,11 +342,11 @@
                         </GridPane>
                      </top>
                      <center>
-                        <TableView fx:id="tabS6" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="tabs6" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Code" />
-                            <TableColumn prefWidth="259.1999969482422" text="Libelle long" />
-                              <TableColumn prefWidth="180.0" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s6code" prefWidth="75.0" text="Code" />
+                            <TableColumn fx:id="s6liblong" prefWidth="259.1999969482422" text="Libelle long" />
+                              <TableColumn fx:id="s6hahpn" prefWidth="180.0" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
