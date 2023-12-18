@@ -40,3 +40,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Autre ###
+/infoBd.txt
+/.idea/dataSources.xml
