@@ -36,7 +36,7 @@ public class StageIntervenant
 		return stage;
 	}
 
-
+	// TODO : barre de recherche des intervenants
 
 	private void setStage(Stage stage) { this.stage = stage; }
 
