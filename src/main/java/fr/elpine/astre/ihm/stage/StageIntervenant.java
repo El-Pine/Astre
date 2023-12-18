@@ -71,8 +71,6 @@ public class StageIntervenant implements Initializable
 		return stage;
 	}
 
-	// TODO : barre de recherche des intervenants
-
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
