@@ -47,7 +47,7 @@ public class DB
         try {
             Class.forName("org.postgresql.Driver");
             co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s", ip, port, database), identifiant, password);
-
+            co.setAutoCommit(false);
             try {
                 if (!this.verify()) this.reset();
             }
@@ -139,6 +139,12 @@ public class DB
         return content.toString();
     }
 
+    /*-----------------*/
+    /* Gestion Commits */
+    /*-----------------*/
+
+    public void enregistrer() throws SQLException { co.commit()  ; }
+    public void annuler    () throws SQLException { co.rollback(); }
 
     /*-----------------*/
     /*     Module      */

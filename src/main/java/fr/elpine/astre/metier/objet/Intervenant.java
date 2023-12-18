@@ -1,6 +1,5 @@
 package fr.elpine.astre.metier.objet;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
