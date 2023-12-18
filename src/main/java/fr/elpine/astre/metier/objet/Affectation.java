@@ -3,7 +3,7 @@ package fr.elpine.astre.metier.objet;
 public class Affectation
 {
 
-    private Module codeModule;
+    private Modules codeModules;
     private int    numeroSemestreModule;
     private String anneeModule;
     private Intervenant   inter;
@@ -13,11 +13,11 @@ public class Affectation
     private int nbHeure;
     private String commentaire;
 
-    public Affectation( Module codeModule, int numeroSemestreModule, String anneeModule,
-                        Intervenant inter, CategorieHeure typeHeure, int nbGroupe, int nbSemaine,
+    public Affectation(Modules codeModules, int numeroSemestreModule, String anneeModule,
+                       Intervenant inter, CategorieHeure typeHeure, int nbGroupe, int nbSemaine,
                        int nbHeure, String commentaire)
     {
-        this.codeModule           = codeModule;
+        this.codeModules = codeModules;
         this.numeroSemestreModule = numeroSemestreModule;
         this.anneeModule          = anneeModule;
         this.inter                = inter;
@@ -42,7 +42,7 @@ public class Affectation
     public void setNbHeure     ( int            nbHeure     ) { this.nbHeure     = nbHeure;     }
     public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; }
 
-    public String getCodeModule          () { return codeModule.getCode();}
+    public String getCodeModule          () { return codeModules.getCode();}
     public int    getNumeroSemestreModule() { return numeroSemestreModule;}
     public String getAnneeModule         () { return anneeModule;         }
     public Intervenant  getInter             () { return inter;         }

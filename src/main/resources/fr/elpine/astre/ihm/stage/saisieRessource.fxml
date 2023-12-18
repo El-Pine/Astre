@@ -31,7 +31,7 @@
          <children>
             <FlowPane prefHeight="60.0" prefWidth="831.0">
                <children>
-                  <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="111.0" text="Type module">
+                  <Label alignment="TOP_LEFT" prefHeight="18.0" prefWidth="111.0" text="Type modules">
                      <FlowPane.margin>
                         <Insets left="10.0" top="10.0" />
                      </FlowPane.margin>
