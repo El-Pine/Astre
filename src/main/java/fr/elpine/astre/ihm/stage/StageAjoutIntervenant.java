@@ -34,6 +34,7 @@ public class StageAjoutIntervenant
     @FXML
     private TextField txtEmail;
 
+
     private static StageIntervenant parent;
 
     public static Stage creer( StageIntervenant parent) throws IOException
