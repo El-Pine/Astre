@@ -2,8 +2,6 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Affectation;
-import fr.elpine.astre.metier.objet.Intervenant;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -46,7 +44,7 @@ public class StageSaisieRessource implements Initializable
     @FXML
     private TextField txtCode;
 
-    public static Stage creer() throws IOException
+    public static Stage creer(String nomMod, int id) throws IOException
     {
         Stage stage = new Stage();
 
@@ -55,10 +53,15 @@ public class StageSaisieRessource implements Initializable
         Scene scene = new Scene(fxmlLoader.load(), 1000, 660);
 
         StageSaisieRessource stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) stageCtrl.setStage(stage);
+        if (stageCtrl != null) {
+            stageCtrl.setStage(stage);
+            stageCtrl.init(nomMod,id);
+        }
 
         stage.setTitle("Affectation");
         stage.setScene(scene);
+
+
 
         stage.setOnCloseRequest(e -> {
             try { StagePrevisionnel.creer().show(); } catch (IOException ignored) {}
@@ -68,6 +71,12 @@ public class StageSaisieRessource implements Initializable
     }
 
     private void setStage(Stage stage) { this.stage = stage; }
+
+    private void init(String nomMod, int id)
+    {
+        txtTypeModule.setText(nomMod);
+        txtSemestre.setText("" + id);
+    }
 
     @FXML
     protected void onBtnAjouter(ActionEvent e) throws IOException {

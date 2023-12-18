@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,12 +26,9 @@ import java.util.ResourceBundle;
 
 public class StagePrevisionnel
 {
+	@FXML
+	private TabPane pnlControlSem;
 	private Stage stage;
-
-
-
-
-
 
 	public static Stage creer() throws IOException
 	{
@@ -71,7 +69,7 @@ public class StagePrevisionnel
 	@FXML
 	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageSaisieRessource.creer().show();
+		StageSaisieRessource.creer("Ressource", pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
 	}
 
 	@FXML
