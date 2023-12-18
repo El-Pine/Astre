@@ -17,7 +17,6 @@ public class Controleur
     private Controleur()
     {
         this.startApplication();
-
 	    this.db    = new DB();
         this.astre = new Astre( this );
     }

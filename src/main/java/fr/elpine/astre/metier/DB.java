@@ -7,6 +7,7 @@ import fr.elpine.astre.metier.objet.Module;
 import org.w3c.dom.ls.LSOutput;
 
 import javax.crypto.spec.PSource;
+import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -24,7 +25,12 @@ public class DB
 
     public DB()
     {
-        AstreApplication.erreur = !connexionDB();
+        // Verification de l'existance du fichier de connexion
+        File fichier = new File("infoBd.txt");
+        try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
+
+        // Connexion
+        AstreApplication.erreur = !this.reloadDB();
 
         /*
          * Pour créer un tunnel SSH
@@ -39,53 +45,64 @@ public class DB
     /*    Connexion    */
     /*-----------------*/
 
-    public boolean connexionDB()
+    private boolean connexion(String ip, int port, String database, String identifiant, String password)
+    {
+        try {
+            Class.forName("org.postgresql.Driver");
+            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s", ip, port, database), identifiant, password);
+            co.setAutoCommit(false);
+            try {
+                if (!this.verify()) this.reset();
+            }
+            catch (Exception e) { e.printStackTrace(); }
+
+            return true;
+        } catch (Exception e) { return false; }
+    }
+
+    public boolean reloadDB()
+    {
+        String[] elements = this.getInformations();
+
+        if ( elements != null )
+            return this.connexion( elements[0], Integer.parseInt(elements[1]), elements[2], elements[3], elements[4] );
+        else
+            return false;
+    }
+
+    public boolean reloadDB( String ip, int port, String database, String identifiant, String password )
+    {
+        boolean valid = this.connexion( ip, port, database, identifiant, password );
+
+        if (valid)
+            try
+            {
+                FileWriter writer = new FileWriter("infoBd.txt", false);
+
+                writer.write(String.format("%s\t%s\t%s\t%s\t%s", ip, port, database, identifiant, password));
+                writer.close();
+            }
+            catch (IOException e) { e.printStackTrace(); }
+
+        return valid;
+    }
+
+    public String[] getInformations()
     {
         String[] elements = null;
 
         try
         {
             BufferedReader reader = new BufferedReader(new FileReader("infoBd.txt"));
-            // Lecture de la ligne depuis le fichier
+
             String line = reader.readLine();
-            if(line !=null)
-            {
-                // Division de la ligne en utilisant le séparateur donné
-                elements = line.split("<");
-            }
-        } catch (IOException e) { throw new RuntimeException(e); }
+            if ( line != null ) elements = line.split("\t");
+        }
+        catch (IOException e) { e.printStackTrace(); }
 
-        if ( elements == null || elements.length != 5 ) { return false; }
+        if ( elements == null || elements.length != 5 ) { return null; }
 
-        try {
-            Class.forName("org.postgresql.Driver");
-            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%s/%s", elements[0], elements[1], elements[2]), elements[3], elements[4]);
-
-            boolean valid = this.verify();
-            if (valid)
-                System.out.println("DB VALID !");
-            else {
-                System.out.println("DB Reset . . .");
-                this.reset();
-                System.out.println("DB Reset ok !");
-            }
-
-            return true;
-        } catch (ClassNotFoundException | SQLException e) { return false; }
-    }
-
-    public boolean reloadDb(String ip, String port, String bdd, String id, String mdp )
-    {
-        try
-        {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("infoBd.txt"));
-
-            writer.write(ip+"<"+port+"<"+bdd+"<"+id+"<"+mdp);
-            writer.close();
-
-        } catch (IOException e) { System.out.println("erreur2"); }
-
-        return connexionDB();
+        return elements;
     }
 
     /*-----------------*/
@@ -128,6 +145,12 @@ public class DB
         return content.toString();
     }
 
+    /*-----------------*/
+    /* Gestion Commits */
+    /*-----------------*/
+
+    public void enregistrer() throws SQLException { co.commit()  ; }
+    public void annuler    () throws SQLException { co.rollback(); }
 
     /*-----------------*/
     /*     Module      */
@@ -324,7 +347,6 @@ public class DB
                         rs.getInt(6),
                         rs.getInt(7),
                         rs.getDouble(8));
-                    System.out.println("jee suis la ");
                     resultats.add(inter);
                 }
             }
@@ -355,7 +377,6 @@ public class DB
                             rs.getInt(6),
                             rs.getInt(7),
                             rs.getDouble(8));
-
                     return inter;
                 }
             }
@@ -614,7 +635,7 @@ public class DB
     //Méthode d'insert
     public void ajouterCategorieIntervenant(CategorieIntervenant categorieIntervenant)
     {
-        String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?,?,?)";
+        String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement( req );
@@ -684,7 +705,7 @@ public class DB
     }
 
     //Méthode de delete
-    public void supprimerCatIntervenant(CategorieIntervenant catInter)
+    public boolean supprimerCatIntervenant(CategorieIntervenant catInter)
     {
         String req = "DELETE FROM CategorieIntervenant WHERE code = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -694,8 +715,11 @@ public class DB
         }
         catch (SQLException e)
         {
+            System.out.printf("je suis la aussi ");
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public CategorieIntervenant selectCatInterByCode(String code)
@@ -772,7 +796,7 @@ public class DB
     }
 
     //Méthode delete
-    public void supprimerCategorieHeure(CategorieHeure catHr)
+    public boolean supprimerCategorieHeure(CategorieHeure catHr)
     {
         String req = "DELETE FROM CategorieHeure WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -782,8 +806,11 @@ public class DB
         }
         catch (SQLException e)
         {
+            System.out.println("je suis la mais dans categorie heure");
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     //Méthode select *

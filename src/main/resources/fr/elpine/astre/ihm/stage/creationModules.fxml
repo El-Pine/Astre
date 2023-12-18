@@ -69,12 +69,12 @@
                         <Insets right="40.0" />
                      </FlowPane.margin>
                   </Label>
-                  <RadioButton mnemonicParsing="false" text="HP">
+                  <RadioButton fx:id="rbHP" mnemonicParsing="false" text="HP">
                      <FlowPane.margin>
                         <Insets right="30.0" />
                      </FlowPane.margin>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Autre types heure" />
+                  <RadioButton mnemonicParsing="false" fx:id="rbAutre" text="Autre types heure" />
                </children>
             </FlowPane>
             <GridPane style="-fx-border-style: solid;" GridPane.rowIndex="1">
