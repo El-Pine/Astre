@@ -61,7 +61,10 @@ public class DB
     {
         String[] elements = this.getInformations();
 
-        return this.connexion( elements[0], Integer.parseInt(elements[1]), elements[2], elements[3], elements[4] );
+        if ( elements != null )
+            return this.connexion( elements[0], Integer.parseInt(elements[1]), elements[2], elements[3], elements[4] );
+        else
+            return false;
     }
 
     public boolean reloadDB( String ip, int port, String database, String identifiant, String password )
