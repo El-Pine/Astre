@@ -81,15 +81,10 @@ public class StageAjoutIntervenant
         try {
             Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
             Controleur.get().getDb().ajouterIntervenant(inter);
-
             this.stage.close();
             parent.activer();
         } catch (Exception e) {
             lblErreur.setVisible(true);
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException ignored) { }
-            lblErreur.setVisible(false);
         }
     }
 
