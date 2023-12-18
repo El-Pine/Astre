@@ -16,15 +16,25 @@ public class Intervenant
     private int                  id;
 
 
-    public Intervenant(int id,String nom, String prenom,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
+    public Intervenant(String nom, String prenom,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
     {
-        this.id         = id;
         this.nom        = nom;
         this.prenom     = prenom;
         this.statut     = statut;
         this.service    = service;
         this.heureMax   = heureMax;
         this.ratioTP    = ratioTP;
+    }
+
+    public Intervenant(int id,String nom, String prenom,CategorieIntervenant statut, int service, int heureMax,double ratioTP)
+    {
+        this.nom        = nom;
+        this.prenom     = prenom;
+        this.statut     = statut;
+        this.service    = service;
+        this.heureMax   = heureMax;
+        this.ratioTP    = ratioTP;
+        this.id         = id;
     }
 
     public static boolean validateEmail(String email) {
@@ -42,7 +52,8 @@ public class Intervenant
     }
 
     /*   GETTER    */
-    public int      getId                     () { return id       ;}
+
+    public int getId                           () { return id       ;}
     public String    getNom                    () { return nom      ;}
     public String    getPrenom                 () { return prenom   ;}
     public CategorieIntervenant getStatut      () { return statut   ;}

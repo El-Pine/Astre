@@ -28,12 +28,12 @@
    <center>
       <TableView fx:id="tabAffInter" snapToPixel="false" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn editable="false" prefWidth="60.0" resizable="false" reorderable="false" text="Catégorie" />
-          <TableColumn editable="false" prefWidth="65.0" resizable="false" reorderable="false" text="Nom" />
-            <TableColumn editable="false" prefWidth="65.0" resizable="false" reorderable="false" text="Prénom" />
-            <TableColumn editable="false" prefWidth="37.0" resizable="false" reorderable="false" text="hServ" />
-            <TableColumn editable="false" prefWidth="37.0" resizable="false" reorderable="false" text="hMax" />
-            <TableColumn editable="false" prefWidth="45.0" resizable="false" reorderable="false" text="CoefTP" />
+          <TableColumn fx:id="tcCategorie" editable="false" prefWidth="60.0" resizable="false" reorderable="false" text="Catégorie" />
+          <TableColumn fx:id="tcNom" editable="false" prefWidth="65.0" resizable="false" reorderable="false" text="Nom" />
+            <TableColumn fx:id="tcPrenom" editable="false" prefWidth="65.0" resizable="false" reorderable="false" text="Prénom" />
+            <TableColumn fx:id="tcHServ" editable="false" prefWidth="37.0" resizable="false" reorderable="false" text="hServ" />
+            <TableColumn fx:id="tcHMax" editable="false" prefWidth="37.0" resizable="false" reorderable="false" text="hMax" />
+            <TableColumn fx:id="tcRatioTP" editable="false" prefWidth="45.0" resizable="false" reorderable="false" text="CoefTP" />
             <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s1" />
             <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s3" />
             <TableColumn editable="false" prefWidth="35.0" resizable="false" reorderable="false" text="s5" />

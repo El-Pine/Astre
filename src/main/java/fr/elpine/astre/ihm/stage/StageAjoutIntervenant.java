@@ -63,19 +63,17 @@ public class StageAjoutIntervenant
     }
 
 
-/*
-    public void onBtnValider(ActionEvent actionEvent)
+   public void onBtnValider(ActionEvent actionEvent)
     {
         String nom                  = txtNom   .getText();
         String prenom               = txtPrenom.getText();
-        String email                = txtEmail .getText();
         CategorieIntervenant statut = (CategorieIntervenant) cpbContrat.getValue();
         int heureService            = Integer.parseInt(txtService.getText());
         int total                   = Integer.parseInt(txtComplementaire.getText()) + heureService;
 
-        Controleur.get().getDb().ajouterIntervenant(new Intervenant(1,nom,prenom,email,statut,heureService,total));
+        Controleur.get().getDb().ajouterIntervenant(new Intervenant(nom,prenom,statut,heureService,total,1.0));
     }
-*/
+
     public void btnAnnuler(ActionEvent actionEvent) throws IOException
     {
         this.stage.close();
