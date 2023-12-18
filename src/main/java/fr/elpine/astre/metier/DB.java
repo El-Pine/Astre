@@ -310,18 +310,19 @@ public class DB
         {
             try (ResultSet rs = ps.executeQuery())
             {
-                // Traiter les résultats du ResultSet
-                while (rs.next()) {
-                    Intervenant categorie = new Intervenant(
-                            rs.getInt                    (1   ),
-                            rs.getString                     (2 ),
-                            rs.getString                     (3   ),
-                            selectCatInterByCode(rs.getString(4) ),
-                            rs.getInt                        (5 ),
-                            rs.getInt                      (6  ),
-                            rs.getInt(7)
+                while (rs.next())
+                {
+                    Intervenant intervenant = new Intervenant(
+                                                 rs.getInt   (1 ),
+                                                 rs.getString(2 ),
+                                                 rs.getString(4 ),
+                            selectCatInterByCode(rs.getString(5 )),
+                                                 rs.getInt   (5 ),
+                                                 rs.getInt   (6 ),
+                                                 rs.getDouble(7)
                     );
-                    resultats.add(categorie);
+                    System.out.println("jee suis la ");
+                    resultats.add(intervenant);
                 }
             }
         } catch (SQLException e) {
@@ -344,7 +345,6 @@ public class DB
                 while (rs.next())
                 {
                     Intervenant inter = new Intervenant(
-                                                  rs.getInt   (1 ),
                                                   rs.getString(2 ),
                                                   rs.getString(3 ),
                             selectCatInterByCode( rs.getString(4)),
@@ -901,7 +901,6 @@ public class DB
             ps.setString(1,affs.getCodeModule          ()         );
             ps.setInt   (2,affs.getNumeroSemestreModule()         );
             ps.setString(3,affs.getAnneeModule         ()         );
-            ps.setInt   (4,affs.getIdInter             ().getId() );
             ps.setString(5,affs.getTypeHeure           ().getNom());
             ps.setInt   (6,affs.getNbGroupe            ()         );
             ps.setInt   (7,affs.getNbSemaine           ()         );
@@ -925,8 +924,6 @@ public class DB
             ps.setString (1,aff.getCodeModule          ());
             ps.setInt    (2,aff.getNumeroSemestreModule());
             ps.setString (3,aff.getAnneeModule         ());
-            ps.setInt    (4,aff.getIdInter             ().getId());
-
             ps.setString (5,aff.getTypeHeure           ().getNom());
             ps.setInt    (6,aff.getNbGroupe            ());
             ps.setInt    (7,aff.getNbSemaine           ());
