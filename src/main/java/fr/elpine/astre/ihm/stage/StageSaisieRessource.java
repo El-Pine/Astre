@@ -134,4 +134,7 @@ public class StageSaisieRessource implements Initializable
         StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllaff());
         tableau.setItems(StageSaisieRessource.ensAff);
     }
+
+    public void onBtnDetail(ActionEvent actionEvent) {
+    }
 }
