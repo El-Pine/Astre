@@ -4,11 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutIntervenant">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutIntervenant">
    <bottom>
       <ButtonBar prefHeight="35.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-radius: 3px;" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#btnAnnuler" text="Annuler" />
             <Label fx:id="lblErreur" text="Une erreur est survenue..." textFill="#bc2a2a" visible="false" />
         </buttons>
@@ -83,7 +83,7 @@
                   </Label>
                   <TextField fx:id="txtComplementaire" prefHeight="26.0" prefWidth="42.0" text="172" />
                   <Label text="  Ratio TP : " />
-                  <TextField prefHeight="26.0" prefWidth="42.0" />
+                  <TextField fx:id="txtfRatio" prefHeight="26.0" prefWidth="42.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
