@@ -52,7 +52,7 @@ public class StagePrevisionnel
 	@FXML
 	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageAffectation.creer().show();
+		StageSaisieSae.creer().show();
 	}
 
 	@FXML

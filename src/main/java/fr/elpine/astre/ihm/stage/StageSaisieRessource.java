@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,12 +26,21 @@ import java.util.ResourceBundle;
 public class StageSaisieRessource implements Initializable
 {
     public TableView<Affectation> tableau;
-    public TableColumn<Affectation, String> tableauIntervenant;
-    public TableColumn<Affectation, String> tableauType;
-    public TableColumn<Affectation, Integer> tableauNbH;
-    public TableColumn<Affectation, Double> tableauTotalEqtd;
-    public TableColumn<Affectation, String> tableauCommentaire;
+    public TableColumn<Affectation, String> tcIntervenant;
+    public TableColumn<Affectation, String> tcType;
+    public TableColumn<Affectation, Integer> tcNbH;
+    public TableColumn<Affectation, Integer> tcGrp;
+    public TableColumn<Affectation, String> tcCommentaire;
+    public TableColumn<Affectation, Integer> tcTotalEqtd;
     public static ObservableList<Affectation> ensAff;
+    public TextField txtTypeModule;
+    public CheckBox cbValidation;
+    public TextField txtnbGpTP;
+    public TextField txtNbGpTD;
+    public TextField txtNbEtd;
+    public TextField txtLibelleLong;
+    public TextField txtLibelleCourt;
+    public TextField txtSemestre;
     private Stage stage;
 
     @FXML
@@ -39,7 +49,6 @@ public class StageSaisieRessource implements Initializable
     public static Stage creer() throws IOException
     {
         Stage stage = new Stage();
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllaff());
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieRessource.fxml"));
 
@@ -52,7 +61,6 @@ public class StageSaisieRessource implements Initializable
         stage.setScene(scene);
 
         stage.setOnCloseRequest(e -> {
-            // perform actions before closing
             try { StagePrevisionnel.creer().show(); } catch (IOException ignored) {}
         });
 
@@ -69,14 +77,14 @@ public class StageSaisieRessource implements Initializable
 
     @FXML
     protected void onBtnSupprimer(ActionEvent e) throws IOException {
-        Affectation affectation = tableau.getSelectionModel().getSelectedItem();
+        /*Affectation affectation = tableau.getSelectionModel().getSelectedItem();
 
         if(affectation != null) {
             tableau.getItems().remove(affectation);
             Controleur.get().getDb().supprimeraff(affectation);
         }
         else
-            System.out.println("Pb objet pas supprimer");
+            System.out.println("Pb objet pas supprimer");*/
     }
 
     public void desactiver()
@@ -109,12 +117,14 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllaff());
 
-        tableauIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIdInter().getPrenom()));
-        tableauType.setCellValueFactory        (cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
-        tableauNbH.setCellValueFactory         (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject());
-        tableauTotalEqtd.setCellValueFactory   (cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeure()).asObject());
-        tableauCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
+        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIdInter().getPrenom()));
+        tcType       .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
+        tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject());
+        tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject());
+        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure()).asObject());
+        tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
 
         tableau.setItems(StageSaisieRessource.ensAff);
     }
