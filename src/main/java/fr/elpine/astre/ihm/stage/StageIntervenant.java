@@ -9,12 +9,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,6 +42,8 @@ public class StageIntervenant implements Initializable
 	private TableColumn<Intervenant, Double> tcRatioTP;
 
 	private static ObservableList<Intervenant> ensInter;
+	@FXML
+	private TextField txtFieldRecherche;
 
 	private Stage stage;
 
@@ -127,5 +131,12 @@ public class StageIntervenant implements Initializable
 	public void refresh() {
 		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
 		tabAffInter.setItems(StageIntervenant.ensInter);
+	}
+
+	public void onBtnRechercher(ActionEvent actionEvent)
+	{
+		String recherche = txtFieldRecherche.getText();
+		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getDb().getIntervenantByNom(recherche));
+		tabAffInter.setItems(ensInter);
 	}
 }
