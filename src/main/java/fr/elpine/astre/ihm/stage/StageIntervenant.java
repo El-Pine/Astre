@@ -123,7 +123,7 @@ public class StageIntervenant implements Initializable
 
 		System.out.println(ensInter);
 
-		//tabAffInter.setItems(ensInter);
+		tabAffInter.setItems(ensInter);
 
 	}
 }
