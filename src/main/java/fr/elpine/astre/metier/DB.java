@@ -854,12 +854,12 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     CategorieHeure categorie = new CategorieHeure(
-                            rs.getString  ("nom"       ),
-                            rs.getDouble  ("eqtd"      ),
-                            rs.getBoolean ("ressource" ),
-                            rs.getBoolean ("sae"       ),
-                            rs.getBoolean ("ppp"       ),
-                            rs.getBoolean ("stage"     )
+                            rs.getString  (1),
+                            rs.getDouble  (2),
+                            rs.getBoolean (3),
+                            rs.getBoolean (4),
+                            rs.getBoolean (5),
+                            rs.getBoolean (6)
                     );
                     return categorie;
                 }
@@ -982,14 +982,14 @@ public class DB
     //Méthode d'update
     public void updateaff(Affectation aff)
     {
-        String req = "UPDATE Affectation SET codeModule = ?, numeroSemesreModule = ?, anneeModule = ?, idInter = ?, typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
+        String req = "UPDATE Affectation SET codeModule = ?, numeroSemesreModule = ?, anneeModule = ?, idinter = ?, typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             //SET
             ps.setString (1,aff.getCodeModule          ());
             ps.setInt    (2,aff.getNumeroSemestreModule());
             ps.setString (3,aff.getAnneeModule         ());
-            ps.setInt    (4,aff.getIdInter             ().getId());
+            ps.setInt    (4,aff.getInter               ().getId());
             ps.setString (5,aff.getTypeHeure           ().getNom());
             ps.setInt    (6,aff.getNbGroupe            ());
             ps.setInt    (7,aff.getNbSemaine           ());
@@ -1027,26 +1027,25 @@ public class DB
     public ArrayList<Affectation> getAllaff()
     {
         ArrayList<Affectation> ensaff = new ArrayList<>();
-        String req = "SELECT * FROM Attribution";
+        String req = "SELECT * FROM Affectation";
         try (PreparedStatement ps = co.prepareStatement(req))
         {
             try (ResultSet rs = ps.executeQuery())
             {
-                while (rs.next()) {
-                    Affectation Affectation = new Affectation(
-                            getModuleByNumero( rs.getString("codeModule"          )),
-                                               rs.getInt   ("numeroSemestreModule"),
-                                               rs.getString("anneeModule"         ),
-                            getIntervenantById(rs.getInt   ("idInter")             ),
-                            getCatHrByNom     (rs.getString("typeHeure"           )),
-                                               rs.getInt   ("nbGroupe"            ),
-                                               rs.getInt   ("nbSemaine"           ),
-                                               rs.getInt   ("nbHeure"             ),
-                                               rs.getString("commentaire"         )
+                while (rs.next())
+                {
+                    Affectation affectation = new Affectation(
+                            getModuleByNumero( rs.getString(1)),
+                                               rs.getInt   (2),
+                                               rs.getString(3),
+                            getIntervenantById(rs.getInt   (4)),
+                            getCatHrByNom     (rs.getString(5)),
+                                               rs.getInt   (6),
+                                               rs.getInt   (7),
+                                               rs.getInt   (8),
+                                               rs.getString(9));
 
-                    );
-
-                    ensaff.add(Affectation);
+                    ensaff.add(affectation);
                 }
             }
         } catch (SQLException e) {

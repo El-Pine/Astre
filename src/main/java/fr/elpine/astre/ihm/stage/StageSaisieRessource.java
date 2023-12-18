@@ -117,16 +117,17 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllaff());
-
-        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIdInter().getPrenom()));
+        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getInter().getNom()));
         tcType       .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
         tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject());
         tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject());
         tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure()).asObject());
         tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
 
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllaff());
         tableau.setItems(StageSaisieRessource.ensAff);
+
+
     }
 
     public void refresh() {
