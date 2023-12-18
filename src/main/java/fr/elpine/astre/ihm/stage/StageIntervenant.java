@@ -96,17 +96,17 @@ public class StageIntervenant implements Initializable
 
 	public void desactiver()
 	{
-		this.stage.getScene().lookup("#onBtnClickEnregistrer").setDisable(true);
-		this.stage.getScene().lookup("#onBtnClickAnnuler").setDisable(true);
-		this.stage.getScene().lookup("#onBtnClickAjouter").setDisable(true);
-		this.stage.getScene().lookup("#onBtnClickSupprimer").setDisable(true);
+		this.stage.getScene().lookup("#btnEnregistrer").setDisable(true);
+		this.stage.getScene().lookup("#btnAnnuler").setDisable(true);
+		this.stage.getScene().lookup("#btnAjouter").setDisable(true);
+		this.stage.getScene().lookup("#btnSupprimer").setDisable(true);
 	}
 
 	public void activer() {
-		this.stage.getScene().lookup("#onBtnClickEnregistrer").setDisable(false);
-		this.stage.getScene().lookup("#onBtnClickAnnuler").setDisable(false);
-		this.stage.getScene().lookup("#onBtnClickAjouter").setDisable(false);
-		this.stage.getScene().lookup("#onBtnClickSupprimer").setDisable(false);
+		this.stage.getScene().lookup("#btnEnregistrer").setDisable(false);
+		this.stage.getScene().lookup("#btnAnnuler").setDisable(false);
+		this.stage.getScene().lookup("#btnAjouter").setDisable(false);
+		this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
 	}
 
 	@Override
