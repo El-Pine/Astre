@@ -39,6 +39,7 @@ public class StageAjoutIntervenant
     @FXML
     private TextField txtEmail;
 
+
     private static StageIntervenant parent;
 
     public static Stage creer( StageIntervenant parent) throws IOException
@@ -91,6 +92,7 @@ public class StageAjoutIntervenant
             parent.activer();
         } catch (Exception e) {
             lblErreur.setVisible(true);
+            e.printStackTrace();
         }
     }
 

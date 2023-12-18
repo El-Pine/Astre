@@ -4,7 +4,10 @@ import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.StagePrincipal;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import org.w3c.dom.ls.LSOutput;
 
+import javax.crypto.spec.PSource;
+import javax.sound.midi.Soundbank;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -344,7 +347,6 @@ public class DB
                         rs.getInt(6),
                         rs.getInt(7),
                         rs.getDouble(8));
-                    System.out.println("jee suis la ");
                     resultats.add(inter);
                 }
             }
@@ -386,6 +388,40 @@ public class DB
         return null;
     }
 
+    public ArrayList<Intervenant> getIntervenantByNom(String nomRch)
+    {
+        ArrayList<Intervenant> resultats = new ArrayList<>();
+        String req = "SELECT * FROM Intervenant WHERE lower(nom) like lower(?) or lower(prenom) like lower(?) or lower(codecategorie) like lower(?)";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1,'%' + nomRch + '%');
+            ps.setString(2,'%' + nomRch + '%');
+            ps.setString(3,'%' + nomRch + '%');
+            try (ResultSet rs = ps.executeQuery())
+            {
+
+                while (rs.next())
+                {
+                    Intervenant inter = Intervenant.creerIntervenant(
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            selectCatInterByCode(rs.getString(5)),
+                            rs.getInt(6),
+                            rs.getInt(7),
+                            rs.getDouble(8));
+                    resultats.add(inter);
+
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return resultats;
+
+    }
     /*--------------*/
     /*   SEMESTRE   */
     /*--------------*/
@@ -599,7 +635,7 @@ public class DB
     //Méthode d'insert
     public void ajouterCategorieIntervenant(CategorieIntervenant categorieIntervenant)
     {
-        String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?,?,?)";
+        String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?)";
         try
         {
             ps = co.prepareStatement( req );
@@ -669,7 +705,7 @@ public class DB
     }
 
     //Méthode de delete
-    public void supprimerCatIntervenant(CategorieIntervenant catInter)
+    public boolean supprimerCatIntervenant(CategorieIntervenant catInter)
     {
         String req = "DELETE FROM CategorieIntervenant WHERE code = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -679,8 +715,11 @@ public class DB
         }
         catch (SQLException e)
         {
+            System.out.printf("je suis la aussi ");
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public CategorieIntervenant selectCatInterByCode(String code)
@@ -757,7 +796,7 @@ public class DB
     }
 
     //Méthode delete
-    public void supprimerCategorieHeure(CategorieHeure catHr)
+    public boolean supprimerCategorieHeure(CategorieHeure catHr)
     {
         String req = "DELETE FROM CategorieHeure WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -767,8 +806,11 @@ public class DB
         }
         catch (SQLException e)
         {
+            System.out.println("je suis la mais dans categorie heure");
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     //Méthode select *
