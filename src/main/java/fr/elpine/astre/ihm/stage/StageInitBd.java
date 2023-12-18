@@ -1,23 +1,24 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class StageInitBd implements Initializable
 {
-    
+    private ArrayList<TextField> textFields;
     @FXML
     public TextField txtfPort;
     @FXML
@@ -42,7 +43,10 @@ public class StageInitBd implements Initializable
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
 
         StageInitBd stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) stageCtrl.setStage(stage);
+        if (stageCtrl != null) {
+            stageCtrl.setStage(stage);
+            stageCtrl.addTxtField();
+        }
 
         stage.setTitle("Config Base de données");
         stage.setScene(scene);
@@ -56,6 +60,16 @@ public class StageInitBd implements Initializable
     }
 
     private void setStage(Stage stage) { this.stage = stage; }
+
+    private void addTxtField()
+    {
+        this.textFields = new ArrayList<TextField>();
+        this.textFields.add(this.txtfIp);
+        this.textFields.add(this.txtfPort);
+        this.textFields.add(this.txtfId);
+        this.textFields.add(this.txtfMdp);
+        this.textFields.add(this.txtfBdd);
+    }
 
     public void onBtnValider(ActionEvent actionEvent)
     {
@@ -99,5 +113,25 @@ public class StageInitBd implements Initializable
             this.txtfBdd.setText(elements[2]);
             this.txtfId.setText(elements[3]);
         }
+    }
+
+    @FXML
+    private void handleTabKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.TAB) {
+            TextField sourceField = (TextField) event.getSource();
+            boolean shiftPressed = event.isShiftDown();
+            event.consume();
+
+            int currentIndex = textFields.indexOf(sourceField);
+            if (!shiftPressed) {
+                focusField(textFields.get((currentIndex + 1) % textFields.size()));
+            } else {
+                focusField(textFields.get((currentIndex - 1 + textFields.size()) % textFields.size()));
+            }
+        }
+    }
+
+    private void focusField(TextField field) {
+        field.requestFocus();
     }
 }

@@ -3,13 +3,18 @@ package fr.elpine.astre.ihm.stage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class StagePrincipal
 {
@@ -24,7 +29,9 @@ public class StagePrincipal
 		Scene scene = new Scene(fxmlLoader.load(), 300, 200);
 
 		StagePrincipal stageCtrl = fxmlLoader.getController();
-		if (stageCtrl != null) stageCtrl.setStage(stage);
+		if (stageCtrl != null) {
+			stageCtrl.setStage(stage);
+		}
 
 		stage.setTitle("Accueil");
 		stage.setScene(scene);
