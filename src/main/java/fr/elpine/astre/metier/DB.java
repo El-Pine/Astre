@@ -213,12 +213,12 @@ public class DB
             {
                 while(rs.next())
                 {
-                    Modules mod = new Modules(rs.getString ("nom"           ),
-                                            rs.getString ("code"          ),
-                                            rs.getString ("abreviation"   ),
-                                            rs.getString ("typeModule"    ),
-                                            rs.getBoolean("validation"    ),
-                            getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee")));
+                    Modules mod = new Modules(rs.getString("nom"           ),
+                                            rs.getString  ("code"          ),
+                                            rs.getString  ("abreviation"   ),
+                                            rs.getString  ("typeModule"    ),
+                                            rs.getBoolean ("validation"    ),
+                            getSemestreById(rs.getInt     ("numeroSemestre"),rs.getString("annee")));
                     ensModules.add(mod);
                 }
             }
@@ -232,7 +232,7 @@ public class DB
 
     public Modules getModuleByNumero(String numero)
     {
-        String req = "SELECT * FROM Module WHERE code = ?";
+        String req = "SELECT * FROM Module WHERE code = ?"; //TODO:Tout changer
         try (PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString(1,numero);
@@ -241,11 +241,11 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     Modules mod = new Modules(rs.getString ("nom"           ),
-                                            rs.getString ("code"          ),
-                                            rs.getString ("abreviation"   ),
-                                            rs.getString ("typeModule"    ),
-                                            rs.getBoolean("validation"    ),
-                            getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee"))
+                                              rs.getString ("code"          ),
+                                              rs.getString ("abreviation"   ),
+                                              rs.getString ("typeModule"    ),
+                                              rs.getBoolean("validation"    ),
+                              getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee"))
                     );
                     return mod;
                 }

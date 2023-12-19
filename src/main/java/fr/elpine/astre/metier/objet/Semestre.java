@@ -14,6 +14,8 @@ public class Semestre {
     private int nbSemaine;
     private Annee annee;
 
+    private ArrayList<Modules> ensModule;
+
 
     public Semestre(int numero, int nbGrpTD, int nbGrpTP, int nbEtd, int nbSemaine,Annee annee) {
         this.numero    = numero;
@@ -22,6 +24,7 @@ public class Semestre {
         this.nbEtd     = nbEtd;
         this.nbSemaine = nbSemaine;
         this.annee     = annee;
+        this.ensModule = new ArrayList<>();
     }
 
     /* GETTER */
@@ -41,4 +44,11 @@ public class Semestre {
     public void setNbEtd    (int nbEtd    ) { this.nbEtd     = nbEtd;     }
     public void setNbSemaine(int nbSemaine) { this.nbSemaine = nbSemaine; }
     public void setAnnee    (Annee annee  ) { this.annee = annee;         }
+
+    public void ajouterModule(Modules mod)
+    {
+        if(mod != null)
+            this.ensModule.add(mod);
+    }
+    public Modules getModule(int i) { return this.ensModule.get(i);}
 }

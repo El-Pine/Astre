@@ -2,30 +2,19 @@ package fr.elpine.astre.metier.objet;
 
 public class Attribution
 {
-    private int    numeroSemestreModule;
-    private int    nbHeure;
-    private int    nbSemaine;
-
-    private String anneeModule;
-    private String nomCategorieHeure;
-    private String codeModule;
+    private int        nbHeure;
+    private Integer    nbSemaine;
 
     private Modules modules;
     private CategorieHeure catHr;
 
 
-    public Attribution(int numeroSemestreModule, int nbHeure, int nbSemaine,
-                       String anneeModule, String nomCategorieHeure, String codeModule,
-                       Modules modules, CategorieHeure catHr)
+    public Attribution( int nbHeure, int nbSemaine, Modules modules, CategorieHeure catHr)
     {
-        this.numeroSemestreModule = numeroSemestreModule;
-        this.nbHeure = nbHeure;
-        this.nbSemaine = nbSemaine;
-        this.anneeModule = anneeModule;
-        this.nomCategorieHeure = nomCategorieHeure;
-        this.codeModule = codeModule;
-        this.modules = modules;
-        this.catHr = catHr;
+        this.nbHeure              = nbHeure;
+        this.nbSemaine            = nbSemaine;
+        this.modules              = modules;
+        this.catHr                = catHr;
     }
 
     public int            getNumeroSemestreModule() { return numeroSemestreModule; }
