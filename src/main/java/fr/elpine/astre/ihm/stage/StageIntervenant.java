@@ -1,9 +1,8 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.objet.Intervenant;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -95,10 +94,13 @@ public class StageIntervenant implements Initializable
 	}
 
 	@FXML
-	protected void onBtnClickSupprimer() {
+	protected void onBtnClickSupprimer() throws IOException {
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
-		Controleur.get().getDb().supprimerIntervenant(inter);
-		this.refresh();
+		if (StagePopUp.PopUpConfirmation("Suprression d'intervenant", "Êtes- vous sûr de vouloir supprimer l'intervenant : " + inter.getNom() + " " + inter.getPrenom()))
+		{
+			Controleur.get().getDb().supprimerIntervenant(inter);
+			this.refresh();
+		}
 	}
 
 	public void desactiver()

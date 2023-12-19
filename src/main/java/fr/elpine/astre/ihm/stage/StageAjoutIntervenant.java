@@ -101,9 +101,4 @@ public class StageAjoutIntervenant
         this.stage.close();
         parent.activer();
     }
-
-    public void fonctionValider()
-    {
-
-    }
 }
