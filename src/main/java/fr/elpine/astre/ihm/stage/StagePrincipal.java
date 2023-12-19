@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -63,6 +64,9 @@ public class StagePrincipal
 	@FXML
 	protected void onBtnClickEtat()
 	{
-
+		try {
+			StagePopUp.PopUpConfirmation("Tu es sur ? ", "Tu es sur ?");
+		}
+		catch (IOException e){}
 	}
 }

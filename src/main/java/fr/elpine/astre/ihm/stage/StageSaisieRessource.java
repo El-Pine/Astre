@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Affectation;
+import fr.elpine.astre.metier.objet.Semestre;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -76,6 +77,12 @@ public class StageSaisieRessource implements Initializable
     {
         txtTypeModule.setText(nomMod);
         txtSemestre.setText("" + id);
+
+        Semestre sem = Controleur.get().getDb().getSemestreById(id,"2022-2023");
+
+        txtNbEtd .setText("" + sem.getNbEtd  ());
+        txtNbGpTD.setText("" + sem.getNbGrpTD());
+        txtnbGpTP.setText("" + sem.getNbGrpTP());
     }
 
     @FXML

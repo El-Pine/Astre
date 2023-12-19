@@ -1046,6 +1046,39 @@ public class DB
         return ensaff;
     }
 
+    public Affectation getAffectationByModule(Modules module)
+    {
+        String req = "SELECT * FROM Affectation WHERE codeModule = ?";
+        try(PreparedStatement ps = co.prepareStatement(req))
+        {
+            ps.setString(1, module.getCode());
+            try(ResultSet rs = ps.executeQuery())
+            {
+                Affectation affectation = new Affectation(
+                        getModuleByNumero( rs.getString(1)),
+                        rs.getInt   (2),
+                        rs.getString(3),
+                        getIntervenantById(rs.getInt   (4)),
+                        getCatHrByNom     (rs.getString(5)),
+                        rs.getInt   (6),
+                        rs.getInt   (7),
+                        rs.getInt   (8),
+                        rs.getString(9));
+
+                return affectation;
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<Modules> getPrevisionsbySemestre(int semestre) {
         ArrayList<Modules> ensaff = new ArrayList<>();
         String req = "SELECT * FROM module WHERE numerosemestre = ?";
@@ -1070,6 +1103,8 @@ public class DB
         }
         return ensaff;
     }
+
+
 
 
 

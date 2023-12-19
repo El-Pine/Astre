@@ -1,9 +1,9 @@
 package fr.elpine.astre.ihm.stage;
 
+
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.objet.Affectation;
-import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.metier.objet.Modules;
+import fr.elpine.astre.metier.objet.Semestre;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,24 +14,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-
-
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
-public class StagePrevisionnel implements Initializable
-{
+public class StagePrevisionnel implements Initializable {
 	private static ObservableList<Modules> modulesListS1 = FXCollections.observableArrayList();
 	private static ObservableList<Modules> modulesListS2 = FXCollections.observableArrayList();
 	private static ObservableList<Modules> modulesListS3 = FXCollections.observableArrayList();
 	private static ObservableList<Modules> modulesListS4 = FXCollections.observableArrayList();
 	private static ObservableList<Modules> modulesListS5 = FXCollections.observableArrayList();
 	private static ObservableList<Modules> modulesListS6 = FXCollections.observableArrayList();
+
 	@FXML
 	public TableColumn<Modules,String> s1code;
 	@FXML
@@ -80,12 +78,24 @@ public class StagePrevisionnel implements Initializable
 	public TableView<Modules> tabs4;
 	@FXML
 	public TableView<Modules> tabs5;
+
+	@FXML
+	private TextField txtNbTD;
+	@FXML
+	private TextField txtNbTP;
+	@FXML
+	private TextField txtNbEtd;
+	@FXML
+	private TextField txtNbSemaine;
+
+
 	@FXML
 	private TabPane pnlControlSem;
+
+
 	private Stage stage;
 
-	public static Stage creer() throws IOException
-	{
+	public static Stage creer() throws IOException {
 		Stage stage = new Stage();
 
 		StagePrevisionnel.modulesListS1 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(1));
@@ -95,8 +105,8 @@ public class StagePrevisionnel implements Initializable
 		StagePrevisionnel.modulesListS5 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(5));
 		StagePrevisionnel.modulesListS6 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(6));
 
-		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
 
+		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
 		StagePrevisionnel stageCtrl = fxmlLoader.getController();
@@ -105,16 +115,19 @@ public class StagePrevisionnel implements Initializable
 		stage.setTitle("Previsions");
 		stage.setScene(scene);
 
-
 		stage.setOnCloseRequest(e -> {
-			// perform actions before closing
-			try { StagePrincipal.creer().show(); } catch (IOException ignored) {}
+			try {
+				StagePrincipal.creer().show();
+			} catch (IOException ignored) {
+			}
 		});
 
 		return stage;
 	}
 
-	private void setStage(Stage stage) { this.stage = stage; }
+	private void setStage(Stage stage) {
+		this.stage = stage;
+	}
 
 	@FXML
 	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
@@ -123,8 +136,8 @@ public class StagePrevisionnel implements Initializable
 	}
 
 	@FXML
-	public void onBtnCreerStage(ActionEvent actionEvent)
-	{
+	public void onBtnCreerStage(ActionEvent actionEvent) {
+		// Logique pour créer un stage
 	}
 
 	@FXML
@@ -134,17 +147,17 @@ public class StagePrevisionnel implements Initializable
 	}
 
 	@FXML
-	public void onBtnSupprimer(ActionEvent actionEvent)
-	{
-
+	public void onBtnSupprimer(ActionEvent actionEvent) {
+		System.out.println(txtNbTD.getText());
 	}
 
 	@FXML
-	public void onBtnModifier(ActionEvent actionEvent)
-	{
+	public void onBtnModifier(ActionEvent actionEvent) {
+		// Logique pour modifier
 	}
+
 	@Override
-	public void initialize(URL location, ResourceBundle ressources)
+	public void initialize(URL location, ResourceBundle resources)
 	{
 		s1code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
@@ -170,6 +183,26 @@ public class StagePrevisionnel implements Initializable
 		s6liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
 		tabs6.setItems(modulesListS6);
 
+		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+			if (newTab != null) {
+				// Rafraîchir les données lorsque l'onglet change
+				initializeTextFields();
+			}
+		});
+
+		initializeTextFields();
+	}
+
+
+
+	private void initializeTextFields()
+	{
+		Semestre semestre = Controleur.get().getDb().getSemestreById(pnlControlSem.getSelectionModel().getSelectedIndex() + 1,"2022-2023");
+
+		txtNbTD     .setText("" + semestre.getNbGrpTD  ());
+		txtNbTP     .setText("" + semestre.getNbGrpTP  ());
+		txtNbEtd    .setText("" + semestre.getNbEtd    ());
+		txtNbSemaine.setText("" + semestre.getNbSemaine());
 
 	}
 }
