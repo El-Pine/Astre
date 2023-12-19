@@ -2,10 +2,8 @@ package fr.elpine.astre.ihm.stage;
 
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.objet.Modules;
+import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,66 +16,65 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
 public class StagePrevisionnel implements Initializable {
-	private static ObservableList<Modules> modulesListS1 = FXCollections.observableArrayList();
-	private static ObservableList<Modules> modulesListS2 = FXCollections.observableArrayList();
-	private static ObservableList<Modules> modulesListS3 = FXCollections.observableArrayList();
-	private static ObservableList<Modules> modulesListS4 = FXCollections.observableArrayList();
-	private static ObservableList<Modules> modulesListS5 = FXCollections.observableArrayList();
-	private static ObservableList<Modules> modulesListS6 = FXCollections.observableArrayList();
+	private static ObservableList<Module> moduleListS1 = FXCollections.observableArrayList();
+	private static ObservableList<Module> moduleListS2 = FXCollections.observableArrayList();
+	private static ObservableList<Module> moduleListS3 = FXCollections.observableArrayList();
+	private static ObservableList<Module> moduleListS4 = FXCollections.observableArrayList();
+	private static ObservableList<Module> moduleListS5 = FXCollections.observableArrayList();
+	private static ObservableList<Module> moduleListS6 = FXCollections.observableArrayList();
 
 	@FXML
-	public TableColumn<Modules,String> s1code;
+	public TableColumn<Module,String>  s1code;
 	@FXML
-	public TableColumn<Modules,String> s1liblong;
+	public TableColumn<Module,String>  s1liblong;
 	@FXML
-	public TableColumn<Modules,Integer> s1hahpn;
+	public TableColumn<Module,Integer> s1hahpn;
 	@FXML
-	public TableColumn<Modules,String> s2code;
+	public TableColumn<Module,String>  s2code;
 	@FXML
-	public TableColumn<Modules,String> s2liblong;
+	public TableColumn<Module,String>  s2liblong;
 	@FXML
-	public TableColumn<Modules,Integer> s2hahpn;
+	public TableColumn<Module,Integer> s2hahpn;
 	@FXML
-	public TableColumn<Modules,String> s3code;
+	public TableColumn<Module,String>  s3code;
 	@FXML
-	public TableColumn<Modules,String> s3liblong;
+	public TableColumn<Module,String>  s3liblong;
 	@FXML
-	public TableColumn<Modules,Integer> s3hahpn;
+	public TableColumn<Module,Integer> s3hahpn;
 	@FXML
-	public TableColumn<Modules,String> s4code;
+	public TableColumn<Module,String>  s4code;
 	@FXML
-	public TableColumn<Modules,String> s4liblong;
+	public TableColumn<Module,String>  s4liblong;
 	@FXML
-	public TableColumn<Modules,Integer> s4hahpn;
+	public TableColumn<Module,Integer> s4hahpn;
 	@FXML
-	public TableColumn<Modules,String> s5code;
+	public TableColumn<Module,String>  s5code;
 	@FXML
-	public TableColumn<Modules,String> s5liblong;
+	public TableColumn<Module,String>  s5liblong;
 	@FXML
-	public TableColumn<Modules,Integer> s5hahpn;
+	public TableColumn<Module,Integer> s5hahpn;
 	@FXML
-	public TableColumn<Modules,String> s6code;
+	public TableColumn<Module,String>  s6code;
 	@FXML
-	public TableColumn<Modules,String> s6liblong;
+	public TableColumn<Module,String>  s6liblong;
 	@FXML
-	public TableColumn<Modules,Integer> s6hahpn;
+	public TableColumn<Module,Integer> s6hahpn;
 	@FXML
-	public TableView<Modules> tabs6;
+	public TableView<Module>           tabs6;
 	@FXML
-	public TableView<Modules> tabs1;
+	public TableView<Module>           tabs1;
 	@FXML
-	public TableView<Modules> tabs2;
+	public TableView<Module>           tabs2;
 	@FXML
-	public TableView<Modules> tabs3;
+	public TableView<Module>           tabs3;
 	@FXML
-	public TableView<Modules> tabs4;
+	public TableView<Module>           tabs4;
 	@FXML
-	public TableView<Modules> tabs5;
+	public TableView<Module>           tabs5;
 
 	@FXML
 	private TextField txtNbTD;
@@ -98,12 +95,12 @@ public class StagePrevisionnel implements Initializable {
 	public static Stage creer() throws IOException {
 		Stage stage = new Stage();
 
-		StagePrevisionnel.modulesListS1 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(1));
-		StagePrevisionnel.modulesListS2 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(2));
-		StagePrevisionnel.modulesListS3 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(3));
-		StagePrevisionnel.modulesListS4 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(4));
-		StagePrevisionnel.modulesListS5 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(5));
-		StagePrevisionnel.modulesListS6 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(6));
+		StagePrevisionnel.moduleListS1 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(1));
+		StagePrevisionnel.moduleListS2 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(2));
+		StagePrevisionnel.moduleListS3 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(3));
+		StagePrevisionnel.moduleListS4 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(4));
+		StagePrevisionnel.moduleListS5 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(5));
+		StagePrevisionnel.moduleListS6 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(6));
 
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
@@ -161,27 +158,27 @@ public class StagePrevisionnel implements Initializable {
 	{
 		s1code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-		tabs1.setItems(modulesListS1);
+		tabs1.setItems(moduleListS1);
 
 		s2code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s2liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-		tabs2.setItems(modulesListS2);
+		tabs2.setItems(moduleListS2);
 
 		s3code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s3liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-		tabs3.setItems(modulesListS3);
+		tabs3.setItems(moduleListS3);
 
 		s4code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s4liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-		tabs4.setItems(modulesListS4);
+		tabs4.setItems(moduleListS4);
 
 		s5code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s5liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-		tabs5.setItems(modulesListS5);
+		tabs5.setItems(moduleListS5);
 
 		s6code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s6liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-		tabs6.setItems(modulesListS6);
+		tabs6.setItems(moduleListS6);
 
 		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 			if (newTab != null) {

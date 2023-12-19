@@ -2,17 +2,16 @@ package fr.elpine.astre.metier;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
-import org.w3c.dom.Attr;
+import fr.elpine.astre.metier.objet.Module;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Astre
 {
     private Controleur ctrl;
     private ArrayList<Annee>    ensAnnee;
-    private ArrayList<Semestre> ensSemestre;
-    private ArrayList<Modules>  ensModules;
+    private ArrayList<Semestre>    ensSemestre;
+    private ArrayList<Module>      ensModules;
     private ArrayList<Intervenant> ensIntervenant;
     private ArrayList<CategorieHeure> ensCategorieHeure;
     private ArrayList<CategorieIntervenant> ensCategorieIntervenant;
@@ -40,7 +39,7 @@ public class Astre
         {
             for (Semestre s : ensSemestre)
             {
-                if(s.getAnnee().getNumero().equals(a.getNumero()))
+                if(s.getAnnee().getNom().equals(a.getNom()))
                 {
                     a.ajouterSemestre(s);
                     s.setAnnee(a);
@@ -52,7 +51,7 @@ public class Astre
     {
         for (Semestre s : ensSemestre)
         {
-            for (Modules m : ensModules)
+            for (Module m : ensModules)
             {
                 if(m.getSemestre().getNumero() == s.getNumero())
                 {

@@ -26,6 +26,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+// TODO : ajouter une colonne mail
+
 public class StageIntervenant implements Initializable
 {
 	@FXML
@@ -155,10 +157,10 @@ public class StageIntervenant implements Initializable
 				}
 			}
 		});
-		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getStatut  ()  .getCode  ()));
+		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCategorie()  .getCode  ()));
 		tcNom      .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getNom     ()));
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
-		tcHServ    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getService () ).asObject ());
+		tcHServ    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureService() ).asObject ());
 		tcHMax     .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureMax() ).asObject ());
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTP () ).asObject ());
 
