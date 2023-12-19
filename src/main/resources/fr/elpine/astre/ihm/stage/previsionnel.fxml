@@ -54,19 +54,11 @@
                         </GridPane>
                      </top>
                      <center>
-<<<<<<< HEAD
                         <TableView fx:id="tabs1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
                             <TableColumn fx:id="s1code" prefWidth="75.0" text="Code" />
                             <TableColumn fx:id="s1liblong" prefWidth="245.6000213623047" text="libelle long" />
                               <TableColumn fx:id="s1hahpn" prefWidth="193.5999755859375" text="Heure Affecté / Heure PN" />
-=======
-                        <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="Code" />
-                            <TableColumn prefWidth="245.6000213623047" text="libelle long" />
-                              <TableColumn prefWidth="193.5999755859375" text="Heure Affecté / Heure PN" />
->>>>>>> origin/main
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
