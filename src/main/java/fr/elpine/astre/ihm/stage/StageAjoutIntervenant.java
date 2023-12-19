@@ -76,7 +76,6 @@ public class StageAjoutIntervenant
 
     public void onBtnValider(ActionEvent actionEvent)
     {
-        try {
             String nom                  = txtNom   .getText();
             String prenom               = txtPrenom.getText();
             String email                = txtEmail .getText();
@@ -86,14 +85,11 @@ public class StageAjoutIntervenant
             int ratio                   = Integer.parseInt(txtfRatio.getText());
 
             Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
-            Controleur.get().getDb().ajouterIntervenant(inter);
+            StageIntervenant.interAAjouter.add(inter);
+
             parent.refresh();
             this.stage.close();
             parent.activer();
-        } catch (Exception e) {
-            lblErreur.setVisible(true);
-            e.printStackTrace();
-        }
     }
 
     public void btnAnnuler(ActionEvent actionEvent) throws IOException
