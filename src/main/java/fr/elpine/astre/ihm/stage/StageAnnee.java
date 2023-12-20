@@ -19,7 +19,6 @@ public class StageAnnee {
     public ComboBox cbbAnnee;
     private Stage stage;
 
-
     public static Stage creer() throws IOException
     {
         Stage stage = new Stage();
