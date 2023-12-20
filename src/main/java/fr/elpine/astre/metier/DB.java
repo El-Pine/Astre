@@ -136,40 +136,7 @@ public class DB
         return content.toString();
     }
 
-    /*---------------------*/
-    /* Méthode de recherche*/
-    /*---------------------*/
 
-
-
-    public Module rechercherModule(ArrayList<Module> ensModule, String codeModule,int numSem, String anneeSem)
-    {
-        for (Module mod : ensModule)
-        {
-            if(mod.getCode    ().equals(codeModule)    &&
-                    mod.getSemestre().getNumero() == numSem &&
-                    mod.getSemestre().getAnnee().getNom().equals(anneeSem))
-            { return mod;}
-        }
-        return null;
-    }
-    public CategorieHeure rechercherCatHr(ArrayList<CategorieHeure> ensCategorie, String nomCatHr)
-    {
-        for (CategorieHeure catHrs : ensCategorie)
-        {
-            if(catHrs.getNom().equals(nomCatHr)){ return catHrs;}
-        }
-        return null;
-    }
-
-    public Intervenant rechercherInter(ArrayList<Intervenant> ensInter, int idInter)
-    {
-        for (Intervenant inter : ensInter)
-        {
-            if(idInter == inter.getId()) return inter;
-        }
-        return null;
-    }
     /*-----------------*/
     /* Gestion Commits */
     /*-----------------*/
@@ -352,7 +319,7 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<Intervenant> getAllIntervenant()
+    public ArrayList<Intervenant> getAllIntervenant(ArrayList<CategorieIntervenant> ensCatInter)
     {
         ArrayList<Intervenant> resultats = new ArrayList<>();
         String req = "SELECT * FROM Intervenant";
@@ -363,14 +330,17 @@ public class DB
             {
                 while (rs.next())
                 {
+                    String codeInter = rs.getString(5);
+                    CategorieIntervenant catInter =  Astre.rechercherCatInter(ensCatInter, codeInter);
+
                     Intervenant inter = Intervenant.creerIntervenant(
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        selectCatInterByCode(rs.getString(5)),
-                        rs.getInt(6),
-                        rs.getInt(7),
-                        rs.getString(8));
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    catInter,
+                    rs.getInt(6),
+                    rs.getInt(7),
+                    rs.getString(8));
                     resultats.add(inter);
                 }
             }
@@ -381,35 +351,6 @@ public class DB
 
         // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
-    }
-
-    public Intervenant getIntervenantById(int code)
-    {
-        String req = "SELECT * FROM Intervenant WHERE idInter = ?";
-        try(PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setInt(1,code);
-            try (ResultSet rs = ps.executeQuery())
-            {
-                while (rs.next())
-                {
-                    Intervenant inter = Intervenant.creerIntervenant(
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            selectCatInterByCode(rs.getString(5)),
-                            rs.getInt(6),
-                            rs.getInt(7),
-                            rs.getString(8));
-                    return inter;
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public ArrayList<Intervenant> getIntervenantByNom(String nomRch)
@@ -444,7 +385,6 @@ public class DB
             e.printStackTrace();
         }
         return resultats;
-
     }
     /*--------------*/
     /*   SEMESTRE   */
@@ -962,8 +902,8 @@ public class DB
                     String anneeSem          = rs.getString(3);
                     String nomCategorieHeure = rs.getString(4);
 
-                    Module mod = rechercherModule(ensModule, codeModule,numSem,anneeSem);
-                    CategorieHeure catHr = rechercherCatHr(ensCatHr, nomCategorieHeure);
+                    Module mod           = Astre.rechercherModule(ensModule, codeModule,numSem,anneeSem);
+                    CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr, nomCategorieHeure);
 
                     Attribution att = new Attribution(rs.getInt(5),rs.getInt(6),mod,catHr );
                     ensAttribution.add(att);
@@ -1067,9 +1007,9 @@ public class DB
 
                     String nomCategorieHeure = rs.getString(5);
 
-                    Intervenant    inter = rechercherInter (ensInter,idInter);
-                    Module         mod   = rechercherModule(ensModule,codeModule,numSem,anneeSem);
-                    CategorieHeure catHr = rechercherCatHr(ensCatHr,nomCategorieHeure);
+                    Intervenant    inter = Astre.rechercherInter (ensInter,idInter);
+                    Module         mod   = Astre.rechercherModule(ensModule,codeModule,numSem,anneeSem);
+                    CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr,nomCategorieHeure);
 
                     Affectation aff = new Affectation(mod, inter, catHr, rs.getInt(6),rs.getInt(7),rs.getString(9) );
 

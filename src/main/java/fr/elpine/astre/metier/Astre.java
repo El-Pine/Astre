@@ -27,7 +27,49 @@ public class Astre
         this.ensCategorieIntervenant = ctrl.getDb().getAllCategorieIntervenant();
         this.ensIntervenant          = ctrl.getDb().getAllIntervenant( this.ensCategorieIntervenant );
         this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();
-        this.ensAffectation          = ctrl.getDb().getAllAffectation( this.ensCategorieHeure, this.ensModule, this.ensIntervenant );
-        this.ensAttribution          = ctrl.getDb().getAllAttribution( this.ensCategorieHeure, this.ensModule);
+        this.ensAffectation          = ctrl.getDb().getAllaff      ( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
+        this.ensAttribution          = ctrl.getDb().getAllAttribution(this.ensModule, this.ensCategorieHeure);
+    }
+
+    /*---------------------*/
+    /* Méthode de recherche*/
+    /*---------------------*/
+
+    public static  Module rechercherModule(ArrayList<Module> ensModule, String codeModule,int numSem, String anneeSem)
+    {
+        for (Module mod : ensModule)
+        {
+            if(mod.getCode    ().equals(codeModule)    &&
+                    mod.getSemestre().getNumero() == numSem &&
+                    mod.getSemestre().getAnnee().getNom().equals(anneeSem))
+            { return mod;}
+        }
+        return null;
+    }
+    public static CategorieHeure rechercherCatHr(ArrayList<CategorieHeure> ensCategorie, String nomCatHr)
+    {
+        for (CategorieHeure catHrs : ensCategorie)
+        {
+            if(catHrs.getNom().equals(nomCatHr)){ return catHrs;}
+        }
+        return null;
+    }
+
+    public static Intervenant rechercherInter(ArrayList<Intervenant> ensInter, int idInter)
+    {
+        for (Intervenant inter : ensInter)
+        {
+            if(idInter == inter.getId()) return inter;
+        }
+        return null;
+    }
+
+    public static CategorieIntervenant rechercherCatInter(ArrayList<CategorieIntervenant> ensCatInter, String codeCatInter )
+    {
+        for (CategorieIntervenant catInter : ensCatInter)
+        {
+            if(catInter.getCode().equals(codeCatInter)) return catInter;
+        }
+        return null;
     }
 }
