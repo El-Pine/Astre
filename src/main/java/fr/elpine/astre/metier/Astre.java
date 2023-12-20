@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class Astre
 {
     private Controleur ctrl;
+    private Annee anneeActuelle;
+
     private ArrayList<Annee>    ensAnnee;
     private ArrayList<Semestre>    ensSemestre;
     private ArrayList<Module> ensModule;
@@ -17,6 +19,7 @@ public class Astre
     private ArrayList<CategorieIntervenant> ensCategorieIntervenant;
     private ArrayList<Attribution> ensAttribution;
     private ArrayList<Affectation> ensAffectation;
+
     public Astre ( Controleur ctrl )
     {
         this.ctrl = ctrl;
@@ -29,6 +32,8 @@ public class Astre
         this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();
         this.ensAffectation          = ctrl.getDb().getAllaff      ( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
         this.ensAttribution          = ctrl.getDb().getAllAttribution(this.ensModule, this.ensCategorieHeure);
+
+        this.anneeActuelle = this.ensAnnee.isEmpty() ? null : this.ensAnnee.get(0);
     }
 
     /*---------------------*/
@@ -71,5 +76,29 @@ public class Astre
             if(catInter.getCode().equals(codeCatInter)) return catInter;
         }
         return null;
+    }
+
+    /*-----------------------------*/
+    /* Gestion de l'année actuelle */
+    /*-----------------------------*/
+
+    public Annee getAnneeActuelle() { return this.anneeActuelle; }
+    public void changerAnneeActuelle( Annee a )
+    {
+        if (this.ensAnnee.contains(a)) this.anneeActuelle = a;
+    }
+
+    /*----------*/
+    /* Méthodes */
+    /*----------*/
+
+    public ArrayList<Intervenant> getIntervenants()
+    {
+        return this.ensIntervenant;
+    }
+
+    public ArrayList<Affectation> getAllAffectation()
+    {
+        return this.ensAffectation;
     }
 }

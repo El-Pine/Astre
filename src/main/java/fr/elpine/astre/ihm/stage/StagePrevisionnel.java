@@ -95,12 +95,20 @@ public class StagePrevisionnel implements Initializable {
 	public static Stage creer() throws IOException {
 		Stage stage = new Stage();
 
-		StagePrevisionnel.moduleListS1 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(1));
-		StagePrevisionnel.moduleListS2 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(2));
-		StagePrevisionnel.moduleListS3 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(3));
-		StagePrevisionnel.moduleListS4 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(4));
-		StagePrevisionnel.moduleListS5 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(5));
-		StagePrevisionnel.moduleListS6 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(6));
+		ArrayList<Semestre> semestres = Controleur.get().getMetier().getAnneeActuelle().getSemestres();
+
+		for (Semestre s : semestres)
+		{
+			switch (s.getNumero())
+			{
+				case 1 -> StagePrevisionnel.moduleListS1 = FXCollections.observableArrayList(s.getModules());
+				case 2 -> StagePrevisionnel.moduleListS2 = FXCollections.observableArrayList(s.getModules());
+				case 3 -> StagePrevisionnel.moduleListS3 = FXCollections.observableArrayList(s.getModules());
+				case 4 -> StagePrevisionnel.moduleListS4 = FXCollections.observableArrayList(s.getModules());
+				case 5 -> StagePrevisionnel.moduleListS5 = FXCollections.observableArrayList(s.getModules());
+				case 6 -> StagePrevisionnel.moduleListS6 = FXCollections.observableArrayList(s.getModules());
+			}
+		}
 
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));

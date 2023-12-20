@@ -133,21 +133,21 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getInter().getNom()));
+        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom()));
         tcType       .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
         tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject());
         tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject());
         tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure()).asObject());
         tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
 
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllAffectation());
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAllAffectation());
         tableau.setItems(StageSaisieRessource.ensAff);
 
 
     }
 
     public void refresh() {
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getDb().getAllAffectation());
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAllAffectation());
         tableau.setItems(StageSaisieRessource.ensAff);
     }
 

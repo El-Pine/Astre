@@ -23,6 +23,11 @@ public class DB
         // Connexion
         AstreApplication.erreur = !this.reloadDB();
 
+        while (AstreApplication.erreur)
+        {
+	        try { Thread.sleep(250); } catch (Exception e) {}
+        }
+
         /*
          * Pour créer un tunnel SSH
          * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
@@ -204,7 +209,7 @@ public class DB
     //Méthode select all
     public ArrayList<Module> getAllModule( ArrayList<Semestre> list)
     {
-        ArrayList<Module> ensModules = new ArrayList<>();
+        ArrayList<Module> ensModule = new ArrayList<>();
         String            req        = "SELECT * FROM Module";
 
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -226,7 +231,7 @@ public class DB
                                             rs.getString  ("typeModule"    ),
                                             rs.getBoolean ("validation"    ),
                                             semestre);
-                    ensModules.add(mod);
+                    ensModule.add(mod);
                 }
             }
         }
@@ -234,7 +239,7 @@ public class DB
         {
             e.printStackTrace();
         }
-        return null;
+        return ensModule;
     }
 
     public Module getModuleByNumero(String numero)
@@ -281,7 +286,17 @@ public class DB
             ps.setInt      (5,inter.getHeureService        ()  );
             ps.setInt      (6,inter.getHeureMax            ()  );
             ps.setString   (7,inter.getRatioTP             ()  );
-            ps.executeUpdate();
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0)
+            {
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+
+                if (generatedKeys.next()) {
+                    inter.setId(generatedKeys.getInt(1));
+                }
+            }
         }
         catch(SQLException e)
         {
@@ -292,7 +307,7 @@ public class DB
     //Méthode d'update
     public void majIntervenant(Intervenant inter)
     {
-        String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, statut = ?, service = ?, total = ? WHERE nom = ? AND prenom = ?";
+        String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, codeCategorie = ?, heureService = ?, heureTotal = ? WHERE id = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString(1,                 inter.getNom    ()           );
@@ -301,6 +316,7 @@ public class DB
             ps.setString(4,                 inter.getCategorie().getCode() );
             ps.setString(5,Integer.toString(inter.getHeureService())          );
             ps.setString(6,Integer.toString(inter.getHeureMax  ())          );
+            ps.setInt(7,inter.getId());
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -312,11 +328,10 @@ public class DB
     //Méthode delete
     public void supprimerIntervenant(Intervenant inter)
     {
-        String req = "DELETE FROM Intervenant WHERE nom = ? AND prenom = ?";
+        String req = "DELETE FROM Intervenant WHERE id = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1, inter.getNom   () );
-            ps.setString(2, inter.getPrenom() );
+            ps.setInt(1, inter.getId   () );
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -348,6 +363,8 @@ public class DB
                     rs.getInt(6),
                     rs.getInt(7),
                     rs.getString(8));
+
+                    inter.setId(rs.getInt(1));
                     resultats.add(inter);
                 }
             }
@@ -537,7 +554,7 @@ public class DB
 
     // Méthode d'update
     public void majAnnee(Annee annee) {
-        String req = "UPDATE Annee SET numero = ?, dateDeb = ?, dateFin = ? WHERE numero = ?";
+        String req = "UPDATE Annee SET nom = ?, debut = ?, fin = ? WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, annee.getNom());
             ps.setString(2, annee.getDateDeb());
@@ -551,7 +568,7 @@ public class DB
 
     // Méthode delete
     public void supprimerAnnee(Annee annee) {
-        String req = "DELETE FROM Annee WHERE numero = ?";
+        String req = "DELETE FROM Annee WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, annee.getNom());
             ps.executeUpdate();
@@ -568,9 +585,9 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     Annee annee = new Annee(
-                            rs.getString("numero"),
-                            rs.getString("dateDeb"),
-                            rs.getString("dateFin")
+                            rs.getString("nom"),
+                            rs.getString("debut"),
+                            rs.getString("fin")
                     );
                     ensAnnee.add(annee);
                 }
@@ -582,11 +599,11 @@ public class DB
         return ensAnnee;
     }
 
-    public Annee getAnneeByNumero(String numero)
+    public Annee getAnneeByNumero(String nom)
     {
         String req = "SELECT * FROM Annee WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString(1, numero);
+            ps.setString(1, nom);
             try (ResultSet rs = ps.executeQuery()) {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
