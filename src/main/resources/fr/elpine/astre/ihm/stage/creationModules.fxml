@@ -38,7 +38,7 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <ComboBox prefWidth="150.0" />
+                  <ComboBox fx:id="cbbInter" prefWidth="150.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -48,7 +48,7 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <TextField prefHeight="26.0" prefWidth="241.0" />
+                  <TextField fx:id="txtCommentaire" prefHeight="26.0" prefWidth="241.0" />
                </children>
             </FlowPane>
          </children>
@@ -69,12 +69,12 @@
                         <Insets right="40.0" />
                      </FlowPane.margin>
                   </Label>
-                  <RadioButton fx:id="rbHP" mnemonicParsing="false" text="HP">
+                  <RadioButton fx:id="rbHP" mnemonicParsing="false" onAction="#isHp" text="HP">
                      <FlowPane.margin>
                         <Insets right="30.0" />
                      </FlowPane.margin>
                   </RadioButton>
-                  <RadioButton fx:id="rbAutre" mnemonicParsing="false" text="Autre types heure" />
+                  <RadioButton fx:id="rbAutre" mnemonicParsing="false" onAction="#isAutreType" text="Autre types heure" />
                </children>
             </FlowPane>
             <GridPane style="-fx-border-style: solid;" GridPane.rowIndex="1">
@@ -141,12 +141,12 @@
       </GridPane>
       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" prefWidth="60.0" text="Ajouter">
+            <Button mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="60.0" text="Ajouter">
                <FlowPane.margin>
                   <Insets right="30.0" />
                </FlowPane.margin>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" prefWidth="60.0" text="Annuler" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="60.0" text="Annuler" />
          </children>
       </FlowPane>
    </children>
