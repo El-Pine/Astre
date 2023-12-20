@@ -50,6 +50,7 @@ public class StageAjouterAnnee {
     {
         Annee a = new Annee(txtfNonAnnee.getText(),dateDebut.getValue().toString(),dateFin.getValue().toString());
         Controleur.get().getMetier().ajouterAnnee(a);
+        parent.setCpbContrat();
         this.stage.close();
     }
 
