@@ -70,7 +70,7 @@ public class StageAjoutIntervenant
 
     public void setCpbContrat()
     {
-        ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getDb().getAllCategorieIntervenant());
+        ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getMetier().getCategorieIntervenants());
         cpbContrat.setItems(enscatInter);
     }
 

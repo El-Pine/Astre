@@ -88,14 +88,15 @@ public class Astre
 		return null;
 	}
 
-    public Intervenant rechercheIntervenantByNom( String nom, String prenom )
+    public ArrayList<Intervenant> rechercheIntervenantByNom( String nom )
     {
+        ArrayList<Intervenant> ensTemp = new ArrayList<>();
         for (Intervenant intervenant : this.ensIntervenant)
         {
-            if (intervenant.getNom().equals(nom) && intervenant.getPrenom().equals(prenom)) return intervenant;
+            if (intervenant.getNom().equals(nom)) ensTemp.add( intervenant );
         }
 
-        return null;
+        return ensTemp;
     }
 
     /*-----------------------------*/
@@ -125,10 +126,63 @@ public class Astre
     /* Méthodes Ajouter */
     /*------------------*/
 
+
+    //TODO:Verification qu'il n'y a pas de doublons ou d'ajout d'objet null
     public Annee ajouterAnnee(Annee a)
     {
         this.ensAnnee.add(a);
 
         return a;
+    }
+
+    public Intervenant ajouterIntervenant(Intervenant i)
+    {
+        this.ensIntervenant.add(i);
+
+        return i;
+    }
+
+    public CategorieHeure ajouterCategorieHeure (CategorieHeure catHr)
+    {
+        this.ensCategorieHeure.add(catHr);
+
+        return catHr;
+    }
+
+    public CategorieIntervenant ajouterCategorieIntervenant( CategorieIntervenant catInter)
+    {
+        this.ensCategorieIntervenant.add(catInter);
+
+        return catInter;
+    }
+
+    /*--------------------*/
+    /* Méthodes Supprimer */
+    /*--------------------*/
+
+    public void supprimerIntervenant   (Intervenant    i    )          { this.ensIntervenant         .remove(i)    ; }
+    public boolean supprimerCategorieHeure(CategorieHeure catHr)
+    {
+        for (Affectation aff : this.ensAffectation)
+        {
+            if ( aff.getTypeHeure().equals(catHr)) return false;
+        }
+
+        for (Attribution att : this.ensAttribution)
+        {
+            if (att.getCatHr().equals(catHr)) return false;
+        }
+
+        this.ensCategorieHeure      .remove(catHr)   ;
+        return true;
+    }
+    public boolean supprimerCategorieInter(CategorieIntervenant catInter)
+    {
+        for (Intervenant inter : this.ensIntervenant)
+        {
+            if(inter.getCategorie().equals(catInter)) return false;
+        }
+        this.ensCategorieIntervenant.remove(catInter) ;
+        return true;
     }
 }

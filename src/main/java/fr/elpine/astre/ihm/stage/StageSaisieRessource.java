@@ -78,7 +78,7 @@ public class StageSaisieRessource implements Initializable
         txtTypeModule.setText(nomMod);
         txtSemestre.setText("" + id);
 
-        Semestre sem = Controleur.get().getDb().getSemestreById(id,"2022-2023");
+        Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(id); //TODO: Rajouter l'année une fois que l'on a géré
 
         txtNbEtd .setText("" + sem.getNbEtd  ());
         txtNbGpTD.setText("" + sem.getNbGrpTD());
@@ -133,12 +133,12 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom()));
-        tcType       .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
-        tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject());
-        tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject());
-        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure()).asObject());
-        tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
+        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getIntervenant().getNom()));
+        tcType       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getTypeHeure  ().getNom()));
+        tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());
+        tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine  ()).asObject());
+        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure    ()).asObject());
+        tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
 
         StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tableau.setItems(StageSaisieRessource.ensAff);

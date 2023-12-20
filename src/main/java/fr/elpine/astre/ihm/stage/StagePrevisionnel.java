@@ -202,7 +202,7 @@ public class StagePrevisionnel implements Initializable {
 
 	private void initializeTextFields()
 	{
-		Semestre semestre = Controleur.get().getDb().getSemestreById(pnlControlSem.getSelectionModel().getSelectedIndex() + 1,"2022-2023");
+		Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
 
 		txtNbTD     .setText("" + semestre.getNbGrpTD  ());
 		txtNbTP     .setText("" + semestre.getNbGrpTP  ());

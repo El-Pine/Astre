@@ -110,9 +110,9 @@ public class StageAccueilConfig implements Initializable
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
 
         if (catInter != null)
-            estSupprimer = Controleur.get().getDb().supprimerCatIntervenant(catInter);
+            estSupprimer = Controleur.get().getMetier().supprimerCategorieInter(catInter);
         if (catHr != null)
-            estSupprimer = Controleur.get().getDb().supprimerCategorieHeure(catHr);
+            estSupprimer = Controleur.get().getMetier().supprimerCategorieHeure(catHr);
 
         if(!estSupprimer)
         {
@@ -152,7 +152,7 @@ public class StageAccueilConfig implements Initializable
         tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault   ()).asObject());
         tcRatioInter     .setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTPDefault  ()).asObject());
 
-        ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
+        ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
         tabCatInter.setItems(ensCatInter);
 
         tcNomHeures        .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getNom         ()));
@@ -162,17 +162,17 @@ public class StageAccueilConfig implements Initializable
         tcPppHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estPpp         ()));
         tcStageHeures      .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estStage       ()));
 
-        ObservableList ensCatHeure = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieHeure());
+        ObservableList ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
         tabCatHeures.setItems(ensCatHeure);
     }
 
     public void refreshCatHr() {
-        StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieHeure());
+        StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
         tabCatHeures.setItems(StageAccueilConfig.ensCatHeure);
     }
 
     public void refreshCatInter() {
-        StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
+        StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
         tabCatInter.setItems(StageAccueilConfig.ensCatInter);
     }
 

@@ -55,7 +55,7 @@ public class StageIntervenant implements Initializable
 	public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
-		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
+		StageIntervenant.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
 		StageIntervenant.interAAjouter = new ArrayList<>();
 		StageIntervenant.interAEnlever = new ArrayList<>();
 
@@ -84,11 +84,11 @@ public class StageIntervenant implements Initializable
 
 		for ( Intervenant inter : StageIntervenant.interAAjouter )
 		{
-			Controleur.get().getDb().ajouterIntervenant(inter);
+			Controleur.get().getMetier().ajouterIntervenant(inter);
 		}
 		for ( Intervenant inter : StageIntervenant.interAEnlever )
 		{
-			Controleur.get().getDb().supprimerIntervenant(inter);
+			Controleur.get().getMetier().supprimerIntervenant(inter);
 		}
 
 		Controleur.get().getDb().enregistrer();
@@ -222,7 +222,7 @@ public class StageIntervenant implements Initializable
 	public void onBtnRechercher(ActionEvent actionEvent)
 	{
 		String recherche = txtFieldRecherche.getText();
-		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getDb().getIntervenantByNom(recherche));
+		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getMetier().rechercheIntervenantByNom(recherche));
 		tabAffInter.setItems(ensInter);
 	}
 }
