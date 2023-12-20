@@ -19,13 +19,13 @@ INSERT INTO Semestre (numero, annee, nbGrpTD, nbGrpTP, nbEtd, nbSemaine) VALUES
     (6, '2023-2024', 5, 5, 100, 15);
 
 -- Insertion des données dans la table Module
-INSERT INTO Module (code, numeroSemestre, annee, nom, abreviation, typeModule, validation) VALUES
-    ('MATH101', 1, '2022-2023', 'Mathématiques', 'MATH', 'CM', true),
-    ('MATH102', 1, '2022-2023', 'Analyse', 'ANA', 'TD', true),
-    ('PHYS101', 1, '2022-2023', 'Physique', 'PHY', 'TP', true),
-    ('MATH201', 2, '2022-2023', 'Algèbre', 'ALG', 'CM', false),
-    ('MATH202', 2, '2022-2023', 'Géométrie', 'GEO', 'TD', false),
-    ('PHYS201', 2, '2022-2023', 'Optique', 'OPT', 'TP', false);
+INSERT INTO Module (code, numeroSemestre, annee, nom, abreviation, couleur, typeModule, validation) VALUES
+    ('MATH101', 1, '2022-2023', 'Mathématiques', 'MATH', 'rgb(255,255,255)', 'CM', true),
+    ('MATH102', 1, '2022-2023', 'Analyse', 'ANA', 'rgb(255,255,255)', 'TD', true),
+    ('PHYS101', 1, '2022-2023', 'Physique', 'PHY', 'rgb(255,255,255)', 'TP', true),
+    ('MATH201', 2, '2022-2023', 'Algèbre', 'ALG', 'rgb(255,255,255)', 'CM', false),
+    ('MATH202', 2, '2022-2023', 'Géométrie', 'GEO', 'rgb(255,255,255)', 'TD', false),
+    ('PHYS201', 2, '2022-2023', 'Optique', 'OPT', 'rgb(255,255,255)', 'TP', false);
 
 -- Insertion des données dans la table CategorieHeure
 INSERT INTO CategorieHeure (nom, eqtd, ressource, sae, ppp, stage) VALUES

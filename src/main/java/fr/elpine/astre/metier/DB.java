@@ -169,8 +169,8 @@ public class DB
             ps.setString  (3, module.getSemestre().getAnnee().getNom());
             ps.setString  (4, module.getNom         ());
             ps.setString  (5, module.getAbreviation ());
-            ps.setString  (6, couleur);
-            ps.setString  (7, module.getTypeModule  ());
+            ps.setString  (6, module.getTypeModule  ());
+            ps.setString  (7, couleur);
             ps.setBoolean (8, module.estValide      ());
             ps.executeUpdate();
         }
