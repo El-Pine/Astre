@@ -45,7 +45,7 @@ public class StageIntervenant implements Initializable
 	@FXML
 	private TableColumn<Intervenant, Integer> tcHMax;
 	@FXML
-	private TableColumn<Intervenant, Double> tcRatioTP;
+	private TableColumn<Intervenant, String> tcRatioTP;
 
 	private static ObservableList<Intervenant> ensInter;
 	@FXML
@@ -162,7 +162,7 @@ public class StageIntervenant implements Initializable
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
 		tcHServ    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureService() ).asObject ());
 		tcHMax     .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureMax() ).asObject ());
-		tcRatioTP  .setCellValueFactory(cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTP () ).asObject ());
+		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getRatioTP () ));
 
 		ObservableList<Intervenant> list = FXCollections.observableArrayList(StageIntervenant.ensInter);
 		list.addAll(StageIntervenant.interAAjouter);

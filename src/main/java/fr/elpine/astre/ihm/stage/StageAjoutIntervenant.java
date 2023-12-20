@@ -106,9 +106,10 @@ public class StageAjoutIntervenant
                 return;
             }
 
-            double ratio = -1.2;
+            String ratio = "-1";
             try {
-                ratio                   = Double.parseDouble(txtfRatio.getText());
+                ratio                   = txtfRatio.getText();
+                if ( !ratio.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$") ) { throw new Exception(); }
             } catch (Exception e) {
                 StagePopUp.PopUpErreur("Ratio", "Une erreurs est survenue avec le \"Ratio\".");
                 return;

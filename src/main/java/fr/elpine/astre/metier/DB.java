@@ -337,7 +337,7 @@ public class DB
                         selectCatInterByCode(rs.getString(5)),
                         rs.getInt(6),
                         rs.getInt(7),
-                        rs.getDouble(8));
+                        rs.getString(8));
                     resultats.add(inter);
                 }
             }
@@ -367,7 +367,7 @@ public class DB
                             selectCatInterByCode(rs.getString(5)),
                             rs.getInt(6),
                             rs.getInt(7),
-                            rs.getDouble(8));
+                            rs.getString(8));
                     return inter;
                 }
             }
@@ -400,7 +400,7 @@ public class DB
                             selectCatInterByCode(rs.getString(5)),
                             rs.getInt(6),
                             rs.getInt(7),
-                            rs.getDouble(8));
+                            rs.getString(8));
                     resultats.add(inter);
 
                 }

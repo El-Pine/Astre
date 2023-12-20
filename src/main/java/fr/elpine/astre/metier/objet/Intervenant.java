@@ -10,12 +10,12 @@ public class Intervenant
     private String mail;
     private int    heureService;
     private int                  heureMax;
-    private double               ratioTP;
+    private String               ratioTP;
 
     private CategorieIntervenant   categorie;
     private ArrayList<Affectation> ensAffectation;
 
-    private Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, int heureService, int heureMax, double ratioTP)
+    private Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, int heureService, int heureMax, String ratioTP)
     {
         this.id           = null;
         this.nom          = nom;
@@ -29,7 +29,7 @@ public class Intervenant
         this.ensAffectation = new ArrayList<>();
     }
 
-    public static Intervenant creerIntervenant(String nom, String prenom, String email, CategorieIntervenant categorie, int heureService, int heureMax,double ratioTP)
+    public static Intervenant creerIntervenant(String nom, String prenom, String email, CategorieIntervenant categorie, int heureService, int heureMax,String ratioTP)
     {
         String emailTmt = email.toLowerCase();
 
@@ -61,18 +61,18 @@ public class Intervenant
     public String    getMail                   () { return mail;}
     public int getHeureService() { return heureService  ;}
     public int getHeureMax() { return heureMax; }
-    public double getRatioTP() { return ratioTP; }
+    public String getRatioTP() { return ratioTP; }
     public CategorieIntervenant getCategorie() { return categorie   ;}
 
     /*   SETTER   */
 
-    public int     setId     (int id                  ) { return this.id = id     ;}
-    public void setNom     (String nom                 ) { this.nom = nom           ;}
-    public void setPrenom  (String prenom              ) { this.prenom = prenom     ;}
-    public void setMail  (String mail              ) { this.mail = mail     ;}
-    public void setHeureService (int heureService                ) { this.heureService = heureService   ;}
-    public void setHeureMax (int heureMax                ) { this.heureMax = heureMax   ;}
-    public void setRatioTP (int ratioTP                ) { this.ratioTP = ratioTP   ;}
+    public int     setId     (int id               ) { return this.id = id     ;}
+    public void setNom     (String nom             ) { this.nom = nom           ;}
+    public void setPrenom  (String prenom          ) { this.prenom = prenom     ;}
+    public void setMail  (String mail              ) { if ( !mail.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) { this.mail = mail;} }
+    public void setHeureService (int heureService  ) { this.heureService = heureService   ;}
+    public void setHeureMax (int heureMax          ) { this.heureMax = heureMax   ;}
+    public void setRatioTP (String ratioTP         ) { if ( !ratioTP.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$")) { this.ratioTP = ratioTP;}}
     public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ;}
 
 
