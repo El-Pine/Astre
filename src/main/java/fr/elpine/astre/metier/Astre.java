@@ -92,13 +92,20 @@ public class Astre
     /* Méthodes */
     /*----------*/
 
-    public ArrayList<Intervenant> getIntervenants()
+    public ArrayList<Intervenant> getIntervenants  (          )
     {
         return this.ensIntervenant;
     }
-
-    public ArrayList<Affectation> getAllAffectation()
+    public ArrayList<Affectation> getAllAffectation(          )
     {
         return this.ensAffectation;
+    }
+    public Semestre               getSemestreById  (int numero)
+    {
+        for (Semestre sem : this.ensSemestre)
+        {
+            if(sem.getNumero() == numero) return sem;
+        }
+        return null;
     }
 }
