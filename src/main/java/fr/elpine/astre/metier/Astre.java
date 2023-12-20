@@ -25,20 +25,45 @@ public class Astre
         this.ctrl = ctrl;
 
         this.ensAnnee                = ctrl.getDb().getAllAnnee();
-        this.ensSemestre             = ctrl.getDb().getAllSemestre( this.ensAnnee );
-        this.ensModule               = ctrl.getDb().getAllModule(this.ensSemestre );
+        this.ensSemestre             = ctrl.getDb().getAllSemestre( this.ensAnnee   );
+
+        afficherModuleSemestre(this.ensSemestre);
+
+        this.ensModule               = ctrl.getDb().getAllModule  (this.ensSemestre );
+
+        afficherSemestreModule(this.ensModule);
+        System.out.println("------------------");
+        afficherModuleSemestre(this.ensSemestre);
         this.ensCategorieIntervenant = ctrl.getDb().getAllCategorieIntervenant();
         this.ensIntervenant          = ctrl.getDb().getAllIntervenant( this.ensCategorieIntervenant );
         this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();
         this.ensAffectation          = ctrl.getDb().getAllaff      ( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
         this.ensAttribution          = ctrl.getDb().getAllAttribution(this.ensModule, this.ensCategorieHeure);
 
+
+
         this.anneeActuelle = this.ensAnnee.isEmpty() ? null : this.ensAnnee.get(0);
+    }
+
+    private void afficherModuleSemestre(ArrayList<Semestre> ensSemestre)
+    {
+        for (Semestre sem : this.ensSemestre)
+        {
+            System.out.println( sem.getModules());
+        }
     }
 
     /*---------------------*/
     /* Méthode de recherche*/
     /*---------------------*/
+
+    public void afficherSemestreModule(ArrayList<Module> ensModule)
+    {
+        for (Module mod : this.ensModule)
+        {
+            System.out.println( mod.getSemestre().getNumero());
+        }
+    }
 
     public static  Module rechercherModule(ArrayList<Module> ensModule, String codeModule,int numSem, String anneeSem)
     {

@@ -193,7 +193,7 @@ public class DB
             ps.setString  (4, couleur);
             ps.setBoolean (5, module.estValide      ());
             ps.setString  (6, module.getCode        ());
-            ps.setInt  (7, module.getSemestre().getNumero());
+            ps.setInt     (7, module.getSemestre().getNumero());
             ps.setString  (8, module.getSemestre().getAnnee().getNom());
             ps.executeUpdate();
         }
@@ -241,6 +241,7 @@ public class DB
                                             Color.valueOf(rs.getString  ("couleur")),
                                             rs.getBoolean ("validation"    ),
                                             semestre);
+                    mod.setSemestre(semestre);
                     ensModule.add(mod);
                 }
             }

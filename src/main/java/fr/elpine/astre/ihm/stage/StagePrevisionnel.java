@@ -96,6 +96,8 @@ public class StagePrevisionnel implements Initializable {
 	public static Stage creer() throws IOException {
 		Stage stage = new Stage();
 
+		System.out.println("annee actuelle : " + Controleur.get().getMetier().getAnneeActuelle().getNom());
+		System.out.println("semestre de l'annee actuelle " + Controleur.get().getMetier().getAnneeActuelle().getSemestres());
 		ArrayList<Semestre> semestres = Controleur.get().getMetier().getAnneeActuelle().getSemestres();
 
 		for (Semestre s : semestres)
@@ -111,12 +113,16 @@ public class StagePrevisionnel implements Initializable {
 			}
 		}
 
+		System.out.println("/////////////////////////////");
 		System.out.println(StagePrevisionnel.moduleListS1);
 		System.out.println(StagePrevisionnel.moduleListS2);
+
+		/*
 		System.out.println(StagePrevisionnel.moduleListS3);
 		System.out.println(StagePrevisionnel.moduleListS4);
 		System.out.println(StagePrevisionnel.moduleListS5);
 		System.out.println(StagePrevisionnel.moduleListS6);
+		 */
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
