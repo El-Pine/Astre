@@ -2,7 +2,12 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.Astre;
+import fr.elpine.astre.metier.objet.Affectation;
+import fr.elpine.astre.metier.objet.CategorieHeure;
+import fr.elpine.astre.metier.objet.Intervenant;
+import fr.elpine.astre.metier.objet.Module;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,36 +20,46 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class StageAjoutRessource implements Initializable {
     private Stage stage;
 
+    private String code;
+    private String semestre;
+    private ArrayList<Intervenant> listInter;
+
     private ToggleGroup toggleGroup;
+
+    private Module module;
 
     @FXML
     private RadioButton rbHP;
     @FXML
     private RadioButton rbAutre;
     @FXML
-    private ComboBox cbbInter;
+    private ComboBox<Intervenant> cbbInter;
     @FXML
     private TextField txtCommentaire;
     @FXML
     private TextField txtNbHeure;
     @FXML
-    private ComboBox cbbCatHeure;
+    private ComboBox<CategorieHeure> cbbCatHeure;
     @FXML
     private TextField txtNbSemaine;
     @FXML
     private TextField txtNbGp;
 
-    public Stage creer(String code, String semestre, String nomLong, String abreviation) throws IOException
+    public Stage creer(Module module) throws IOException
     {
         Stage stage = new Stage();
         toggleGroup = new ToggleGroup();
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);
+        this.module = module;
+        listInter = new ArrayList<Intervenant>();
+        listInter = Controleur.get().getMetier().getIntervenants();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("CreationModules.fxml"));
 
@@ -68,13 +83,18 @@ public class StageAjoutRessource implements Initializable {
     private void setStage(Stage stage) { this.stage = stage; }
     @FXML
     public void onBtnAjouter() {
-        //TODO faire fonctionnalité quand ajouter astre sera rajouter
+        if(rbAutre.isSelected())
+            Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbGp.getText()), Integer.parseInt(this.txtNbSemaine.getText()), this.txtCommentaire.getText()));
+        if(rbAutre.isSelected())
+            Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbHeure.getText()), this.txtCommentaire.getText()));
     }
 
     public void onBtnAnnuler() {stage.close();}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ObservableList<Intervenant> observableListInter = FXCollections.observableList(listInter);
+        cbbInter.setItems(observableListInter);
         rbHP.setSelected(false);
         rbAutre.setSelected(false);
 
