@@ -1055,7 +1055,7 @@ public class DB
                     Module         mod   = rechercherModule(ensModule,codeModule,numSem,anneeSem);
                     CategorieHeure catHr = rechercherCatHr(ensCatHr,nomCategorieHeure);
 
-                    Affectation aff = new Affectation()
+                    Affectation aff = new Affectation(mod)
 
 
                     ensaff.add(affectation);
