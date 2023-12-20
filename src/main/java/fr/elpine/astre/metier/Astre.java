@@ -6,6 +6,7 @@ import fr.elpine.astre.metier.objet.Module;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Astre
 {
@@ -135,6 +136,8 @@ public class Astre
     public Annee ajouterAnnee(Annee a)
     {
         if (!this.ensAnnee.contains(a)) this.ensAnnee.add(a);
+
+        this.ensAnnee.sort(Comparator.comparing(Annee::getNom));
 
         return a;
     }
