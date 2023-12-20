@@ -507,6 +507,8 @@ public class DB
                             rs.getInt                      ("nbEtd"     ),
                             rs.getInt                      ("nbSemaine" ),
                             annee);
+
+                    semestre.setAnnee(annee);
                     ensSemestre.add(semestre);
                 }
             }
