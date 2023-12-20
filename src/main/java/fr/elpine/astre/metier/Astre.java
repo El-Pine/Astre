@@ -130,28 +130,28 @@ public class Astre
     //TODO:Verification qu'il n'y a pas de doublons ou d'ajout d'objet null
     public Annee ajouterAnnee(Annee a)
     {
-        this.ensAnnee.add(a);
+        if (!this.ensAnnee.contains(a)) this.ensAnnee.add(a);
 
         return a;
     }
 
     public Intervenant ajouterIntervenant(Intervenant i)
     {
-        this.ensIntervenant.add(i);
+        if (!this.ensIntervenant.contains(i)) this.ensIntervenant.add(i);
 
         return i;
     }
 
     public CategorieHeure ajouterCategorieHeure (CategorieHeure catHr)
     {
-        this.ensCategorieHeure.add(catHr);
+        if (!this.ensCategorieHeure.contains(catHr)) this.ensCategorieHeure.add(catHr);
 
         return catHr;
     }
 
     public CategorieIntervenant ajouterCategorieIntervenant( CategorieIntervenant catInter)
     {
-        this.ensCategorieIntervenant.add(catInter);
+        if (!this.ensCategorieIntervenant.contains(catInter)) this.ensCategorieIntervenant.add(catInter);
 
         return catInter;
     }
