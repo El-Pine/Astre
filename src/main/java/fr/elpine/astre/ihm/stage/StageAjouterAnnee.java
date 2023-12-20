@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -58,12 +59,15 @@ public class StageAjouterAnnee {
 
                 // Vérifier si le texte correspond à une date
                 if (isValidDate(dateText)) {
+                    txtfNonAnnee.setStyle("-fx-border-color: transparent;");
                     String[] years = dateText.split("-");
 
                     // Appliquer la date aux DatePicker
                     dateDebut.setValue(LocalDate.of(Integer.parseInt(years[0]),1,1));
                     dateFin.setValue(LocalDate.of(Integer.parseInt(years[1]),1,1));
                 }
+                else
+                    txtfNonAnnee.setStyle("-fx-border-color: magenta; -fx-border-width: 2px;");
             }
         });
     }
