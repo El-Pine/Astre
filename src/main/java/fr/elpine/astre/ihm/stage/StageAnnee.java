@@ -62,8 +62,7 @@ public class StageAnnee {
     public void btnAjouter(ActionEvent actionEvent) {
     }
 
-    public void btnConsulter(ActionEvent actionEvent)
-    {
+    public void btnConsulter(ActionEvent actionEvent) throws IOException {
         Annee an = null;
         for ( Annee annee : Controleur.get().getMetier().getAnnees())
             if ( annee.getNom().equals(this.cbbAnnee.getValue()))
@@ -71,6 +70,7 @@ public class StageAnnee {
         Controleur.get().getMetier().changerAnneeActuelle(an);
         System.out.println(Controleur.get().getMetier().getAnneeActuelle().getNom());
         this.stage.close();
+        StagePrincipal.creer().show();
     }
 
     public void btnDupliquer(ActionEvent actionEvent) {
