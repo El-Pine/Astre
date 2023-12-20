@@ -202,7 +202,7 @@ public class DB
     }
 
     //Méthode select all
-    public ArrayList<Module> getAllModule()
+    public ArrayList<Module> getAllModule( ArrayList<Semestre> list)
     {
         ArrayList<Module> ensModules = new ArrayList<>();
         String            req        = "SELECT * FROM Module";
@@ -213,12 +213,19 @@ public class DB
             {
                 while(rs.next())
                 {
+                    Semestre semestre = null;
+                    for ( Semestre sem : list)
+                    {
+                        if ( sem.getNumero() == rs.getInt("numeroSemestre") && sem.getAnnee().getNom().equals(rs.getString("annee")) )
+                            semestre = sem;
+                    }
+
                     Module mod = new Module(rs.getString("nom"           ),
                                             rs.getString  ("code"          ),
                                             rs.getString  ("abreviation"   ),
                                             rs.getString  ("typeModule"    ),
                                             rs.getBoolean ("validation"    ),
-                            getSemestreById(rs.getInt     ("numeroSemestre"),rs.getString("annee")));
+                                            semestre);
                     ensModules.add(mod);
                 }
             }
@@ -446,7 +453,7 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<Semestre> getAllSemestre()
+    public ArrayList<Semestre> getAllSemestre( ArrayList<Annee> list)
     {
         ArrayList<Semestre> ensSemestre = new ArrayList<>();
         String req                      = "SELECT * FROM Semestre";
@@ -456,14 +463,21 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
+
+                    Annee annee = null;
+                    for ( Annee anTemp : list)
+                    {
+                        if ( rs.getString("annee").equals(anTemp.getNom()) )
+                            annee = anTemp;
+                    }
+
                     Semestre semestre = new Semestre(
                             rs.getInt                      ("numero"    ),
                             rs.getInt                      ("nbGrpTD"   ),
                             rs.getInt                      ("nbGrpTP"   ),
                             rs.getInt                      ("nbEtd"     ),
                             rs.getInt                      ("nbSemaine" ),
-                            getAnneeByNumero((rs.getString ("annee"     ))
-                            ));
+                            annee);
                     ensSemestre.add(semestre);
                 }
             }
