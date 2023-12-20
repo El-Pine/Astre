@@ -64,7 +64,11 @@ public class StageAnnee {
 
     public void btnConsulter(ActionEvent actionEvent)
     {
-        Controleur.get().getMetier().changerAnneeActuelle((Annee)this.cbbAnnee.getValue());
+        Annee an = null;
+        for ( Annee annee : Controleur.get().getMetier().getAnnees())
+            if ( annee.getNom().equals(this.cbbAnnee.getValue()))
+                an = annee;
+        Controleur.get().getMetier().changerAnneeActuelle(an);
     }
 
     public void btnDupliquer(ActionEvent actionEvent) {

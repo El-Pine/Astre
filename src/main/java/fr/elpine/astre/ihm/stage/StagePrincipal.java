@@ -63,6 +63,7 @@ public class StagePrincipal
 	}
 
 	public void onBtnClickAnnee(ActionEvent actionEvent) throws IOException {
+		this.stage.close();
 		StageAnnee.creer().show();
 	}
 }
