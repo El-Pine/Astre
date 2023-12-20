@@ -78,7 +78,7 @@ public class Astre
         return null;
     }
 
-	public Semestre               getSemestreById  (int numero)
+	public Semestre               rechercheSemestreByNumero  (int numero)
 	{
 		for (Semestre sem : this.ensSemestre)
 		{
@@ -107,7 +107,7 @@ public class Astre
     public ArrayList<CategorieIntervenant> getCategorieIntervenants() { return this.ensCategorieIntervenant; }
     public ArrayList<Intervenant> getIntervenants() { return this.ensIntervenant; }
     public ArrayList<CategorieHeure> getCategorieHeures() { return this.ensCategorieHeure; }
-    public ArrayList<Affectation> getAllAffectation() { return this.ensAffectation; }
+    public ArrayList<Affectation> getAffectations() { return this.ensAffectation; }
     public ArrayList<Attribution> getAttributions() { return this.ensAttribution; }
 
     /*------------------*/

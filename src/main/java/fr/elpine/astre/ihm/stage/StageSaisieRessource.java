@@ -140,14 +140,14 @@ public class StageSaisieRessource implements Initializable
         tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure()).asObject());
         tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
 
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAllAffectation());
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tableau.setItems(StageSaisieRessource.ensAff);
 
 
     }
 
     public void refresh() {
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAllAffectation());
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tableau.setItems(StageSaisieRessource.ensAff);
     }
 
