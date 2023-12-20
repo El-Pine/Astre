@@ -33,18 +33,22 @@ public class StagePopUp {
         return stage;
     }
 
-    public static void PopUpInfo( String titre, String message) throws IOException
+    public static void PopUpInfo( String titre, String message)
     {
         FXMLLoader fxmlLoader = new FXMLLoader(StagePopUp.class.getResource("PopUpInfo.fxml"));
 
-        creerPopUp(fxmlLoader, titre, message).showAndWait();
+        try {
+            creerPopUp(fxmlLoader, titre, message).showAndWait();
+        } catch (IOException ignored) { }
     }
 
-    public static void PopUpErreur( String titre, String message) throws IOException
+    public static void PopUpErreur( String titre, String message)
     {
         FXMLLoader fxmlLoader = new FXMLLoader(StagePopUp.class.getResource("PopUpErreur.fxml"));
 
-        creerPopUp(fxmlLoader, titre, message).showAndWait();
+        try {
+            creerPopUp(fxmlLoader, titre, message).showAndWait();
+        } catch (IOException ignored) { }
     }
 
     public static boolean PopUpConfirmation( String titre, String message ) throws IOException

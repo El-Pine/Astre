@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.PopUp.StagePopUp">
    <center>
@@ -14,4 +15,14 @@
         </items>
       </ToolBar>
    </bottom>
+   <left>
+      <BorderPane prefHeight="160.0" prefWidth="80.0" BorderPane.alignment="CENTER">
+         <right>
+            <Label alignment="CENTER" text="🛈" textFill="#2830bf" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="54.0" />
+               </font></Label>
+         </right>
+      </BorderPane>
+   </left>
 </BorderPane>

@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
 import javafx.collections.FXCollections;
@@ -59,7 +60,6 @@ public class StageAjoutIntervenant
         stagectrl.setCpbContrat();
 
         stage.setOnCloseRequest(e -> {
-            // perform actions before closing
             parent.activer();
         });
 
@@ -76,24 +76,56 @@ public class StageAjoutIntervenant
 
     public void onBtnValider(ActionEvent actionEvent)
     {
-        try {
             String nom                  = txtNom   .getText();
             String prenom               = txtPrenom.getText();
             String email                = txtEmail .getText();
-            CategorieIntervenant statut = (CategorieIntervenant) cpbContrat.getValue();
-            int heureService            = Integer.parseInt(txtService.getText());
-            int total                   = Integer.parseInt(txtComplementaire.getText()) + heureService;
-            int ratio                   = Integer.parseInt(txtfRatio.getText());
+
+
+            CategorieIntervenant statut = null;
+            try {
+                statut = (CategorieIntervenant) cpbContrat.getValue();
+                if ( statut == null ) { throw new Exception(); }
+            } catch (Exception e) {
+                StagePopUp.PopUpErreur("Catégorie Intervenant", "Une erreurs est survenue avec la sélection de \"Catégorie Intervenant\".");
+                return;
+            }
+
+            int heureService = -1;
+            try {
+                heureService = Integer.parseInt(txtService.getText());
+            } catch (Exception e) {
+                StagePopUp.PopUpErreur("Heures Services", "Une erreurs est survenue avec les \"Heures de Services\".");
+                return;
+            }
+
+            int total = -1;
+            try {
+                total = Integer.parseInt(txtComplementaire.getText()) + heureService;
+            } catch (Exception e) {
+                StagePopUp.PopUpErreur("Heures Totales", "Une erreurs est survenue avec le nombre \"Heures totales\".");
+                return;
+            }
+
+            String ratio = "-1";
+            try {
+                ratio                   = txtfRatio.getText();
+                if ( !ratio.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$") ) { throw new Exception(); }
+            } catch (Exception e) {
+                StagePopUp.PopUpErreur("Ratio", "Une erreurs est survenue avec le \"Ratio\".");
+                return;
+            }
 
             Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
-            Controleur.get().getDb().ajouterIntervenant(inter);
+            if (inter == null)
+            {
+                StagePopUp.PopUpErreur("Email", "Une erreurs est survenue avec l'\" Adresse Mail\".");
+                return;
+            }
+            StageIntervenant.interAAjouter.add(inter);
+
             parent.refresh();
             this.stage.close();
             parent.activer();
-        } catch (Exception e) {
-            lblErreur.setVisible(true);
-            e.printStackTrace();
-        }
     }
 
     public void btnAnnuler(ActionEvent actionEvent) throws IOException

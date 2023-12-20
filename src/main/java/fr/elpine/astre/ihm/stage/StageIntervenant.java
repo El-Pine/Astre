@@ -13,21 +13,27 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+// TODO : ajouter une colonne mail
 
 public class StageIntervenant implements Initializable
 {
 	@FXML
 	private TableView<Intervenant> tabAffInter;
-
+	@FXML
+	private TableColumn<Intervenant,String> tc;
 	@FXML
 	private TableColumn<Intervenant,String> tcNom;
 	@FXML
@@ -39,7 +45,7 @@ public class StageIntervenant implements Initializable
 	@FXML
 	private TableColumn<Intervenant, Integer> tcHMax;
 	@FXML
-	private TableColumn<Intervenant, Double> tcRatioTP;
+	private TableColumn<Intervenant, String> tcRatioTP;
 
 	private static ObservableList<Intervenant> ensInter;
 	@FXML
@@ -47,10 +53,15 @@ public class StageIntervenant implements Initializable
 
 	private Stage stage;
 
+	public static ArrayList<Intervenant> interAAjouter;
+	public static ArrayList<Intervenant> interAEnlever;
+
 	public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
 		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
+		StageIntervenant.interAAjouter = new ArrayList<Intervenant>();
+		StageIntervenant.interAEnlever = new ArrayList<Intervenant>();
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StageIntervenant.class.getResource("intervenant.fxml"));
 
@@ -74,6 +85,16 @@ public class StageIntervenant implements Initializable
 
 	@FXML
 	protected void onBtnClickEnregistrer() throws IOException, SQLException {
+
+		for ( Intervenant inter : StageIntervenant.interAAjouter )
+		{
+			Controleur.get().getDb().ajouterIntervenant(inter);
+		}
+		for ( Intervenant inter : StageIntervenant.interAEnlever )
+		{
+			Controleur.get().getDb().supprimerIntervenant(inter);
+		}
+
 		Controleur.get().getDb().enregistrer();
 		stage.close();
 		StagePrincipal.creer().show();
@@ -81,7 +102,7 @@ public class StageIntervenant implements Initializable
 
 	@FXML
 	protected void onBtnClickAnnuler() throws IOException, SQLException {
-		Controleur.get().getDb().annuler();
+		StageIntervenant.interAAjouter = StageIntervenant.interAEnlever = new ArrayList<Intervenant>();
 		stage.close();
 		StagePrincipal.creer().show();
 	}
@@ -98,7 +119,8 @@ public class StageIntervenant implements Initializable
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
 		if (StagePopUp.PopUpConfirmation("Suprression d'intervenant", "Êtes- vous sûr de vouloir supprimer l'intervenant : " + inter.getNom() + " " + inter.getPrenom()))
 		{
-			Controleur.get().getDb().supprimerIntervenant(inter);
+			StageIntervenant.ensInter.remove(inter);
+			StageIntervenant.interAEnlever.add(inter);
 			this.refresh();
 		}
 	}
@@ -121,19 +143,48 @@ public class StageIntervenant implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getStatut  ()  .getCode  ()));
+		tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
+		tc.setCellFactory(column -> new TableCell<>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(item);
+
+				if (item != null && item.equals("❌")) {
+					setTextFill(Color.RED);
+				} else if (item != null && item.equals("➕")) {
+					setTextFill(Color.LIGHTGREEN);
+				}
+			}
+		});
+		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCategorie()  .getCode  ()));
 		tcNom      .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getNom     ()));
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
-		tcHServ    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getService () ).asObject ());
+		tcHServ    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureService() ).asObject ());
 		tcHMax     .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureMax() ).asObject ());
-		tcRatioTP  .setCellValueFactory(cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTP () ).asObject ());
+		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getRatioTP () ));
 
-		tabAffInter.setItems(StageIntervenant.ensInter);
+		ObservableList<Intervenant> list = FXCollections.observableArrayList(StageIntervenant.ensInter);
+		list.addAll(StageIntervenant.interAAjouter);
+		list.addAll(StageIntervenant.interAEnlever);
+		tabAffInter.setItems(list);
+	}
+
+	private String getCellValue(Intervenant intervenant) {
+		if (StageIntervenant.interAAjouter.contains(intervenant)) {
+			return "➕";
+		} else if (StageIntervenant.interAEnlever.contains(intervenant)) {
+			return "❌";
+		} else {
+			return ""; // Vous pouvez également renvoyer un autre texte ou laisser la cellule vide si l'intervenant n'est pas dans interAAjouter
+		}
 	}
 
 	public void refresh() {
-		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
-		tabAffInter.setItems(StageIntervenant.ensInter);
+		ObservableList<Intervenant> list = FXCollections.observableArrayList(StageIntervenant.ensInter);
+		list.addAll(StageIntervenant.interAAjouter);
+		list.addAll(StageIntervenant.interAEnlever);
+		tabAffInter.setItems(list);
 	}
 
 	public void onBtnRechercher(ActionEvent actionEvent)

@@ -4,11 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
    <center>
       <TabPane fx:id="pnlControlSem" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-          <Tab text="S1">
+         <tabs>
+            <Tab text="S1">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <top>
@@ -17,35 +17,10 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <FlowPane alignment="CENTER" prefHeight="57.0" prefWidth="515.0">
-                                 <children>
-                                    <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                 </children>
-                              </FlowPane>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              <FlowPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Label alignment="CENTER" text="Liste des Modules :" />
                                  </children>
@@ -67,7 +42,7 @@
                      </center>
                   </BorderPane>
                </content>
-          </Tab>
+            </Tab>
             <Tab text="S2">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
@@ -77,35 +52,10 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <FlowPane alignment="CENTER" prefHeight="57.0" prefWidth="515.0">
-                                 <children>
-                                    <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                 </children>
-                              </FlowPane>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              <FlowPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Label alignment="CENTER" text="Liste des Modules :" />
                                  </children>
@@ -115,17 +65,17 @@
                      </top>
                      <center>
                         <TableView fx:id="tabs2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="s2code" prefWidth="75.0" text="Code" />
-                            <TableColumn fx:id="s2liblong" prefWidth="259.1999969482422" text="Libelle long" />
+                           <columns>
+                              <TableColumn fx:id="s2code" prefWidth="75.0" text="Code" />
+                              <TableColumn fx:id="s2liblong" prefWidth="259.1999969482422" text="Libelle long" />
                               <TableColumn fx:id="s2hahpn" prefWidth="180.0" text="Heure Affectés / Heure PN" />
-                          </columns>
+                           </columns>
                         </TableView>
                      </center>
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S3">
+            <Tab text="S3        ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <top>
@@ -134,35 +84,10 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <FlowPane alignment="CENTER" prefHeight="57.0" prefWidth="515.0">
-                                 <children>
-                                    <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                 </children>
-                              </FlowPane>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              <FlowPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Label alignment="CENTER" text="Liste des Modules :" />
                                  </children>
@@ -172,17 +97,17 @@
                      </top>
                      <center>
                         <TableView fx:id="tabs3" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="s3code" prefWidth="75.0" text="Code" />
-                            <TableColumn fx:id="s3liblong" prefWidth="259.99998474121094" text="Libelle long" />
+                           <columns>
+                              <TableColumn fx:id="s3code" prefWidth="75.0" text="Code" />
+                              <TableColumn fx:id="s3liblong" prefWidth="259.99998474121094" text="Libelle long" />
                               <TableColumn fx:id="s3hahpn" prefWidth="179.20001220703125" text="Heure Affectés / Heure PN" />
-                          </columns>
+                           </columns>
                         </TableView>
                      </center>
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S4">
+            <Tab id="4" text="S4          ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <top>
@@ -195,31 +120,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <FlowPane alignment="CENTER" prefHeight="57.0" prefWidth="515.0">
-                                 <children>
-                                    <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                 </children>
-                              </FlowPane>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              <FlowPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Label alignment="CENTER" text="Liste des Modules :" />
                                  </children>
@@ -239,7 +140,7 @@
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S5">
+            <Tab text="S5       ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <top>
@@ -248,35 +149,10 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <FlowPane alignment="CENTER" prefHeight="57.0" prefWidth="515.0">
-                                 <children>
-                                    <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                 </children>
-                              </FlowPane>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              <FlowPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Label alignment="CENTER" text="Liste des Modules :" />
                                  </children>
@@ -296,7 +172,7 @@
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S6">
+            <Tab text="S6        ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <top>
@@ -305,35 +181,10 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <FlowPane alignment="CENTER" prefHeight="57.0" prefWidth="515.0">
-                                 <children>
-                                    <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                    <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
-                                       <FlowPane.margin>
-                                          <Insets left="10.0" />
-                                       </FlowPane.margin>
-                                    </Label>
-                                    <TextField prefHeight="20.0" prefWidth="30.0" />
-                                 </children>
-                              </FlowPane>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                              <FlowPane prefHeight="200.0" prefWidth="200.0">
                                  <children>
                                     <Label alignment="CENTER" text="Liste des Modules :" />
                                  </children>
@@ -357,7 +208,29 @@
       </TabPane>
    </center>
    <top>
-      <FlowPane prefHeight="42.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+      <FlowPane alignment="CENTER" prefHeight="42.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
+            <TextField fx:id="txtNbTD" prefHeight="20.0" prefWidth="40.0" />
+            <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin>
+            </Label>
+            <TextField fx:id="txtNbTP" prefHeight="20.0" prefWidth="40.0" />
+            <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin>
+            </Label>
+            <TextField fx:id="txtNbEtd" prefHeight="26.0" prefWidth="40.0" />
+            <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin>
+            </Label>
+            <TextField fx:id="txtNbSemaine" prefHeight="20.0" prefWidth="40.0" />
+         </children></FlowPane>
    </top>
    <left>
       <FlowPane prefHeight="322.0" prefWidth="43.0" BorderPane.alignment="CENTER" />
