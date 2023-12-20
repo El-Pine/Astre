@@ -23,7 +23,7 @@ public class Astre
 
         this.ensAnnee                = ctrl.getDb().getAllAnnee();
         this.ensSemestre             = ctrl.getDb().getAllSemestre( this.ensAnnee );
-        this.ensModule               = ctrl.getDb().getAllModule( this.ensSemestre );
+        this.ensModule               = ctrl.getDb().getAllModule(this.ensSemestre );
         this.ensCategorieIntervenant = ctrl.getDb().getAllCategorieIntervenant();
         this.ensIntervenant          = ctrl.getDb().getAllIntervenant( this.ensCategorieIntervenant );
         this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();

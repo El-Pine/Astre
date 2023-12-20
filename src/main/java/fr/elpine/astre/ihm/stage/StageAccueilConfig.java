@@ -148,9 +148,9 @@ public class StageAccueilConfig implements Initializable
     {
         tcCodeInter      .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCode      ()));
         tcNomInter       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getNom       ()));
-        tcHMaxInter      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMax()).asObject());
-        tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getService   ()).asObject());
-        tcRatioInter     .setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTd   ()).asObject());
+        tcHMaxInter      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMaxDefault()).asObject());
+        tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault   ()).asObject());
+        tcRatioInter     .setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTPDefault  ()).asObject());
 
         ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllCategorieIntervenant());
         tabCatInter.setItems(ensCatInter);
