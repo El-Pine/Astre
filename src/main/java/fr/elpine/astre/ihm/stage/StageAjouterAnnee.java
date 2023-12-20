@@ -67,7 +67,7 @@ public class StageAjouterAnnee {
                     dateFin.setValue(LocalDate.of(Integer.parseInt(years[1]),1,1));
                 }
                 else
-                    txtfNonAnnee.setStyle("-fx-border-color: magenta; -fx-border-width: 2px;");
+                    txtfNonAnnee.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-border-radius: 4px;");
             }
         });
     }
