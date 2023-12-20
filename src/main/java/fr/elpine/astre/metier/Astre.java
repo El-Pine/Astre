@@ -21,13 +21,13 @@ public class Astre
     {
         this.ctrl = ctrl;
         this.ensAnnee                = ctrl.getDb().getAllAnnee();
-        this.ensSemestre             = ctrl.getDb().getAllSemestre();
-        this.ensModules              = ctrl.getDb().getAllModule();
-        this.ensIntervenant          = ctrl.getDb().getAllIntervenant();
-        this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();
+        this.ensSemestre             = ctrl.getDb().getAllSemestre( this.ensAnnee );
+        this.ensModules              = ctrl.getDb().getAllModule( this.ensModules );
         this.ensCategorieIntervenant = ctrl.getDb().getAllCategorieIntervenant();
-        this.ensAffectation          = ctrl.getDb().getAllaff();
-        this.ensAttribution          = ctrl.getDb().getAllAttribution();
+        this.ensIntervenant          = ctrl.getDb().getAllIntervenant( this.ensCategorieIntervenant );
+        this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();
+        this.ensAffectation          = ctrl.getDb().getAllAffectation( this.ensCategorieHeure, this.ensModules, this.ensIntervenant );
+        this.ensAttribution          = ctrl.getDb().getAllAttribution( this.ensCategorieHeure, this.ensModules );
 
     }
 
