@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -110,6 +111,12 @@ public class StagePrevisionnel implements Initializable {
 			}
 		}
 
+		System.out.println(StagePrevisionnel.moduleListS1);
+		System.out.println(StagePrevisionnel.moduleListS2);
+		System.out.println(StagePrevisionnel.moduleListS3);
+		System.out.println(StagePrevisionnel.moduleListS4);
+		System.out.println(StagePrevisionnel.moduleListS5);
+		System.out.println(StagePrevisionnel.moduleListS6);
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -164,8 +171,8 @@ public class StagePrevisionnel implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		s1code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
-		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+		s1code.setCellValueFactory   (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
+		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom ()));
 		tabs1.setItems(moduleListS1);
 
 		s2code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
