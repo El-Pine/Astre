@@ -82,10 +82,21 @@ public class Astre
 	{
 		for (Semestre sem : this.ensSemestre)
 		{
-			if(sem.getNumero() == numero) return sem;
+			if (sem.getNumero() == numero) return sem;
 		}
+
 		return null;
 	}
+
+    public Intervenant rechercheIntervenantByNom( String nom, String prenom )
+    {
+        for (Intervenant intervenant : this.ensIntervenant)
+        {
+            if (intervenant.getNom().equals(nom) && intervenant.getPrenom().equals(prenom)) return intervenant;
+        }
+
+        return null;
+    }
 
     /*-----------------------------*/
     /* Gestion de l'année actuelle */
