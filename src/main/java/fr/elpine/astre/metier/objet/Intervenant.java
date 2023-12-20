@@ -69,10 +69,26 @@ public class Intervenant
     public int     setId     (int id               ) { return this.id = id     ;}
     public void setNom     (String nom             ) { this.nom = nom           ;}
     public void setPrenom  (String prenom          ) { this.prenom = prenom     ;}
-    public void setMail  (String mail              ) { if ( !mail.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) { this.mail = mail;} }
+    public boolean setMail  (String mail           )
+    {
+        if ( mail.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"))
+        {
+            this.mail = mail;
+            return true;
+        }
+        return false;
+    }
     public void setHeureService (int heureService  ) { this.heureService = heureService   ;}
     public void setHeureMax (int heureMax          ) { this.heureMax = heureMax   ;}
-    public void setRatioTP (String ratioTP         ) { if ( !ratioTP.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$")) { this.ratioTP = ratioTP;}}
+    public boolean setRatioTP (String ratioTP      )
+    {
+        if ( ratioTP.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$"))
+        {
+            this.ratioTP = ratioTP;
+            return true;
+        }
+        return false;
+    }
     public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ;}
 
 
