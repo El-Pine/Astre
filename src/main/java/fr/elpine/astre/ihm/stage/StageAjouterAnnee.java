@@ -74,7 +74,10 @@ public class StageAjouterAnnee {
 
     private boolean isValidDate(String dateStr) {
         // Vérifier si la chaîne correspond au format "yyyy-yyyy"
-        return dateStr.matches("\\d{4}-\\d{4}");
+        boolean estAnnee  = dateStr.matches("\\d{4}-\\d{4}");
+        String[] years = dateStr.split("-");
+        boolean estProche = (Integer.parseInt(years[1]) - Integer.parseInt(years[0])) == 1;
+        return estAnnee && estProche;
     }
 
     public void onBtnValider(ActionEvent actionEvent)
