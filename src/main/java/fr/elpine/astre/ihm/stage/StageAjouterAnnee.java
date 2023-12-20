@@ -67,14 +67,17 @@ public class StageAjouterAnnee {
                     dateFin.setValue(LocalDate.of(Integer.parseInt(years[1]),1,1));
                 }
                 else
-                    txtfNonAnnee.setStyle("-fx-border-color: magenta; -fx-border-width: 2px;");
+                    txtfNonAnnee.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-border-radius: 4px;");
             }
         });
     }
 
     private boolean isValidDate(String dateStr) {
         // Vérifier si la chaîne correspond au format "yyyy-yyyy"
-        return dateStr.matches("\\d{4}-\\d{4}");
+        boolean estAnnee  = dateStr.matches("\\d{4}-\\d{4}");
+        String[] years = dateStr.split("-");
+        boolean estProche = (Integer.parseInt(years[1]) - Integer.parseInt(years[0])) == 1;
+        return estAnnee && estProche;
     }
 
     public void onBtnValider(ActionEvent actionEvent)
