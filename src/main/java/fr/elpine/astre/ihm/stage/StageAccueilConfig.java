@@ -109,9 +109,9 @@ public class StageAccueilConfig implements Initializable
         CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
 
-        if(catInter != null)
+        if (catInter != null)
             estSupprimer = Controleur.get().getDb().supprimerCatIntervenant(catInter);
-        if(catHr != null)
+        if (catHr != null)
             estSupprimer = Controleur.get().getDb().supprimerCategorieHeure(catHr);
 
         if(!estSupprimer)

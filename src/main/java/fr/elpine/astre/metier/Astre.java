@@ -78,6 +78,15 @@ public class Astre
         return null;
     }
 
+	public Semestre               getSemestreById  (int numero)
+	{
+		for (Semestre sem : this.ensSemestre)
+		{
+			if(sem.getNumero() == numero) return sem;
+		}
+		return null;
+	}
+
     /*-----------------------------*/
     /* Gestion de l'année actuelle */
     /*-----------------------------*/
@@ -88,24 +97,27 @@ public class Astre
         if (this.ensAnnee.contains(a)) this.anneeActuelle = a;
     }
 
-    /*----------*/
-    /* Méthodes */
-    /*----------*/
+    /*--------------*/
+    /* Méthodes GET */
+    /*--------------*/
 
-    public ArrayList<Intervenant> getIntervenants  (          )
+    public ArrayList<Annee> getAnnees() { return this.ensAnnee; }
+    public ArrayList<Semestre> getSemestres() { return this.ensSemestre; }
+    public ArrayList<Module> getModules() { return this.ensModule; }
+    public ArrayList<CategorieIntervenant> getCategorieIntervenants() { return this.ensCategorieIntervenant; }
+    public ArrayList<Intervenant> getIntervenants() { return this.ensIntervenant; }
+    public ArrayList<CategorieHeure> getCategorieHeures() { return this.ensCategorieHeure; }
+    public ArrayList<Affectation> getAllAffectation() { return this.ensAffectation; }
+    public ArrayList<Attribution> getAttributions() { return this.ensAttribution; }
+
+    /*------------------*/
+    /* Méthodes Ajouter */
+    /*------------------*/
+
+    public Annee ajouterAnnee(Annee a)
     {
-        return this.ensIntervenant;
-    }
-    public ArrayList<Affectation> getAllAffectation(          )
-    {
-        return this.ensAffectation;
-    }
-    public Semestre               getSemestreById  (int numero)
-    {
-        for (Semestre sem : this.ensSemestre)
-        {
-            if(sem.getNumero() == numero) return sem;
-        }
-        return null;
+        this.ensAnnee.add(a);
+
+        return a;
     }
 }
