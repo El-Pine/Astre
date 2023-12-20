@@ -136,6 +136,40 @@ public class DB
         return content.toString();
     }
 
+    /*---------------------*/
+    /* Méthode de recherche*/
+    /*---------------------*/
+
+
+
+    public Module rechercherModule(ArrayList<Module> ensModule, String codeModule,int numSem, String anneeSem)
+    {
+        for (Module mod : ensModule)
+        {
+            if(mod.getCode    ().equals(codeModule)    &&
+                    mod.getSemestre().getNumero() == numSem &&
+                    mod.getSemestre().getAnnee().getNom().equals(anneeSem))
+            { return mod;}
+        }
+        return null;
+    }
+    public CategorieHeure rechercherCatHr(ArrayList<CategorieHeure> ensCategorie, String nomCatHr)
+    {
+        for (CategorieHeure catHrs : ensCategorie)
+        {
+            if(catHrs.getNom().equals(nomCatHr)){ return catHrs;}
+        }
+        return null;
+    }
+
+    public Intervenant rechercherInter(ArrayList<Intervenant> ensInter, int idInter)
+    {
+        for (Intervenant inter : ensInter)
+        {
+            if(idInter == inter.getId()) return inter;
+        }
+        return null;
+    }
     /*-----------------*/
     /* Gestion Commits */
     /*-----------------*/
@@ -155,7 +189,7 @@ public class DB
         try ( PreparedStatement ps = co.prepareStatement(req) )
         {
             ps.setString  (1, module.getCode        ());
-            ps.setInt  (2, module.getSemestre().getNumero());
+            ps.setInt     (2, module.getSemestre().getNumero());
             ps.setString  (3, module.getSemestre().getAnnee().getNom());
             ps.setString  (4, module.getNom         ());
             ps.setString  (5, module.getAbreviation ());
@@ -941,25 +975,7 @@ public class DB
         return ensAttribution;
     }
 
-    public Module rechercherModule(ArrayList<Module> ensModule, String codeModule,int numSem, String anneeSem)
-    {
-        for (Module mod : ensModule)
-        {
-            if(mod.getCode    ().equals(codeModule)    &&
-               mod.getSemestre().getNumero() == numSem &&
-               mod.getSemestre().getAnnee().getNom().equals(anneeSem))
-            { return mod;}
-        }
-        return null;
-    }
-    public CategorieHeure rechercherCatHr(ArrayList<CategorieHeure> ensCategorie, String nomCatHr)
-    {
-        for (CategorieHeure catHrs : ensCategorie)
-        {
-            if(catHrs.getNom().equals(nomCatHr)){ return catHrs;}
-        }
-        return null;
-    }
+
 
     /*-----------------------*/
     /* Affectation Ressource */
@@ -1055,10 +1071,10 @@ public class DB
                     Module         mod   = rechercherModule(ensModule,codeModule,numSem,anneeSem);
                     CategorieHeure catHr = rechercherCatHr(ensCatHr,nomCategorieHeure);
 
-                    Affectation aff = new Affectation(mod)
+                    Affectation aff = new Affectation(mod, inter, catHr, rs.getInt(6),rs.getInt(7),rs.getString(9) );
 
 
-                    ensaff.add(affectation);
+                    ensaff.add(aff);
                 }
             }
         } catch (SQLException e) {
@@ -1066,68 +1082,4 @@ public class DB
         }
         return ensaff;
     }
-
-    public Affectation getAffectationByModule(Module module)
-    {
-        String req = "SELECT * FROM Affectation WHERE codeModule = ?";
-        try(PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setString(1, module.getCode());
-            try(ResultSet rs = ps.executeQuery())
-            {
-                Affectation affectation = new Affectation(
-                        getModuleByNumero( rs.getString(1)),
-                        rs.getInt   (2),
-                        rs.getString(3),
-                        getIntervenantById(rs.getInt   (4)),
-                        getCatHrByNom     (rs.getString(5)),
-                        rs.getInt   (6),
-                        rs.getInt   (7),
-                        rs.getInt   (8),
-                        rs.getString(9));
-
-                return affectation;
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public ArrayList<Module> getPrevisionsbySemestre(int semestre) {
-        ArrayList<Module> ensaff = new ArrayList<>();
-        String            req    = "SELECT * FROM module WHERE numerosemestre = ?";
-
-        try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setInt(1, semestre);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Module mod = new Module(
-                            rs.getString("nom"),
-                            rs.getString("code"),
-                            rs.getString("abreviation"),
-                            rs.getString("typeModule"),
-                            rs.getBoolean("validation"),
-                            getSemestreById(rs.getInt("numeroSemestre"), rs.getString("annee"))
-                    );
-                    ensaff.add(mod);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return ensaff;
-    }
-
-
-
-
-
-
 }
