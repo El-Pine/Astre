@@ -80,7 +80,8 @@ public class StageIntervenant implements Initializable
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
-	protected void onBtnClickEnregistrer() throws IOException, SQLException {
+	protected void onBtnClickEnregistrer() throws IOException, SQLException
+	{
 
 		for ( Intervenant inter : StageIntervenant.interAAjouter )
 		{

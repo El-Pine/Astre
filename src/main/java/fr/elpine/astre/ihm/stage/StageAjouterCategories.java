@@ -86,7 +86,8 @@ public class StageAjouterCategories
 
         if(estValide(code,nom))
         {
-            Controleur.get().getMetier().ajouterCategorieIntervenant(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
+            StageAccueilConfig.categorieInterAAjouter.add(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
+
         }
         else
             StagePopUp.PopUpErreur("Champ Vide","Les champs code et nom ne peuvent pas être vide.");
@@ -121,7 +122,7 @@ public class StageAjouterCategories
 
         CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage);
 
-        Controleur.get().getMetier().ajouterCategorieHeure(cat);
+        StageAccueilConfig.catHeurAAjouter.add(cat);
 
         parent.activer();
         parent.refreshCatHr();

@@ -85,6 +85,15 @@ public class Astre
         return null;
     }
 
+    public static boolean estCatHr(ArrayList<CategorieHeure> ensCategorie, String nomCatHr)
+    {
+        for (CategorieHeure catHrs : ensCategorie)
+        {
+            if(catHrs.getNom().equals(nomCatHr)){ return true;}
+        }
+        return false;
+    }
+
     public static Intervenant rechercherInter(ArrayList<Intervenant> ensInter, int idInter)
     {
         for (Intervenant inter : ensInter)
@@ -103,6 +112,14 @@ public class Astre
         return null;
     }
 
+    public static boolean estCatInter(ArrayList<CategorieIntervenant> ensCatInter, String codeCatInter )
+    {
+        for (CategorieIntervenant catInter : ensCatInter)
+        {
+            if(catInter.getCode().equals(codeCatInter)) return true;
+        }
+        return false;
+    }
 	public Semestre               rechercheSemestreByNumero  (int numero)
 	{
 		for (Semestre sem : this.ensSemestre)

@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -66,12 +67,26 @@ public class StageAccueilConfig implements Initializable
     public static ObservableList<CategorieHeure> ensCatHeure;
     public static ObservableList<CategorieIntervenant> ensCatInter;
 
+    public static ArrayList<CategorieHeure>       catHeurAAjouter;
+    public static ArrayList<CategorieIntervenant> categorieInterAAjouter;
+
+    public static ArrayList<CategorieHeure>       catHrASupp;
+    public static ArrayList<CategorieIntervenant> catInterASuppr;
+
 
     public static Stage creer() throws IOException
     {
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueilConfig.fxml"));
+        StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
+        StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
+
+        StageAccueilConfig.catHeurAAjouter = new ArrayList<>();
+        StageAccueilConfig.categorieInterAAjouter = new ArrayList<>();
+
+        StageAccueilConfig.catHrASupp     = new ArrayList<>();
+        StageAccueilConfig.catInterASuppr = new ArrayList<>();
 
         Scene scene = new Scene(fxmlLoader.load(), 700, 400);
 
@@ -109,23 +124,22 @@ public class StageAccueilConfig implements Initializable
         CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
 
-        if (catInter != null)
-            estSupprimer = Controleur.get().getMetier().supprimerCategorieInter(catInter);
-        if (catHr != null)
-            estSupprimer = Controleur.get().getMetier().supprimerCategorieHeure(catHr);
-
-        if(!estSupprimer)
+        if(catInter != null)
         {
-            lblErreur.setText("La catégorie est affectées quelque part");
-            Controleur.get().getDb().reloadDB();
+            estSupprimer = Astre.estCatInter(Controleur.get().getMetier().getCategorieIntervenants(), catInter.getCode());
+            if(estSupprimer)
+            {
+                StageAccueilConfig.catInterASuppr.add(catInter);
+            }
         }
-        else
+        if(catHr != null)
         {
-            lblErreur.setText("");
+            estSupprimer = Astre.estCatHr(Controleur.get().getMetier().getCategorieHeures(), catHr.getNom());
+            if(estSupprimer)
+            {
+                StageAccueilConfig.catHrASupp.add(catHr);
+            }
         }
-
-
-
         this.refreshCatInter();
         this.refreshCatHr   ();
     }
@@ -152,7 +166,6 @@ public class StageAccueilConfig implements Initializable
         tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault   ()).asObject());
         tcRatioInter     .setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTPDefault  ()).asObject());
 
-        ObservableList ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
         tabCatInter.setItems(ensCatInter);
 
         tcNomHeures        .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getNom         ()));
@@ -162,7 +175,6 @@ public class StageAccueilConfig implements Initializable
         tcPppHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estPpp         ()));
         tcStageHeures      .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estStage       ()));
 
-        ObservableList ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
         tabCatHeures.setItems(ensCatHeure);
     }
 
