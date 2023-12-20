@@ -4,7 +4,9 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Astre
 {
@@ -20,50 +22,26 @@ public class Astre
     private ArrayList<Attribution> ensAttribution;
     private ArrayList<Affectation> ensAffectation;
 
+
     public Astre ( Controleur ctrl )
     {
         this.ctrl = ctrl;
 
         this.ensAnnee                = ctrl.getDb().getAllAnnee();
         this.ensSemestre             = ctrl.getDb().getAllSemestre( this.ensAnnee   );
-
-        afficherModuleSemestre(this.ensSemestre);
-
         this.ensModule               = ctrl.getDb().getAllModule  (this.ensSemestre );
-
-        afficherSemestreModule(this.ensModule);
-        System.out.println("------------------");
-        afficherModuleSemestre(this.ensSemestre);
         this.ensCategorieIntervenant = ctrl.getDb().getAllCategorieIntervenant();
         this.ensIntervenant          = ctrl.getDb().getAllIntervenant( this.ensCategorieIntervenant );
         this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();
         this.ensAffectation          = ctrl.getDb().getAllaff      ( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
         this.ensAttribution          = ctrl.getDb().getAllAttribution(this.ensModule, this.ensCategorieHeure);
 
-
-
         this.anneeActuelle = this.ensAnnee.isEmpty() ? null : this.ensAnnee.get(0);
-    }
-
-    private void afficherModuleSemestre(ArrayList<Semestre> ensSemestre)
-    {
-        for (Semestre sem : this.ensSemestre)
-        {
-            System.out.println( sem.getModules());
-        }
     }
 
     /*---------------------*/
     /* Méthode de recherche*/
     /*---------------------*/
-
-    public void afficherSemestreModule(ArrayList<Module> ensModule)
-    {
-        for (Module mod : this.ensModule)
-        {
-            System.out.println( mod.getSemestre().getNumero());
-        }
-    }
 
     public static  Module rechercherModule(ArrayList<Module> ensModule, String codeModule,int numSem, String anneeSem)
     {
@@ -122,7 +100,8 @@ public class Astre
     }
 	public Semestre               rechercheSemestreByNumero  (int numero)
 	{
-		for (Semestre sem : this.ensSemestre)
+        System.out.println(this.anneeActuelle.getSemestres());
+		for (Semestre sem : this.anneeActuelle.getSemestres())
 		{
 			if (sem.getNumero() == numero) return sem;
 		}
@@ -133,6 +112,7 @@ public class Astre
     public ArrayList<Intervenant> rechercheIntervenantByNom( String nom )
     {
         ArrayList<Intervenant> ensTemp = new ArrayList<>();
+
         for (Intervenant intervenant : this.ensIntervenant)
         {
             if (intervenant.getNom().equals(nom)) ensTemp.add( intervenant );
@@ -174,6 +154,8 @@ public class Astre
     {
         if (!this.ensAnnee.contains(a)) this.ensAnnee.add(a);
 
+        this.ensAnnee.sort(Comparator.comparing(Annee::getNom));
+
         return a;
     }
 
@@ -196,6 +178,13 @@ public class Astre
         if (!this.ensCategorieIntervenant.contains(catInter)) this.ensCategorieIntervenant.add(catInter);
 
         return catInter;
+    }
+
+    public Affectation ajouterAffectation(Affectation affectation)
+    {
+        if (!this.ensAffectation.contains(affectation)) this.ensAffectation.add(affectation);
+
+        return affectation;
     }
 
     /*--------------------*/

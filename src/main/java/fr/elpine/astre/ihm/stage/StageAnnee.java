@@ -25,7 +25,7 @@ public class StageAnnee {
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("saisieAnnee.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load(), 350, 100);
+        Scene scene = new Scene(fxmlLoader.load(), 350, 120);
 
         StageAnnee stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {
@@ -58,7 +58,8 @@ public class StageAnnee {
         this.cbbAnnee.setItems(oLstNonAnnee);
     }
 
-    public void btnAjouter(ActionEvent actionEvent) {
+    public void btnAjouter(ActionEvent actionEvent) throws IOException {
+        StageAjouterAnnee.creer( this ).show();
     }
 
     public void btnConsulter(ActionEvent actionEvent) throws IOException {
