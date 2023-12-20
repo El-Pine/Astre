@@ -78,6 +78,6 @@ public class StageAnnee {
 
     public void btnSupprimer(ActionEvent actionEvent)
     {
-        Controleur.get().getMetier().su
+
     }
 }
