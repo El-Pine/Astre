@@ -69,6 +69,8 @@ public class StageAnnee {
             if ( annee.getNom().equals(this.cbbAnnee.getValue()))
                 an = annee;
         Controleur.get().getMetier().changerAnneeActuelle(an);
+        System.out.println(Controleur.get().getMetier().getAnneeActuelle().getNom());
+        this.stage.close();
     }
 
     public void btnDupliquer(ActionEvent actionEvent) {
@@ -76,5 +78,6 @@ public class StageAnnee {
 
     public void btnSupprimer(ActionEvent actionEvent)
     {
+        Controleur.get().getMetier().su
     }
 }
