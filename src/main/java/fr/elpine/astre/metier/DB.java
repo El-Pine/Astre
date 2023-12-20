@@ -264,16 +264,15 @@ public class DB
     public void ajouterIntervenant(Intervenant inter)
     {
         String req = "INSERT INTO Intervenant (nom, prenom, mail, codeCategorie, heureService, heureMax, ratioTP) VALUES (?, ?, ?, ?,?, ?, ?)";
-        try
+        try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps = co.prepareStatement( req );
-            ps.setString   (1,inter.getNom              ()  );
-            ps.setString   (2,inter.getPrenom           ()  );
-            ps.setString   (3, inter.getMail()  );
+            ps.setString   (1,inter.getNom                 ()  );
+            ps.setString   (2,inter.getPrenom              ()  );
+            ps.setString   (3, inter.getMail               ()  );
             ps.setString   (4,inter.getCategorie().getCode ()  );
-            ps.setInt      (5,inter.getHeureService()  );
-            ps.setInt      (6,inter.getHeureMax         ()  );
-            ps.setDouble   (7,inter.getRatioTP          ()  );
+            ps.setInt      (5,inter.getHeureService        ()  );
+            ps.setInt      (6,inter.getHeureMax            ()  );
+            ps.setString   (7,inter.getRatioTP             ()  );
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -627,14 +626,15 @@ public class DB
     public void ajouterCategorieIntervenant(CategorieIntervenant categorieIntervenant)
     {
         String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?)";
-        try
+
+        try(PreparedStatement ps = co.prepareStatement( req );)
         {
-            ps = co.prepareStatement( req );
+
             ps.setString (1, categorieIntervenant.getCode       () );
             ps.setString (2, categorieIntervenant.getNom        () );
-            ps.setInt    (3, categorieIntervenant.getNbHeureMax () );
-            ps.setInt    (4, categorieIntervenant.getService    () );
-            ps.setDouble (5, categorieIntervenant.getRatioTd    () );
+            ps.setInt    (3, categorieIntervenant.getNbHeureMaxDefault () );
+            ps.setInt    (4, categorieIntervenant.getNbHeureServiceDefault    () );
+            ps.setDouble (5, categorieIntervenant.getRatioTPDefault    () );
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -682,9 +682,9 @@ public class DB
         {
             ps.setString (1,       catInter.getCode       ());
             ps.setString (2,       catInter.getNom        ());
-            ps.setInt    (3,       catInter.getNbHeureMax ());
-            ps.setInt    (4,       catInter.getService    ());
-            ps.setFloat  (5,(float)catInter.getRatioTd    ());
+            ps.setInt    (3,       catInter.getNbHeureMaxDefault ());
+            ps.setInt    (4,       catInter.getNbHeureServiceDefault   ());
+            ps.setFloat  (5,(float)catInter.getRatioTPDefault    ());
             ps.setString (6,       catInter.getCode       ());
             ps.executeUpdate();
 
@@ -748,9 +748,9 @@ public class DB
     public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
         String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?)";
-        try
+        try(PreparedStatement  ps = co.prepareStatement( req ))
         {
-            ps = co.prepareStatement( req );
+
             ps.setString (1, categorieHeure.getNom          () );
             ps.setDouble (2, categorieHeure.getEquivalentTD () );
             ps.setBoolean(3, categorieHeure.estRessource    () );
@@ -870,12 +870,10 @@ public class DB
     public void ajouterAttribution(Attribution attribution) {
         String req = "INSERT INTO Attribution VALUES (?,?,?,?,?,?)";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString(1, attribution.getCodeModule           ());
-            ps.setInt   (2, attribution.getNumeroSemestreModule ());
-            ps.setString(3, attribution.getAnneeModule          ());
-            ps.setString(4, attribution.getNomCategorieHeure    ());
-            ps.setInt   (5, attribution.getNbHeure              ());
-            ps.setInt   (6, attribution.getNbSemaine            ());
+            ps.setInt   (1, attribution.getNbHeure              ());
+            ps.setInt   (2, attribution.getNbSemaine            ());
+            ps.setString(3, attribution.getModule().getCode     ());
+            ps.setString(4, attribution.getCatHr ().getNom      ());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -884,18 +882,17 @@ public class DB
 
     // Méthode d'update pour la classe Attribution
     public void majAttribution(Attribution att) {
-        String req = "UPDATE Attribution SET codeModule = ?, numeroSemestreModule = ?, anneeModule = ?, nomCategorieHeure = ?, nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ?, anneeModule = ?, nomCategorieHeure = ?";
+        String req = "UPDATE Attribution SET codeModule = ?, nomCategorieHeure = ?, nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ?, anneeModule = ?, nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString (1 ,att.getCodeModule           ());
-            ps.setInt    (2 ,att.getNumeroSemestreModule ());
-            ps.setString (3 ,att.getAnneeModule          ());
-            ps.setString (4 ,att.getNomCategorieHeure    ());
-            ps.setInt    (5 ,att.getNbHeure              ());
-            ps.setInt    (6 ,att.getNbSemaine            ());
-            ps.setString (7 ,att.getCodeModule           ());
-            ps.setInt    (8 ,att.getNumeroSemestreModule ());
-            ps.setString (9 ,att.getAnneeModule          ());
-            ps.setString (10,att.getNomCategorieHeure    ());
+            ps.setString(1,att.getModule   ().getCode    ());
+            ps.setString(2,att.getCatHr    ().getNom     ());
+            ps.setInt   (3,att.getNbHeure  ());
+            ps.setInt   (4,att.getNbHeure  ());
+            ps.setInt   (5,att.getNbSemaine()                                  );
+            ps.setInt   (6,att.getModule   ().getSemestre().getNumero());
+            ps.setString(7,att.getModule   ().getCode    ());
+            ps.setString(8,att.getModule   ().getSemestre().getAnnee ().getNom());
+            ps.setString(9,att.getCatHr    ().getNom     ());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -907,10 +904,10 @@ public class DB
         String req = "DELETE FROM Attribution WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString (1,att.getCodeModule           ());
-            ps.setInt    (2,att.getNumeroSemestreModule ());
-            ps.setString (3,att.getAnneeModule          ());
-            ps.setString (4,att.getNomCategorieHeure    ());
+            ps.setString (1,att.getModule().getCode    ());
+            ps.setInt    (2,att.getModule().getSemestre().getNumero());
+            ps.setString (3,att.getModule().getSemestre().getAnnee().getNom());
+            ps.setString (4,att.getCatHr ().getNom     ());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -918,30 +915,50 @@ public class DB
     }
 
     // Méthode select * pour la classe Attribution
-    public ArrayList<Attribution> getAllAttribution() {
+    public ArrayList<Attribution> getAllAttribution(ArrayList<Module> ensModule, ArrayList<CategorieHeure> ensCatHr) {
         ArrayList<Attribution> ensAttribution = new ArrayList<>();
         String req = "SELECT * FROM Attribution";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             try (ResultSet rs = ps.executeQuery()) {
                 // Traiter les résultats du ResultSet
-                while (rs.next()) {
-                    Attribution attribution = new Attribution(
-                                              rs.getInt   ("numeroSemestreModule"),
-                                              rs.getInt   ("nbHeure"             ),
-                                              rs.getInt   ("nbSemaine"           ),
-                                              rs.getString("anneeModule"         ),
-                                              rs.getString("nomCategorieHeure"   ),
-                                              rs.getString("codeModule"          ),
-                            getModuleByNumero(rs.getString("module"              )),
-                            getCatHrByNom    (rs.getString("catHr"               ))
-                    );
-                    ensAttribution.add(attribution);
+                while (rs.next())
+                {
+                    String codeModule        = rs.getString(1);
+                    int numSem               = rs.getInt(2);
+                    String anneeSem          = rs.getString(3);
+                    String nomCategorieHeure = rs.getString(4);
+
+                    Module mod = rechercherModule(ensModule, codeModule,numSem,anneeSem);
+                    CategorieHeure catHr = rechercherCatHr(ensCatHr, nomCategorieHeure);
+
+                    Attribution att = new Attribution(rs.getInt(5),rs.getInt(6),mod,catHr );
+                    ensAttribution.add(att);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return ensAttribution;
+    }
+
+    public Module rechercherModule(ArrayList<Module> ensModule, String codeModule,int numSem, String anneeSem)
+    {
+        for (Module mod : ensModule)
+        {
+            if(mod.getCode    ().equals(codeModule)    &&
+               mod.getSemestre().getNumero() == numSem &&
+               mod.getSemestre().getAnnee().getNom().equals(anneeSem))
+            { return mod;}
+        }
+        return null;
+    }
+    public CategorieHeure rechercherCatHr(ArrayList<CategorieHeure> ensCategorie, String nomCatHr)
+    {
+        for (CategorieHeure catHrs : ensCategorie)
+        {
+            if(catHrs.getNom().equals(nomCatHr)){ return catHrs;}
+        }
+        return null;
     }
 
     /*-----------------------*/
@@ -954,14 +971,15 @@ public class DB
         String req = "INSERT INTO Affectation VALUES(?,?,?,?,?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,affs.getCodeModule          ()         );
-            ps.setInt   (2,affs.getNumeroSemestreModule()         );
-            ps.setString(3,affs.getAnneeModule         ()         );
-            ps.setString(5,affs.getTypeHeure           ().getNom());
-            ps.setInt   (6,affs.getNbGroupe            ()         );
-            ps.setInt   (7,affs.getNbSemaine           ()         );
-            ps.setInt   (8,affs.getNbHeure             ()         );
-            ps.setString(9,affs.getCommentaire         ()         );
+            ps.setString   (1,affs.getModule     ().getCode    ());
+            ps.setInt      (2,affs.getModule     ().getSemestre().getNumero());
+            ps.setString   (3,affs.getModule     ().getSemestre().getAnnee().getNom());
+            ps.setInt      (4,affs.getIntervenant().getId      ());
+            ps.setString   (5,affs.getTypeHeure  ().getNom     ());
+            ps.setInt      (6,affs.getNbGroupe   ());
+            ps.setInt      (7,affs.getNbSemaine  ());
+            ps.setInt      (8,affs.getNbHeure    ());
+            ps.setString   (9,affs.getCommentaire());
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -977,10 +995,10 @@ public class DB
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             //SET
-            ps.setString (1,aff.getCodeModule          ());
-            ps.setInt    (2,aff.getNumeroSemestreModule());
-            ps.setString (3,aff.getAnneeModule         ());
-            ps.setInt    (4,aff.getInter               ().getId());
+            ps.setString (1,aff.getModule().getCode());
+            ps.setInt    (2,aff.getModule().getSemestre().getNumero());
+            ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
+            ps.setInt    (4,aff.getIntervenant().getId());
             ps.setString (5,aff.getTypeHeure           ().getNom());
             ps.setInt    (6,aff.getNbGroupe            ());
             ps.setInt    (7,aff.getNbSemaine           ());
@@ -988,9 +1006,9 @@ public class DB
             ps.setString (9,aff.getCommentaire         ());
 
             // WHERE
-            ps.setString (1,aff.getCodeModule          ());
-            ps.setInt    (2,aff.getNumeroSemestreModule());
-            ps.setString (3,aff.getAnneeModule         ());
+            ps.setString (10,aff.getModule().getCode());
+            ps.setInt    (11,aff.getModule().getSemestre().getNumero());
+            ps.setString (12,aff.getModule().getSemestre().getAnnee().getNom());
         }
         catch (SQLException e )
         {
@@ -1004,9 +1022,9 @@ public class DB
         String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString (1,aff.getCodeModule           ());
-            ps.setInt    (2,aff.getNumeroSemestreModule ());
-            ps.setString (3,aff.getAnneeModule          ());
+            ps.setString (1,aff.getModule().getCode());
+            ps.setInt    (2,aff.getModule().getSemestre().getNumero());
+            ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
         }
         catch(SQLException e)
         {
@@ -1015,7 +1033,7 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<Affectation> getAllaff()
+    public ArrayList<Affectation> getAllaff(ArrayList<Intervenant> ensInter, ArrayList<Module> ensModule, ArrayList<CategorieHeure> ensCatHr)
     {
         ArrayList<Affectation> ensaff = new ArrayList<>();
         String req = "SELECT * FROM Affectation";
@@ -1025,16 +1043,20 @@ public class DB
             {
                 while (rs.next())
                 {
-                    Affectation affectation = new Affectation(
-                            getModuleByNumero( rs.getString(1)),
-                                               rs.getInt   (2),
-                                               rs.getString(3),
-                            getIntervenantById(rs.getInt   (4)),
-                            getCatHrByNom     (rs.getString(5)),
-                                               rs.getInt   (6),
-                                               rs.getInt   (7),
-                                               rs.getInt   (8),
-                                               rs.getString(9));
+                    int idInter = rs.getInt(4);
+
+                    String codeModule        = rs.getString(1);
+                    int numSem               = rs.getInt(2);
+                    String anneeSem          = rs.getString(3);
+
+                    String nomCategorieHeure = rs.getString(5);
+
+                    Intervenant    inter = rechercherInter (ensInter,idInter);
+                    Module         mod   = rechercherModule(ensModule,codeModule,numSem,anneeSem);
+                    CategorieHeure catHr = rechercherCatHr(ensCatHr,nomCategorieHeure);
+
+                    Affectation aff = new Affectation()
+
 
                     ensaff.add(affectation);
                 }
