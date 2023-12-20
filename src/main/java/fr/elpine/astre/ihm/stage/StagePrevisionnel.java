@@ -96,8 +96,6 @@ public class StagePrevisionnel implements Initializable {
 	public static Stage creer() throws IOException {
 		Stage stage = new Stage();
 
-		System.out.println("annee actuelle : " + Controleur.get().getMetier().getAnneeActuelle().getNom());
-		System.out.println("semestre de l'annee actuelle " + Controleur.get().getMetier().getAnneeActuelle().getSemestres());
 		ArrayList<Semestre> semestres = Controleur.get().getMetier().getAnneeActuelle().getSemestres();
 
 		for (Semestre s : semestres)
@@ -112,17 +110,6 @@ public class StagePrevisionnel implements Initializable {
 				case 6 -> StagePrevisionnel.moduleListS6 = FXCollections.observableArrayList(s.getModules());
 			}
 		}
-
-		System.out.println("/////////////////////////////");
-		System.out.println(StagePrevisionnel.moduleListS1);
-		System.out.println(StagePrevisionnel.moduleListS2);
-
-		/*
-		System.out.println(StagePrevisionnel.moduleListS3);
-		System.out.println(StagePrevisionnel.moduleListS4);
-		System.out.println(StagePrevisionnel.moduleListS5);
-		System.out.println(StagePrevisionnel.moduleListS6);
-		 */
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -217,10 +204,12 @@ public class StagePrevisionnel implements Initializable {
 	{
 		Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
 
-		txtNbTD     .setText("" + semestre.getNbGrpTD  ());
-		txtNbTP     .setText("" + semestre.getNbGrpTP  ());
-		txtNbEtd    .setText("" + semestre.getNbEtd    ());
-		txtNbSemaine.setText("" + semestre.getNbSemaine());
+		if (semestre != null) {
+			txtNbTD.setText("" + semestre.getNbGrpTD());
+			txtNbTP.setText("" + semestre.getNbGrpTP());
+			txtNbEtd.setText("" + semestre.getNbEtd());
+			txtNbSemaine.setText("" + semestre.getNbSemaine());
+		}
 
 	}
 }
