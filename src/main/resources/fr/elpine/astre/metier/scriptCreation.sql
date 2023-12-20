@@ -36,7 +36,7 @@ CREATE TABLE Module (
 	annee VARCHAR(255),
 	nom VARCHAR(255),
 	abreviation VARCHAR(255),
-	typeModule VARCHAR(255),
+	couleur VARCHAR(255),
 	validation BOOLEAN,
 
 	FOREIGN KEY (numeroSemestre, annee) REFERENCES Semestre(numero, annee),
