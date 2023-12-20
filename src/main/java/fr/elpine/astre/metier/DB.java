@@ -3,6 +3,7 @@ package fr.elpine.astre.metier;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.sql.*;
@@ -156,17 +157,21 @@ public class DB
     //Méthode d'insert
     public void ajouterModule(Module module)
     {
-        String req = "INSERT INTO Module VALUES(?,?,?,?,?)";
+        String req = "INSERT INTO Module VALUES(?,?,?,?,?,?)";
 
         try ( PreparedStatement ps = co.prepareStatement(req) )
         {
+            Color c = module.getCouleur();
+            String couleur = String.format("rgb(%d,%d,%d)", (int) (c.getRed()*255), (int) (c.getGreen()*255), (int) (c.getBlue()*255));
+
             ps.setString  (1, module.getCode        ());
             ps.setInt     (2, module.getSemestre().getNumero());
             ps.setString  (3, module.getSemestre().getAnnee().getNom());
             ps.setString  (4, module.getNom         ());
             ps.setString  (5, module.getAbreviation ());
-            ps.setString  (6, module.getTypeModule  ());
-            ps.setBoolean (7, module.estValide      ());
+            ps.setString  (6, couleur);
+            ps.setString  (7, module.getTypeModule  ());
+            ps.setBoolean (8, module.estValide      ());
             ps.executeUpdate();
         }
         catch (SQLException e) { e.printStackTrace(); }
@@ -175,17 +180,21 @@ public class DB
     //Méthode d'update
     public void majModule(Module module)
     {
-        String req = "UPDATE Module SET nom = ?, abreviation = ?, typeModule = ?, validation = ? WHERE code = ? AND numeroSemestre = ? AND annee = ?";
+        String req = "UPDATE Module SET nom = ?, abreviation = ?, typeModule = ?, couleur = ?, validation = ? WHERE code = ? AND numeroSemestre = ? AND annee = ?";
 
         try(PreparedStatement ps = co.prepareStatement(req))
         {
+            Color c = module.getCouleur();
+            String couleur = String.format("rgb(%d,%d,%d)", (int) (c.getRed()*255), (int) (c.getGreen()*255), (int) (c.getBlue()*255));
+
             ps.setString  (1, module.getNom         ());
             ps.setString  (2, module.getAbreviation ());
             ps.setString  (3, module.getTypeModule  ());
-            ps.setBoolean (4, module.estValide      ());
-            ps.setString  (5, module.getCode        ());
-            ps.setInt  (6, module.getSemestre().getNumero());
-            ps.setString  (7, module.getSemestre().getAnnee().getNom());
+            ps.setString  (4, couleur);
+            ps.setBoolean (5, module.estValide      ());
+            ps.setString  (6, module.getCode        ());
+            ps.setInt  (7, module.getSemestre().getNumero());
+            ps.setString  (8, module.getSemestre().getAnnee().getNom());
             ps.executeUpdate();
         }
         catch (SQLException e) { e.printStackTrace(); }
@@ -229,6 +238,7 @@ public class DB
                                             rs.getString  ("code"          ),
                                             rs.getString  ("abreviation"   ),
                                             rs.getString  ("typeModule"    ),
+                                            Color.valueOf(rs.getString  ("couleur")),
                                             rs.getBoolean ("validation"    ),
                                             semestre);
                     ensModule.add(mod);
@@ -256,6 +266,7 @@ public class DB
                                               rs.getString ("code"          ),
                                               rs.getString ("abreviation"   ),
                                               rs.getString ("typeModule"    ),
+                                              Color.valueOf(rs.getString("couleur")),
                                               rs.getBoolean("validation"    ),
                               getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee"))
                     );

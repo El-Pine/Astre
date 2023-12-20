@@ -1,5 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 public class Module
@@ -8,18 +10,20 @@ public class Module
     private String nom;
     private String abreviation;
     private String typeModule;
+    private Color couleur;
     private boolean validation;
 
     private Semestre semestre;
     private ArrayList<Attribution> ensAttribution;
     private ArrayList<Affectation> ensAffectation;
 
-    public Module(String nom, String code, String abreviation, String typeModule, boolean validation, Semestre semestre)
+    public Module(String nom, String code, String abreviation, String typeModule, Color couleur, boolean validation, Semestre semestre)
     {
         this.nom            = nom;
         this.code           = code;
         this.abreviation    = abreviation;
         this.typeModule     = typeModule;
+        this.couleur        = couleur;
         this.validation     = validation;
         this.semestre       = semestre;
 
@@ -32,15 +36,17 @@ public class Module
     public String  getCode        () { return code        ;}
     public String  getNom         () { return nom         ;}
     public String  getAbreviation () { return abreviation ;}
+    public Color   getCouleur     () { return couleur     ;}
     public String  getTypeModule  () { return typeModule  ;}
     public boolean estValide      () { return validation  ;}
     public Semestre getSemestre   () { return semestre    ;}
 
     /*   SETTER   */
 
-    public void setCode        ( String code       )   { this.code        = code       ;}
-    public void setNom         ( String nom        )   { this.nom         = nom        ;}
+    public void setCode        ( String code       )   { this.code        = code        ;}
+    public void setNom         ( String nom        )   { this.nom         = nom         ;}
     public void setAbreviation ( String  abreviation ) { this.abreviation = abreviation ;}
+    public void setCouleur     ( Color  couleur      ) { this.couleur     = couleur     ;}
     public void setTypeModule  ( String  typeModule )  { this.typeModule  = typeModule  ;}
     public void setValidation  ( boolean validation )  { this.validation  = validation  ;}
 
