@@ -35,11 +35,9 @@ public class CategorieIntervenant
     public void setNbHeureServiceDefault      ( int nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ;}
     public void setRatioTPDefault      ( double ratioTPDefault       ) { this.ratioTPDefault      = ratioTPDefault      ;}
 
-    /* TODO : Essayer de faire sans
-
     public String toString()
     {
         return this.getNom();
     }
-    */
+
 }

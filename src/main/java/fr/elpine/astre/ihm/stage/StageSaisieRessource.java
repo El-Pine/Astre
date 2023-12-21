@@ -15,10 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -33,13 +30,23 @@ import static java.lang.Integer.*;
 
 public class StageSaisieRessource implements Initializable
 {
+    @FXML
     public TableView<Affectation> tableau;
+    @FXML
+    private TableColumn<Intervenant,String> tc;
+    @FXML
     public TableColumn<Affectation, String> tcIntervenant;
+    @FXML
     public TableColumn<Affectation, String> tcType;
+    @FXML
     public TableColumn<Affectation, Integer> tcNbH;
+    @FXML
     public TableColumn<Affectation, Integer> tcGrp;
+    @FXML
     public TableColumn<Affectation, String> tcCommentaire;
+    @FXML
     public TableColumn<Affectation, Integer> tcTotalEqtd;
+    @FXML
     public static ObservableList<Affectation> ensAff;
     @FXML
     public static TextField txtTypeModule;
@@ -167,6 +174,23 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
+        tc.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item);
+
+                if (item != null && item.equals("❌")) {
+                    setTextFill(Color.RED);
+                } else if (item != null && item.equals("➕")) {
+                    setTextFill(Color.LIGHTGREEN);
+                } else {
+                    setTextFill(Color.BLACK);
+                    setText("");
+                }
+            }
+        });
         tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getIntervenant().getNom()));
         tcType       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getTypeHeure  ().getNom()));
         tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());

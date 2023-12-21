@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
    <top>
       <GridPane prefHeight="125.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -576,7 +590,8 @@
                <center>
                   <TableView fx:id="tableau">
                      <columns>
-                        <TableColumn fx:id="tcIntervenant" editable="false" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" reorderable="false" resizable="false" text="Intervenant" />
+                        <TableColumn fx:id="tc" prefWidth="35.999969482421875" />
+                        <TableColumn fx:id="tcIntervenant" editable="false" maxWidth="189.6000518798828" minWidth="50.0" prefWidth="189.6000518798828" reorderable="false" resizable="false" text="Intervenant" />
                         <TableColumn fx:id="tcType" editable="false" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" reorderable="false" resizable="false" text="Type" />
                         <TableColumn fx:id="tcSemaine" editable="false" prefWidth="92.0" reorderable="false" resizable="false" text="Nb Semaine" />
                         <TableColumn fx:id="tcNbH" editable="false" maxWidth="95.199951171875" minWidth="50.0" prefWidth="74.4000244140625" reorderable="false" resizable="false" text="Nb H" />

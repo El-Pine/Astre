@@ -8,6 +8,8 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+
+
 import java.io.IOException;
 
 public class AstreApplication extends Application
@@ -15,6 +17,9 @@ public class AstreApplication extends Application
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
+		Application.setUserAgentStylesheet(AstreApplication.class.getResource("cupertino-light.css").toExternalForm());
+
+
 		if ( !DB.isConnected() ) {
 			StageInitBd.creer(null).show();
 		} else {
