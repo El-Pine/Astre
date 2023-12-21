@@ -93,7 +93,7 @@ public class StageAjouterCategories
             StagePopUp.PopUpErreur("Champ Vide","Les champs code et nom ne peuvent pas être vide.");
 
         parent.activer();
-        parent.refreshCatInter();
+        parent.refresh();
         stage.close();
     }
 
@@ -107,7 +107,7 @@ public class StageAjouterCategories
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {
         parent.activer();
-        parent.refreshCatInter();
+        parent.refresh();
         stage.close();
     }
 
@@ -125,7 +125,7 @@ public class StageAjouterCategories
         StageAccueilConfig.catHeurAAjouter.add(cat);
 
         parent.activer();
-        parent.refreshCatHr();
+        parent.refresh();
         stage.close();
     }
 

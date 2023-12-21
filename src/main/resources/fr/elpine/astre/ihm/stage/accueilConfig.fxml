@@ -34,21 +34,23 @@
          <children>
             <TableView fx:id="tabCatInter" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                  <TableColumn fx:id="tcCodeInter" editable="false" prefWidth="56.20001220703125" reorderable="false" resizable="false" text="Code" />
-                  <TableColumn fx:id="tcNomInter" editable="false" prefWidth="81.39999389648438" reorderable="false" resizable="false" text="Nom" />
-                  <TableColumn fx:id="tcHMaxInter" editable="false" prefWidth="51.39996337890625" reorderable="false" resizable="false" text="H Max" />
-                  <TableColumn fx:id="tcHServInter" editable="false" prefWidth="59.5999755859375" reorderable="false" resizable="false" text="H Service" />
-                  <TableColumn fx:id="tcRatioInter" editable="false" prefWidth="48.79998779296875" reorderable="false" resizable="false" text="Ratio" />
+                  <TableColumn fx:id="tcInter" prefWidth="13.60003662109375" />
+                  <TableColumn fx:id="tcCodeInter" editable="false" prefWidth="53.5999755859375" reorderable="false" resizable="false" text="Code" />
+                  <TableColumn fx:id="tcNomInter" editable="false" prefWidth="54.4000244140625" reorderable="false" resizable="false" text="Nom" />
+                  <TableColumn fx:id="tcHMaxInter" editable="false" minWidth="7.20001220703125" prefWidth="60.79998779296875" reorderable="false" resizable="false" text="H Max" />
+                  <TableColumn fx:id="tcHServInter" editable="false" minWidth="0.0" prefWidth="60.79998779296875" reorderable="false" resizable="false" text="H Service" />
+                  <TableColumn fx:id="tcRatioInter" editable="false" minWidth="0.0" prefWidth="55.20001220703125" reorderable="false" resizable="false" text="Ratio" />
               </columns>
             </TableView>
             <TableView fx:id="tabCatHeures" GridPane.columnIndex="1">
               <columns>
-                <TableColumn fx:id="tcNomHeures" editable="false" prefWidth="81.20001220703125" reorderable="false" resizable="false" text="Nom" />
-                <TableColumn fx:id="tcEqtdHeures" editable="false" prefWidth="41.0" reorderable="false" resizable="false" text="Eqtd" />
-                  <TableColumn fx:id="tcRessourcesHeures" editable="false" prefWidth="66.4000244140625" reorderable="false" resizable="false" text="Ressources" />
-                  <TableColumn fx:id="tcSaeHeures" editable="false" prefWidth="33.0" reorderable="false" resizable="false" text="SAE" />
-                  <TableColumn fx:id="tcPppHeures" editable="false" prefWidth="32.20001220703125" reorderable="false" resizable="false" text="PPP" />
-                  <TableColumn fx:id="tcStageHeures" editable="false" prefWidth="40.4000244140625" reorderable="false" resizable="false" text="Stage" />
+                  <TableColumn fx:id="tcHr" prefWidth="20.0" />
+                <TableColumn fx:id="tcNomHeures" editable="false" prefWidth="77.60003662109375" reorderable="false" resizable="false" text="Nom" />
+                <TableColumn fx:id="tcEqtdHeures" editable="false" prefWidth="47.20001220703125" reorderable="false" resizable="false" text="Eqtd" />
+                  <TableColumn fx:id="tcRessourcesHeures" editable="false" prefWidth="75.20001220703125" reorderable="false" resizable="false" text="Ressources" />
+                  <TableColumn fx:id="tcSaeHeures" editable="false" prefWidth="39.20001220703125" reorderable="false" resizable="false" text="SAE" />
+                  <TableColumn fx:id="tcPppHeures" editable="false" prefWidth="36.800048828125" reorderable="false" resizable="false" text="PPP" />
+                  <TableColumn fx:id="tcStageHeures" editable="false" prefWidth="76.800048828125" reorderable="false" resizable="false" text="Stage" />
               </columns>
             </TableView>
          </children>
