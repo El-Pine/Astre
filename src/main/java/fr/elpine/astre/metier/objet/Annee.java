@@ -55,6 +55,22 @@ public class Annee
 
     public void supprimer()
     {
+        Astre metier = Controleur.get().getMetier();
 
+        for (Semestre semestre : this.getSemestres())
+        {
+            for (Module module : semestre.getModules())
+            {
+                for (Affectation affectation : module.getAffectations())
+                {
+                    affectation.supprimer();
+                }
+
+                for (Attribution attribution : module.getAttributions())
+                {
+                    attribution.supprimer();
+                }
+            }
+        }
     }
 }
