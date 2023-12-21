@@ -30,6 +30,9 @@ public class StagePrincipal
 		stage.setTitle("Accueil");
 		stage.setScene(scene);
 
+		scene.getStylesheets().add( StagePrincipal.class.getResource("style.css").toExternalForm());
+
+
 		return stage;
 	}
 
