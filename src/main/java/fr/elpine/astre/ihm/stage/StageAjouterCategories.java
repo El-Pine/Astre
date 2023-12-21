@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 
+import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 
@@ -85,13 +86,14 @@ public class StageAjouterCategories
 
         if(estValide(code,nom))
         {
-            Controleur.get().getDb().ajouterCategorieIntervenant(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
+            StageAccueilConfig.categorieInterAAjouter.add(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
+
         }
         else
-            //lblErreur.setText("Les champs code et nom doivent être remplis");
+            StagePopUp.PopUpErreur("Champ Vide","Les champs code et nom ne peuvent pas être vide.");
 
         parent.activer();
-        parent.refreshCatInter();
+        parent.refresh();
         stage.close();
     }
 
@@ -105,7 +107,7 @@ public class StageAjouterCategories
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {
         parent.activer();
-        parent.refreshCatInter();
+        parent.refresh();
         stage.close();
     }
 
@@ -120,10 +122,10 @@ public class StageAjouterCategories
 
         CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage);
 
-        Controleur.get().getDb().ajouterCategorieHeure(cat);
+        StageAccueilConfig.catHeurAAjouter.add(cat);
 
         parent.activer();
-        parent.refreshCatHr();
+        parent.refresh();
         stage.close();
     }
 

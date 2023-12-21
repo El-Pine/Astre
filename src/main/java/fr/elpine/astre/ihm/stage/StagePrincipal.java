@@ -5,18 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class StagePrincipal
 {
@@ -67,6 +59,11 @@ public class StagePrincipal
 		try {
 			StagePopUp.PopUpConfirmation("Tu es sur ? ", "Tu es sur ?");
 		}
-		catch (IOException e){}
+		catch (IOException ignored){}
+	}
+
+	public void onBtnClickAnnee(ActionEvent actionEvent) throws IOException {
+		this.stage.close();
+		StageAnnee.creer().show();
 	}
 }

@@ -5,7 +5,7 @@ public class Attribution
     private int        nbHeure;
     private Integer    nbSemaine;
 
-    private Module         module;
+    private Module module;
     private CategorieHeure catHr;
 
 
@@ -30,12 +30,11 @@ public class Attribution
         if (catHr  != null) catHr .ajouterAttribution(this);
     }
 
-    public boolean hasNbSemaine() { return this.nbSemaine != null; }
-
-    public int            getNbHeure             () { return nbHeure;              }
-    public int            getNbSemaine           () { return nbSemaine;            }
-    public Module getModule              () { return module;               }
-    public CategorieHeure getCatHr               () { return catHr;                }
+    public boolean        hasNbSemaine           () { return this.nbSemaine != null; }
+    public int            getNbHeure             () { return nbHeure;                }
+    public int            getNbSemaine           () { return nbSemaine;              }
+    public Module         getModule              () { return module;                 }
+    public CategorieHeure getCatHr               () { return catHr;                  }
 
     public void setNbHeure             (int nbHeure             ) { this.nbHeure              = nbHeure;              }
     public void setNbSemaine           (int nbSemaine           ) { this.nbSemaine            = nbSemaine;            }

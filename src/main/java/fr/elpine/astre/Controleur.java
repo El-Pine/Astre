@@ -7,6 +7,8 @@ import javafx.application.Application;
 
 import java.io.*;
 
+// TODO : mettre des couleurs par modules
+
 public class Controleur
 {
     private static Controleur ctrl;
@@ -16,9 +18,16 @@ public class Controleur
 
     private Controleur()
     {
+        Controleur.ctrl = this;
+
         this.startApplication();
-	    this.db    = new DB();
-        this.astre = new Astre( this );
+
+        this.db = new DB();
+
+        // Attente de la connexion à la base de données
+        while (!DB.isConnected()) try { Thread.sleep(50); } catch (Exception ignored) {}
+
+        this.astre = new Astre(this);
     }
 
     private void startApplication()
@@ -28,12 +37,11 @@ public class Controleur
 
     public static Controleur get()
     {
-        if (Controleur.ctrl == null) Controleur.ctrl = new Controleur();
-
-        return Controleur.ctrl;
+        return Controleur.ctrl == null ? new Controleur() : Controleur.ctrl;
     }
 
     public DB getDb() { return this.db; }
+    public Astre getMetier() { return this.astre; }
 
     public static void main(String[] args)
     {

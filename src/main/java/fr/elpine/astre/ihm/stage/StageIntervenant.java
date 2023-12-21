@@ -3,7 +3,6 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.Controleur;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -13,10 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -59,7 +55,7 @@ public class StageIntervenant implements Initializable
 	public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
-		StageIntervenant.ensInter = FXCollections.observableArrayList(Controleur.get().getDb().getAllIntervenant());
+		StageIntervenant.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
 		StageIntervenant.interAAjouter = new ArrayList<Intervenant>();
 		StageIntervenant.interAEnlever = new ArrayList<Intervenant>();
 
@@ -84,15 +80,16 @@ public class StageIntervenant implements Initializable
 	private void setStage(Stage stage) { this.stage = stage; }
 
 	@FXML
-	protected void onBtnClickEnregistrer() throws IOException, SQLException {
+	protected void onBtnClickEnregistrer() throws IOException, SQLException
+	{
 
 		for ( Intervenant inter : StageIntervenant.interAAjouter )
 		{
-			Controleur.get().getDb().ajouterIntervenant(inter);
+			Controleur.get().getMetier().ajouterIntervenant(inter);
 		}
 		for ( Intervenant inter : StageIntervenant.interAEnlever )
 		{
-			Controleur.get().getDb().supprimerIntervenant(inter);
+			Controleur.get().getMetier().supprimerIntervenant(inter);
 		}
 
 		Controleur.get().getDb().enregistrer();
@@ -121,8 +118,8 @@ public class StageIntervenant implements Initializable
 		{
 			StageIntervenant.ensInter.remove(inter);
 			StageIntervenant.interAEnlever.add(inter);
-			this.refresh();
 		}
+		this.refresh();
 	}
 
 	public void desactiver()
@@ -154,6 +151,9 @@ public class StageIntervenant implements Initializable
 					setTextFill(Color.RED);
 				} else if (item != null && item.equals("➕")) {
 					setTextFill(Color.LIGHTGREEN);
+				} else {
+					setTextFill(Color.BLACK);
+					setText("");
 				}
 			}
 		});
@@ -163,6 +163,42 @@ public class StageIntervenant implements Initializable
 		tcHServ    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureService() ).asObject ());
 		tcHMax     .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureMax() ).asObject ());
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getRatioTP () ));
+
+/*
+		tcNom.setCellFactory(TextFieldTableCell.forTableColumn());
+		tcNom.setOnEditCommit(e-> {
+			System.out.printf("%s -> %s\n", e.getOldValue(), e.getNewValue());
+
+			e.getTableView().getItems().get(e.getTablePosition().getRow()).setNom(e.getNewValue());
+		});
+
+
+
+		ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(
+				"John",
+				"Jane",
+				"Bob"
+		));
+
+		// Définition des cellules éditables avec ComboBox
+		tcCategorie.setCellFactory(column -> new ComboBoxTableCell<>(new StringConverter<>() {
+			@Override
+			public String toString(String object) {
+				return (String)object;
+			}
+
+			@Override
+			public String fromString(String string) {
+				return string;
+			}
+		}, comboBox.getItems()));
+
+		// TODO : supprimer toutes les propriétés editable des fxml
+
+		tcPrenom.set
+
+		tabAffInter.setEditable(true);
+		*/
 
 		ObservableList<Intervenant> list = FXCollections.observableArrayList(StageIntervenant.ensInter);
 		list.addAll(StageIntervenant.interAAjouter);
@@ -176,7 +212,7 @@ public class StageIntervenant implements Initializable
 		} else if (StageIntervenant.interAEnlever.contains(intervenant)) {
 			return "❌";
 		} else {
-			return ""; // Vous pouvez également renvoyer un autre texte ou laisser la cellule vide si l'intervenant n'est pas dans interAAjouter
+			return "";
 		}
 	}
 
@@ -185,12 +221,13 @@ public class StageIntervenant implements Initializable
 		list.addAll(StageIntervenant.interAAjouter);
 		list.addAll(StageIntervenant.interAEnlever);
 		tabAffInter.setItems(list);
+		tabAffInter.refresh();
 	}
 
 	public void onBtnRechercher(ActionEvent actionEvent)
 	{
 		String recherche = txtFieldRecherche.getText();
-		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getDb().getIntervenantByNom(recherche));
+		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getMetier().rechercheIntervenantByNom(recherche));
 		tabAffInter.setItems(ensInter);
 	}
 }

@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -95,13 +96,20 @@ public class StagePrevisionnel implements Initializable {
 	public static Stage creer() throws IOException {
 		Stage stage = new Stage();
 
-		StagePrevisionnel.moduleListS1 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(1));
-		StagePrevisionnel.moduleListS2 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(2));
-		StagePrevisionnel.moduleListS3 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(3));
-		StagePrevisionnel.moduleListS4 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(4));
-		StagePrevisionnel.moduleListS5 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(5));
-		StagePrevisionnel.moduleListS6 = FXCollections.observableArrayList(Controleur.get().getDb().getPrevisionsbySemestre(6));
+		ArrayList<Semestre> semestres = Controleur.get().getMetier().getAnneeActuelle().getSemestres();
 
+		for (Semestre s : semestres)
+		{
+			switch (s.getNumero())
+			{
+				case 1 -> StagePrevisionnel.moduleListS1 = FXCollections.observableArrayList(s.getModules());
+				case 2 -> StagePrevisionnel.moduleListS2 = FXCollections.observableArrayList(s.getModules());
+				case 3 -> StagePrevisionnel.moduleListS3 = FXCollections.observableArrayList(s.getModules());
+				case 4 -> StagePrevisionnel.moduleListS4 = FXCollections.observableArrayList(s.getModules());
+				case 5 -> StagePrevisionnel.moduleListS5 = FXCollections.observableArrayList(s.getModules());
+				case 6 -> StagePrevisionnel.moduleListS6 = FXCollections.observableArrayList(s.getModules());
+			}
+		}
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -156,8 +164,8 @@ public class StagePrevisionnel implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		s1code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
-		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+		s1code.setCellValueFactory   (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
+		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom ()));
 		tabs1.setItems(moduleListS1);
 
 		s2code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
@@ -194,12 +202,14 @@ public class StagePrevisionnel implements Initializable {
 
 	private void initializeTextFields()
 	{
-		Semestre semestre = Controleur.get().getDb().getSemestreById(pnlControlSem.getSelectionModel().getSelectedIndex() + 1,"2022-2023");
+		Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
 
-		txtNbTD     .setText("" + semestre.getNbGrpTD  ());
-		txtNbTP     .setText("" + semestre.getNbGrpTP  ());
-		txtNbEtd    .setText("" + semestre.getNbEtd    ());
-		txtNbSemaine.setText("" + semestre.getNbSemaine());
+		if (semestre != null) {
+			txtNbTD.setText("" + semestre.getNbGrpTD());
+			txtNbTP.setText("" + semestre.getNbGrpTP());
+			txtNbEtd.setText("" + semestre.getNbEtd());
+			txtNbSemaine.setText("" + semestre.getNbSemaine());
+		}
 
 	}
 }

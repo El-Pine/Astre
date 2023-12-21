@@ -8,9 +8,8 @@
    <bottom>
       <ButtonBar prefHeight="35.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-radius: 3px;" text="Valider" />
+          <Button fx:id="btnValider" defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-radius: 3px;" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#btnAnnuler" text="Annuler" />
-            <Label fx:id="lblErreur" text="Une erreur est survenue..." textFill="#bc2a2a" visible="false" />
         </buttons>
          <BorderPane.margin>
             <Insets />

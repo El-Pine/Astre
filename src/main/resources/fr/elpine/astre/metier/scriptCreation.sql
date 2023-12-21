@@ -36,7 +36,8 @@ CREATE TABLE Module (
 	annee VARCHAR(255),
 	nom VARCHAR(255),
 	abreviation VARCHAR(255),
-	typeModule VARCHAR(255),
+    typeModule VARCHAR(255),
+	couleur VARCHAR(16),
 	validation BOOLEAN,
 
 	FOREIGN KEY (numeroSemestre, annee) REFERENCES Semestre(numero, annee),
@@ -46,7 +47,7 @@ CREATE TABLE Module (
 
 CREATE TABLE CategorieHeure (
 	nom VARCHAR(255) PRIMARY KEY,
-	eqtd FLOAT,
+	eqtd TEXT,
 
 	ressource BOOLEAN,
 	sae BOOLEAN,
@@ -57,9 +58,9 @@ CREATE TABLE CategorieHeure (
 CREATE TABLE CategorieIntervenant (
 	code VARCHAR(255) PRIMARY KEY,
 	nom VARCHAR(255),
-	nbHeureMaxDefaut INT,
-	nbHeureServiceDefaut INT,
-	ratioTPDefaut FLOAT
+	nbHeureMaxDefaut FLOAT,
+	nbHeureServiceDefaut FLOAT,
+	ratioTPDefaut TEXT
 );
 
 CREATE TABLE Intervenant (
@@ -68,9 +69,9 @@ CREATE TABLE Intervenant (
 	prenom VARCHAR(255),
 	mail varchar(255),
 	codeCategorie VARCHAR(255),
-	heureService INT,
-	heureMax INT,
-	ratioTP FLOAT,
+	heureService FLOAT,
+	heureMax FLOAT,
+	ratioTP TEXT,
 
 	FOREIGN KEY (codeCategorie) REFERENCES CategorieIntervenant(code)
 );
@@ -82,7 +83,7 @@ CREATE TABLE Attribution (
 	numeroSemestreModule INT,
 	anneeModule VARCHAR(255),
 	nomCategorieHeure VARCHAR(255),
-	nbHeure INT,
+	nbHeure FLOAT,
 	nbSemaine INT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
@@ -97,10 +98,10 @@ CREATE TABLE Affectation (
     anneeModule VARCHAR(255),
     idInter INT,
 
-    typeHeure VARCHAR(255),
-    nbGroupe INT,
-    nbSemaine INT,
-    nbHeure INT,
+    typeHeure   VARCHAR(255),
+    nbGroupe    INT,
+    nbSemaine   INT,
+    nbHeure     FLOAT,
     commentaire TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),

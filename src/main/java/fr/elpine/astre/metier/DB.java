@@ -1,8 +1,8 @@
 package fr.elpine.astre.metier;
 
-import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.sql.*;
@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class DB
 {
+    private static boolean connected = false;
     private Connection co;
 
     public DB()
@@ -21,9 +22,9 @@ public class DB
         try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
 
         // Connexion
-        AstreApplication.erreur = !this.reloadDB();
+        this.reloadDB();
 
-        /*
+	    /*
          * Pour créer un tunnel SSH
          * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
          *
@@ -31,6 +32,8 @@ public class DB
          *
          * */
     }
+
+    public static boolean isConnected() { return connected; }
 
     /*-----------------*/
     /*    Connexion    */
@@ -47,13 +50,15 @@ public class DB
             }
             catch (Exception e) { e.printStackTrace(); }
 
+            connected = true;
+
             return true;
-        } catch (Exception e) { return false; }
+        } catch (Exception e) { connected = false; return false; }
     }
 
     public boolean reloadDB()
     {
-        String[] elements = this.getInformations();
+        String[] elements = DB.getInformations();
 
         if ( elements != null )
             return this.connexion( elements[0], Integer.parseInt(elements[1]), elements[2], elements[3], elements[4] );
@@ -78,7 +83,7 @@ public class DB
         return valid;
     }
 
-    public String[] getInformations()
+    public static String[] getInformations()
     {
         String[] elements = null;
 
@@ -136,6 +141,7 @@ public class DB
         return content.toString();
     }
 
+
     /*-----------------*/
     /* Gestion Commits */
     /*-----------------*/
@@ -150,17 +156,21 @@ public class DB
     //Méthode d'insert
     public void ajouterModule(Module module)
     {
-        String req = "INSERT INTO Module VALUES(?,?,?,?,?)";
+        String req = "INSERT INTO Module VALUES(?,?,?,?,?,?)";
 
         try ( PreparedStatement ps = co.prepareStatement(req) )
         {
+            Color c = module.getCouleur();
+            String couleur = String.format("rgb(%d,%d,%d)", (int) (c.getRed()*255), (int) (c.getGreen()*255), (int) (c.getBlue()*255));
+
             ps.setString  (1, module.getCode        ());
-            ps.setInt  (2, module.getSemestre().getNumero());
+            ps.setInt     (2, module.getSemestre().getNumero());
             ps.setString  (3, module.getSemestre().getAnnee().getNom());
             ps.setString  (4, module.getNom         ());
             ps.setString  (5, module.getAbreviation ());
             ps.setString  (6, module.getTypeModule  ());
-            ps.setBoolean (7, module.estValide      ());
+            ps.setString  (7, couleur);
+            ps.setBoolean (8, module.estValide      ());
             ps.executeUpdate();
         }
         catch (SQLException e) { e.printStackTrace(); }
@@ -169,17 +179,21 @@ public class DB
     //Méthode d'update
     public void majModule(Module module)
     {
-        String req = "UPDATE Module SET nom = ?, abreviation = ?, typeModule = ?, validation = ? WHERE code = ? AND numeroSemestre = ? AND annee = ?";
+        String req = "UPDATE Module SET nom = ?, abreviation = ?, typeModule = ?, couleur = ?, validation = ? WHERE code = ? AND numeroSemestre = ? AND annee = ?";
 
         try(PreparedStatement ps = co.prepareStatement(req))
         {
+            Color c = module.getCouleur();
+            String couleur = String.format("rgb(%d,%d,%d)", (int) (c.getRed()*255), (int) (c.getGreen()*255), (int) (c.getBlue()*255));
+
             ps.setString  (1, module.getNom         ());
             ps.setString  (2, module.getAbreviation ());
             ps.setString  (3, module.getTypeModule  ());
-            ps.setBoolean (4, module.estValide      ());
-            ps.setString  (5, module.getCode        ());
-            ps.setInt  (6, module.getSemestre().getNumero());
-            ps.setString  (7, module.getSemestre().getAnnee().getNom());
+            ps.setString  (4, couleur);
+            ps.setBoolean (5, module.estValide      ());
+            ps.setString  (6, module.getCode        ());
+            ps.setInt     (7, module.getSemestre().getNumero());
+            ps.setString  (8, module.getSemestre().getAnnee().getNom());
             ps.executeUpdate();
         }
         catch (SQLException e) { e.printStackTrace(); }
@@ -201,9 +215,9 @@ public class DB
     }
 
     //Méthode select all
-    public ArrayList<Module> getAllModule()
+    public ArrayList<Module> getAllModule( ArrayList<Semestre> list)
     {
-        ArrayList<Module> ensModules = new ArrayList<>();
+        ArrayList<Module> ensModule = new ArrayList<>();
         String            req        = "SELECT * FROM Module";
 
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -212,13 +226,22 @@ public class DB
             {
                 while(rs.next())
                 {
+                    Semestre semestre = null;
+                    for ( Semestre sem : list)
+                    {
+                        if ( sem.getNumero() == rs.getInt("numeroSemestre") && sem.getAnnee().getNom().equals(rs.getString("annee")) )
+                            semestre = sem;
+                    }
+
                     Module mod = new Module(rs.getString("nom"           ),
                                             rs.getString  ("code"          ),
                                             rs.getString  ("abreviation"   ),
                                             rs.getString  ("typeModule"    ),
+                                            Color.valueOf(rs.getString  ("couleur")),
                                             rs.getBoolean ("validation"    ),
-                            getSemestreById(rs.getInt     ("numeroSemestre"),rs.getString("annee")));
-                    ensModules.add(mod);
+                                            semestre);
+                    mod.setSemestre(semestre);
+                    ensModule.add(mod);
                 }
             }
         }
@@ -226,7 +249,7 @@ public class DB
         {
             e.printStackTrace();
         }
-        return null;
+        return ensModule;
     }
 
     public Module getModuleByNumero(String numero)
@@ -243,6 +266,7 @@ public class DB
                                               rs.getString ("code"          ),
                                               rs.getString ("abreviation"   ),
                                               rs.getString ("typeModule"    ),
+                                              Color.valueOf(rs.getString("couleur")),
                                               rs.getBoolean("validation"    ),
                               getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee"))
                     );
@@ -264,17 +288,26 @@ public class DB
     public void ajouterIntervenant(Intervenant inter)
     {
         String req = "INSERT INTO Intervenant (nom, prenom, mail, codeCategorie, heureService, heureMax, ratioTP) VALUES (?, ?, ?, ?,?, ?, ?)";
-        try
+        try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps = co.prepareStatement( req );
-            ps.setString   (1,inter.getNom              ()  );
-            ps.setString   (2,inter.getPrenom           ()  );
-            ps.setString   (3, inter.getMail()  );
+            ps.setString   (1,inter.getNom                 ()  );
+            ps.setString   (2,inter.getPrenom              ()  );
+            ps.setString   (3, inter.getMail               ()  );
             ps.setString   (4,inter.getCategorie().getCode ()  );
-            ps.setInt      (5,inter.getHeureService()  );
-            ps.setInt      (6,inter.getHeureMax         ()  );
-            ps.setDouble   (7,inter.getRatioTP          ()  );
-            ps.executeUpdate();
+            ps.setInt      (5,inter.getHeureService        ()  );
+            ps.setInt      (6,inter.getHeureMax            ()  );
+            ps.setString   (7,inter.getRatioTP             ()  );
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0)
+            {
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+
+                if (generatedKeys.next()) {
+                    inter.setId(generatedKeys.getInt(1));
+                }
+            }
         }
         catch(SQLException e)
         {
@@ -285,7 +318,7 @@ public class DB
     //Méthode d'update
     public void majIntervenant(Intervenant inter)
     {
-        String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, statut = ?, service = ?, total = ? WHERE nom = ? AND prenom = ?";
+        String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, codeCategorie = ?, heureService = ?, heureTotal = ? WHERE id = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString(1,                 inter.getNom    ()           );
@@ -294,6 +327,7 @@ public class DB
             ps.setString(4,                 inter.getCategorie().getCode() );
             ps.setString(5,Integer.toString(inter.getHeureService())          );
             ps.setString(6,Integer.toString(inter.getHeureMax  ())          );
+            ps.setInt(7,inter.getId());
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -305,11 +339,10 @@ public class DB
     //Méthode delete
     public void supprimerIntervenant(Intervenant inter)
     {
-        String req = "DELETE FROM Intervenant WHERE nom = ? AND prenom = ?";
+        String req = "DELETE FROM Intervenant WHERE id = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1, inter.getNom   () );
-            ps.setString(2, inter.getPrenom() );
+            ps.setInt(1, inter.getId   () );
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -319,7 +352,7 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<Intervenant> getAllIntervenant()
+    public ArrayList<Intervenant> getAllIntervenant(ArrayList<CategorieIntervenant> ensCatInter)
     {
         ArrayList<Intervenant> resultats = new ArrayList<>();
         String req = "SELECT * FROM Intervenant";
@@ -330,14 +363,19 @@ public class DB
             {
                 while (rs.next())
                 {
+                    String codeInter = rs.getString(5);
+                    CategorieIntervenant catInter =  Astre.rechercherCatInter(ensCatInter, codeInter);
+
                     Intervenant inter = Intervenant.creerIntervenant(
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        selectCatInterByCode(rs.getString(5)),
-                        rs.getInt(6),
-                        rs.getInt(7),
-                        rs.getString(8));
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4),
+                    catInter,
+                    rs.getInt(6),
+                    rs.getInt(7),
+                    rs.getString(8));
+
+                    inter.setId(rs.getInt(1));
                     resultats.add(inter);
                 }
             }
@@ -348,35 +386,6 @@ public class DB
 
         // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
-    }
-
-    public Intervenant getIntervenantById(int code)
-    {
-        String req = "SELECT * FROM Intervenant WHERE idInter = ?";
-        try(PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setInt(1,code);
-            try (ResultSet rs = ps.executeQuery())
-            {
-                while (rs.next())
-                {
-                    Intervenant inter = Intervenant.creerIntervenant(
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            selectCatInterByCode(rs.getString(5)),
-                            rs.getInt(6),
-                            rs.getInt(7),
-                            rs.getString(8));
-                    return inter;
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public ArrayList<Intervenant> getIntervenantByNom(String nomRch)
@@ -411,7 +420,6 @@ public class DB
             e.printStackTrace();
         }
         return resultats;
-
     }
     /*--------------*/
     /*   SEMESTRE   */
@@ -473,7 +481,7 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<Semestre> getAllSemestre()
+    public ArrayList<Semestre> getAllSemestre( ArrayList<Annee> list)
     {
         ArrayList<Semestre> ensSemestre = new ArrayList<>();
         String req                      = "SELECT * FROM Semestre";
@@ -483,14 +491,23 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
+
+                    Annee annee = null;
+                    for ( Annee anTemp : list)
+                    {
+                        if ( rs.getString("annee").equals(anTemp.getNom()) )
+                            annee = anTemp;
+                    }
+
                     Semestre semestre = new Semestre(
                             rs.getInt                      ("numero"    ),
                             rs.getInt                      ("nbGrpTD"   ),
                             rs.getInt                      ("nbGrpTP"   ),
                             rs.getInt                      ("nbEtd"     ),
                             rs.getInt                      ("nbSemaine" ),
-                            getAnneeByNumero((rs.getString ("annee"     ))
-                            ));
+                            annee);
+
+                    semestre.setAnnee(annee);
                     ensSemestre.add(semestre);
                 }
             }
@@ -550,7 +567,7 @@ public class DB
 
     // Méthode d'update
     public void majAnnee(Annee annee) {
-        String req = "UPDATE Annee SET numero = ?, dateDeb = ?, dateFin = ? WHERE numero = ?";
+        String req = "UPDATE Annee SET nom = ?, debut = ?, fin = ? WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, annee.getNom());
             ps.setString(2, annee.getDateDeb());
@@ -564,7 +581,7 @@ public class DB
 
     // Méthode delete
     public void supprimerAnnee(Annee annee) {
-        String req = "DELETE FROM Annee WHERE numero = ?";
+        String req = "DELETE FROM Annee WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, annee.getNom());
             ps.executeUpdate();
@@ -581,9 +598,9 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     Annee annee = new Annee(
-                            rs.getString("numero"),
-                            rs.getString("dateDeb"),
-                            rs.getString("dateFin")
+                            rs.getString("nom"),
+                            rs.getString("debut"),
+                            rs.getString("fin")
                     );
                     ensAnnee.add(annee);
                 }
@@ -595,11 +612,11 @@ public class DB
         return ensAnnee;
     }
 
-    public Annee getAnneeByNumero(String numero)
+    public Annee getAnneeByNumero(String nom)
     {
         String req = "SELECT * FROM Annee WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString(1, numero);
+            ps.setString(1, nom);
             try (ResultSet rs = ps.executeQuery()) {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
@@ -627,14 +644,15 @@ public class DB
     public void ajouterCategorieIntervenant(CategorieIntervenant categorieIntervenant)
     {
         String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?)";
-        try
+
+        try(PreparedStatement ps = co.prepareStatement( req );)
         {
-            ps = co.prepareStatement( req );
+
             ps.setString (1, categorieIntervenant.getCode       () );
             ps.setString (2, categorieIntervenant.getNom        () );
-            ps.setInt    (3, categorieIntervenant.getNbHeureMax () );
-            ps.setInt    (4, categorieIntervenant.getService    () );
-            ps.setDouble (5, categorieIntervenant.getRatioTd    () );
+            ps.setInt    (3, categorieIntervenant.getNbHeureMaxDefault () );
+            ps.setInt    (4, categorieIntervenant.getNbHeureServiceDefault    () );
+            ps.setDouble (5, categorieIntervenant.getRatioTPDefault    () );
             ps.executeUpdate();
         }
         catch (SQLException e)
@@ -682,9 +700,9 @@ public class DB
         {
             ps.setString (1,       catInter.getCode       ());
             ps.setString (2,       catInter.getNom        ());
-            ps.setInt    (3,       catInter.getNbHeureMax ());
-            ps.setInt    (4,       catInter.getService    ());
-            ps.setFloat  (5,(float)catInter.getRatioTd    ());
+            ps.setInt    (3,       catInter.getNbHeureMaxDefault ());
+            ps.setInt    (4,       catInter.getNbHeureServiceDefault   ());
+            ps.setFloat  (5,(float)catInter.getRatioTPDefault    ());
             ps.setString (6,       catInter.getCode       ());
             ps.executeUpdate();
 
@@ -748,9 +766,9 @@ public class DB
     public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
         String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?)";
-        try
+        try(PreparedStatement  ps = co.prepareStatement( req ))
         {
-            ps = co.prepareStatement( req );
+
             ps.setString (1, categorieHeure.getNom          () );
             ps.setDouble (2, categorieHeure.getEquivalentTD () );
             ps.setBoolean(3, categorieHeure.estRessource    () );
@@ -870,12 +888,10 @@ public class DB
     public void ajouterAttribution(Attribution attribution) {
         String req = "INSERT INTO Attribution VALUES (?,?,?,?,?,?)";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString(1, attribution.getCodeModule           ());
-            ps.setInt   (2, attribution.getNumeroSemestreModule ());
-            ps.setString(3, attribution.getAnneeModule          ());
-            ps.setString(4, attribution.getNomCategorieHeure    ());
-            ps.setInt   (5, attribution.getNbHeure              ());
-            ps.setInt   (6, attribution.getNbSemaine            ());
+            ps.setInt   (1, attribution.getNbHeure              ());
+            ps.setInt   (2, attribution.getNbSemaine            ());
+            ps.setString(3, attribution.getModule().getCode     ());
+            ps.setString(4, attribution.getCatHr ().getNom      ());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -884,18 +900,17 @@ public class DB
 
     // Méthode d'update pour la classe Attribution
     public void majAttribution(Attribution att) {
-        String req = "UPDATE Attribution SET codeModule = ?, numeroSemestreModule = ?, anneeModule = ?, nomCategorieHeure = ?, nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ?, anneeModule = ?, nomCategorieHeure = ?";
+        String req = "UPDATE Attribution SET codeModule = ?, nomCategorieHeure = ?, nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ?, anneeModule = ?, nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString (1 ,att.getCodeModule           ());
-            ps.setInt    (2 ,att.getNumeroSemestreModule ());
-            ps.setString (3 ,att.getAnneeModule          ());
-            ps.setString (4 ,att.getNomCategorieHeure    ());
-            ps.setInt    (5 ,att.getNbHeure              ());
-            ps.setInt    (6 ,att.getNbSemaine            ());
-            ps.setString (7 ,att.getCodeModule           ());
-            ps.setInt    (8 ,att.getNumeroSemestreModule ());
-            ps.setString (9 ,att.getAnneeModule          ());
-            ps.setString (10,att.getNomCategorieHeure    ());
+            ps.setString(1,att.getModule   ().getCode    ());
+            ps.setString(2,att.getCatHr    ().getNom     ());
+            ps.setInt   (3,att.getNbHeure  ());
+            ps.setInt   (4,att.getNbHeure  ());
+            ps.setInt   (5,att.getNbSemaine()                                  );
+            ps.setInt   (6,att.getModule   ().getSemestre().getNumero());
+            ps.setString(7,att.getModule   ().getCode    ());
+            ps.setString(8,att.getModule   ().getSemestre().getAnnee ().getNom());
+            ps.setString(9,att.getCatHr    ().getNom     ());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -907,10 +922,10 @@ public class DB
         String req = "DELETE FROM Attribution WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString (1,att.getCodeModule           ());
-            ps.setInt    (2,att.getNumeroSemestreModule ());
-            ps.setString (3,att.getAnneeModule          ());
-            ps.setString (4,att.getNomCategorieHeure    ());
+            ps.setString (1,att.getModule().getCode    ());
+            ps.setInt    (2,att.getModule().getSemestre().getNumero());
+            ps.setString (3,att.getModule().getSemestre().getAnnee().getNom());
+            ps.setString (4,att.getCatHr ().getNom     ());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -918,24 +933,24 @@ public class DB
     }
 
     // Méthode select * pour la classe Attribution
-    public ArrayList<Attribution> getAllAttribution() {
+    public ArrayList<Attribution> getAllAttribution(ArrayList<Module> ensModule, ArrayList<CategorieHeure> ensCatHr) {
         ArrayList<Attribution> ensAttribution = new ArrayList<>();
         String req = "SELECT * FROM Attribution";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             try (ResultSet rs = ps.executeQuery()) {
                 // Traiter les résultats du ResultSet
-                while (rs.next()) {
-                    Attribution attribution = new Attribution(
-                                              rs.getInt   ("numeroSemestreModule"),
-                                              rs.getInt   ("nbHeure"             ),
-                                              rs.getInt   ("nbSemaine"           ),
-                                              rs.getString("anneeModule"         ),
-                                              rs.getString("nomCategorieHeure"   ),
-                                              rs.getString("codeModule"          ),
-                            getModuleByNumero(rs.getString("module"              )),
-                            getCatHrByNom    (rs.getString("catHr"               ))
-                    );
-                    ensAttribution.add(attribution);
+                while (rs.next())
+                {
+                    String codeModule        = rs.getString(1);
+                    int numSem               = rs.getInt(2);
+                    String anneeSem          = rs.getString(3);
+                    String nomCategorieHeure = rs.getString(4);
+
+                    Module mod           = Astre.rechercherModule(ensModule, codeModule,numSem,anneeSem);
+                    CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr, nomCategorieHeure);
+
+                    Attribution att = new Attribution(rs.getInt(5),rs.getInt(6),mod,catHr );
+                    ensAttribution.add(att);
                 }
             }
         } catch (SQLException e) {
@@ -943,6 +958,8 @@ public class DB
         }
         return ensAttribution;
     }
+
+
 
     /*-----------------------*/
     /* Affectation Ressource */
@@ -954,14 +971,15 @@ public class DB
         String req = "INSERT INTO Affectation VALUES(?,?,?,?,?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,affs.getCodeModule          ()         );
-            ps.setInt   (2,affs.getNumeroSemestreModule()         );
-            ps.setString(3,affs.getAnneeModule         ()         );
-            ps.setString(5,affs.getTypeHeure           ().getNom());
-            ps.setInt   (6,affs.getNbGroupe            ()         );
-            ps.setInt   (7,affs.getNbSemaine           ()         );
-            ps.setInt   (8,affs.getNbHeure             ()         );
-            ps.setString(9,affs.getCommentaire         ()         );
+            ps.setString   (1,affs.getModule     ().getCode    ());
+            ps.setInt      (2,affs.getModule     ().getSemestre().getNumero());
+            ps.setString   (3,affs.getModule     ().getSemestre().getAnnee().getNom());
+            ps.setInt      (4,affs.getIntervenant().getId      ());
+            ps.setString   (5,affs.getTypeHeure  ().getNom     ());
+            ps.setInt      (6,affs.getNbGroupe   ());
+            ps.setInt      (7,affs.getNbSemaine  ());
+            ps.setInt      (8,affs.getNbHeure    ());
+            ps.setString   (9,affs.getCommentaire());
             ps.executeUpdate();
         }
         catch(SQLException e)
@@ -977,10 +995,10 @@ public class DB
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             //SET
-            ps.setString (1,aff.getCodeModule          ());
-            ps.setInt    (2,aff.getNumeroSemestreModule());
-            ps.setString (3,aff.getAnneeModule         ());
-            ps.setInt    (4,aff.getInter               ().getId());
+            ps.setString (1,aff.getModule().getCode());
+            ps.setInt    (2,aff.getModule().getSemestre().getNumero());
+            ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
+            ps.setInt    (4,aff.getIntervenant().getId());
             ps.setString (5,aff.getTypeHeure           ().getNom());
             ps.setInt    (6,aff.getNbGroupe            ());
             ps.setInt    (7,aff.getNbSemaine           ());
@@ -988,9 +1006,9 @@ public class DB
             ps.setString (9,aff.getCommentaire         ());
 
             // WHERE
-            ps.setString (1,aff.getCodeModule          ());
-            ps.setInt    (2,aff.getNumeroSemestreModule());
-            ps.setString (3,aff.getAnneeModule         ());
+            ps.setString (10,aff.getModule().getCode());
+            ps.setInt    (11,aff.getModule().getSemestre().getNumero());
+            ps.setString (12,aff.getModule().getSemestre().getAnnee().getNom());
         }
         catch (SQLException e )
         {
@@ -1004,9 +1022,9 @@ public class DB
         String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString (1,aff.getCodeModule           ());
-            ps.setInt    (2,aff.getNumeroSemestreModule ());
-            ps.setString (3,aff.getAnneeModule          ());
+            ps.setString (1,aff.getModule().getCode());
+            ps.setInt    (2,aff.getModule().getSemestre().getNumero());
+            ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
         }
         catch(SQLException e)
         {
@@ -1015,7 +1033,7 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<Affectation> getAllaff()
+    public ArrayList<Affectation> getAllaff(ArrayList<Intervenant> ensInter, ArrayList<Module> ensModule, ArrayList<CategorieHeure> ensCatHr)
     {
         ArrayList<Affectation> ensaff = new ArrayList<>();
         String req = "SELECT * FROM Affectation";
@@ -1025,18 +1043,22 @@ public class DB
             {
                 while (rs.next())
                 {
-                    Affectation affectation = new Affectation(
-                            getModuleByNumero( rs.getString(1)),
-                                               rs.getInt   (2),
-                                               rs.getString(3),
-                            getIntervenantById(rs.getInt   (4)),
-                            getCatHrByNom     (rs.getString(5)),
-                                               rs.getInt   (6),
-                                               rs.getInt   (7),
-                                               rs.getInt   (8),
-                                               rs.getString(9));
+                    int idInter = rs.getInt(4);
 
-                    ensaff.add(affectation);
+                    String codeModule        = rs.getString(1);
+                    int numSem               = rs.getInt(2);
+                    String anneeSem          = rs.getString(3);
+
+                    String nomCategorieHeure = rs.getString(5);
+
+                    Intervenant    inter = Astre.rechercherInter (ensInter,idInter);
+                    Module         mod   = Astre.rechercherModule(ensModule,codeModule,numSem,anneeSem);
+                    CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr,nomCategorieHeure);
+
+                    Affectation aff = new Affectation(mod, inter, catHr, rs.getInt(6),rs.getInt(7),rs.getString(9) );
+
+
+                    ensaff.add(aff);
                 }
             }
         } catch (SQLException e) {
@@ -1044,68 +1066,4 @@ public class DB
         }
         return ensaff;
     }
-
-    public Affectation getAffectationByModule(Module module)
-    {
-        String req = "SELECT * FROM Affectation WHERE codeModule = ?";
-        try(PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setString(1, module.getCode());
-            try(ResultSet rs = ps.executeQuery())
-            {
-                Affectation affectation = new Affectation(
-                        getModuleByNumero( rs.getString(1)),
-                        rs.getInt   (2),
-                        rs.getString(3),
-                        getIntervenantById(rs.getInt   (4)),
-                        getCatHrByNom     (rs.getString(5)),
-                        rs.getInt   (6),
-                        rs.getInt   (7),
-                        rs.getInt   (8),
-                        rs.getString(9));
-
-                return affectation;
-            }
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public ArrayList<Module> getPrevisionsbySemestre(int semestre) {
-        ArrayList<Module> ensaff = new ArrayList<>();
-        String            req    = "SELECT * FROM module WHERE numerosemestre = ?";
-
-        try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setInt(1, semestre);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Module mod = new Module(
-                            rs.getString("nom"),
-                            rs.getString("code"),
-                            rs.getString("abreviation"),
-                            rs.getString("typeModule"),
-                            rs.getBoolean("validation"),
-                            getSemestreById(rs.getInt("numeroSemestre"), rs.getString("annee"))
-                    );
-                    ensaff.add(mod);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return ensaff;
-    }
-
-
-
-
-
-
 }

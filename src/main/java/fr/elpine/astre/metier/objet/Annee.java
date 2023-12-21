@@ -1,5 +1,8 @@
 package fr.elpine.astre.metier.objet;
 
+import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.Astre;
+
 import java.util.ArrayList;
 
 public class Annee
@@ -48,4 +51,26 @@ public class Annee
     }
 
     public ArrayList<Semestre> getSemestres() { return this.ensSemestre; }
+
+
+    public void supprimer()
+    {
+        Astre metier = Controleur.get().getMetier();
+
+        for (Semestre semestre : this.getSemestres())
+        {
+            for (Module module : semestre.getModules())
+            {
+                for (Affectation affectation : module.getAffectations())
+                {
+                    affectation.supprimer();
+                }
+
+                for (Attribution attribution : module.getAttributions())
+                {
+                    attribution.supprimer();
+                }
+            }
+        }
+    }
 }

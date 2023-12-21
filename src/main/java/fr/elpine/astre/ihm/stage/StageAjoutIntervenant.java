@@ -1,31 +1,26 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StageAjoutIntervenant
 {
+    public Button btnValider;
     @FXML
     private TextField txtfRatio;
-    @FXML
-    private Label lblErreur;
     private Stage stage;
     @FXML
     private TextField txtNom;
@@ -40,6 +35,8 @@ public class StageAjoutIntervenant
     @FXML
     private TextField txtEmail;
 
+    private static HashMap<TextField,Boolean> hmChampValider;
+
 
     private static StageIntervenant parent;
 
@@ -47,13 +44,29 @@ public class StageAjoutIntervenant
     {
         Stage stage = new Stage();
         StageAjoutIntervenant.parent = parent;
+        StageAjoutIntervenant.hmChampValider = new HashMap<TextField,Boolean>();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageAjoutIntervenant.class.getResource("saisieIntervenant.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
 
         StageAjoutIntervenant stagectrl = fxmlLoader.getController();
 
-        if(stagectrl != null) stagectrl.setStage(stage);
+        if(stagectrl != null)
+        {
+            StageAjoutIntervenant.hmChampValider.put(stagectrl.txtNom,false);
+            StageAjoutIntervenant.hmChampValider.put(stagectrl.txtPrenom,false);
+            StageAjoutIntervenant.hmChampValider.put(stagectrl.txtEmail,false);
+            StageAjoutIntervenant.hmChampValider.put(stagectrl.txtService,false);
+            StageAjoutIntervenant.hmChampValider.put(stagectrl.txtComplementaire,false);
+            StageAjoutIntervenant.hmChampValider.put(stagectrl.txtfRatio,false);
+            stagectrl.setStage(stage);
+            stagectrl.creerFormatter("[a-zA-Z]+",stagectrl.txtNom);
+            stagectrl.creerFormatter("[a-zA-Z]+",stagectrl.txtPrenom);
+            stagectrl.creerFormatter("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$",stagectrl.txtEmail);
+            stagectrl.creerFormatter("\\b[1-9]\\d*\\b",stagectrl.txtService);
+            stagectrl.creerFormatter("\\b[1-9]\\d*\\b",stagectrl.txtComplementaire);
+            stagectrl.creerFormatter("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$",stagectrl.txtfRatio);
+        }
 
         stage.setTitle("Ajout Intervenant");
         stage.setScene(scene);
@@ -66,66 +79,43 @@ public class StageAjoutIntervenant
         return stage;
     }
 
+    private void creerFormatter(String regex, TextField txtf) {
+        txtf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches(regex)) {
+                txtf.setStyle("");
+                StageAjoutIntervenant.hmChampValider.put(txtf,true);
+            } else if (change.getControlNewText().isEmpty()) {
+                StageAjoutIntervenant.hmChampValider.put(txtf,false);
+            } else {
+                txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                StageAjoutIntervenant.hmChampValider.put(txtf,false);
+            }
+            return change;
+        }));
+    }
+
     private void setStage(Stage stage) { this.stage = stage; }
 
     public void setCpbContrat()
     {
-        ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getDb().getAllCategorieIntervenant());
+        ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getMetier().getCategorieIntervenants());
         cpbContrat.setItems(enscatInter);
+        cpbContrat.setValue(enscatInter.get(0));
     }
 
     public void onBtnValider(ActionEvent actionEvent)
     {
-            String nom                  = txtNom   .getText();
-            String prenom               = txtPrenom.getText();
-            String email                = txtEmail .getText();
+        AtomicBoolean test = new AtomicBoolean(true);
+        StageAjoutIntervenant.hmChampValider.forEach((key, value) -> {
+            if ( !value ) test.set(false);
+        });
 
+        if (test.get())
+            StageIntervenant.interAAjouter.add(Intervenant.creerIntervenant(this.txtNom.getText(),this.txtPrenom.getText(),this.txtEmail.getText(),(CategorieIntervenant) this.cpbContrat.getValue(),Integer.parseInt(this.txtService.getText()),Integer.parseInt(this.txtComplementaire.getText()),this.txtfRatio.getText()));
 
-            CategorieIntervenant statut = null;
-            try {
-                statut = (CategorieIntervenant) cpbContrat.getValue();
-                if ( statut == null ) { throw new Exception(); }
-            } catch (Exception e) {
-                StagePopUp.PopUpErreur("Catégorie Intervenant", "Une erreurs est survenue avec la sélection de \"Catégorie Intervenant\".");
-                return;
-            }
-
-            int heureService = -1;
-            try {
-                heureService = Integer.parseInt(txtService.getText());
-            } catch (Exception e) {
-                StagePopUp.PopUpErreur("Heures Services", "Une erreurs est survenue avec les \"Heures de Services\".");
-                return;
-            }
-
-            int total = -1;
-            try {
-                total = Integer.parseInt(txtComplementaire.getText()) + heureService;
-            } catch (Exception e) {
-                StagePopUp.PopUpErreur("Heures Totales", "Une erreurs est survenue avec le nombre \"Heures totales\".");
-                return;
-            }
-
-            String ratio = "-1";
-            try {
-                ratio                   = txtfRatio.getText();
-                if ( !ratio.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$") ) { throw new Exception(); }
-            } catch (Exception e) {
-                StagePopUp.PopUpErreur("Ratio", "Une erreurs est survenue avec le \"Ratio\".");
-                return;
-            }
-
-            Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
-            if (inter == null)
-            {
-                StagePopUp.PopUpErreur("Email", "Une erreurs est survenue avec l'\" Adresse Mail\".");
-                return;
-            }
-            StageIntervenant.interAAjouter.add(inter);
-
-            parent.refresh();
-            this.stage.close();
-            parent.activer();
+        parent.refresh();
+        this.stage.close();
+        parent.activer();
     }
 
     public void btnAnnuler(ActionEvent actionEvent) throws IOException

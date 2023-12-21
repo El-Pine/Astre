@@ -33,24 +33,7 @@ public class Intervenant
     {
         String emailTmt = email.toLowerCase();
 
-        return validateEmail(emailTmt) ? new Intervenant(nom, prenom, emailTmt, categorie, heureService, heureMax, ratioTP) : null;
-    }
-
-    public static boolean validateEmail(String email)
-    { // TODO : déplacer les regex direct dans l'IHM pour pas avoir a le faire là, toutes les vérif doivent être faite dans l'IHM
-        // Expression régulière pour vérifier l'adresse e-mail
-        /*String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-
-        // Création du pattern avec l'expression régulière
-        Pattern pattern = Pattern.compile(emailRegex);
-
-        // Correspondance du pattern avec l'adresse e-mail fournie
-        Matcher matcher = pattern.matcher(email);
-
-        // Vérification de la correspondance
-        return matcher.matches();*/
-
-        return email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+        return new Intervenant(nom, prenom, emailTmt, categorie, heureService, heureMax, ratioTP);
     }
 
     /*   GETTER    */
