@@ -137,7 +137,7 @@ public class StagePrevisionnel implements Initializable {
 	@FXML
 	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageSaisieRessource.creer("SAE", pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
+		StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
 	}
 
 	@FXML
@@ -148,7 +148,7 @@ public class StagePrevisionnel implements Initializable {
 	@FXML
 	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageSaisieRessource.creer("Ressource", pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
+		StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
 	}
 
 	@FXML

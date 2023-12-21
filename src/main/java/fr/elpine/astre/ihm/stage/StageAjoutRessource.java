@@ -28,16 +28,16 @@ public class StageAjoutRessource implements Initializable {
 
     private String code;
     private String semestre;
-    private ArrayList<Intervenant> listInter;
+    private static ArrayList<Intervenant> listInter;
 
-    private ToggleGroup toggleGroup;
+    private static ToggleGroup toggleGroup;
 
-    private Module module;
+    private static Module module;
 
     @FXML
-    private RadioButton rbHP;
+    private static RadioButton rbHP;
     @FXML
-    private RadioButton rbAutre;
+    private static RadioButton rbAutre;
     @FXML
     private ComboBox<Intervenant> cbbInter;
     @FXML
@@ -51,13 +51,13 @@ public class StageAjoutRessource implements Initializable {
     @FXML
     private TextField txtNbGp;
 
-    public Stage creer(Module module) throws IOException
+    public static Stage creer(Module module, StageSaisieRessource parent) throws IOException
     {
         Stage stage = new Stage();
         toggleGroup = new ToggleGroup();
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);
-        this.module = module;
+        StageAjoutRessource.module = module;
         listInter = new ArrayList<Intervenant>();
         listInter = Controleur.get().getMetier().getIntervenants();
 
@@ -72,8 +72,8 @@ public class StageAjoutRessource implements Initializable {
         stage.setScene(scene);
 
         stage.setOnCloseRequest(e -> {
-            // perform actions before closing
-            try { StagePrevisionnel.creer().show(); } catch (IOException ignored) {}
+            parent.refresh();
+            parent.activer();
         });
 
         return stage;
@@ -87,6 +87,8 @@ public class StageAjoutRessource implements Initializable {
             Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbGp.getText()), Integer.parseInt(this.txtNbSemaine.getText()), this.txtCommentaire.getText()));
         if(rbAutre.isSelected())
             Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbHeure.getText()), this.txtCommentaire.getText()));
+
+        this.stage.close();
     }
 
     public void onBtnAnnuler() {stage.close();}
@@ -119,6 +121,5 @@ public class StageAjoutRessource implements Initializable {
         txtNbSemaine.setDisable(true);
         txtNbGp.setDisable(true);
         cbbCatHeure.setDisable(true);
-
     }
 }

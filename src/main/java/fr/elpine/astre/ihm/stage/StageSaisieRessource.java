@@ -1,7 +1,10 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.Affectation;
+import fr.elpine.astre.metier.objet.Intervenant;
+import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,11 +19,17 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static java.lang.Integer.*;
 
 public class StageSaisieRessource implements Initializable
 {
@@ -32,22 +41,37 @@ public class StageSaisieRessource implements Initializable
     public TableColumn<Affectation, String> tcCommentaire;
     public TableColumn<Affectation, Integer> tcTotalEqtd;
     public static ObservableList<Affectation> ensAff;
-    public TextField txtTypeModule;
-    public CheckBox cbValidation;
-    public TextField txtnbGpTP;
-    public TextField txtNbGpTD;
-    public TextField txtNbEtd;
-    public TextField txtLibelleLong;
-    public TextField txtLibelleCourt;
-    public TextField txtSemestre;
-    private Stage stage;
-
     @FXML
-    private TextField txtCode;
+    public static TextField txtTypeModule;
+    @FXML
+    public static CheckBox cbValidation;
+    @FXML
+    public TextField txtnbGpTP;
+    @FXML
+    public TextField txtNbGpTD;
+    @FXML
+    public TextField txtNbEtd;
+    @FXML
+    public static TextField txtLibelleLong;
+    @FXML
+    public static TextField txtLibelleCourt;
+    @FXML
+    public static TextField txtSemestre;
+    private Stage stage;
+    public static ArrayList<Affectation> affAAjouter;
+    public static ArrayList<Affectation> affAEnlever;
+    @FXML
+    private static TextField txtCode;
 
-    public static Stage creer(String nomMod, int id) throws IOException
+    private static Module module;
+
+    public static Stage creer(int semestre) throws IOException
     {
         Stage stage = new Stage();
+
+        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+        StageSaisieRessource.affAAjouter = new ArrayList<Affectation>();
+        StageSaisieRessource.affAEnlever = new ArrayList<Affectation>();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieRessource.fxml"));
 
@@ -56,12 +80,13 @@ public class StageSaisieRessource implements Initializable
         StageSaisieRessource stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {
             stageCtrl.setStage(stage);
-            stageCtrl.init(nomMod,id);
+            stageCtrl.init("Ressource", semestre);
         }
+
+        StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
         stage.setTitle("Affectation");
         stage.setScene(scene);
-
 
 
         stage.setOnCloseRequest(e -> {
@@ -77,7 +102,8 @@ public class StageSaisieRessource implements Initializable
     {
         txtTypeModule.setText(nomMod);
         txtSemestre.setText("" + id);
-
+        int code = Controleur.get().getMetier().rechercheSemestreByNumero(id).getModules().size() + 1;
+        txtCode.setText("R" + id + "." + String.format("%02d", id));
         Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(id); //TODO: Rajouter l'année une fois que l'on a géré
 
         txtNbEtd .setText("" + sem.getNbEtd  ());
@@ -88,19 +114,18 @@ public class StageSaisieRessource implements Initializable
     @FXML
     protected void onBtnAjouter(ActionEvent e) throws IOException {
         this.desactiver();
-        //TODO:pas oublier d'affciher la fenetre
+        StageAjoutRessource.creer(StageSaisieRessource.module ,this ).show();
     }
 
     @FXML
     protected void onBtnSupprimer(ActionEvent e) throws IOException {
-        /*Affectation affectation = tableau.getSelectionModel().getSelectedItem();
+        Affectation affectation = tableau.getSelectionModel().getSelectedItem();
 
-        if(affectation != null) {
+        if(affectation != null && StagePopUp.PopUpConfirmation("Suppresion d'une ressource", "Etes-vous sûr de supprimer cette ressource ?")) {
             tableau.getItems().remove(affectation);
             Controleur.get().getDb().supprimeraff(affectation);
+            this.refresh();
         }
-        else
-            System.out.println("Pb objet pas supprimer");*/
     }
 
     public void desactiver()
@@ -119,15 +144,24 @@ public class StageSaisieRessource implements Initializable
     }
 
     @FXML
-    protected void onBtnEnregistrer() throws IOException {
+    protected void onBtnEnregistrer() throws IOException, SQLException {
+        for (Affectation aff : StageSaisieRessource.affAAjouter) {
+            Controleur.get().getMetier().ajouterAffectation(aff);
+        }
+        for (Affectation aff : StageSaisieRessource.affAAjouter) {
+            Controleur.get().getMetier().ajouterAffectation(aff);
+        }
+
+        Controleur.get().getDb().enregistrer();
         stage.close();
-        StagePrevisionnel.creer().show();
+        StagePrincipal.creer().show();
     }
 
     @FXML
-    protected void onBtnAnnuler() throws IOException {
+    protected void onBtnAnnuler() throws IOException, SQLException {
+        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<Affectation>();
         stage.close();
-        StagePrevisionnel.creer().show();
+        StagePrincipal.creer().show();
     }
 
     @Override
@@ -140,17 +174,21 @@ public class StageSaisieRessource implements Initializable
         tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure    ()).asObject());
         tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
 
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tableau.setItems(StageSaisieRessource.ensAff);
+    }
 
-
+    private String getCellValue(Intervenant intervenant) {
+        if (StageIntervenant.interAAjouter.contains(intervenant)) {
+            return "➕";
+        } else if (StageIntervenant.interAEnlever.contains(intervenant)) {
+            return "❌";
+        } else {
+            return "";
+        }
     }
 
     public void refresh() {
         StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tableau.setItems(StageSaisieRessource.ensAff);
-    }
-
-    public void onBtnDetail(ActionEvent actionEvent) {
     }
 }
