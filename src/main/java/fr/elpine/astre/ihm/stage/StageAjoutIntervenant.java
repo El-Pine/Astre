@@ -100,7 +100,7 @@ public class StageAjoutIntervenant
     {
         ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getMetier().getCategorieIntervenants());
         cpbContrat.setItems(enscatInter);
-        cpbContrat.setValue(enscatInter.get(0).getNom());
+        cpbContrat.setValue(enscatInter.get(0));
     }
 
     public void onBtnValider(ActionEvent actionEvent)
