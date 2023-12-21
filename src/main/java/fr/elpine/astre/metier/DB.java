@@ -1,6 +1,5 @@
 package fr.elpine.astre.metier;
 
-import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 import javafx.scene.paint.Color;
@@ -13,6 +12,7 @@ import java.util.Objects;
 
 public class DB
 {
+    private static boolean connected = false;
     private Connection co;
 
     public DB()
@@ -22,14 +22,9 @@ public class DB
         try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
 
         // Connexion
-        AstreApplication.erreur = !this.reloadDB();
+        this.reloadDB();
 
-        while (AstreApplication.erreur)
-        {
-	        try { Thread.sleep(250); } catch (Exception e) {}
-        }
-
-        /*
+	    /*
          * Pour créer un tunnel SSH
          * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
          *
@@ -37,6 +32,8 @@ public class DB
          *
          * */
     }
+
+    public static boolean isConnected() { return connected; }
 
     /*-----------------*/
     /*    Connexion    */
@@ -53,13 +50,15 @@ public class DB
             }
             catch (Exception e) { e.printStackTrace(); }
 
+            connected = true;
+
             return true;
-        } catch (Exception e) { return false; }
+        } catch (Exception e) { connected = false; return false; }
     }
 
     public boolean reloadDB()
     {
-        String[] elements = this.getInformations();
+        String[] elements = DB.getInformations();
 
         if ( elements != null )
             return this.connexion( elements[0], Integer.parseInt(elements[1]), elements[2], elements[3], elements[4] );
@@ -84,7 +83,7 @@ public class DB
         return valid;
     }
 
-    public String[] getInformations()
+    public static String[] getInformations()
     {
         String[] elements = null;
 
