@@ -39,7 +39,7 @@ public class StageAjouterAnnee {
         StageAjouterAnnee stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {
             stageCtrl.setStage(stage);
-            stageCtrl.creerFormatter("^(\\d{4})-(\\d{4})(?:\\s.+)?$",stageCtrl.txtfNonAnnee);
+            stageCtrl.creerFormatter("^(\\d{4})-(\\d{4}).*",stageCtrl.txtfNonAnnee);
         }
 
         stage.setTitle("Ajouter une annee");
