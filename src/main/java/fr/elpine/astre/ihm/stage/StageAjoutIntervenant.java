@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,10 +23,9 @@ import java.io.IOException;
 
 public class StageAjoutIntervenant
 {
+    public Button btnValider;
     @FXML
     private TextField txtfRatio;
-    @FXML
-    private Label lblErreur;
     private Stage stage;
     @FXML
     private TextField txtNom;
@@ -72,6 +72,7 @@ public class StageAjoutIntervenant
     {
         ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getMetier().getCategorieIntervenants());
         cpbContrat.setItems(enscatInter);
+        cpbContrat.setValue(enscatInter.get(0).getNom());
     }
 
     public void onBtnValider(ActionEvent actionEvent)
@@ -116,11 +117,6 @@ public class StageAjoutIntervenant
             }
 
             Intervenant inter = Intervenant.creerIntervenant(nom,prenom,email,statut,heureService,total,ratio);
-            if (inter == null)
-            {
-                StagePopUp.PopUpErreur("Email", "Une erreurs est survenue avec l'\" Adresse Mail\".");
-                return;
-            }
             StageIntervenant.interAAjouter.add(inter);
 
             parent.refresh();
@@ -132,5 +128,40 @@ public class StageAjoutIntervenant
     {
         this.stage.close();
         parent.activer();
+    }
+
+    public void estTexte(KeyEvent keyEvent)
+    {
+        TextField txtf = (TextField) keyEvent.getSource();
+        // Vous pouvez utiliser d'autres conditions pour la validation, ceci est un exemple simple
+        if (!txtf.getText().matches("[a-zA-Z]+")) {
+            // Si la saisie est invalide, appliquer une bordure rouge
+            txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+        } else {
+            // Si la saisie est valide, supprimer la bordure rouge (ou appliquer une bordure par défaut)
+            txtf.setStyle(""); // Réinitialise la bordure à celle par défaut
+        }
+    }
+
+    public void estMail(KeyEvent keyEvent)
+    {
+        TextField txtf = (TextField) keyEvent.getSource();
+        if (!txtf.getText().matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"))
+        {
+            txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+        } else {
+            txtf.setStyle("");
+        }
+    }
+
+    public void estFraction(KeyEvent keyEvent)
+    {
+        TextField txtf = (TextField) keyEvent.getSource();
+        if (!txtf.getText().matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$"))
+        {
+            txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+        } else {
+            txtf.setStyle("");
+        }
     }
 }

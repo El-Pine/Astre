@@ -56,6 +56,8 @@ public class StageAnnee {
 
         ObservableList<String> oLstNonAnnee = FXCollections.observableList(lstNomAnnee);
         this.cbbAnnee.setItems(oLstNonAnnee);
+        if (Controleur.get().getMetier().getAnneeActuelle() != null)
+            this.cbbAnnee.setValue(Controleur.get().getMetier().getAnneeActuelle().getNom());
     }
 
     public void btnAjouter(ActionEvent actionEvent) throws IOException {

@@ -8,9 +8,8 @@
    <bottom>
       <ButtonBar prefHeight="35.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-radius: 3px;" text="Valider" />
+          <Button fx:id="btnValider" defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-radius: 3px;" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#btnAnnuler" text="Annuler" />
-            <Label fx:id="lblErreur" text="Une erreur est survenue..." textFill="#bc2a2a" visible="false" />
         </buttons>
          <BorderPane.margin>
             <Insets />
@@ -40,7 +39,7 @@
                         <Insets />
                      </FlowPane.margin>
                   </Label>
-                  <TextField fx:id="txtNom" prefWidth="200.0">
+                  <TextField fx:id="txtNom" onKeyReleased="#estTexte" prefWidth="200.0">
                      <FlowPane.margin>
                         <Insets left="10.0" />
                      </FlowPane.margin>
@@ -54,7 +53,7 @@
                         <Insets />
                      </FlowPane.margin>
                   </Label>
-                  <TextField fx:id="txtPrenom" prefWidth="200.0">
+                  <TextField fx:id="txtPrenom" onKeyReleased="#estTexte" prefWidth="200.0">
                      <FlowPane.margin>
                         <Insets left="10.0" />
                      </FlowPane.margin>
@@ -83,7 +82,7 @@
                   </Label>
                   <TextField fx:id="txtComplementaire" prefHeight="26.0" prefWidth="42.0" text="172" />
                   <Label text="  Ratio TP : " />
-                  <TextField fx:id="txtfRatio" prefHeight="26.0" prefWidth="42.0" />
+                  <TextField fx:id="txtfRatio" onKeyReleased="#estFraction" prefHeight="26.0" prefWidth="42.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
@@ -93,7 +92,7 @@
                         <Insets />
                      </FlowPane.margin>
                   </Label>
-                  <TextField fx:id="txtEmail" prefWidth="200.0">
+                  <TextField fx:id="txtEmail" onKeyReleased="#estMail" prefWidth="200.0">
                      <FlowPane.margin>
                         <Insets left="10.0" />
                      </FlowPane.margin>

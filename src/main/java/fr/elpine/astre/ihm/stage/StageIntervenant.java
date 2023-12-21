@@ -56,8 +56,8 @@ public class StageIntervenant implements Initializable
 	{
 		Stage stage = new Stage();
 		StageIntervenant.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
-		StageIntervenant.interAAjouter = new ArrayList<>();
-		StageIntervenant.interAEnlever = new ArrayList<>();
+		StageIntervenant.interAAjouter = new ArrayList<Intervenant>();
+		StageIntervenant.interAEnlever = new ArrayList<Intervenant>();
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StageIntervenant.class.getResource("intervenant.fxml"));
 
@@ -118,8 +118,8 @@ public class StageIntervenant implements Initializable
 		{
 			StageIntervenant.ensInter.remove(inter);
 			StageIntervenant.interAEnlever.add(inter);
-			this.refresh();
 		}
+		this.refresh();
 	}
 
 	public void desactiver()
@@ -151,6 +151,9 @@ public class StageIntervenant implements Initializable
 					setTextFill(Color.RED);
 				} else if (item != null && item.equals("➕")) {
 					setTextFill(Color.LIGHTGREEN);
+				} else {
+					setTextFill(Color.BLACK);
+					setText("");
 				}
 			}
 		});
@@ -209,7 +212,7 @@ public class StageIntervenant implements Initializable
 		} else if (StageIntervenant.interAEnlever.contains(intervenant)) {
 			return "❌";
 		} else {
-			return ""; // Vous pouvez également renvoyer un autre texte ou laisser la cellule vide si l'intervenant n'est pas dans interAAjouter
+			return "";
 		}
 	}
 
@@ -218,6 +221,7 @@ public class StageIntervenant implements Initializable
 		list.addAll(StageIntervenant.interAAjouter);
 		list.addAll(StageIntervenant.interAEnlever);
 		tabAffInter.setItems(list);
+		tabAffInter.refresh();
 	}
 
 	public void onBtnRechercher(ActionEvent actionEvent)
