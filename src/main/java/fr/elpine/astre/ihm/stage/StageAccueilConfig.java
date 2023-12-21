@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -92,7 +93,7 @@ public class StageAccueilConfig implements Initializable
         StageAccueilConfig.catHrASupp     = new ArrayList<>();
         StageAccueilConfig.catInterASuppr = new ArrayList<>();
 
-        Scene scene = new Scene(fxmlLoader.load(), 700, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 500);
 
         StageAccueilConfig stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) stageCtrl.setStage(stage);
@@ -100,6 +101,7 @@ public class StageAccueilConfig implements Initializable
         stage.setTitle("Accueil Config");
         stage.setScene(scene);
         //stageCtrl.majTableauCatInter();
+
 
         stage.setOnCloseRequest(e -> {
             // perform actions before closing
@@ -124,7 +126,7 @@ public class StageAccueilConfig implements Initializable
 
     public void onBtnSupprimer(ActionEvent e) throws IOException
     {
-        boolean estSupprimer = true;
+        boolean estSupprimer          = false;
         CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
 
@@ -133,7 +135,14 @@ public class StageAccueilConfig implements Initializable
             estSupprimer = Astre.estCatInter(Controleur.get().getMetier().getCategorieIntervenants(), catInter.getCode());
             if(estSupprimer)
             {
-                StageAccueilConfig.catInterASuppr.add(catInter);
+                if (StagePopUp.PopUpConfirmation("Suppression d'une catégorie d'intervenant", "Êtes- vous sûr de vouloir supprimer cette catégorie d'intervenant : " + catInter.getNom()));
+                {
+                    System.out.println("Avant le remove : " + StageAccueilConfig.ensCatInter);
+                    StageAccueilConfig.ensCatInter.remove(catInter);
+                    System.out.println("Apres le remove : " + StageAccueilConfig.ensCatInter);
+                    StageAccueilConfig.catInterASuppr.add(catInter);
+                }
+
             }
         }
         if(catHr != null)
@@ -141,9 +150,17 @@ public class StageAccueilConfig implements Initializable
             estSupprimer = Astre.estCatHr(Controleur.get().getMetier().getCategorieHeures(), catHr.getNom());
             if(estSupprimer)
             {
-                StageAccueilConfig.catHrASupp.add(catHr);
+                if (StagePopUp.PopUpConfirmation("Suppression d'une catégorie d'heure", "Êtes- vous sûr de vouloir supprimer cette catégorie d'heure : " + catHr.getNom()))
+                {
+                    StageAccueilConfig.ensCatHeure.remove(catHr);
+                    StageAccueilConfig.catHrASupp .add   (catHr);
+                }
+
             }
         }
+
+        tabCatHeures.getSelectionModel().clearSelection();
+        tabCatInter.getSelectionModel().clearSelection();
         this.refresh();
     }
 
@@ -215,6 +232,18 @@ public class StageAccueilConfig implements Initializable
         tcStageHeures      .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estStage       ()));
 
         tabCatHeures.setItems(ensCatHeure);
+
+        tabCatInter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                tabCatHeures.getSelectionModel().clearSelection();
+            }
+        });
+
+        tabCatHeures.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                tabCatInter.getSelectionModel().clearSelection();
+            }
+        });
     }
     private String getCellValue(CategorieIntervenant categorieIntervenant)
     {
@@ -238,9 +267,12 @@ public class StageAccueilConfig implements Initializable
         }
     }
 
-    public void refresh() {
-        ObservableList<CategorieIntervenant> list1 = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
-        ObservableList<CategorieHeure>       list2 = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures      ());
+    public void refresh()
+    {
+        System.out.println("Debut refresh " + StageAccueilConfig.ensCatInter );
+        ObservableList<CategorieIntervenant> list1 = FXCollections.observableArrayList(StageAccueilConfig.ensCatInter);
+        ObservableList<CategorieHeure>       list2 = FXCollections.observableArrayList(StageAccueilConfig.ensCatHeure);
+
 
         list1.addAll(StageAccueilConfig.categorieInterAAjouter);
         list1.addAll(StageAccueilConfig.catInterASuppr        );
@@ -248,13 +280,14 @@ public class StageAccueilConfig implements Initializable
         list2.addAll(StageAccueilConfig.catHeurAAjouter);
         list2.addAll(StageAccueilConfig.catHrASupp     );
 
+        System.out.println("Dans refresh : "+StageAccueilConfig.ensCatInter);
+        System.out.println(StageAccueilConfig.catHrASupp);
+
+
         tabCatInter .setItems (list1);
-        tabCatHeures.setItems(list2);
+        tabCatHeures.setItems (list2);
 
         tabCatInter .refresh();
         tabCatHeures.refresh();
     }
-
-
-
 }

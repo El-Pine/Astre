@@ -58,4 +58,9 @@ public class CategorieHeure
     }
 
     public ArrayList<Attribution> getAttributions() { return this.ensAttribution; }
+
+    public String toString()
+    {
+        return this.getNom();
+    }
 }
