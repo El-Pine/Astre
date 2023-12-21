@@ -8,12 +8,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.Border;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StageAjouterAnnee {
     public TextField txtfNonAnnee;
@@ -34,52 +37,22 @@ public class StageAjouterAnnee {
         Scene scene = new Scene(fxmlLoader.load(), 600, 100);
 
         StageAjouterAnnee stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) { stageCtrl.setStage(stage); }
+        if (stageCtrl != null) {
+            stageCtrl.setStage(stage);
+            stageCtrl.creerFormatter("^(\\d{4})-(\\d{4})(?:\\s.+)?$",stageCtrl.txtfNonAnnee);
+        }
 
         stage.setTitle("Ajouter une annee");
         stage.setScene(scene);
 
         stage.setOnCloseRequest(e -> {
-            try {
-                StagePrincipal.creer().show();
-            } catch (IOException ignored) { }
+
         });
 
         return stage;
     }
 
     private void setStage(Stage stage) { this.stage = stage; }
-
-    @FXML
-    private void initialize() {
-        // Ajouter un écouteur sur la propriété de focus du TextField
-        txtfNonAnnee.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // Si le focus quitte le TextField
-                String dateText = txtfNonAnnee.getText();
-
-                // Vérifier si le texte correspond à une date
-                if (isValidDate(dateText)) {
-                    txtfNonAnnee.setStyle("-fx-border-color: transparent;");
-                    String[] years = dateText.split("-");
-
-                    // Appliquer la date aux DatePicker
-                    dateDebut.setValue(LocalDate.of(Integer.parseInt(years[0]),1,1));
-                    dateFin.setValue(LocalDate.of(Integer.parseInt(years[1]),1,1));
-                }
-                else
-                    txtfNonAnnee.setStyle("-fx-border-color: red; -fx-border-width: 2px; -fx-border-radius: 4px;");
-            }
-        });
-    }
-
-    private boolean isValidDate(String dateStr) {
-        // Vérifier si la chaîne correspond au format "yyyy-yyyy"
-        if (!dateStr.matches("\\d{4}-\\d{4}")) return false;
-
-        String[] years = dateStr.split("-");
-
-        return (Integer.parseInt(years[1]) - Integer.parseInt(years[0])) == 1;
-    }
 
     public void onBtnValider(ActionEvent actionEvent)
     {
@@ -92,5 +65,23 @@ public class StageAjouterAnnee {
     public void onBtnAnnuler(ActionEvent actionEvent)
     {
         this.stage.close();
+    }
+
+    private void creerFormatter(String regex, TextField txtf) {
+        txtf.setTextFormatter(new TextFormatter<>(change -> {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(txtf.getText());
+            if (matcher.find() && (Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1))
+            {
+                txtf.setStyle("");
+                dateDebut.setValue(LocalDate.of(Integer.parseInt(matcher.group(1)),1,1));
+                dateFin.setValue(LocalDate.of(Integer.parseInt(matcher.group(2)),1,1));
+            } else if (change.getControlNewText().isEmpty()) {
+                txtf.setStyle("");
+            } else {
+                txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+            }
+            return change;
+        }));
     }
 }

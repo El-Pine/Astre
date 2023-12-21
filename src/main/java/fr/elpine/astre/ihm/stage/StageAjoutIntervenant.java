@@ -60,8 +60,8 @@ public class StageAjoutIntervenant
             StageAjoutIntervenant.hmChampValider.put(stagectrl.txtComplementaire,false);
             StageAjoutIntervenant.hmChampValider.put(stagectrl.txtfRatio,false);
             stagectrl.setStage(stage);
-            stagectrl.creerFormatter("[a-zA-Z]+",stagectrl.txtNom);
-            stagectrl.creerFormatter("[a-zA-Z]+",stagectrl.txtPrenom);
+            stagectrl.creerFormatter("[\\p{L}]+",stagectrl.txtNom);
+            stagectrl.creerFormatter("[\\p{L}]+",stagectrl.txtPrenom);
             stagectrl.creerFormatter("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$",stagectrl.txtEmail);
             stagectrl.creerFormatter("\\b[1-9]\\d*\\b",stagectrl.txtService);
             stagectrl.creerFormatter("\\b[1-9]\\d*\\b",stagectrl.txtComplementaire);
