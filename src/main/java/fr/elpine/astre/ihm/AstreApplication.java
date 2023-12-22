@@ -17,6 +17,10 @@ public class AstreApplication extends Application
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
+		/*
+		* Thèmes    : cupertino, nord, primer & dracula (experimental)
+		* Variantes : dark & light
+		* */
 		Application.setUserAgentStylesheet(AstreApplication.class.getResource("cupertino-light.css").toExternalForm());
 
 
