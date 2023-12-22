@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageInitBd">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageInitBd">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +24,7 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="IP" />
-                  <TextField fx:id="txtfIp" prefHeight="30.0" prefWidth="200.0" onKeyPressed="#handleTabKeyPressed" />
+                  <TextField fx:id="txtfIp" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -33,13 +33,13 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Port" />
-                  <TextField fx:id="txtfPort" prefHeight="30.0" prefWidth="200.0" onKeyPressed="#handleTabKeyPressed" />
+                  <TextField fx:id="txtfPort" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Identifiant" />
-                  <TextField fx:id="txtfId" prefHeight="30.0" prefWidth="200.0" onKeyPressed="#handleTabKeyPressed" />
+                  <TextField fx:id="txtfId" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
@@ -51,7 +51,7 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Base de données" />
-                  <TextField fx:id="txtfBdd" prefHeight="30.0" prefWidth="200.0" onKeyPressed="#handleTabKeyPressed" />
+                  <TextField fx:id="txtfBdd" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
          </children>
@@ -60,7 +60,7 @@
    <bottom>
       <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightGray; -fx-background-radius: 5px; -fx-border-color: gray; -fx-border-radius: 5px;" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" text="Annuler" />
          </children>
       </FlowPane>
