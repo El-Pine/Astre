@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
+<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
    <center>
       <TabPane fx:id="pnlControlSem" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
          <tabs>
@@ -14,9 +14,9 @@
                      <center>
                         <TableView fx:id="tabs1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s1code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
-                            <TableColumn fx:id="s1liblong" editable="false" minWidth="170.0" prefWidth="170.0" text="Libelle long" />
-                              <TableColumn fx:id="s1hahpn" editable="false" minWidth="170.0" prefWidth="170.0" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s1code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
+                            <TableColumn fx:id="s1liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s1hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -39,9 +39,9 @@
                      <center>
                         <TableView fx:id="tabs2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <columns>
-                              <TableColumn fx:id="s2code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
-                              <TableColumn fx:id="s2liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s2hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
+                              <TableColumn fx:id="s2code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
+                              <TableColumn fx:id="s2liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s2hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
                            </columns>
                         </TableView>
                      </center>
@@ -61,9 +61,9 @@
                      <center>
                         <TableView fx:id="tabs3" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <columns>
-                              <TableColumn fx:id="s3code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
-                              <TableColumn fx:id="s3liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s3hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
+                              <TableColumn fx:id="s3code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
+                              <TableColumn fx:id="s3liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s3hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
                            </columns>
                         </TableView>
                      </center>
@@ -83,9 +83,9 @@
                      <center>
                         <TableView fx:id="tabs4" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s4code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
-                            <TableColumn fx:id="s4liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s4hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s4code" maxWidth="500.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
+                            <TableColumn fx:id="s4liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s4hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
@@ -105,9 +105,9 @@
                      <center>
                         <TableView fx:id="tabs5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s5code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
-                            <TableColumn fx:id="s5liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s5hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s5code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
+                            <TableColumn fx:id="s5liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s5hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
@@ -127,9 +127,9 @@
                      <center>
                         <TableView fx:id="tabs6" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s6code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
-                            <TableColumn fx:id="s6liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s6hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s6code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
+                            <TableColumn fx:id="s6liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s6hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
