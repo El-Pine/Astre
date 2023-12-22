@@ -114,7 +114,7 @@ public class StageIntervenant implements Initializable
 	@FXML
 	protected void onBtnClickSupprimer() throws IOException {
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
-		if (StagePopUp.PopUpConfirmation("Suprression d'intervenant", "Êtes- vous sûr de vouloir supprimer l'intervenant : " + inter.getNom() + " " + inter.getPrenom()))
+		if (StagePopUp.PopUpConfirmation("Suprression d'intervenant", "Êtes- vous sûr de vouloir supprimer l'intervenant : " + inter.getNom() + " " + inter.getPrenom()) && StageIntervenant.ensInter.contains(inter))
 		{
 			StageIntervenant.ensInter.remove(inter);
 			StageIntervenant.interAEnlever.add(inter);
