@@ -246,7 +246,7 @@
                                           </FlowPane>
                                           <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                                              <children>
-                                                <TextField fx:id="txtTotPromoPn" prefHeight="26.0" prefWidth="60.0" />
+                                                <TextField fx:id="txtTotPromoPn" editable="false" prefHeight="26.0" prefWidth="60.0" />
                                              </children>
                                           </FlowPane>
                                        </children>
@@ -323,17 +323,17 @@
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtCMPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtCMPromo" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtTDPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTDPromo" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtTPPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTPPromo" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
@@ -414,17 +414,17 @@
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                                          <children>
-                                                            <TextField fx:id="txtTot" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTORepartion" editable="false" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtTotPromo" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTOPromo" editable="false" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                                                          <children>
-                                                            <TextField fx:id="txtTotAffecte" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTOAffecte" editable="false" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                    </children>

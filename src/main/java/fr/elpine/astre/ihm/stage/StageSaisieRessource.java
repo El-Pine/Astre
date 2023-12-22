@@ -36,6 +36,8 @@ import java.util.concurrent.Flow;
 
 import static java.lang.Integer.*;
 
+//TODO:Faire les heures affectées (dans tableau Affectation nbHeuure * nbSemaine * eqtd)
+
 public class StageSaisieRessource implements Initializable
 {
     @FXML
@@ -72,6 +74,11 @@ public class StageSaisieRessource implements Initializable
     public TextField txtLibelleCourt;
     @FXML
     public TextField txtSemestre;
+
+    public TextField txtTORepartion;
+    public TextField txtTOPromo;
+    public TextField txtTOAffecte;
+
     private Stage stage;
     public static ArrayList<Affectation> affAAjouter;
     public static ArrayList<Affectation> affAEnlever;
@@ -356,7 +363,7 @@ public class StageSaisieRessource implements Initializable
         this.hmTxtRepartion.forEach((key,value) -> {
             for (TextField txt: value)
             {
-                //ajouterListenerTotal(txt);
+                ajouterListenerTotal(txt);
                 creerFormatter(key,txt);
             }
         });
@@ -464,7 +471,7 @@ public class StageSaisieRessource implements Initializable
         Label lbl = new Label(nom);
         ensFp.get(0).getChildren().add(lbl);
 
-        String[] ids = { "Repartition", "PromoRepartion", "AffecteRepartion" };
+        String[] ids = { "Repartition", "Promo", "Affecte" };
         for (int i = 0; i < ids.length; i++) {
             TextField txt = creerTextField("txt" + nom + ids[i]);
             txt.setEditable(false);
@@ -524,7 +531,6 @@ public class StageSaisieRessource implements Initializable
 
     private void ajouterListenerSemaine(TextField txt)
     {
-        System.out.println("je suis la");
         txt.textProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 valeurChangerSemaine(txt, newValue);
@@ -532,9 +538,8 @@ public class StageSaisieRessource implements Initializable
         });
     }
 
-    private void ajouterListenerRepartition(TextField txt)
+    private void ajouterListenerTotal(TextField txt)
     {
-        System.out.println("je suis la -----");
         txt.textProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 valeurChangerRepart(txt, newValue);
@@ -542,13 +547,10 @@ public class StageSaisieRessource implements Initializable
         });
     }
 
-    private void valeurChangerRepart(TextField txt, String newValue) {
+    private void valeurChangerRepart(TextField txt, String newValue)
+    {
         String txtTypeHeure = txt.getId().substring(3, 5);
         String txtNiveauCase = txt.getId().substring(6);
-
-        TextField txtTORepartion = null;
-        TextField txtTOPromo = null;
-        TextField txtTOAffecte = null;
 
         int total = 0;
         int totalPromo = 0;
@@ -557,15 +559,16 @@ public class StageSaisieRessource implements Initializable
         // Liste pour simplifier l'itération
         List<String> niveaux = Arrays.asList("Repartition", "Promo", "Affecte");
 
-        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtPn.entrySet()) {
+        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtRepartion.entrySet()) {
             String key = entry.getKey();
             ArrayList<TextField> value = entry.getValue();
 
             if (!key.equals("TO")) {
                 for (TextField textField : value) {
-                    String niveau = textField.getId().substring(6);
+                    String niveau = textField.getId().substring(5);
                     if (!textField.getText().isEmpty()) {
-                        switch (niveau) {
+                        switch (niveau)
+                        {
                             case "Repartition":
                                 total += Integer.parseInt(textField.getText());
                                 break;
@@ -578,26 +581,15 @@ public class StageSaisieRessource implements Initializable
                         }
                     }
                 }
-            } else {
-                txtTORepartion = findTextField(value, "txtTORepartion");
-                txtTOPromo = findTextField(value, "txtTOPromo");
-                txtTOAffecte = findTextField(value, "txtTOAffecte");
+            }
+            else
+            {
+
             }
         }
-
-        setValeurTxtTot2(txtTORepartion, total, txtTOPromo, totalPromo, txtTOAffecte, totalAffecte);
+        setValeurTxtTot2(this.txtTORepartion, total, this.txtTOPromo, totalPromo, this.txtTOAffecte, totalAffecte);
     }
-
-    private TextField findTextField(ArrayList<TextField> textFields, String id) {
-        return textFields.stream()
-                .filter(txt -> txt.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
     private void setValeurTxtTot2(TextField txt1, int total, TextField txt2, int totalPromo, TextField txt3, int totalAffecte) {
-
-
         if (txt1 != null && txt2 != null && txt3 != null)
         {
             txt1.setText(Integer.toString(total));
@@ -616,6 +608,7 @@ public class StageSaisieRessource implements Initializable
         int valeurSemaine = 0;
         int valeurFinal   = 0;
 
+        System.out.println(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().equals("")) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")));
         if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().equals("")) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")) )
         {
             valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText()) * Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
@@ -627,7 +620,7 @@ public class StageSaisieRessource implements Initializable
                 txt1.setText(Integer.toString(valeurSemaine));
             }
 
-            if(txt1.getId().equals("txt" + keyCatHr + "PromoRepartion"))
+            if(txt1.getId().equals("txt" + keyCatHr + "Promo"))
             {
                 if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
                 {
@@ -648,7 +641,6 @@ public class StageSaisieRessource implements Initializable
     private void valeurChangerPn(TextField txt, String newValue)
     {
         String keyCatHr = txt.getId().substring(3,5).toUpperCase();
-        System.out.println(keyCatHr);
         for (TextField txt1 : this.hmTxtPn.get(keyCatHr))
         {
             if(!txt1.isEditable())
@@ -675,7 +667,6 @@ public class StageSaisieRessource implements Initializable
             ArrayList<TextField> value = entry.getValue();
 
             if (!key.equals("TO")) {
-                System.out.println("bah ? je ne rentre pas ici ? ");
                 for (TextField txt : value) {
                     if (!txt.getText().isEmpty()) {
                         if (txt.isEditable()) {
@@ -697,10 +688,8 @@ public class StageSaisieRessource implements Initializable
         setValeurTxtTot(txtTotPn, total, txtTotPromoPn, totalPromo);
     }
 
-    private void setValeurTxtTot(TextField txt1, int total, TextField txt2, int totalPromo) {
-        System.out.println("je rentre ici non ?");
-        System.out.println("total : " + total + " totalPromo : " + totalPromo);
-
+    private void setValeurTxtTot(TextField txt1, int total, TextField txt2, int totalPromo)
+    {
         if (txt1 != null && txt2 != null)
         {
             txt1.setText(Integer.toString(total));
@@ -709,6 +698,7 @@ public class StageSaisieRessource implements Initializable
     }
     private String calculeNvValeur(int valeurInitial, CategorieHeure catHr)
     {
+        //TODO: Ajouter le regex de mathys
        if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
        {
            int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
