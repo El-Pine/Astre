@@ -112,7 +112,7 @@ public class StagePrevisionnel implements Initializable {
 		}
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
-		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+		Scene scene = new Scene(fxmlLoader.load(), 700, 400);
 
 		StagePrevisionnel stageCtrl = fxmlLoader.getController();
 		if (stageCtrl != null) stageCtrl.setStage(stage);
@@ -135,14 +135,21 @@ public class StagePrevisionnel implements Initializable {
 	}
 
 	@FXML
-	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
+	public void onBtnCreerPpp(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
+		StageSaisiePpp.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
 	}
 
 	@FXML
-	public void onBtnCreerStage(ActionEvent actionEvent) {
-		// Logique pour créer un stage
+	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
+		stage.close();
+		StageSaisieSae.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
+	}
+
+	@FXML
+	public void onBtnCreerStage(ActionEvent actionEvent) throws IOException {
+		stage.close();
+		StageSaisieStage.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
 	}
 
 	@FXML

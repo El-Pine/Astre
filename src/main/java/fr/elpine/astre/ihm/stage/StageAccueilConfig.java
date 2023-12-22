@@ -93,7 +93,7 @@ public class StageAccueilConfig implements Initializable
         StageAccueilConfig.catHrASupp     = new ArrayList<>();
         StageAccueilConfig.catInterASuppr = new ArrayList<>();
 
-        Scene scene = new Scene(fxmlLoader.load(), 800, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 850, 450);
 
         StageAccueilConfig stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) stageCtrl.setStage(stage);

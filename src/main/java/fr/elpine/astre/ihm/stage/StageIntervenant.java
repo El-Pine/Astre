@@ -61,7 +61,7 @@ public class StageIntervenant implements Initializable
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StageIntervenant.class.getResource("intervenant.fxml"));
 
-		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+		Scene scene = new Scene(fxmlLoader.load(), 900, 400);
 
 		StageIntervenant stageCtrl = fxmlLoader.getController();
 		if (stageCtrl != null) stageCtrl.setStage(stage);
@@ -114,7 +114,7 @@ public class StageIntervenant implements Initializable
 	@FXML
 	protected void onBtnClickSupprimer() throws IOException {
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
-		if (StagePopUp.PopUpConfirmation("Suprression d'intervenant", "Êtes- vous sûr de vouloir supprimer l'intervenant : " + inter.getNom() + " " + inter.getPrenom()))
+		if (StagePopUp.PopUpConfirmation("Suprression d'intervenant", "Êtes- vous sûr de vouloir supprimer l'intervenant : " + inter.getNom() + " " + inter.getPrenom()) && StageIntervenant.ensInter.contains(inter))
 		{
 			StageIntervenant.ensInter.remove(inter);
 			StageIntervenant.interAEnlever.add(inter);
