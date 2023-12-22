@@ -308,47 +308,47 @@
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                                                          <children>
-                                                            <TextField fx:id="txtCmRepartition" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtCMRepartition" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                          <children>
-                                                            <TextField fx:id="txtTdRepartition" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTDRepartition" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                                          <children>
-                                                            <TextField fx:id="txtTpRepartition" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTPRepartition" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtCmPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtCMPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtTdPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTDPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtTpPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTPPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                                                          <children>
-                                                            <TextField fx:id="txtCmAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtCMAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                          <children>
-                                                            <TextField fx:id="txtTdAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTDAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                                          <children>
-                                                            <TextField fx:id="txtTpAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTPAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane fx:id="txtHp" alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
