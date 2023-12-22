@@ -61,7 +61,7 @@ public class StageIntervenant implements Initializable
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StageIntervenant.class.getResource("intervenant.fxml"));
 
-		Scene scene = new Scene(fxmlLoader.load(), 700, 450);
+		Scene scene = new Scene(fxmlLoader.load(), 900, 400);
 
 		StageIntervenant stageCtrl = fxmlLoader.getController();
 		if (stageCtrl != null) stageCtrl.setStage(stage);

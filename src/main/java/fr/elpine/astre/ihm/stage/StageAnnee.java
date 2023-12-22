@@ -25,7 +25,7 @@ public class StageAnnee {
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("saisieAnnee.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load(), 350, 120);
+        Scene scene = new Scene(fxmlLoader.load(), 400, 150);
 
         StageAnnee stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {

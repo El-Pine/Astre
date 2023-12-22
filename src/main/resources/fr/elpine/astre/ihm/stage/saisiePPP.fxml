@@ -42,12 +42,12 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <TextField fx:id="txtTypeModule" editable="false" prefHeight="26.0" prefWidth="100.0" text="PPP">
+                  <TextField fx:id="txtTypeModule" prefHeight="26.0" prefWidth="100.0" text="PPP">
                      <FlowPane.margin>
                         <Insets left="10.0" right="10.0" />
                      </FlowPane.margin>
                   </TextField>
-                  <TextField fx:id="txtSemestre" editable="false" prefHeight="26.0" prefWidth="54.0" text="1">
+                  <TextField fx:id="txtSemestre" prefHeight="26.0" prefWidth="54.0" text="1">
                      <FlowPane.margin>
                         <Insets right="10.0" />
                      </FlowPane.margin>
@@ -609,13 +609,13 @@
                <center>
                   <TableView fx:id="tableau">
                      <columns>
-                        <TableColumn fx:id="tableauIntervenant" editable="false" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" reorderable="false" resizable="false" text="Intervenant" />
-                        <TableColumn fx:id="tableauType" editable="false" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" reorderable="false" resizable="false" text="Type" />
-                        <TableColumn editable="false" prefWidth="75.0" reorderable="false" resizable="false" text="Nb Semaine" />
-                        <TableColumn fx:id="tableauNbH" editable="false" maxWidth="95.199951171875" minWidth="50.0" prefWidth="68.7999267578125" reorderable="false" resizable="false" text="Nb H" />
-                        <TableColumn editable="false" prefWidth="75.0" reorderable="false" resizable="false" text="Nb Gp" />
-                        <TableColumn fx:id="tableauTotalEqtd" editable="false" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Total Eqtd" />
-                        <TableColumn fx:id="tableauCommentaire" editable="false" maxWidth="302.4000244140625" minWidth="180.0" prefWidth="302.4000244140625" reorderable="false" resizable="false" text="Commentaire" />
+                        <TableColumn fx:id="tableauIntervenant" maxWidth="150.0" minWidth="50.0" prefWidth="150.0" reorderable="false" resizable="false" text="Intervenant" />
+                        <TableColumn fx:id="tableauType" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" reorderable="false" resizable="false" text="Type" />
+                        <TableColumn prefWidth="75.0" reorderable="false" resizable="false" text="Nb Semaine" />
+                        <TableColumn fx:id="tableauNbH" maxWidth="95.199951171875" minWidth="50.0" prefWidth="68.7999267578125" reorderable="false" resizable="false" text="Nb H" />
+                        <TableColumn prefWidth="75.0" reorderable="false" resizable="false" text="Nb Gp" />
+                        <TableColumn fx:id="tableauTotalEqtd" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Total Eqtd" />
+                        <TableColumn fx:id="tableauCommentaire" maxWidth="302.4000244140625" minWidth="180.0" prefWidth="302.4000244140625" reorderable="false" resizable="false" text="Commentaire" />
                      </columns>
                      <opaqueInsets>
                         <Insets />
