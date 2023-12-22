@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.DB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -94,6 +95,8 @@ public class StageInitBd implements Initializable
                 } catch (IOException e) { throw new RuntimeException(e); }
             }
         }
+        else
+            StagePopUp.PopUpErreur("Erreur de connection", "Les informations entrées sont invalides, ou la base de données n'est pas accessible");
     }
 
     public void onBtnAnnuler(ActionEvent actionEvent) throws IOException

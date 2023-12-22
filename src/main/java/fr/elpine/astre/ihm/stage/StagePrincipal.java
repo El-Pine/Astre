@@ -20,7 +20,7 @@ public class StagePrincipal
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueil.fxml"));
 
-		Scene scene = new Scene(fxmlLoader.load(), 300, 200);
+		Scene scene = new Scene(fxmlLoader.load(), 300, 250);
 
 		StagePrincipal stageCtrl = fxmlLoader.getController();
 		if (stageCtrl != null) {
