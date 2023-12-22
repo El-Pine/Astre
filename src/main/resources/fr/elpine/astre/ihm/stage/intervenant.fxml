@@ -29,8 +29,8 @@
    <center>
       <TableView fx:id="tabAffInter" editable="true" snapToPixel="false" BorderPane.alignment="CENTER">
         <columns>
-            <TableColumn fx:id="tc" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" text=" " />
-          <TableColumn fx:id="tcCategorie" editable="false" prefWidth="60.799991607666016" reorderable="false" resizable="false" text="Catégorie" />
+            <TableColumn fx:id="tc" editable="false" maxWidth="30.0" minWidth="25.0" prefWidth="25.0" resizable="false" text=" " />
+          <TableColumn fx:id="tcCategorie" editable="false" minWidth="50.0" prefWidth="60.0" reorderable="false" resizable="false" text="Catégorie" />
           <TableColumn fx:id="tcNom" editable="false" prefWidth="65.0" reorderable="false" resizable="false" text="Nom" />
             <TableColumn fx:id="tcPrenom" editable="false" prefWidth="65.0" reorderable="false" resizable="false" text="Prénom" />
             <TableColumn fx:id="tcHServ" editable="false" prefWidth="37.0" reorderable="false" resizable="false" text="hServ" />

@@ -63,6 +63,9 @@
             <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightGray; -fx-background-radius: 5px; -fx-border-color: gray; -fx-border-radius: 5px;" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" text="Annuler" />
          </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" />
+         </BorderPane.margin>
       </FlowPane>
    </bottom>
 </BorderPane>

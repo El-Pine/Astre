@@ -4,203 +4,142 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
    <center>
       <TabPane fx:id="pnlControlSem" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab text="S1">
+            <Tab text="    S1    ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <GridPane BorderPane.alignment="CENTER">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER" text="Liste des Modules :" />
-                                 </children>
-                              </FlowPane>
-                           </children>
-                        </GridPane>
-                     </top>
                      <center>
                         <TableView fx:id="tabs1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s1code" prefWidth="75.0" text="Code" />
-                            <TableColumn fx:id="s1liblong" prefWidth="245.6000213623047" text="libelle long" />
-                              <TableColumn fx:id="s1hahpn" prefWidth="193.5999755859375" text="Heure Affecté / Heure PN" />
+                            <TableColumn fx:id="s1code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
+                            <TableColumn fx:id="s1liblong" editable="false" minWidth="170.0" prefWidth="170.0" text="Libelle long" />
+                              <TableColumn fx:id="s1hahpn" editable="false" minWidth="170.0" prefWidth="170.0" text="Heure Affectés / Heure PN" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
                      </center>
+                     <top>
+                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S2">
+            <Tab text="    S2    ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <GridPane BorderPane.alignment="CENTER">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER" text="Liste des Modules :" />
-                                 </children>
-                              </FlowPane>
-                           </children>
-                        </GridPane>
-                     </top>
                      <center>
                         <TableView fx:id="tabs2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <columns>
-                              <TableColumn fx:id="s2code" prefWidth="75.0" text="Code" />
-                              <TableColumn fx:id="s2liblong" prefWidth="259.1999969482422" text="Libelle long" />
-                              <TableColumn fx:id="s2hahpn" prefWidth="180.0" text="Heure Affectés / Heure PN" />
+                              <TableColumn fx:id="s2code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
+                              <TableColumn fx:id="s2liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s2hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
                            </columns>
                         </TableView>
                      </center>
+                     <top>
+                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S3        ">
+            <Tab text="    S3    ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <GridPane BorderPane.alignment="CENTER">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER" text="Liste des Modules :" />
-                                 </children>
-                              </FlowPane>
-                           </children>
-                        </GridPane>
-                     </top>
                      <center>
                         <TableView fx:id="tabs3" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <columns>
-                              <TableColumn fx:id="s3code" prefWidth="75.0" text="Code" />
-                              <TableColumn fx:id="s3liblong" prefWidth="259.99998474121094" text="Libelle long" />
-                              <TableColumn fx:id="s3hahpn" prefWidth="179.20001220703125" text="Heure Affectés / Heure PN" />
+                              <TableColumn fx:id="s3code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
+                              <TableColumn fx:id="s3liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s3hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
                            </columns>
                         </TableView>
                      </center>
+                     <top>
+                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
                   </BorderPane>
                </content>
             </Tab>
-            <Tab id="4" text="S4          ">
+            <Tab id="4" text="    S4    ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <GridPane BorderPane.alignment="CENTER">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER" text="Liste des Modules :" />
-                                 </children>
-                              </FlowPane>
-                           </children>
-                        </GridPane>
-                     </top>
                      <center>
                         <TableView fx:id="tabs4" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s4code" prefWidth="75.0" text="Code" />
-                            <TableColumn fx:id="s4liblong" prefWidth="265.59996032714844" text="Libelle long" />
-                              <TableColumn fx:id="s4hahpn" prefWidth="174.39996337890625" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s4code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
+                            <TableColumn fx:id="s4liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s4hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
+                     <top>
+                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S5       ">
+            <Tab text="    S5    ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <GridPane BorderPane.alignment="CENTER">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER" text="Liste des Modules :" />
-                                 </children>
-                              </FlowPane>
-                           </children>
-                        </GridPane>
-                     </top>
                      <center>
                         <TableView fx:id="tabs5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s5code" prefWidth="75.0" text="Code" />
-                            <TableColumn fx:id="s5liblong" prefWidth="268.80003356933594" text="Libelle long" />
-                              <TableColumn fx:id="s5hahpn" prefWidth="170.39996337890625" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s5code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
+                            <TableColumn fx:id="s5liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s5hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
+                     <top>
+                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
                   </BorderPane>
                </content>
             </Tab>
-            <Tab text="S6        ">
+            <Tab text="    S6    ">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <GridPane BorderPane.alignment="CENTER">
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <FlowPane prefHeight="200.0" prefWidth="200.0">
-                                 <children>
-                                    <Label alignment="CENTER" text="Liste des Modules :" />
-                                 </children>
-                              </FlowPane>
-                           </children>
-                        </GridPane>
-                     </top>
                      <center>
                         <TableView fx:id="tabs6" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn fx:id="s6code" prefWidth="75.0" text="Code" />
-                            <TableColumn fx:id="s6liblong" prefWidth="259.1999969482422" text="Libelle long" />
-                              <TableColumn fx:id="s6hahpn" prefWidth="180.0" text="Heure Affectés / Heure PN" />
+                            <TableColumn fx:id="s6code" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Code" />
+                            <TableColumn fx:id="s6liblong" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Libelle long" />
+                              <TableColumn fx:id="s6hahpn" editable="false" minWidth="170.0" prefWidth="170.0" resizable="false" text="Heure Affectés / Heure PN" />
                           </columns>
                         </TableView>
                      </center>
+                     <top>
+                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top>
                   </BorderPane>
                </content>
             </Tab>

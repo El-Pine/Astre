@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="455.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAccueilConfig">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="455.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAccueilConfig">
    <bottom>
       <ToolBar BorderPane.alignment="CENTER_LEFT">
         <items>
@@ -34,7 +27,7 @@
          <children>
             <TableView fx:id="tabCatInter" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                  <TableColumn fx:id="tcInter" prefWidth="25.599975407123566" />
+                  <TableColumn fx:id="tcInter" editable="false" prefWidth="25.599975407123566" resizable="false" sortable="false" />
                   <TableColumn fx:id="tcCodeInter" editable="false" prefWidth="53.600003242492676" reorderable="false" resizable="false" text="Code" />
                   <TableColumn fx:id="tcNomInter" editable="false" prefWidth="108.79998779296875" reorderable="false" resizable="false" text="Nom" />
                   <TableColumn fx:id="tcHMaxInter" editable="false" minWidth="7.20001220703125" prefWidth="63.199981689453125" reorderable="false" resizable="false" text="H Max" />
@@ -44,7 +37,7 @@
             </TableView>
             <TableView fx:id="tabCatHeures" GridPane.columnIndex="1">
               <columns>
-                  <TableColumn fx:id="tcHr" prefWidth="26.400023639202118" />
+                  <TableColumn fx:id="tcHr" editable="false" prefWidth="26.400023639202118" resizable="false" sortable="false" />
                 <TableColumn fx:id="tcNomHeures" editable="false" prefWidth="88.00000381469727" reorderable="false" resizable="false" text="Nom" />
                 <TableColumn fx:id="tcEqtdHeures" editable="false" prefWidth="32.79998779296875" reorderable="false" resizable="false" text="Eqtd" />
                   <TableColumn fx:id="tcRessourcesHeures" editable="false" prefWidth="75.20001220703125" reorderable="false" resizable="false" text="Ressources" />
