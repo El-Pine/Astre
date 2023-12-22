@@ -30,7 +30,7 @@
       <TableView fx:id="tabAffInter" snapToPixel="false" BorderPane.alignment="CENTER">
         <columns>
             <TableColumn fx:id="tc" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" reorderable="false" resizable="false" text=" " />
-          <TableColumn fx:id="tcCategorie" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Catégorie" />
+          <TableColumn fx:id="tcCategorie" maxWidth="500.0" minWidth="79.0" prefWidth="79.0" reorderable="false" resizable="false" text="Catégorie" />
           <TableColumn fx:id="tcNom" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Nom" />
             <TableColumn fx:id="tcPrenom" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Prénom" />
             <TableColumn fx:id="tcHServ" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="hServ" />

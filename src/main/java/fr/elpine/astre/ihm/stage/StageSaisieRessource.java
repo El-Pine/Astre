@@ -133,23 +133,17 @@ public class StageSaisieRessource implements Initializable
 
     private static void extractTextFieldsFromTab(Tab tab, ArrayList<TextField> textFields) {
         Node content = tab.getContent();
-        if (content instanceof AnchorPane) {
-            extractTextFieldsFromAnchorPane((AnchorPane) content, textFields);
+        if (content instanceof GridPane) {
+            extractTextFieldsFromGridPane((GridPane) content, textFields);
         }
-    }
-
-    private static void extractTextFieldsFromAnchorPane(AnchorPane anchorPane, ArrayList<TextField> textFields) {
-        anchorPane.getChildren().forEach(node -> {
-            if (node instanceof GridPane) {
-                extractTextFieldsFromGridPane((GridPane) node, textFields);
-            }
-        });
     }
 
     private static void extractTextFieldsFromGridPane(GridPane gridPane, ArrayList<TextField> textFields) {
         gridPane.getChildren().forEach(node -> {
             if (node instanceof FlowPane) {
                 extractTextFieldsFromFlowPane((FlowPane) node, textFields);
+            } else if (node instanceof TextField) {
+                textFields.add((TextField) node);
             }
         });
     }
@@ -326,8 +320,6 @@ public class StageSaisieRessource implements Initializable
             }
         });
 
-
-
         this.hmTxtSemaine = initHmPn(extractTextFields(tabPaneSemaine));
 
         System.out.println(hmTxtSemaine);
@@ -335,7 +327,6 @@ public class StageSaisieRessource implements Initializable
         this.hmTxtSemaine.forEach((key,value) -> {
             for (TextField txt: value)
             {
-                System.out.println("je suis la aussi ");
                 ajouterListenerSemaine(txt);
             }
         });
