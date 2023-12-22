@@ -232,11 +232,21 @@ public class StageSaisieRessource implements Initializable
         this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
     }
 
+    private void creerFormatter(String nom, TextField txtf) {
+        txtf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("^\\d+$") || change.getControlNewText().isEmpty()) {
+                if (!this.hmTxtRepartion.get(nom).contains(txtf) || Integer.parseInt(change.getText()) <= Integer.parseInt(this.hmTxtPn.get(nom).get(this.hmTxtRepartion.get(nom).indexOf(txtf)).getText()))
+                    txtf.setStyle("");
+                else
+                    txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+            } else
+                return null;
+            return change;
+        }));
+    }
+
     @FXML
     protected void onBtnEnregistrer() throws IOException, SQLException {
-        for (Affectation aff : StageSaisieRessource.affAAjouter) {
-            Controleur.get().getMetier().ajouterAffectation(aff);
-        }
         for (Affectation aff : StageSaisieRessource.affAAjouter) {
             Controleur.get().getMetier().ajouterAffectation(aff);
         }
@@ -288,7 +298,7 @@ public class StageSaisieRessource implements Initializable
 
 
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
-       StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
+        StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
         tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
         tc.setCellFactory(column -> new TableCell<>() {
@@ -325,6 +335,7 @@ public class StageSaisieRessource implements Initializable
                 if(txt.isEditable())
                 {
                     ajouterListener(txt);
+                    creerFormatter(key,txt);
                 }
             }
         });
@@ -337,6 +348,7 @@ public class StageSaisieRessource implements Initializable
             for (TextField txt: value)
             {
                 ajouterListenerSemaine(txt);
+                creerFormatter(key,txt);
             }
         });
 
@@ -345,6 +357,7 @@ public class StageSaisieRessource implements Initializable
             for (TextField txt: value)
             {
                 //ajouterListenerTotal(txt);
+                creerFormatter(key,txt);
             }
         });
 
