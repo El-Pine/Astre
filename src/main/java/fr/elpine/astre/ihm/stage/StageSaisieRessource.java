@@ -15,10 +15,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.Flow;
 
 import static java.lang.Integer.*;
 
@@ -82,6 +85,8 @@ public class StageSaisieRessource implements Initializable
     public GridPane gridPaneRepartition;
 
     public TabPane tabPaneSemaine;
+
+    private int indMaxPn;
 
     private HashMap<String, ArrayList<TextField>> hmTxtPn;
     private HashMap<String, ArrayList<TextField>> hmTxtSemaine;
@@ -258,6 +263,19 @@ public class StageSaisieRessource implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        initGridPn();
+
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(cat.estRessource())
+            {
+                ajouterColonne(cat.getNom());
+            }
+        }
+        ajouterColonne("TO");
+
+
+
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
        StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
@@ -316,6 +334,58 @@ public class StageSaisieRessource implements Initializable
 
         this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
 
+    }
+
+    private void ajouterColonne(String nom)
+    {
+        ArrayList<FlowPane> ensFp = new ArrayList<>();
+        for (int i = 0; i <= 2; i++)
+        {
+            FlowPane fp = new FlowPane();
+            fp.setAlignment(Pos.CENTER);
+
+            ensFp.add(fp);
+        }
+        Label lbl = new Label(nom);
+        ensFp.get(0).getChildren().add(lbl);
+
+        TextField txt1 = new TextField();
+        TextField txt2 = new TextField();
+
+        txt1.setId("txt"+nom+"Pn");
+        txt2.setId("txt"+nom+"PromoPn");
+        txt2.setEditable(false);
+
+        txt1.setPrefSize(50,26);
+        txt2.setPrefSize(50,26);
+
+        ensFp.get(1).getChildren().add(txt1);
+        ensFp.get(2).getChildren().add(txt2);
+
+        gridPn.getColumnConstraints().add(new ColumnConstraints());
+
+        int cpt = 0;
+        for (FlowPane fp : ensFp)
+        {
+            gridPn.add(fp,gridPn.getColumnConstraints().size() - 1, cpt++ );
+        }
+
+    }
+
+    private void initGridPn()
+    {
+        this.gridPn.getChildren().clear();
+
+        FlowPane fp = new FlowPane();
+        fp.setAlignment(Pos.CENTER);
+
+        Label lbl = new Label("Total promo(eqtd)");
+        fp.getChildren().add(lbl);
+
+        ColumnConstraints col = new ColumnConstraints();
+        gridPn.getColumnConstraints().add(col);
+
+        gridPn.add(fp, 0, 2);
     }
 
     /*-----------------------------*/
@@ -422,7 +492,7 @@ public class StageSaisieRessource implements Initializable
                 }
             } else {
                 for (TextField txt : value) {
-                    if (txt.getId().equals("txtTotPn"))
+                    if (txt.getId().equals("txtTOPn"))
                         txtTotPn = txt;
                     else
                         txtTotPromoPn = txt;
