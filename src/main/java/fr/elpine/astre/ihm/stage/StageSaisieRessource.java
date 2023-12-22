@@ -274,6 +274,14 @@ public class StageSaisieRessource implements Initializable
         }
         ajouterColonne("TO");
 
+        initTabPan();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(cat.estRessource())
+            {
+                ajouterOnglet(cat.getNom());
+            }
+        }
 
 
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
@@ -336,6 +344,57 @@ public class StageSaisieRessource implements Initializable
 
     }
 
+    private void ajouterOnglet(String nom) {
+        // Créer un GridPane pour l'onglet
+        GridPane grid = new GridPane();
+
+        // Ajouter des colonnes au GridPane
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        grid.getColumnConstraints().addAll(column1, column2);
+
+        // Collection pour stocker les FlowPane
+        FlowPane[] flowPanes = new FlowPane[4];
+
+        // Créer et configurer les FlowPane dans une boucle
+        for (int i = 0; i < flowPanes.length; i++) {
+            FlowPane fp = new FlowPane();
+            fp.setAlignment(Pos.CENTER);
+            flowPanes[i] = fp;
+        }
+
+        // Ajouter du contenu aux FlowPane
+        flowPanes[0].getChildren().add(new Label("Nombre Semaine"));
+
+        TextField txtNbSemaine = creerTextField("txt" + nom + "NbSemaine");
+        flowPanes[1].getChildren().add(txtNbSemaine);
+
+        flowPanes[2].getChildren().add(new Label("Nombre heure / semaine"));
+
+        TextField txtNbHrSem = creerTextField("txt" + nom + "NbHrSem");
+        flowPanes[3].getChildren().add(txtNbHrSem);
+
+        // Ajouter les FlowPane au GridPane
+        grid.add(flowPanes[0], 0, 0);
+        grid.add(flowPanes[1], 0, 1);
+        grid.add(flowPanes[2], 1, 0);
+        grid.add(flowPanes[3], 1, 1);
+
+        // Créer un onglet
+        Tab tab = new Tab(nom);
+        tab.setContent(grid);
+
+        // Ajouter l'onglet au TabPane
+        this.tabPaneSemaine.getTabs().add(tab);
+    }
+
+    private TextField creerTextField(String id) {
+        TextField textField = new TextField();
+        textField.setId(id);
+        textField.setPrefSize(50, 26);
+        return textField;
+    }
+
     private void ajouterColonne(String nom)
     {
         ArrayList<FlowPane> ensFp = new ArrayList<>();
@@ -370,6 +429,12 @@ public class StageSaisieRessource implements Initializable
             gridPn.add(fp,gridPn.getColumnConstraints().size() - 1, cpt++ );
         }
 
+    }
+
+
+    private void initTabPan()
+    {
+        this.tabPaneSemaine.getTabs().clear();
     }
 
     private void initGridPn()
