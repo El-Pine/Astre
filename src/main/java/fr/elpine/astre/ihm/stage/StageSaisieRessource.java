@@ -26,14 +26,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.Flow;
 
 import static java.lang.Integer.*;
@@ -83,6 +81,7 @@ public class StageSaisieRessource implements Initializable
 
     public GridPane gridPn;
     public GridPane gridPaneRepartition;
+    public GridPane gridTot;
 
     public TabPane tabPaneSemaine;
 
@@ -258,7 +257,6 @@ public class StageSaisieRessource implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         initGridPn();
-
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
         {
             if(cat.estRessource())
@@ -276,6 +274,17 @@ public class StageSaisieRessource implements Initializable
                 ajouterOnglet(cat.getNom());
             }
         }
+
+        this.gridPaneRepartition.getChildren().clear();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if (cat.estRessource())
+            {
+                ajouterColonneRepartition(cat.getNom());
+            }
+        }
+
+
 
 
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
@@ -332,6 +341,12 @@ public class StageSaisieRessource implements Initializable
         });
 
         this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
+        this.hmTxtRepartion.forEach((key,value) -> {
+            for (TextField txt: value)
+            {
+                //ajouterListenerTotal(txt);
+            }
+        });
 
     }
 
@@ -403,6 +418,10 @@ public class StageSaisieRessource implements Initializable
         TextField txt2 = new TextField();
 
         txt1.setId("txt"+nom+"Pn");
+
+        if(nom.equals("TO"))
+            txt1.setEditable(false);
+
         txt2.setId("txt"+nom+"PromoPn");
         txt2.setEditable(false);
 
@@ -419,7 +438,38 @@ public class StageSaisieRessource implements Initializable
         {
             gridPn.add(fp,gridPn.getColumnConstraints().size() - 1, cpt++ );
         }
+    }
 
+    private void ajouterColonneRepartition(String nom) {
+        ArrayList<FlowPane> ensFp = new ArrayList<>();
+
+        for (int i = 0; i <= 3; i++) {
+            FlowPane fp = creerFlowPane();
+            ensFp.add(fp);
+        }
+
+        Label lbl = new Label(nom);
+        ensFp.get(0).getChildren().add(lbl);
+
+        String[] ids = { "Repartition", "PromoRepartion", "AffecteRepartion" };
+        for (int i = 0; i < ids.length; i++) {
+            TextField txt = creerTextField("txt" + nom + ids[i]);
+            txt.setEditable(false);
+            ensFp.get(i + 1).getChildren().add(txt);
+        }
+
+        gridPaneRepartition.getColumnConstraints().add(new ColumnConstraints());
+
+        int cpt = 0;
+        for (FlowPane fp : ensFp) {
+            gridPaneRepartition.add(fp, gridPaneRepartition.getColumnConstraints().size() - 1, cpt++);
+        }
+    }
+
+    private FlowPane creerFlowPane() {
+        FlowPane fp = new FlowPane();
+        fp.setAlignment(Pos.CENTER);
+        return fp;
     }
 
 
@@ -444,6 +494,8 @@ public class StageSaisieRessource implements Initializable
         gridPn.add(fp, 0, 2);
     }
 
+
+
     /*-----------------------------*/
     /*    Ajout des Listenner      */
     /*-----------------------------*/
@@ -467,6 +519,80 @@ public class StageSaisieRessource implements Initializable
         });
     }
 
+    private void ajouterListenerRepartition(TextField txt)
+    {
+        System.out.println("je suis la -----");
+        txt.textProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                valeurChangerRepart(txt, newValue);
+            }
+        });
+    }
+
+    private void valeurChangerRepart(TextField txt, String newValue) {
+        String txtTypeHeure = txt.getId().substring(3, 5);
+        String txtNiveauCase = txt.getId().substring(6);
+
+        TextField txtTORepartion = null;
+        TextField txtTOPromo = null;
+        TextField txtTOAffecte = null;
+
+        int total = 0;
+        int totalPromo = 0;
+        int totalAffecte = 0;
+
+        // Liste pour simplifier l'itération
+        List<String> niveaux = Arrays.asList("Repartition", "Promo", "Affecte");
+
+        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtPn.entrySet()) {
+            String key = entry.getKey();
+            ArrayList<TextField> value = entry.getValue();
+
+            if (!key.equals("TO")) {
+                for (TextField textField : value) {
+                    String niveau = textField.getId().substring(6);
+                    if (!textField.getText().isEmpty()) {
+                        switch (niveau) {
+                            case "Repartition":
+                                total += Integer.parseInt(textField.getText());
+                                break;
+                            case "Promo":
+                                totalPromo += Integer.parseInt(textField.getText());
+                                break;
+                            case "Affecte":
+                                totalAffecte += Integer.parseInt(textField.getText());
+                                break;
+                        }
+                    }
+                }
+            } else {
+                txtTORepartion = findTextField(value, "txtTORepartion");
+                txtTOPromo = findTextField(value, "txtTOPromo");
+                txtTOAffecte = findTextField(value, "txtTOAffecte");
+            }
+        }
+
+        setValeurTxtTot2(txtTORepartion, total, txtTOPromo, totalPromo, txtTOAffecte, totalAffecte);
+    }
+
+    private TextField findTextField(ArrayList<TextField> textFields, String id) {
+        return textFields.stream()
+                .filter(txt -> txt.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private void setValeurTxtTot2(TextField txt1, int total, TextField txt2, int totalPromo, TextField txt3, int totalAffecte) {
+
+
+        if (txt1 != null && txt2 != null && txt3 != null)
+        {
+            txt1.setText(Integer.toString(total));
+            txt2.setText(Integer.toString(totalPromo));
+            txt3.setText(Integer.toString(totalAffecte));
+        }
+    }
+
     private void valeurChangerSemaine(TextField txt, String newValue)
     {
         String keyCatHr = txt.getId().substring(3,5);
@@ -483,7 +609,6 @@ public class StageSaisieRessource implements Initializable
         }
         for (TextField txt1 : this.hmTxtRepartion.get(keyCatHrMAJ))
         {
-            System.out.println(txt1);
             if(txt1.getId().equals("txt" + keyCatHr +"Repartition"))
             {
                 txt1.setText(Integer.toString(valeurSemaine));
@@ -510,6 +635,7 @@ public class StageSaisieRessource implements Initializable
     private void valeurChangerPn(TextField txt, String newValue)
     {
         String keyCatHr = txt.getId().substring(3,5).toUpperCase();
+        System.out.println(keyCatHr);
         for (TextField txt1 : this.hmTxtPn.get(keyCatHr))
         {
             if(!txt1.isEditable())
