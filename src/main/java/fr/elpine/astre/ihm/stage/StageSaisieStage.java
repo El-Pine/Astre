@@ -34,8 +34,7 @@ import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
 
-public class StageSaisieSae implements Initializable
-{
+public class StageSaisieStage implements Initializable {
     @FXML
     public TableView<Affectation> tableau;
     @FXML
@@ -87,17 +86,17 @@ public class StageSaisieSae implements Initializable
     private HashMap<String, ArrayList<TextField>> hmTxtRepartion;
     public static Stage creer(int semestre) throws IOException
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieSae.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieStage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1500, 700);
 
         Stage stage = new Stage();
         stage.setTitle("Affectation");
         stage.setScene(scene);
 
-        StageSaisieSae stageCtrl = fxmlLoader.getController();
+        StageSaisieStage stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {
             stageCtrl.setStage(stage);
-            stageCtrl.init("SAE", semestre);
+            stageCtrl.init("Stage", semestre);
         }
 
         stage.setOnCloseRequest(e -> {
@@ -201,7 +200,7 @@ public class StageSaisieSae implements Initializable
     @FXML
     protected void onBtnAjouter(ActionEvent e) throws IOException {
         this.desactiver();
-        StageAjoutSae.creer(StageSaisieSae.module ,this ).show();
+        StageAjoutStage.creer(StageSaisieStage.module ,this ).show();
     }
 
     @FXML
@@ -255,7 +254,7 @@ public class StageSaisieSae implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
-        StageSaisieSae.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
+        StageSaisieStage.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
         tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
         tc.setCellFactory(column -> new TableCell<>() {
