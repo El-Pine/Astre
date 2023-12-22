@@ -117,11 +117,12 @@ public class Astre
         for (Intervenant intervenant : this.ensIntervenant)
         {
             String r = String.format(
-                    "%s %s %s %s",
+                    "%s %s %s %s %s",
                     intervenant.getNom(),
                     intervenant.getPrenom(),
                     intervenant.getMail(),
-                    intervenant.getCategorie()
+                    intervenant.getCategorie().getNom(),
+                    intervenant.getCategorie().getCode()
             ).toLowerCase();
 
             if (r.contains(text.toLowerCase())) ensTemp.add( intervenant );
