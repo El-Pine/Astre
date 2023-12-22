@@ -41,6 +41,7 @@ public class Annee
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
+    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
 
 
     public void ajouterSemestre(Semestre semestre)
@@ -88,8 +89,10 @@ public class Annee
                     semestre.getNbGrpTP(),
                     semestre.getNbEtd(),
                     semestre.getNbSemaine(),
-                    a
+                    null
             ));
+
+            a.ajouterSemestre(s);
 
             for (Module module : semestre.getModules())
             {
@@ -100,8 +103,10 @@ public class Annee
                         module.getTypeModule(),
                         module.getCouleur(),
                         module.estValide(),
-                        s
+                        null
                 ));
+
+                s.ajouterModule(m);
 
                 for (Attribution attribution : module.getAttributions())
                 {

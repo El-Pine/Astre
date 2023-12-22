@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +31,9 @@ public class StageAjouterAnnee {
     public static Stage creer( StageAnnee parent ) throws IOException
     {
         Stage stage = new Stage();
+
+        AstreApplication.refreshIcon(stage);
+
         StageAjouterAnnee.parent = parent;
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("ajouterAnnee.fxml"));

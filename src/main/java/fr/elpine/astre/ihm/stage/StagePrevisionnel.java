@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import javafx.beans.property.SimpleStringProperty;
@@ -95,6 +96,8 @@ public class StagePrevisionnel implements Initializable {
 
 	public static Stage creer() throws IOException {
 		Stage stage = new Stage();
+
+		AstreApplication.refreshIcon(stage);
 
 		ArrayList<Semestre> semestres = Controleur.get().getMetier().getAnneeActuelle().getSemestres();
 

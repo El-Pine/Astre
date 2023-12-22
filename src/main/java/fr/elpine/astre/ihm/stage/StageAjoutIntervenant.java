@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
 import javafx.collections.FXCollections;
@@ -43,6 +44,9 @@ public class StageAjoutIntervenant
     public static Stage creer( StageIntervenant parent) throws IOException
     {
         Stage stage = new Stage();
+
+        AstreApplication.refreshIcon(stage);
+
         StageAjoutIntervenant.parent = parent;
         StageAjoutIntervenant.hmChampValider = new HashMap<TextField,Boolean>();
 

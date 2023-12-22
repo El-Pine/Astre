@@ -57,11 +57,16 @@ public class Attribution
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
+    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
+
 
     public void supprimer()
     {
-        if (this.module != null) this.module.supprimerAttribution(this);
-        if (this.catHr  != null) this.catHr .supprimerAttribution(this);
+        //if (this.module != null) this.module.supprimerAttribution(this);
+        //if (this.catHr  != null) this.catHr .supprimerAttribution(this);
+
+        // supprimer l'élement
+        this.supprime = true;
     }
 
 
@@ -70,7 +75,7 @@ public class Attribution
         return "Attribution{" +
                 "nbHeure=" + nbHeure +
                 ", nbSemaine=" + nbSemaine +
-                ", module=" + module +
+                ", module=" + module.getCode() +
                 ", catHr=" + catHr +
                 '}';
     }

@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Intervenant;
@@ -53,6 +54,9 @@ public class StageAjoutPpp implements Initializable {
     public static Stage creer(Module module, StageSaisiePpp parent) throws IOException
     {
         Stage stage = new Stage();
+
+        AstreApplication.refreshIcon(stage);
+
         toggleGroup = new ToggleGroup();
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);

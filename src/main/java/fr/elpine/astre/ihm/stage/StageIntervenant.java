@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.Controleur;
@@ -55,6 +56,9 @@ public class StageIntervenant implements Initializable
 	public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
+
+		AstreApplication.refreshIcon(stage);
+
 		StageIntervenant.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
 		StageIntervenant.interAAjouter = new ArrayList<Intervenant>();
 		StageIntervenant.interAEnlever = new ArrayList<Intervenant>();

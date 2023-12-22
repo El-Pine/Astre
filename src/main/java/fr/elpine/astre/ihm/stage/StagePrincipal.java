@@ -1,26 +1,36 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class StagePrincipal
+public class StagePrincipal implements Initializable
 {
+	public ImageView image;
 	private Stage stage;
 
 	public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
 
+		AstreApplication.refreshIcon(stage);
+
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueil.fxml"));
 
-		Scene scene = new Scene(fxmlLoader.load(), 300, 250);
+		Scene scene = new Scene(fxmlLoader.load(), 300, 400);
 
 		StagePrincipal stageCtrl = fxmlLoader.getController();
 		if (stageCtrl != null) {
@@ -68,5 +78,10 @@ public class StagePrincipal
 	public void onBtnClickAnnee(ActionEvent actionEvent) throws IOException {
 		this.stage.close();
 		StageAnnee.creer().show();
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		image.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
 	}
 }

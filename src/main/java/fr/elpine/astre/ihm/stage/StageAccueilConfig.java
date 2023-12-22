@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
@@ -82,6 +83,8 @@ public class StageAccueilConfig implements Initializable
     public static Stage creer() throws IOException
     {
         Stage stage = new Stage();
+
+        AstreApplication.refreshIcon(stage);
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueilConfig.fxml"));
         StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());

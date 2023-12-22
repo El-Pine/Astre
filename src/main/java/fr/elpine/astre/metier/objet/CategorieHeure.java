@@ -56,6 +56,7 @@ public class CategorieHeure
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
+    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
 
 
     public void ajouterAttribution( Attribution attribution )

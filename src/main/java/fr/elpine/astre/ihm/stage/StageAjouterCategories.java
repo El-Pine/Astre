@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -55,6 +56,9 @@ public class StageAjouterCategories
     public static Stage creer( StageAccueilConfig parent ) throws IOException
     {
         Stage stage = new Stage();
+
+        AstreApplication.refreshIcon(stage);
+
         StageAjouterCategories.parent = parent;
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("ajouterCategories.fxml"));

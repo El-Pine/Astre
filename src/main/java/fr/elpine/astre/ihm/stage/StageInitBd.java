@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.DB;
 import javafx.event.ActionEvent;
@@ -38,6 +39,9 @@ public class StageInitBd implements Initializable
     public static Stage creer( StageAccueilConfig parent ) throws IOException
     {
         Stage stage = new Stage();
+
+        AstreApplication.refreshIcon(stage);
+
         StageInitBd.parent = parent;
 
         FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("initDb.fxml"));

@@ -71,12 +71,16 @@ public class Affectation
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
+    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
 
 
     public void supprimer()
     {
-        if (this.intervenant != null) this.intervenant.supprimerAffectation(this);
-        if (this.module      != null) this.module     .supprimerAffectation(this);
+        // if (this.intervenant != null) this.intervenant.supprimerAffectation(this);
+        // if (this.module      != null) this.module     .supprimerAffectation(this);
+
+        // supprimer l'élement
+        this.supprime = true;
     }
 
 
@@ -89,7 +93,7 @@ public class Affectation
                 ", commentaire='" + commentaire + '\'' +
                 ", typeHeure=" + typeHeure +
                 ", intervenant=" + intervenant +
-                ", module=" + module +
+                ", module=" + module.getCode() +
                 '}';
     }
 }

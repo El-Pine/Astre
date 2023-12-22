@@ -90,6 +90,7 @@ public class Intervenant
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
+    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
 
 
     public void ajouterAffectation( Affectation affectation )
@@ -111,11 +112,8 @@ public class Intervenant
     public boolean supprimer( boolean recursive )
     {
         for (Affectation affectation : this.getAffectations())
-        {
             if (!recursive) return false;
-
-            affectation.supprimer();
-        }
+            else affectation.supprimer();
 
         // supprimer l'élement
         return this.supprime = true;

@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.*;
@@ -108,6 +109,8 @@ public class StageSaisieRessource implements Initializable
         Stage stage = new Stage();
         stage.setTitle("Affectation");
         stage.setScene(scene);
+
+        AstreApplication.refreshIcon(stage);
 
         StageSaisieRessource stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {

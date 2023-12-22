@@ -50,6 +50,7 @@ public class CategorieIntervenant
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
+    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
 
     // TODO : ajouter les toString()
 
@@ -68,14 +69,9 @@ public class CategorieIntervenant
     public boolean supprimer( boolean recursive )
     {
         for (Intervenant intervenant : Controleur.get().getMetier().getIntervenants())
-        {
             if (intervenant.getCategorie() == this)
-            {
                 if (!recursive) return false;
-
-                intervenant.supprimer(true);
-            }
-        }
+                else intervenant.supprimer(true);
 
         // supprimer l'élement
         return this.supprime = true;
