@@ -1,5 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
+import fr.elpine.astre.Controleur;
+
 public class Affectation
 {
     private Integer nbGroupe; // avec nb semaine ou vide
@@ -10,6 +12,10 @@ public class Affectation
     private CategorieHeure typeHeure; // ya tjrs
     private Intervenant intervenant;
     private Module module;
+
+    private boolean ajoute;
+    private boolean supprime;
+    private boolean modifie;
 
     public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, int nbGroupe, int nbSemaine, String commentaire)
     {
@@ -22,6 +28,10 @@ public class Affectation
 
         if (intervenant != null) intervenant.ajouterAffectation(this);
         if (module      != null) module     .ajouterAffectation(this);
+
+        this.ajoute = Controleur.get().getMetier() != null;
+        this.modifie = false;
+        this.supprime = false;
     }
 
     public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, int nbHeure, String commentaire)
@@ -34,6 +44,8 @@ public class Affectation
 
         if (intervenant != null) intervenant.ajouterAffectation(this);
         if (module      != null) module     .ajouterAffectation(this);
+
+        this.ajoute = Controleur.get().getMetier() != null;
     }
 
 
@@ -49,16 +61,35 @@ public class Affectation
     public Intervenant    getIntervenant () { return this.intervenant; }
 
 
-    public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe;    }
-    public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine;   }
-    public void setNbHeure     ( int            nbHeure     ) { this.nbHeure     = nbHeure;     }
-    public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; }
-    public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure;   }
+    public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifie = true;     }
+    public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifie = true;    }
+    public void setNbHeure     ( int            nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = true;      }
+    public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifie = true;  }
+    public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = true;    }
+
+    /* Synchronisation */
+    public boolean isAjoute() { return this.ajoute; }
+    public boolean isSupprime() { return this.supprime; }
+    public boolean isModifie() { return this.modifie; }
 
 
     public void supprimer()
     {
         if (this.intervenant != null) this.intervenant.supprimerAffectation(this);
         if (this.module      != null) this.module     .supprimerAffectation(this);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Affectation{" +
+                "nbGroupe=" + nbGroupe +
+                ", nbSemaine=" + nbSemaine +
+                ", nbHeure=" + nbHeure +
+                ", commentaire='" + commentaire + '\'' +
+                ", typeHeure=" + typeHeure +
+                ", intervenant=" + intervenant +
+                ", module=" + module +
+                '}';
     }
 }

@@ -1,5 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
+import fr.elpine.astre.Controleur;
+
 import java.util.ArrayList;
 
 public class Semestre
@@ -13,6 +15,10 @@ public class Semestre
     private Annee annee;
     private ArrayList<Module> ensModule;
 
+    private boolean ajoute;
+    private boolean supprime;
+    private boolean modifie;
+
 
     public Semestre(int numero, int nbGrpTD, int nbGrpTP, int nbEtd, int nbSemaine, Annee annee)
     {
@@ -24,6 +30,10 @@ public class Semestre
         this.annee     = annee;
 
         this.ensModule = new ArrayList<>();
+
+        this.ajoute = Controleur.get().getMetier() != null;
+        this.modifie = false;
+        this.supprime = false;
     }
 
 
@@ -38,11 +48,10 @@ public class Semestre
 
     /* SETTER */
 
-    public void setNumero    ( int numero    ) { this.numero    = numero;    }
-    public void setNbGrpTD   ( int nbGrpTD   ) { this.nbGrpTD   = nbGrpTD;   }
-    public void setNbGrpTP   ( int nbGrpTP   ) { this.nbGrpTP   = nbGrpTP;   }
-    public void setNbEtd     ( int nbEtd     ) { this.nbEtd     = nbEtd;     }
-    public void setNbSemaine ( int nbSemaine ) { this.nbSemaine = nbSemaine; }
+    public void setNbGrpTD   ( int nbGrpTD   ) { this.nbGrpTD   = nbGrpTD; this.modifie = true;    }
+    public void setNbGrpTP   ( int nbGrpTP   ) { this.nbGrpTP   = nbGrpTP; this.modifie = true;    }
+    public void setNbEtd     ( int nbEtd     ) { this.nbEtd     = nbEtd; this.modifie = true;      }
+    public void setNbSemaine ( int nbSemaine ) { this.nbSemaine = nbSemaine; this.modifie = true;  }
 
     public void setAnnee( Annee annee )
     {
@@ -52,7 +61,13 @@ public class Semestre
             this.annee.supprimerSemestre(this);
 
         this.annee = annee;
+        this.modifie = true;
     }
+
+    /* Synchronisation */
+    public boolean isAjoute() { return this.ajoute; }
+    public boolean isSupprime() { return this.supprime; }
+    public boolean isModifie() { return this.modifie; }
 
 
     public void ajouterModule(Module module)
@@ -75,4 +90,29 @@ public class Semestre
     }
 
     public ArrayList<Module> getModules() { return this.ensModule; }
+
+
+    public boolean supprimer( boolean recursive )
+    {
+        for (Module module : this.ensModule)
+            if (!recursive) return false;
+            else module.supprimer(true);
+
+        // supprimer l'élement
+        return this.supprime = true;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Semestre{" +
+                "numero=" + numero +
+                ", nbGrpTD=" + nbGrpTD +
+                ", nbGrpTP=" + nbGrpTP +
+                ", nbEtd=" + nbEtd +
+                ", nbSemaine=" + nbSemaine +
+                ", annee=" + annee +
+                ", ensModule=" + ensModule +
+                '}';
+    }
 }

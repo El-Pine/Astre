@@ -27,14 +27,16 @@ public class Astre
     {
         this.ctrl = ctrl;
 
-        this.ensAnnee                = ctrl.getDb().getAllAnnee();
-        this.ensSemestre             = ctrl.getDb().getAllSemestre( this.ensAnnee   );
-        this.ensModule               = ctrl.getDb().getAllModule  (this.ensSemestre );
-        this.ensCategorieIntervenant = ctrl.getDb().getAllCategorieIntervenant();
-        this.ensIntervenant          = ctrl.getDb().getAllIntervenant( this.ensCategorieIntervenant );
-        this.ensCategorieHeure       = ctrl.getDb().getAllCategorieHeure();
-        this.ensAffectation          = ctrl.getDb().getAllaff      ( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
-        this.ensAttribution          = ctrl.getDb().getAllAttribution(this.ensModule, this.ensCategorieHeure);
+        DB db = ctrl.getDb();
+
+        this.ensAnnee                = db.getAllAnnee();
+        this.ensSemestre             = db.getAllSemestre( this.ensAnnee );
+        this.ensModule               = db.getAllModule( this.ensSemestre );
+        this.ensCategorieIntervenant = db.getAllCategorieIntervenant();
+        this.ensIntervenant          = db.getAllIntervenant( this.ensCategorieIntervenant );
+        this.ensCategorieHeure       = db.getAllCategorieHeure();
+        this.ensAffectation          = db.getAllaff( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
+        this.ensAttribution          = db.getAllAttribution( this.ensModule, this.ensCategorieHeure );
 
         this.anneeActuelle = this.ensAnnee.isEmpty() ? null : this.ensAnnee.get(0);
     }
@@ -100,7 +102,6 @@ public class Astre
     }
 	public Semestre               rechercheSemestreByNumero  (int numero)
 	{
-        System.out.println(this.anneeActuelle.getSemestres());
 		for (Semestre sem : this.anneeActuelle.getSemestres())
 		{
 			if (sem.getNumero() == numero) return sem;
@@ -152,6 +153,7 @@ public class Astre
     //TODO:Verification qu'il n'y a pas de doublons ou d'ajout d'objet null
     public Annee ajouterAnnee(Annee a)
     {
+        if (a == null) return null;
         if (!this.ensAnnee.contains(a)) this.ensAnnee.add(a);
 
         this.ensAnnee.sort(Comparator.comparing(Annee::getNom));
@@ -159,8 +161,25 @@ public class Astre
         return a;
     }
 
+    public Semestre ajouterSemestre(Semestre s)
+    {
+        if (s == null) return null;
+        if (!this.ensSemestre.contains(s)) this.ensSemestre.add(s);
+
+        return s;
+    }
+
+    public Module ajouterModule(Module m)
+    {
+        if (m == null) return null;
+        if (!this.ensModule.contains(m)) this.ensModule.add(m);
+
+        return m;
+    }
+
     public Intervenant ajouterIntervenant(Intervenant i)
     {
+        if (i == null) return null;
         if (!this.ensIntervenant.contains(i)) this.ensIntervenant.add(i);
 
         return i;
@@ -168,6 +187,7 @@ public class Astre
 
     public CategorieHeure ajouterCategorieHeure (CategorieHeure catHr)
     {
+        if (catHr == null) return null;
         if (!this.ensCategorieHeure.contains(catHr)) this.ensCategorieHeure.add(catHr);
 
         return catHr;
@@ -175,6 +195,7 @@ public class Astre
 
     public CategorieIntervenant ajouterCategorieIntervenant( CategorieIntervenant catInter)
     {
+        if (catInter == null) return null;
         if (!this.ensCategorieIntervenant.contains(catInter)) this.ensCategorieIntervenant.add(catInter);
 
         return catInter;
@@ -182,9 +203,18 @@ public class Astre
 
     public Affectation ajouterAffectation(Affectation affectation)
     {
+        if (affectation == null) return null;
         if (!this.ensAffectation.contains(affectation)) this.ensAffectation.add(affectation);
 
         return affectation;
+    }
+
+    public Attribution ajouterAttribution(Attribution attribution)
+    {
+        if (attribution == null) return null;
+        if (!this.ensAttribution.contains(attribution)) this.ensAttribution.add(attribution);
+
+        return attribution;
     }
 
     /*--------------------*/
@@ -213,7 +243,7 @@ public class Astre
         {
             if(inter.getCategorie().equals(catInter)) return false;
         }
-        this.ensCategorieIntervenant.remove(catInter) ;
+        this.ensCategorieIntervenant.remove(catInter);
         return true;
     }
 }

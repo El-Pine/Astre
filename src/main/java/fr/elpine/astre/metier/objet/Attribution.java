@@ -1,5 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
+import fr.elpine.astre.Controleur;
+
 public class Attribution
 {
     private int        nbHeure;
@@ -7,6 +9,10 @@ public class Attribution
 
     private Module module;
     private CategorieHeure catHr;
+
+    private boolean ajoute;
+    private boolean supprime;
+    private boolean modifie;
 
 
     public Attribution(int nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
@@ -18,6 +24,10 @@ public class Attribution
 
         if (module != null) module.ajouterAttribution(this);
         if (catHr  != null) catHr .ajouterAttribution(this);
+
+        this.ajoute = Controleur.get().getMetier() != null;
+        this.modifie = false;
+        this.supprime = false;
     }
 
     public Attribution(int nbHeure, Module module, CategorieHeure catHr)
@@ -28,6 +38,10 @@ public class Attribution
 
         if (module != null) module.ajouterAttribution(this);
         if (catHr  != null) catHr .ajouterAttribution(this);
+
+        this.ajoute = Controleur.get().getMetier() != null;
+        this.modifie = false;
+        this.supprime = false;
     }
 
     public boolean        hasNbSemaine           () { return this.nbSemaine != null; }
@@ -36,12 +50,28 @@ public class Attribution
     public Module         getModule              () { return module;                 }
     public CategorieHeure getCatHr               () { return catHr;                  }
 
-    public void setNbHeure             (int nbHeure             ) { this.nbHeure              = nbHeure;              }
-    public void setNbSemaine           (int nbSemaine           ) { this.nbSemaine            = nbSemaine;            }
+    public void setNbHeure             (int nbHeure             ) { this.nbHeure              = nbHeure;    this.modifie = true;            }
+    public void setNbSemaine           (int nbSemaine           ) { this.nbSemaine            = nbSemaine;  this.modifie = true;            }
+
+    /* Synchronisation */
+    public boolean isAjoute() { return this.ajoute; }
+    public boolean isSupprime() { return this.supprime; }
+    public boolean isModifie() { return this.modifie; }
 
     public void supprimer()
     {
         if (this.module != null) this.module.supprimerAttribution(this);
         if (this.catHr  != null) this.catHr .supprimerAttribution(this);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Attribution{" +
+                "nbHeure=" + nbHeure +
+                ", nbSemaine=" + nbSemaine +
+                ", module=" + module +
+                ", catHr=" + catHr +
+                '}';
     }
 }
