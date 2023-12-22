@@ -227,7 +227,7 @@ public class StageIntervenant implements Initializable
 	public void onBtnRechercher(ActionEvent actionEvent)
 	{
 		String recherche = txtFieldRecherche.getText();
-		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getMetier().rechercheIntervenantByNom(recherche));
+		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getMetier().rechercheIntervenantByText(recherche));
 		tabAffInter.setItems(ensInter);
 	}
 }

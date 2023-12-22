@@ -110,13 +110,21 @@ public class Astre
 		return null;
 	}
 
-    public ArrayList<Intervenant> rechercheIntervenantByNom( String nom )
+    public ArrayList<Intervenant> rechercheIntervenantByText( String text )
     {
         ArrayList<Intervenant> ensTemp = new ArrayList<>();
 
         for (Intervenant intervenant : this.ensIntervenant)
         {
-            if (intervenant.getNom().equals(nom)) ensTemp.add( intervenant );
+            String r = String.format(
+                    "%s %s %s %s",
+                    intervenant.getNom(),
+                    intervenant.getPrenom(),
+                    intervenant.getMail(),
+                    intervenant.getCategorie()
+            ).toLowerCase();
+
+            if (r.contains(text.toLowerCase())) ensTemp.add( intervenant );
         }
 
         return ensTemp;
