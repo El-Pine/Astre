@@ -17,6 +17,8 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+// TODO : Bloquer les boutons nécessaire dans le cas ou il n'y a pas d'année
+
 public class StagePrincipal implements Initializable
 {
 	public ImageView image;
