@@ -2,12 +2,9 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.Annee;
-import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class StageAnnee {
-    public ComboBox cbbAnnee;
+    public ComboBox<Annee> cbbAnnee;
     private Stage stage;
 
     public static Stage creer() throws IOException
@@ -57,37 +54,37 @@ public class StageAnnee {
     public void setCpbContrat()
     {
         ArrayList<Annee>  lstAnnee = Controleur.get().getMetier().getAnnees();
-        ArrayList<String> lstNomAnnee = new ArrayList<String>();
+        /*ArrayList<String> lstNomAnnee = new ArrayList<String>();
         for ( Annee an : lstAnnee)
-            lstNomAnnee.add(an.getNom());
+            lstNomAnnee.add(an.getNom());*/
 
-        ObservableList<String> oLstNonAnnee = FXCollections.observableList(lstNomAnnee);
+        ObservableList<Annee/*String*/> oLstNonAnnee = FXCollections.observableList(lstAnnee/*lstNomAnnee*/);
         this.cbbAnnee.setItems(oLstNonAnnee);
         if (Controleur.get().getMetier().getAnneeActuelle() != null)
-            this.cbbAnnee.setValue(Controleur.get().getMetier().getAnneeActuelle().getNom());
+            this.cbbAnnee.setValue(Controleur.get().getMetier().getAnneeActuelle()/*.getNom()*/);
     }
 
-    public void btnAjouter(ActionEvent actionEvent) throws IOException {
+    public void btnAjouter() throws IOException {
         StageAjouterAnnee.creer( this ).show();
     }
 
-    public void btnConsulter(ActionEvent actionEvent) throws IOException {
-        Annee an = null;
-        for ( Annee annee : Controleur.get().getMetier().getAnnees())
+    public void btnConsulter() throws IOException {
+        Annee an = this.cbbAnnee.getValue();//null;
+        /*for ( Annee annee : Controleur.get().getMetier().getAnnees())
             if ( annee.getNom().equals(this.cbbAnnee.getValue()))
-                an = annee;
+                an = annee;*/
         Controleur.get().getMetier().changerAnneeActuelle(an);
         this.stage.close();
         StagePrincipal.creer().show();
     }
 
-    public void btnDupliquer(ActionEvent actionEvent) {
-        Annee an = null;
-        for ( Annee annee : Controleur.get().getMetier().getAnnees())
+    public void btnDupliquer() {
+        Annee an = this.cbbAnnee.getValue();//null;
+        /*for ( Annee annee : Controleur.get().getMetier().getAnnees())
             if ( annee.getNom().equals(this.cbbAnnee.getValue()))
                 an = annee;
 
-	    assert an != null;
+	    assert an != null;*/
 
         TextInputDialog dialog = new TextInputDialog(this.cbbAnnee.getValue().toString());
 
@@ -95,9 +92,8 @@ public class StageAnnee {
         dialog.setHeaderText(String.format("Copie de l'année : %s", this.cbbAnnee.getValue().toString()));
         dialog.setContentText("Nouveau nom :");
 
-        Annee finalAn = an;
-        dialog.showAndWait().ifPresent(name -> {
-            Annee a = finalAn.dupliquer(name);
+	    dialog.showAndWait().ifPresent(name -> {
+            Annee a = an.dupliquer(name);
 
             System.out.println(a.getSemestres());
         });
@@ -105,14 +101,14 @@ public class StageAnnee {
         this.setCpbContrat();
     }
 
-    public void btnSupprimer(ActionEvent actionEvent)
+    public void btnSupprimer()
     {
-        Annee an = null;
+        Annee an = this.cbbAnnee.getValue();/*null;
         for ( Annee annee : Controleur.get().getMetier().getAnnees())
             if ( annee.getNom().equals(this.cbbAnnee.getValue()))
                 an = annee;
 
-        assert an != null;
+        assert an != null;*/
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
@@ -120,7 +116,8 @@ public class StageAnnee {
         alert.setContentText(String.format("Voulez vous supprimer l'année \"%s\" ?", an.getNom()));
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.isPresent() && result.get() == ButtonType.OK)
+        {
             boolean good = an.supprimer( false );
 
             if (!good)
@@ -131,7 +128,7 @@ public class StageAnnee {
                 alertSecond.setContentText(String.format("Supprimer l'année \"%s\" et tout son contenu ?", an.getNom()));
 
                 Optional<ButtonType> resultSecond = alertSecond.showAndWait();
-                if (resultSecond.get() == ButtonType.OK) an.supprimer( true );
+                if (resultSecond.isPresent() && resultSecond.get() == ButtonType.OK) an.supprimer( true );
 
                 // TODO : fonction d'enregistrement ici (ps : je gère)
             }

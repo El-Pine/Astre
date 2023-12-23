@@ -28,7 +28,7 @@ public class StageAjoutIntervenant
     @FXML
     private TextField txtPrenom;
     @FXML
-    private ComboBox  cpbContrat;
+    private ComboBox<CategorieIntervenant>  cpbContrat;
     @FXML
     private TextField txtService;
     @FXML

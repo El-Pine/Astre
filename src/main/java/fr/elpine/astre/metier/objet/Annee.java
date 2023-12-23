@@ -156,11 +156,6 @@ public class Annee
 
     @Override
     public String toString() {
-        return "Annee{" +
-                "nom='" + nom + '\'' +
-                ", dateDeb='" + dateDeb + '\'' +
-                ", dateFin='" + dateFin + '\'' +
-                ", ensSemestre=" + ensSemestre +
-                '}';
+        return this.nom;
     }
 }

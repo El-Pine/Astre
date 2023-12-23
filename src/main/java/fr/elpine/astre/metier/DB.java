@@ -641,7 +641,7 @@ public class DB
     {
         String req = "INSERT INTO CategorieIntervenant VALUES (?,?,?,?,?)";
 
-        try(PreparedStatement ps = co.prepareStatement( req );)
+        try(PreparedStatement ps = co.prepareStatement( req ))
         {
 
             ps.setString (1, categorieIntervenant.getCode       () );
@@ -896,17 +896,14 @@ public class DB
 
     // Méthode d'update pour la classe Attribution
     public void majAttribution(Attribution att) {
-        String req = "UPDATE Attribution SET codeModule = ?, nomCategorieHeure = ?, nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ?, anneeModule = ?, nomCategorieHeure = ?";
+        String req = "UPDATE Attribution SET nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString(1,att.getModule   ().getCode    ());
-            ps.setString(2,att.getCatHr    ().getNom     ());
-            ps.setInt   (3,att.getNbHeure  ());
-            ps.setInt   (4,att.getNbHeure  ());
-            ps.setInt   (5,att.getNbSemaine()                                  );
-            ps.setInt   (6,att.getModule   ().getSemestre().getNumero());
-            ps.setString(7,att.getModule   ().getCode    ());
-            ps.setString(8,att.getModule   ().getSemestre().getAnnee ().getNom());
-            ps.setString(9,att.getCatHr    ().getNom     ());
+            ps.setInt   (1,att.getNbHeure  ());
+            ps.setInt   (2,att.getNbSemaine());
+            ps.setInt   (3,att.getModule   ().getSemestre().getNumero());
+            ps.setString(4,att.getModule   ().getCode    ());
+            ps.setString(5,att.getModule   ().getSemestre().getAnnee ().getNom());
+            ps.setString(6,att.getCatHr    ().getNom     ());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
