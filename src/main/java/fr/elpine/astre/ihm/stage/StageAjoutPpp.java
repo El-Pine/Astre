@@ -61,7 +61,7 @@ public class StageAjoutPpp implements Initializable {
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);
         StageAjoutPpp.module = module;
-        listInter = new ArrayList<Intervenant>();
+        listInter = new ArrayList<>();
         listInter = Controleur.get().getMetier().getIntervenants();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("CreationModules.fxml"));

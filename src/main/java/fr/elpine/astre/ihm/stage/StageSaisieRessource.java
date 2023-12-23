@@ -4,8 +4,8 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
-import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.objet.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -20,22 +20,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.Flow;
 
-import static java.lang.Integer.*;
+import static java.lang.Integer.parseInt;
 
 //TODO:Faire les heures affectées (dans tableau Affectation nbHeuure * nbSemaine * eqtd)
 
@@ -171,9 +167,8 @@ public class StageSaisieRessource implements Initializable
         ArrayList<TextField> textFields = new ArrayList<>();
 
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof FlowPane) {
-                FlowPane flowPane = (FlowPane) node;
-                textFields.addAll(getTextFieldsFromFlowPane(flowPane));
+            if (node instanceof FlowPane flowPane) {
+	            textFields.addAll(getTextFieldsFromFlowPane(flowPane));
             }
         }
 
@@ -267,8 +262,8 @@ public class StageSaisieRessource implements Initializable
     }
 
     @FXML
-    protected void onBtnAnnuler() throws IOException, SQLException {
-        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<Affectation>();
+    protected void onBtnAnnuler() throws IOException {
+        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<>();
         stage.close();
         StagePrincipal.creer().show();
     }
@@ -307,7 +302,7 @@ public class StageSaisieRessource implements Initializable
 
 
 
-        this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
+        this.hmTxtPn = new HashMap<>();
         StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
         tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
@@ -525,29 +520,17 @@ public class StageSaisieRessource implements Initializable
 
     private void ajouterListener(TextField txt)
     {
-        txt.textProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                valeurChangerPn(txt, newValue);
-            }
-        });
+        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerPn(txt, newValue));
     }
 
     private void ajouterListenerSemaine(TextField txt)
     {
-        txt.textProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                valeurChangerSemaine(txt, newValue);
-            }
-        });
+        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerSemaine(txt, newValue));
     }
 
     private void ajouterListenerTotal(TextField txt)
     {
-        txt.textProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                valeurChangerRepart(txt, newValue);
-            }
-        });
+        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerRepart(txt, newValue));
     }
 
     private void valeurChangerRepart(TextField txt, String newValue)
@@ -611,8 +594,8 @@ public class StageSaisieRessource implements Initializable
         int valeurSemaine = 0;
         int valeurFinal   = 0;
 
-        System.out.println(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().equals("")) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")));
-        if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().equals("")) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")) )
+        System.out.println(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().isEmpty()));
+        if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().isEmpty()) )
         {
             valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText()) * Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
         }
@@ -648,7 +631,7 @@ public class StageSaisieRessource implements Initializable
         {
             if(!txt1.isEditable())
             {
-                if(txt.getText() != "")
+                if(!txt.getText().isEmpty())
                 {
                     int valeurInitial = Integer.parseInt(txt.getText());
                     txt1.setText(calculeNvValeur(valeurInitial, Controleur.get().getDb().getCatHrByNom(keyCatHr)));

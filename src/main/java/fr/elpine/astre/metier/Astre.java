@@ -1,10 +1,9 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.objet.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 

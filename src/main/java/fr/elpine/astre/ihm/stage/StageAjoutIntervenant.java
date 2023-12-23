@@ -48,7 +48,7 @@ public class StageAjoutIntervenant
         AstreApplication.refreshIcon(stage);
 
         StageAjoutIntervenant.parent = parent;
-        StageAjoutIntervenant.hmChampValider = new HashMap<TextField,Boolean>();
+        StageAjoutIntervenant.hmChampValider = new HashMap<>();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageAjoutIntervenant.class.getResource("saisieIntervenant.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 700, 450);
@@ -76,9 +76,7 @@ public class StageAjoutIntervenant
         stage.setScene(scene);
         stagectrl.setCpbContrat();
 
-        stage.setOnCloseRequest(e -> {
-            parent.activer();
-        });
+        stage.setOnCloseRequest(e -> parent.activer());
 
         return stage;
     }
@@ -115,15 +113,14 @@ public class StageAjoutIntervenant
         });
 
         if (test.get())
-            StageIntervenant.interAAjouter.add(Intervenant.creerIntervenant(this.txtNom.getText(),this.txtPrenom.getText(),this.txtEmail.getText(),(CategorieIntervenant) this.cpbContrat.getValue(),Integer.parseInt(this.txtService.getText()),Integer.parseInt(this.txtComplementaire.getText()),this.txtfRatio.getText()));
+            StageIntervenant.interAAjouter.add(Intervenant.creerIntervenant(this.txtNom.getText(),this.txtPrenom.getText(),this.txtEmail.getText(), this.cpbContrat.getValue(),Integer.parseInt(this.txtService.getText()),Integer.parseInt(this.txtComplementaire.getText()),this.txtfRatio.getText()));
 
         parent.refresh();
         this.stage.close();
         parent.activer();
     }
 
-    public void btnAnnuler(ActionEvent actionEvent) throws IOException
-    {
+    public void btnAnnuler() {
         this.stage.close();
         parent.activer();
     }

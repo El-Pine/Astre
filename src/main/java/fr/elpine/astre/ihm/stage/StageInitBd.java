@@ -69,7 +69,7 @@ public class StageInitBd implements Initializable
 
     private void addTxtField()
     {
-        this.textFields = new ArrayList<TextField>();
+        this.textFields = new ArrayList<>();
         this.textFields.add(this.txtfIp);
         this.textFields.add(this.txtfPort);
         this.textFields.add(this.txtfId);
@@ -103,7 +103,7 @@ public class StageInitBd implements Initializable
             StagePopUp.PopUpErreur("Erreur de connection", "Les informations entrées sont invalides, ou la base de données n'est pas accessible");
     }
 
-    public void onBtnAnnuler(ActionEvent actionEvent) throws IOException
+    public void onBtnAnnuler()
     {
         if ( parent != null ) parent.activer();
         else stage.close();

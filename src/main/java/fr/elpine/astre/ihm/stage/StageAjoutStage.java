@@ -61,7 +61,7 @@ public class StageAjoutStage implements Initializable {
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);
         StageAjoutStage.module = module;
-        listInter = new ArrayList<Intervenant>();
+        listInter = new ArrayList<>();
         listInter = Controleur.get().getMetier().getIntervenants();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("CreationModules.fxml"));

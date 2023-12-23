@@ -60,8 +60,8 @@ public class StageIntervenant implements Initializable
 		AstreApplication.refreshIcon(stage);
 
 		StageIntervenant.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
-		StageIntervenant.interAAjouter = new ArrayList<Intervenant>();
-		StageIntervenant.interAEnlever = new ArrayList<Intervenant>();
+		StageIntervenant.interAAjouter = new ArrayList<>();
+		StageIntervenant.interAEnlever = new ArrayList<>();
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StageIntervenant.class.getResource("intervenant.fxml"));
 
@@ -102,8 +102,8 @@ public class StageIntervenant implements Initializable
 	}
 
 	@FXML
-	protected void onBtnClickAnnuler() throws IOException, SQLException {
-		StageIntervenant.interAAjouter = StageIntervenant.interAEnlever = new ArrayList<Intervenant>();
+	protected void onBtnClickAnnuler() throws IOException {
+		StageIntervenant.interAAjouter = StageIntervenant.interAEnlever = new ArrayList<>();
 		stage.close();
 		StagePrincipal.creer().show();
 	}

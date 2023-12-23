@@ -1,24 +1,18 @@
 package fr.elpine.astre.ihm.stage;
 
-import fr.elpine.astre.Controleur;
-
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class StageAjouterCategories
 {
@@ -71,9 +65,7 @@ public class StageAjouterCategories
         stage.setTitle("Accueil Config");
         stage.setScene(scene);
 
-        stage.setOnCloseRequest(e -> {
-            parent.activer();
-        });
+        stage.setOnCloseRequest(e -> parent.activer());
 
         return stage;
     }
@@ -88,7 +80,7 @@ public class StageAjouterCategories
         int    nbHM    = Integer.parseInt   (txtfNbHMCatInter   .getText());
         int    nbHServ = Integer.parseInt   (txtfNbHServCatInter.getText());
 
-        if(estValide(code,nom))
+        if (code != null && nom != null)
         {
             StageAccueilConfig.categorieInterAAjouter.add(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
 
@@ -99,14 +91,6 @@ public class StageAjouterCategories
         parent.activer();
         parent.refresh();
         stage.close();
-    }
-
-
-    public boolean estValide(String code, String nom)
-    {
-        if(code == null  && nom == null)
-            return false;
-        return true;
     }
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {

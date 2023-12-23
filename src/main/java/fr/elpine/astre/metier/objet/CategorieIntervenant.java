@@ -2,8 +2,6 @@ package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
 
-import java.util.ArrayList;
-
 public class CategorieIntervenant
 {
     private String code;

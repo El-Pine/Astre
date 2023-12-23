@@ -2,7 +2,6 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Intervenant;
@@ -62,7 +61,7 @@ public class StageAjoutRessource implements Initializable {
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);
         StageAjoutRessource.module = module;
-        listInter = new ArrayList<Intervenant>();
+        listInter = new ArrayList<>();
         listInter = Controleur.get().getMetier().getIntervenants();
 
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("CreationModules.fxml"));

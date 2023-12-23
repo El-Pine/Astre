@@ -258,7 +258,7 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-                    Module mod = new Module(rs.getString ("nom"           ),
+	                return new Module(rs.getString ("nom"           ),
                                               rs.getString ("code"          ),
                                               rs.getString ("abreviation"   ),
                                               rs.getString ("typeModule"    ),
@@ -266,7 +266,6 @@ public class DB
                                               rs.getBoolean("validation"    ),
                               getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee"))
                     );
-                    return mod;
                 }
             }
         } catch (SQLException e) {
@@ -525,7 +524,7 @@ public class DB
             {
                 while (rs.next())
                 {
-                    Semestre semestre = new Semestre(
+	                return new Semestre(
                             rs.getInt                      ("numero"    ),
                             rs.getInt                      ("nbGrpTD"   ),
                             rs.getInt                      ("nbGrpTP"   ),
@@ -533,7 +532,6 @@ public class DB
                             rs.getInt                      ("nbSemaine" ),
                             getAnneeByNumero((rs.getString ("annee"     ))
                             ));
-                    return semestre;
                 }
             }
         }
@@ -616,12 +614,11 @@ public class DB
             try (ResultSet rs = ps.executeQuery()) {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-                    Annee annee = new Annee(
+	                return new Annee(
                             rs.getString(1),
                             rs.getString(2),
                             rs.getString(3)
                     );
-                    return annee;
                 }
             }
         } catch (SQLException e) {
@@ -720,7 +717,7 @@ public class DB
         }
         catch (SQLException e)
         {
-            System.out.printf("je suis la aussi ");
+            System.out.print("je suis la aussi ");
             e.printStackTrace();
             return false;
         }
@@ -737,14 +734,13 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-                    CategorieIntervenant categorie = new CategorieIntervenant(
+	                return new CategorieIntervenant(
                             rs.getString ("code"                ),
                             rs.getString ("nom"                 ),
                             rs.getInt    ("NbHeureMaxDefaut"    ),
                             rs.getInt    ("nbHeureServiceDefaut"),
                             rs.getDouble ("ratioTPDefaut"       )
                     );
-                    return categorie;
                 }
             }
         } catch (SQLException e) {
@@ -858,7 +854,7 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-                    CategorieHeure categorie = new CategorieHeure(
+	                return new CategorieHeure(
                             rs.getString  (1),
                             rs.getDouble  (2),
                             rs.getBoolean (3),
@@ -866,7 +862,6 @@ public class DB
                             rs.getBoolean (5),
                             rs.getBoolean (6)
                     );
-                    return categorie;
                 }
             }
         } catch (SQLException e) {
