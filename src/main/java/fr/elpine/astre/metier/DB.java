@@ -1,5 +1,6 @@
 package fr.elpine.astre.metier;
 
+import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 import javafx.scene.paint.Color;
@@ -12,7 +13,6 @@ import java.util.Objects;
 
 public class DB
 {
-    private static boolean connected = false;
     private Connection co;
 
     public DB()
@@ -20,9 +20,6 @@ public class DB
         // Verification de l'existance du fichier de connexion
         File fichier = new File("infoBd.txt");
         try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
-
-        // Connexion
-        this.reloadDB();
 
 	    /*
          * Pour créer un tunnel SSH
@@ -33,8 +30,6 @@ public class DB
          * */
     }
 
-    public static boolean isConnected() { return connected; }
-
     /*-----------------*/
     /*    Connexion    */
     /*-----------------*/
@@ -44,16 +39,17 @@ public class DB
         try {
             Class.forName("org.postgresql.Driver");
             co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s", ip, port, database), identifiant, password);
-            co.setAutoCommit(false);
+
             try {
                 if (!this.verify()) this.reset();
             }
             catch (Exception e) { e.printStackTrace(); }
 
-            connected = true;
+            // Mise en place de la partie métier à chaque connexion établie
+            Controleur.get().startAstre();
 
             return true;
-        } catch (Exception e) { connected = false; return false; }
+        } catch (Exception e) { return false; }
     }
 
     public boolean reloadDB()

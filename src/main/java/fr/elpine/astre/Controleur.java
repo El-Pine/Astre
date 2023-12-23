@@ -20,31 +20,29 @@ public class Controleur
     {
         Controleur.ctrl = this;
 
-        this.startApplication();
-
+        // Mise en place de la base de données (sans connexion effective)
         this.db = new DB();
 
-        // Attente de la connexion à la base de données
-        while (!DB.isConnected()) try { Thread.sleep(50); } catch (Exception ignored) {}
-
-        this.astre = new Astre(this);
+        // Mise en place de la partie IHM (qui gère la connexion à la db)
+        Application.launch(AstreApplication.class);
     }
 
-    private void startApplication()
+    public void startAstre()
     {
-        new Thread(() -> Application.launch(AstreApplication.class)).start();
+        this.astre = new Astre(this);
     }
 
     public static Controleur get()
     {
-        return Controleur.ctrl == null ? new Controleur() : Controleur.ctrl;
+        return Controleur.ctrl;
     }
 
     public DB getDb() { return this.db; }
     public Astre getMetier() { return this.astre; }
 
+
     public static void main(String[] args)
     {
-        Controleur.get();
+        new Controleur();
     }
 }

@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
+import javax.sound.sampled.Control;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -18,13 +19,14 @@ public class AstreApplication extends Application
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
-		/*
+		/* STYLE
 		* Thèmes    : cupertino, nord, primer & dracula (experimental)
 		* Variantes : dark & light
 		* */
-		Application.setUserAgentStylesheet(AstreApplication.class.getResource("styles/cupertino-dark.css").toExternalForm());
+		Application.setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/cupertino-light.css")).toExternalForm());
 
-		if ( !DB.isConnected() ) {
+
+		if ( !Controleur.get().getDb().reloadDB() ) {
 			StageInitBd.creer(null).show();
 		} else {
 			StagePrincipal.creer().show();

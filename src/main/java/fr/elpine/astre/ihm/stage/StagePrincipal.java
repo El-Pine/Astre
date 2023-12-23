@@ -37,7 +37,7 @@ public class StagePrincipal implements Initializable
 			stageCtrl.setStage(stage);
 		}
 
-		stage.setTitle("Accueil");
+		stage.setTitle("Astre");
 		stage.setScene(scene);
 
 		scene.getStylesheets().add( StagePrincipal.class.getResource("style.css").toExternalForm());
