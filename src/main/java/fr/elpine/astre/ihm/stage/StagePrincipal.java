@@ -69,12 +69,11 @@ public class StagePrincipal implements Initializable
 	}
 
 	@FXML
-	protected void onBtnClickEtat()
+	protected void onBtnClickEtat() throws IOException
 	{
-		try {
-			StagePopUp.PopUpConfirmation("Tu es sur ? ", "Tu es sur ?");
-		}
-		catch (IOException ignored){}
+		this.stage.close();
+		StageEtats.creer().show();
+
 	}
 
 	public void onBtnClickAnnee(ActionEvent actionEvent) throws IOException {
