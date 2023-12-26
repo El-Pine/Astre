@@ -31,7 +31,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
-import static java.lang.Integer.parseInt;
+import static java.lang.Integer.*;
 
 //TODO:Faire les heures affectées (dans tableau Affectation nbHeuure * nbSemaine * eqtd)
 
@@ -45,6 +45,7 @@ public class StageSaisieRessource implements Initializable
     public TableColumn<Affectation, String> tcIntervenant;
     @FXML
     public TableColumn<Affectation, String> tcType;
+    public TableColumn<Affectation, Integer> tcSemaine;
     @FXML
     public TableColumn<Affectation, Integer> tcNbH;
     @FXML
@@ -54,7 +55,7 @@ public class StageSaisieRessource implements Initializable
     @FXML
     public TableColumn<Affectation, Integer> tcTotalEqtd;
     @FXML
-    public static ObservableList<Affectation> ensAff;
+    public ObservableList<Affectation> ensAff;
     @FXML
     public TextField txtTypeModule;
     @FXML
@@ -88,8 +89,6 @@ public class StageSaisieRessource implements Initializable
     public GridPane gridTot;
 
     public TabPane tabPaneSemaine;
-
-    private int indMaxPn;
 
     private HashMap<String, ArrayList<TextField>> hmTxtPn;
     private HashMap<String, ArrayList<TextField>> hmTxtSemaine;
@@ -125,6 +124,174 @@ public class StageSaisieRessource implements Initializable
 
         return stage;
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        initGridPn();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(cat.estRessource())
+            {
+                ajouterColonne(cat.getNom());
+            }
+        }
+        ajouterColonne("TO");
+
+        initTabPan();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(cat.estRessource())
+            {
+                ajouterOnglet(cat.getNom());
+            }
+        }
+
+        this.gridPaneRepartition.getChildren().clear();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if (cat.estRessource())
+            {
+                ajouterColonneRepartition(cat.getNom());
+            }
+        }
+
+
+        this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
+        StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
+
+        /*
+        tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
+        tc.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item);
+
+                if (item != null && item.equals("❌")) {
+                    setTextFill(Color.RED);
+                } else if (item != null && item.equals("➕")) {
+                    setTextFill(Color.LIGHTGREEN);
+                } else {
+                    setTextFill(Color.BLACK);
+                    setText("");
+                }
+            }
+        });
+
+         */
+
+        this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+        tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant () .getNom()));
+        tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure   () .getNom()));
+        tcSemaine    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine  ()).asObject());
+        tcGrp        .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());
+        tcNbH        .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure    ()).asObject());
+        tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
+
+
+        //System.out.println(ensAff);
+
+        tableau.setItems(ensAff);
+
+
+        this.hmTxtPn = initHmPn(getAllTextFieldsPn(gridPn));
+
+        this.hmTxtPn.forEach((key,value) -> {
+            for (TextField txt: value)
+            {
+                if(txt.isEditable())
+                {
+                    ajouterListener(txt);
+                    creerFormatter(key,txt);
+                }
+            }
+        });
+
+        this.hmTxtSemaine = initHmPn(extractTextFields(tabPaneSemaine));
+
+        //System.out.println(hmTxtSemaine);
+
+        this.hmTxtSemaine.forEach((key,value) -> {
+            for (TextField txt: value)
+            {
+                ajouterListenerSemaine(txt);
+                creerFormatter(key,txt);
+            }
+        });
+
+        this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
+        this.hmTxtRepartion.forEach((key,value) -> {
+            for (TextField txt: value)
+            {
+                ajouterListenerTotal(txt);
+                creerFormatter(key,txt);
+            }
+        });
+
+        calculeAffecte();
+    }
+
+    private void calculeAffecte() {
+        // Générer la liste de champs texte
+        ArrayList<TextField> alAffecte = genererArrayList();
+
+        // Calculer les valeurs en fonction des données du modèle
+        HashMap<String, Double> hmAffecte = calculerValeursAffecte();
+
+        // Mettre à jour les champs texte avec les valeurs calculées
+        mettreAJourChamps(alAffecte, hmAffecte);
+    }
+
+    private HashMap<String, Double> calculerValeursAffecte() {
+        HashMap<String, Double> hmAffecte = new HashMap<>();
+
+        for (Affectation aff : tableau.getItems()) {
+            String typeHeure = aff.getTypeHeure().getNom();
+            double valeur;
+
+            if (typeHeure.equals("CM")) {
+                valeur = aff.getNbHeure() * aff.getTypeHeure().getEquivalentTD();
+            } else {
+                valeur = aff.getNbHeure() * aff.getNbSemaine() * aff.getNbGroupe() * aff.getTypeHeure().getEquivalentTD();
+            }
+
+            // Ajouter ou mettre à jour la valeur dans la HashMap
+            hmAffecte.put(typeHeure, hmAffecte.getOrDefault(typeHeure, 0.0) + valeur);
+        }
+
+        return hmAffecte;
+    }
+
+    private void mettreAJourChamps(ArrayList<TextField> alAffecte, HashMap<String, Double> hmAffecte)
+    {
+        for (TextField txt : alAffecte)
+        {
+            String typeHeure = txt.getId().substring(3, 5);
+            //txt.setText(String.valueOf(hmAffecte.getOrDefault(typeHeure, 0.0)));
+            txt.setText("1");
+        }
+    }
+
+    private ArrayList<TextField> genererArrayList()
+    {
+        ArrayList<TextField> alAffecte = new ArrayList<>();
+        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtRepartion.entrySet())
+        {
+            String key = entry.getKey();
+            ArrayList<TextField> value = entry.getValue();
+
+            for (TextField txt: value)
+            {
+                String jesaispascommentappelercettevariable = txt.getId().substring(5);
+                if(jesaispascommentappelercettevariable.equals("Affecte"))
+                    alAffecte.add(txt);
+            }
+        }
+
+        return alAffecte;
+    }
+
 
     /*-----------------------------*/
     /*   TextField dans tablePane  */
@@ -240,14 +407,35 @@ public class StageSaisieRessource implements Initializable
     private void creerFormatter(String nom, TextField txtf) {
         txtf.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getControlNewText().matches("^\\d+$") || change.getControlNewText().isEmpty()) {
-                if (!this.hmTxtRepartion.get(nom).contains(txtf) || Integer.parseInt(change.getText()) <= Integer.parseInt(this.hmTxtPn.get(nom).get(this.hmTxtRepartion.get(nom).indexOf(txtf)).getText()))
-                    txtf.setStyle("");
-                else
+                String newText = change.getControlNewText();
+
+                if (isNumeric(newText)) {
+                    int newValue = Integer.parseInt(newText);
+
+                    if (!this.hmTxtRepartion.get(nom).contains(txtf) || newValue <= Integer.parseInt(this.hmTxtPn.get(nom).get(this.hmTxtRepartion.get(nom).indexOf(txtf)).getText())) {
+                        txtf.setStyle("");
+                    } else {
+                        txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                    }
+                } else {
                     txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
-            } else
+                }
+
+                return change;
+            } else {
                 return null;
-            return change;
+            }
         }));
+    }
+
+    // Méthode utilitaire pour vérifier si une chaîne est un nombre
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     @FXML
@@ -268,105 +456,7 @@ public class StageSaisieRessource implements Initializable
         StagePrincipal.creer().show();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        initGridPn();
-        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
-        {
-            if(cat.estRessource())
-            {
-                ajouterColonne(cat.getNom());
-            }
-        }
-        ajouterColonne("TO");
 
-        initTabPan();
-        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
-        {
-            if(cat.estRessource())
-            {
-                ajouterOnglet(cat.getNom());
-            }
-        }
-
-        this.gridPaneRepartition.getChildren().clear();
-        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
-        {
-            if (cat.estRessource())
-            {
-                ajouterColonneRepartition(cat.getNom());
-            }
-        }
-
-
-
-
-        this.hmTxtPn = new HashMap<>();
-        StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
-
-        tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
-        tc.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-
-                if (item != null && item.equals("❌")) {
-                    setTextFill(Color.RED);
-                } else if (item != null && item.equals("➕")) {
-                    setTextFill(Color.LIGHTGREEN);
-                } else {
-                    setTextFill(Color.BLACK);
-                    setText("");
-                }
-            }
-        });
-        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getIntervenant().getNom()));
-        tcType       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getTypeHeure  ().getNom()));
-        tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());
-        tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine  ()).asObject());
-        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure    ()).asObject());
-        tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
-
-        tableau.setItems(StageSaisieRessource.ensAff);
-
-
-        this.hmTxtPn = initHmPn(getAllTextFieldsPn(gridPn));
-
-        this.hmTxtPn.forEach((key,value) -> {
-            for (TextField txt: value)
-            {
-                if(txt.isEditable())
-                {
-                    ajouterListener(txt);
-                    creerFormatter(key,txt);
-                }
-            }
-        });
-
-        this.hmTxtSemaine = initHmPn(extractTextFields(tabPaneSemaine));
-
-        System.out.println(hmTxtSemaine);
-
-        this.hmTxtSemaine.forEach((key,value) -> {
-            for (TextField txt: value)
-            {
-                ajouterListenerSemaine(txt);
-                creerFormatter(key,txt);
-            }
-        });
-
-        this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
-        this.hmTxtRepartion.forEach((key,value) -> {
-            for (TextField txt: value)
-            {
-                ajouterListenerTotal(txt);
-                creerFormatter(key,txt);
-            }
-        });
-
-    }
 
     private void ajouterOnglet(String nom) {
         // Créer un GridPane pour l'onglet
@@ -718,6 +808,7 @@ public class StageSaisieRessource implements Initializable
         return hmTemp;
     }
 
+    /*
     private String getCellValue(Intervenant intervenant) {
         if (StageIntervenant.interAAjouter.contains(intervenant)) {
             return "➕";
@@ -727,9 +818,11 @@ public class StageSaisieRessource implements Initializable
             return "";
         }
     }
+    */
+
 
     public void refresh() {
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
-        tableau.setItems(StageSaisieRessource.ensAff);
+        ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+        tableau.setItems(ensAff);
     }
 }

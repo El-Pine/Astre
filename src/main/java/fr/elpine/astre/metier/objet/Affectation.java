@@ -25,6 +25,7 @@ public class Affectation
         this.typeHeure   = typeHeure;
         this.intervenant = intervenant;
         this.module      = module;
+        this.nbHeure     = 2;
 
         if (intervenant != null) intervenant.ajouterAffectation(this);
         if (module      != null) module     .ajouterAffectation(this);
@@ -54,7 +55,14 @@ public class Affectation
 
     public int            getNbGroupe    () { return nbGroupe;         }
     public int            getNbSemaine   () { return nbSemaine;        }
-    public int            getNbHeure     () { return nbHeure;          }
+    public int            getNbHeure     ()
+    {
+        if(this.hasNbHeure())
+        {
+            return nbHeure;
+        }
+        return 0;
+    }
     public String         getCommentaire () { return commentaire;      }
     public CategorieHeure getTypeHeure   () { return typeHeure;        }
     public Module         getModule      () { return this.module;      }

@@ -54,7 +54,7 @@ public class StageSaisieSae implements Initializable
     @FXML
     public TableColumn<Affectation, Integer> tcTotalEqtd;
     @FXML
-    public static ObservableList<Affectation> ensAff;
+    public ObservableList<Affectation> ensAff;
     @FXML
     public TextField txtTypeModule;
     @FXML
@@ -162,8 +162,9 @@ public class StageSaisieSae implements Initializable
         ArrayList<TextField> textFields = new ArrayList<>();
 
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof FlowPane flowPane) {
-	            textFields.addAll(getTextFieldsFromFlowPane(flowPane));
+            if (node instanceof FlowPane) {
+                FlowPane flowPane = (FlowPane) node;
+                textFields.addAll(getTextFieldsFromFlowPane(flowPane));
             }
         }
 
@@ -247,8 +248,8 @@ public class StageSaisieSae implements Initializable
     }
 
     @FXML
-    protected void onBtnAnnuler() throws IOException {
-        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<>();
+    protected void onBtnAnnuler() throws IOException, SQLException {
+        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<Affectation>();
         stage.close();
         StagePrincipal.creer().show();
     }
@@ -256,7 +257,7 @@ public class StageSaisieSae implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        this.hmTxtPn = new HashMap<>();
+        this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
         StageSaisieSae.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
         tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
@@ -283,7 +284,7 @@ public class StageSaisieSae implements Initializable
         tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure    ()).asObject());
         tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
 
-        tableau.setItems(StageSaisieRessource.ensAff);
+        tableau.setItems(this.ensAff);
 
 
         this.hmTxtPn = initHmPn(getAllTextFieldsPn(gridPn));
@@ -322,13 +323,21 @@ public class StageSaisieSae implements Initializable
 
     private void ajouterListener(TextField txt)
     {
-        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerPn(txt, newValue));
+        txt.textProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                valeurChangerPn(txt, newValue);
+            }
+        });
     }
 
     private void ajouterListenerSemaine(TextField txt)
     {
         System.out.println("je suis la");
-        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerSemaine(txt, newValue));
+        txt.textProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                valeurChangerSemaine(txt, newValue);
+            }
+        });
     }
 
     private void valeurChangerSemaine(TextField txt, String newValue)
@@ -341,7 +350,7 @@ public class StageSaisieSae implements Initializable
         int valeurSemaine = 0;
         int valeurFinal   = 0;
 
-        if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().isEmpty()) )
+        if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().equals("")) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")) )
         {
             valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText()) * Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
         }
@@ -378,7 +387,7 @@ public class StageSaisieSae implements Initializable
         {
             if(!txt1.isEditable())
             {
-                if(!txt.getText().isEmpty())
+                if(txt.getText() != "")
                 {
                     int valeurInitial = Integer.parseInt(txt.getText());
                     txt1.setText(calculeNvValeur(valeurInitial, Controleur.get().getDb().getCatHrByNom(keyCatHr)));
@@ -478,7 +487,7 @@ public class StageSaisieSae implements Initializable
     }
 
     public void refresh() {
-        StageSaisieRessource.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
-        tableau.setItems(StageSaisieRessource.ensAff);
+        this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+        tableau.setItems(this.ensAff);
     }
 }

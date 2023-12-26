@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
+<BorderPane prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
    <top>
       <GridPane prefHeight="125.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -338,17 +324,17 @@
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                                                          <children>
-                                                            <TextField fx:id="txtCMAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtCMAffecte" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                          <children>
-                                                            <TextField fx:id="txtTDAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTDAffecte" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                                          <children>
-                                                            <TextField fx:id="txtTPAffecteRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtTPAffecte" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane fx:id="txtHp" alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
@@ -358,7 +344,7 @@
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                                          <children>
-                                                            <TextField fx:id="txtHpPromoRepartion" prefHeight="26.0" prefWidth="50.0" />
+                                                            <TextField fx:id="txtHpPromo" prefHeight="26.0" prefWidth="50.0" />
                                                          </children>
                                                       </FlowPane>
                                                       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3">

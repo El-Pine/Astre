@@ -1034,7 +1034,7 @@ public class DB
                     int idInter = rs.getInt(4);
 
                     String codeModule        = rs.getString(1);
-                    int numSem               = rs.getInt(2);
+                    int numSem               = rs.getInt   (2);
                     String anneeSem          = rs.getString(3);
 
                     String nomCategorieHeure = rs.getString(5);
