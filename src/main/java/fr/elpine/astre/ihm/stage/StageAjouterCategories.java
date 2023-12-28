@@ -101,8 +101,8 @@ public class StageAjouterCategories
 
     public void onBtnEnregistrerCatH(ActionEvent actionEvent) {
 
-        String nom = txtfNomCatH.getText();
-        double eqtd = Double.parseDouble(txtfEqtdCatH.getText());
+        String nom  = txtfNomCatH.getText();
+        String eqtd = txtfEqtdCatH.getText();
         boolean ressources = cbRessourcesCatH.isSelected();
         boolean c_sae = cbSaeCatH.isSelected();
         boolean c_ppp = cbPppCatH.isSelected();
@@ -122,6 +122,4 @@ public class StageAjouterCategories
         parent.activer();
         stage.close();
     }
-
-
 }

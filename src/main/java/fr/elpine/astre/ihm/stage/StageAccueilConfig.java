@@ -56,7 +56,7 @@ public class StageAccueilConfig implements Initializable
     @FXML
     private TableColumn<CategorieHeure,String >  tcNomHeures;
     @FXML
-    private TableColumn<CategorieHeure,Double > tcEqtdHeures;
+    private TableColumn<CategorieHeure,String > tcEqtdHeures;
     @FXML
     private TableColumn<CategorieHeure,Boolean> tcRessourcesHeures;
     @FXML
@@ -227,7 +227,7 @@ public class StageAccueilConfig implements Initializable
         });
 
         tcNomHeures        .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getNom         ()));
-        tcEqtdHeures       .setCellValueFactory (cellData -> new SimpleDoubleProperty  (cellData.getValue().getEquivalentTD()).asObject());
+        tcEqtdHeures       .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getEquivalentTD()));
         tcRessourcesHeures .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estRessource   ()));
         tcSaeHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estSae         ()));
         tcPppHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estPpp         ()));

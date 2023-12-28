@@ -48,15 +48,13 @@ public class Intervenant
     public int getHeureService() { return heureService  ;}
     public int getHeureMax() { return heureMax; }
     public String getRatioTP() { return ratioTP; }
-    public double getRatioValue()
+    public double getRatioTPValue()
     {
         String[] splt = this.ratioTP.split("/");
 
-        if (splt.length == 2)
-        {
+        if (splt.length == 2) {
             return (double) Integer.parseInt(splt[0]) / Integer.parseInt(splt[1]);
-        } else if (splt.length == 1)
-        {
+        } else if (splt.length == 1) {
             return Double.parseDouble(splt[0]);
         }
 

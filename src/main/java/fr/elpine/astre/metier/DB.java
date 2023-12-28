@@ -763,7 +763,7 @@ public class DB
         {
 
             ps.setString (1, categorieHeure.getNom          () );
-            ps.setDouble (2, categorieHeure.getEquivalentTD () );
+            ps.setString (2, categorieHeure.getEquivalentTD () );
             ps.setBoolean(3, categorieHeure.estRessource    () );
             ps.setBoolean(4, categorieHeure.estSae          () );
             ps.setBoolean(5, categorieHeure.estPpp          () );
@@ -783,7 +783,7 @@ public class DB
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString  (1,catHr.getNom         ());
-            ps.setDouble  (2,catHr.getEquivalentTD());
+            ps.setString  (2,catHr.getEquivalentTD());
             ps.setBoolean (3,catHr.estRessource   ());
             ps.setBoolean (4,catHr.estSae         ());
             ps.setBoolean (5,catHr.estStage       ());
@@ -829,7 +829,7 @@ public class DB
                 while (rs.next()) {
                     CategorieHeure categorie = new CategorieHeure(
                             rs.getString  ("nom"       ),
-                            rs.getDouble  ("eqtd"      ),
+                            rs.getString  ("eqtd"      ),
                             rs.getBoolean ("ressource" ),
                             rs.getBoolean ("sae"       ),
                             rs.getBoolean ("ppp"       ),
@@ -857,7 +857,7 @@ public class DB
                 while (rs.next()) {
 	                return new CategorieHeure(
                             rs.getString  (1),
-                            rs.getDouble  (2),
+                            rs.getString  (2),
                             rs.getBoolean (3),
                             rs.getBoolean (4),
                             rs.getBoolean (5),

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class CategorieHeure
 {
     private String nom;
-    private double equivalentTD;
+    private String equivalentTD;
     private boolean ressource;
     private boolean sae;
     private boolean ppp;
@@ -19,7 +19,7 @@ public class CategorieHeure
     private boolean supprime;
     private boolean modifie;
 
-    public CategorieHeure(String nom, double equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage)
+    public CategorieHeure(String nom, String equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage)
     {
         this.nom           = nom;
         this.equivalentTD  = equivalentTD;
@@ -38,15 +38,27 @@ public class CategorieHeure
     /* GETTER */
 
     public String getNom          () { return this.nom          ;}
-    public double getEquivalentTD () { return this.equivalentTD ;}
+    public String getEquivalentTD () { return this.equivalentTD ;}
     public boolean estRessource() { return ressource;}
     public boolean estSae      () { return sae;      }
     public boolean estPpp      () { return ppp;      }
     public boolean estStage    () { return stage;    }
+    public double getEquivalentTDValue ()
+    {
+        String[] splt = this.equivalentTD.split("/");
+
+        if (splt.length == 2) {
+            return (double) Integer.parseInt(splt[0]) / Integer.parseInt(splt[1]);
+        } else if (splt.length == 1) {
+            return Double.parseDouble(splt[0]);
+        }
+
+        return 0d;
+    }
 
     /*  SETTER   */
 
-    public void setEquivalentTD ( double equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = true; }
+    public void setEquivalentTD ( String equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = true; }
     public void setRessource    ( boolean estRessource ) { this.ressource    = estRessource ; this.modifie = true; }
     public void setSae          ( boolean estSae       ) { this.sae          = estSae       ; this.modifie = true; }
     public void setPpp          ( boolean estPpp       ) { this.ppp          = estPpp       ; this.modifie = true; }

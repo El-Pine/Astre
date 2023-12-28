@@ -365,11 +365,11 @@ public class StageSaisieStage implements Initializable {
                 if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
                 {
                     int valeurXgroupe = valeurSemaine * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-                    valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD());
+                    valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTDValue());
                 }
                 else
                 {
-                    valeurFinal = (int) (valeurSemaine * catHr.getEquivalentTD());
+                    valeurFinal = (int) (valeurSemaine * catHr.getEquivalentTDValue());
                 }
 
                 txt1.setText(Integer.toString(valeurFinal));
@@ -444,13 +444,13 @@ public class StageSaisieStage implements Initializable {
         if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
         {
             int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-            int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD());
+            int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTDValue());
             return Integer.toString(valeurFinal);
         }
         else
         {
             System.out.println();
-            int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTD());
+            int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTDValue());
             return Integer.toString(valeurFinal);
         }
     }
