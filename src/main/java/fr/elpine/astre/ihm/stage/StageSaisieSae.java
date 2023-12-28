@@ -390,7 +390,7 @@ public class StageSaisieSae implements Initializable
                 if(txt.getText() != "")
                 {
                     int valeurInitial = Integer.parseInt(txt.getText());
-                    txt1.setText(calculeNvValeur(valeurInitial, Controleur.get().getDb().getCatHrByNom(keyCatHr)));
+                    txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), keyCatHr)));
                 }
             }
         }

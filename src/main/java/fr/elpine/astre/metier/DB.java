@@ -248,32 +248,6 @@ public class DB
         return ensModule;
     }
 
-    public Module getModuleByNumero(String numero)
-    {
-        String req = "SELECT * FROM Module WHERE code = ?"; //TODO:Tout changer
-        try (PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setString(1,numero);
-            try (ResultSet rs = ps.executeQuery())
-            {
-                // Traiter les résultats du ResultSet
-                while (rs.next()) {
-	                return new Module(rs.getString ("nom"           ),
-                                              rs.getString ("code"          ),
-                                              rs.getString ("abreviation"   ),
-                                              rs.getString ("typeModule"    ),
-                                              Color.valueOf(rs.getString("couleur")),
-                                              rs.getBoolean("validation"    ),
-                              getSemestreById(rs.getInt    ("numeroSemestre"),rs.getString("annee"))
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /*-----------------*/
     /*   Intervenant   */
@@ -385,38 +359,7 @@ public class DB
         return resultats;
     }
 
-    public ArrayList<Intervenant> getIntervenantByNom(String nomRch)
-    {
-        ArrayList<Intervenant> resultats = new ArrayList<>();
-        String req = "SELECT * FROM Intervenant WHERE lower(nom) like lower(?) or lower(prenom) like lower(?) or lower(codecategorie) like lower(?)";
-        try(PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setString(1,'%' + nomRch + '%');
-            ps.setString(2,'%' + nomRch + '%');
-            ps.setString(3,'%' + nomRch + '%');
-            try (ResultSet rs = ps.executeQuery())
-            {
 
-                while (rs.next())
-                {
-                    resultats.add(new Intervenant(
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            selectCatInterByCode(rs.getString(5)),
-                            rs.getInt(6),
-                            rs.getInt(7),
-                            rs.getString(8)
-                    ));
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return resultats;
-    }
     /*--------------*/
     /*   SEMESTRE   */
     /*--------------*/
@@ -514,34 +457,6 @@ public class DB
         return ensSemestre;
     }
 
-    public Semestre getSemestreById(int numeroSemestre, String annee)
-    {
-        String req = "SELECT * FROM Semestre WHERE numero = ? AND annee = ?";
-        try(PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setInt(1,numeroSemestre);
-            ps.setString(2,annee);
-            try (ResultSet rs = ps.executeQuery())
-            {
-                while (rs.next())
-                {
-	                return new Semestre(
-                            rs.getInt                      ("numero"    ),
-                            rs.getInt                      ("nbGrpTD"   ),
-                            rs.getInt                      ("nbGrpTP"   ),
-                            rs.getInt                      ("nbEtd"     ),
-                            rs.getInt                      ("nbSemaine" ),
-                            getAnneeByNumero((rs.getString ("annee"     ))
-                            ));
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /*-----------*/
     /*   Annee   */
@@ -607,32 +522,10 @@ public class DB
         return ensAnnee;
     }
 
-    public Annee getAnneeByNumero(String nom)
-    {
-        String req = "SELECT * FROM Annee WHERE nom = ?";
-        try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString(1, nom);
-            try (ResultSet rs = ps.executeQuery()) {
-                // Traiter les résultats du ResultSet
-                while (rs.next()) {
-	                return new Annee(
-                            rs.getString(1),
-                            rs.getString(2),
-                            rs.getString(3)
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /*-------------------------*/
     /*  Catégorie Intervenant  */
     /*-------------------------*/
-
 
     //Méthode d'insert
     public void ajouterCategorieIntervenant(CategorieIntervenant categorieIntervenant)
@@ -653,37 +546,6 @@ public class DB
         {
             e.printStackTrace();
         }
-    }
-
-    //Méthode : SELECT * FROM CategorieIntervenant
-    public ArrayList<CategorieIntervenant> getAllCategorieIntervenant()
-    {
-        ArrayList<CategorieIntervenant> resultats = new ArrayList<>();
-        String req = "SELECT * FROM CategorieIntervenant";
-
-        try (PreparedStatement ps = co.prepareStatement(req))
-        {
-            try (ResultSet rs = ps.executeQuery())
-            {
-                // Traiter les résultats du ResultSet
-                while (rs.next()) {
-                    CategorieIntervenant categorie = new CategorieIntervenant(
-                            rs.getString (1),
-                            rs.getString (2),
-                            rs.getInt    (3),
-                            rs.getInt    (4),
-                            rs.getFloat  (5)
-                    );
-                    resultats.add(categorie);
-                }
-            }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
-        }
-
-        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
-        return resultats;
     }
 
     //Méthode d'update
@@ -725,31 +587,37 @@ public class DB
         return true;
     }
 
-    public CategorieIntervenant selectCatInterByCode(String code)
+    //Méthode : SELECT * FROM CategorieIntervenant
+    public ArrayList<CategorieIntervenant> getAllCategorieIntervenant()
     {
-        String req = "SELECT * FROM CategorieIntervenant WHERE code = ?";
+        ArrayList<CategorieIntervenant> resultats = new ArrayList<>();
+        String req = "SELECT * FROM CategorieIntervenant";
+
         try (PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString(1,code);
             try (ResultSet rs = ps.executeQuery())
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-	                return new CategorieIntervenant(
-                            rs.getString ("code"                ),
-                            rs.getString ("nom"                 ),
-                            rs.getInt    ("NbHeureMaxDefaut"    ),
-                            rs.getInt    ("nbHeureServiceDefaut"),
-                            rs.getDouble ("ratioTPDefaut"       )
+                    CategorieIntervenant categorie = new CategorieIntervenant(
+                            rs.getString (1),
+                            rs.getString (2),
+                            rs.getInt    (3),
+                            rs.getInt    (4),
+                            rs.getFloat  (5)
                     );
+                    resultats.add(categorie);
                 }
             }
         } catch (SQLException e) {
             // Gérer l'exception (journalisation, affichage, etc.)
             e.printStackTrace();
         }
-        return null;
+
+        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
+        return resultats;
     }
+
 
     /*-------------------*/
     /*  Categorie Heure  */
@@ -845,32 +713,6 @@ public class DB
         return resultats;
     }
 
-    public CategorieHeure getCatHrByNom(String nom)
-    {
-        String req = "SELECT * FROM CategorieHeure WHERE nom = ?";
-        try (PreparedStatement ps = co.prepareStatement(req))
-        {
-            ps.setString(1,nom);
-            try (ResultSet rs = ps.executeQuery())
-            {
-                // Traiter les résultats du ResultSet
-                while (rs.next()) {
-	                return new CategorieHeure(
-                            rs.getString  (1),
-                            rs.getString  (2),
-                            rs.getBoolean (3),
-                            rs.getBoolean (4),
-                            rs.getBoolean (5),
-                            rs.getBoolean (6)
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /*---------------------------*/
     /*        ASSOCIATION        */
@@ -947,7 +789,6 @@ public class DB
         }
         return ensAttribution;
     }
-
 
 
     /*-----------------------*/

@@ -385,10 +385,10 @@ public class StageSaisiePpp implements Initializable {
         {
             if(!txt1.isEditable())
             {
-                if(txt.getText() != "")
+                if(!txt.getText().isEmpty())
                 {
                     int valeurInitial = Integer.parseInt(txt.getText());
-                    txt1.setText(calculeNvValeur(valeurInitial, Controleur.get().getDb().getCatHrByNom(keyCatHr)));
+                    txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), keyCatHr)));
                 }
             }
         }
@@ -449,7 +449,6 @@ public class StageSaisiePpp implements Initializable {
         }
         else
         {
-            System.out.println();
             int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTDValue());
             return Integer.toString(valeurFinal);
         }
