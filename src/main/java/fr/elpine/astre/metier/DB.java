@@ -361,16 +361,18 @@ public class DB
                     String codeInter = rs.getString(5);
                     CategorieIntervenant catInter =  Astre.rechercherCatInter(ensCatInter, codeInter);
 
-                    Intervenant inter = Intervenant.creerIntervenant(
-                    rs.getString(2),
-                    rs.getString(3),
-                    rs.getString(4),
-                    catInter,
-                    rs.getInt(6),
-                    rs.getInt(7),
-                    rs.getString(8));
+                    Intervenant inter = new Intervenant(
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getString(4),
+                            catInter,
+                            rs.getInt(6),
+                            rs.getInt(7),
+                            rs.getString(8)
+                    );
 
                     inter.setId(rs.getInt(1));
+
                     resultats.add(inter);
                 }
             }
@@ -397,16 +399,15 @@ public class DB
 
                 while (rs.next())
                 {
-                    Intervenant inter = Intervenant.creerIntervenant(
+                    resultats.add(new Intervenant(
                             rs.getString(2),
                             rs.getString(3),
                             rs.getString(4),
                             selectCatInterByCode(rs.getString(5)),
                             rs.getInt(6),
                             rs.getInt(7),
-                            rs.getString(8));
-                    resultats.add(inter);
-
+                            rs.getString(8)
+                    ));
                 }
             }
         }

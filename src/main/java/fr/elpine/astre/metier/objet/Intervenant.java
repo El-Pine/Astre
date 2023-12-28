@@ -21,12 +21,12 @@ public class Intervenant
     private boolean supprime;
     private boolean modifie;
 
-    private Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, int heureService, int heureMax, String ratioTP)
+    public Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, int heureService, int heureMax, String ratioTP)
     {
         this.id           = null;
         this.nom          = nom;
         this.prenom       = prenom;
-        this.mail         = mail;
+        this.mail         = mail.toLowerCase();
         this.categorie    = categorie;
         this.heureService = heureService;
         this.heureMax     = heureMax;
@@ -39,13 +39,6 @@ public class Intervenant
         this.supprime = false;
     }
 
-    public static Intervenant creerIntervenant(String nom, String prenom, String email, CategorieIntervenant categorie, int heureService, int heureMax,String ratioTP)
-    {
-        String emailTmt = email.toLowerCase();
-
-        return new Intervenant(nom, prenom, emailTmt, categorie, heureService, heureMax, ratioTP);
-    }
-
     /*   GETTER    */
 
     public int getId                           () { return id       ;}
@@ -55,6 +48,20 @@ public class Intervenant
     public int getHeureService() { return heureService  ;}
     public int getHeureMax() { return heureMax; }
     public String getRatioTP() { return ratioTP; }
+    public double getRatioValue()
+    {
+        String[] splt = this.ratioTP.split("/");
+
+        if (splt.length == 2)
+        {
+            return (double) Integer.parseInt(splt[0]) / Integer.parseInt(splt[1]);
+        } else if (splt.length == 1)
+        {
+            return Double.parseDouble(splt[0]);
+        }
+
+        return 0d;
+    }
     public CategorieIntervenant getCategorie() { return categorie   ;}
 
     /*   SETTER   */
