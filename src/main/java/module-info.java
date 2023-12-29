@@ -3,6 +3,7 @@ module fr.elpine.astre {
 	requires javafx.fxml;
 	requires java.sql;
 	requires java.desktop;
+	requires org.slf4j;
 
 	exports fr.elpine.astre;
 	exports fr.elpine.astre.ihm;

@@ -6,6 +6,8 @@ import fr.elpine.astre.ihm.stage.StagePrincipal;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -15,6 +17,8 @@ public class AstreApplication extends Application
 	@Override
 	public void start(Stage primaryStage) throws IOException
 	{
+		Logger logger = LoggerFactory.getLogger(getClass());
+
 		/* STYLE
 		* Thèmes    : cupertino, nord, primer & dracula (experimental)
 		* Variantes : dark & light
@@ -23,6 +27,7 @@ public class AstreApplication extends Application
 
 
 		if ( !Controleur.get().getDb().reloadDB() ) {
+			logger.warn("Informations de connexion à la base de données erronées, nouvelle saisie demandé !");
 			StageInitBd.creer(null).show();
 		} else {
 			StagePrincipal.creer().show();

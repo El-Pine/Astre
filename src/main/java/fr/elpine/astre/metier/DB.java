@@ -4,6 +4,8 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 import javafx.scene.paint.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.sql.*;
@@ -13,6 +15,8 @@ import java.util.Objects;
 
 public class DB
 {
+    private static Logger logger = LoggerFactory.getLogger(DB.class);
+
     private Connection co;
 
     public DB()
@@ -43,13 +47,15 @@ public class DB
             try {
                 if (!this.verify()) this.reset();
             }
-            catch (Exception e) { e.printStackTrace(); }
+            catch (Exception e) { logger.error("Erreur lors de la réinitialisation de la base de données", e); }
 
             // Mise en place de la partie métier à chaque connexion établie
             Controleur.get().startAstre();
 
+            logger.info("Connexion à la base de données établie avec succès !");
+
             return true;
-        } catch (Exception e) { return false; }
+        } catch (Exception e) { logger.error("Erreur lors de la connexion", e); return false; }
     }
 
     public boolean reloadDB()
@@ -74,7 +80,7 @@ public class DB
                 writer.write(String.format("%s\t%s\t%s\t%s\t%s", ip, port, database, identifiant, password));
                 writer.close();
             }
-            catch (IOException e) { e.printStackTrace(); }
+            catch (IOException e) { logger.error("Erreur lors du la sauvegarde des informations de connexion", e); }
 
         return valid;
     }
@@ -90,7 +96,7 @@ public class DB
             String line = reader.readLine();
             if ( line != null ) elements = line.split("\t");
         }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (IOException e) { logger.error("Erreur lors de la récupération des informations", e); }
 
         if ( elements == null || elements.length != 5 ) { return null; }
 
@@ -112,7 +118,8 @@ public class DB
             ResultSet set = co.getMetaData().getTables(null, null, table.toLowerCase(), null);
             if (!set.next())
             {
-                valid = false; System.out.printf("Table %s introuvable !\n", table);
+                valid = false;
+                logger.warn("Table {} introuvable !\n", table);
             }
         }
 
@@ -132,7 +139,7 @@ public class DB
         {
             reader.lines().forEach(line -> content.append(line).append('\n'));
         }
-        catch (Exception e) { e.printStackTrace(); }
+        catch (Exception e) { logger.error(String.format("Erreur lors du chargement du fichier SQL : %s", file), e); }
 
         return content.toString();
     }
@@ -169,7 +176,7 @@ public class DB
             ps.setBoolean (8, module.estValide      ());
             ps.executeUpdate();
         }
-        catch (SQLException e) { e.printStackTrace(); }
+        catch (SQLException e) { logger.error("Erreur lors de l'ajout d'un module", e); }
     }
 
     //Méthode d'update
@@ -192,7 +199,7 @@ public class DB
             ps.setString  (8, module.getSemestre().getAnnee().getNom());
             ps.executeUpdate();
         }
-        catch (SQLException e) { e.printStackTrace(); }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'un module", e); }
     }
 
     //Méthode delete
@@ -207,7 +214,7 @@ public class DB
             ps.setString  (3, module.getSemestre().getAnnee().getNom());
             ps.executeUpdate();
         }
-        catch (SQLException e) { e.printStackTrace(); }
+        catch (SQLException e) { logger.error("Erreur lors de la suppression d'un module", e); }
     }
 
     //Méthode select all
@@ -241,10 +248,8 @@ public class DB
                 }
             }
         }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch(SQLException e) { logger.error("Erreur lors de la récupération des modules", e); }
+
         return ensModule;
     }
 
@@ -278,10 +283,7 @@ public class DB
                 }
             }
         }
-        catch(SQLException e)
-        {
-            System.out.println(e);
-        }
+        catch (SQLException e) { logger.error("Erreur lors de l'ajout d'un intervenant", e); }
     }
 
     //Méthode d'update
@@ -299,10 +301,7 @@ public class DB
             ps.setInt(7,inter.getId());
             ps.executeUpdate();
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'un intervenant", e); }
     }
 
     //Méthode delete
@@ -314,10 +313,7 @@ public class DB
             ps.setInt(1, inter.getId   () );
             ps.executeUpdate();
         }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch(SQLException e) { logger.error("Erreur lors de la suppression d'un intervenant", e); }
     }
 
     //Méthode select *
@@ -350,12 +346,8 @@ public class DB
                     resultats.add(inter);
                 }
             }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
-        }
+        } catch (SQLException e) { logger.error("Erreur lors de la récupération des intervenants", e); }
 
-        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
     }
 
@@ -376,11 +368,7 @@ public class DB
             ps.setInt(4,semestre.getNbEtd    ());
             ps.setInt(5,semestre.getNbSemaine());
             ps.executeUpdate();
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        } catch (SQLException e) { logger.error("Erreur lors de l'ajout d'un semestre", e); }
     }
 
     //Méthode d'update
@@ -397,10 +385,7 @@ public class DB
             ps.setInt(6,semestre.getNbSemaine() );
             ps.executeUpdate();
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'un semestre", e); }
     }
 
     //Méthode delete
@@ -413,10 +398,7 @@ public class DB
             ps.setString(2,semestre.getAnnee ().getNom() );
             ps.executeUpdate();
         }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de la suppression d'un semestre", e); }
     }
 
     //Méthode select *
@@ -450,10 +432,9 @@ public class DB
                     ensSemestre.add(semestre);
                 }
             }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la récupération des semestres", e); }
+
         return ensSemestre;
     }
 
@@ -470,9 +451,8 @@ public class DB
             ps.setString(2, annee.getDateDeb());
             ps.setString(3, annee.getDateFin());
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une année", e); }
     }
 
     // Méthode d'update
@@ -484,9 +464,8 @@ public class DB
             ps.setString(3, annee.getDateFin());
             ps.setString(4, annee.getNom());
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une année", e); }
     }
 
     // Méthode delete
@@ -495,9 +474,8 @@ public class DB
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, annee.getNom());
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la suppression d'une année", e); }
     }
 
     public ArrayList<Annee> getAllAnnee() {
@@ -515,10 +493,9 @@ public class DB
                     ensAnnee.add(annee);
                 }
             }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la récupération des années", e); }
+
         return ensAnnee;
     }
 
@@ -542,10 +519,7 @@ public class DB
             ps.setDouble (5, categorieIntervenant.getRatioTPDefault    () );
             ps.executeUpdate();
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une catégorie d'intervenant", e); }
     }
 
     //Méthode d'update
@@ -563,14 +537,11 @@ public class DB
             ps.executeUpdate();
 
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une catégorie d'intervenant", e); }
     }
 
     //Méthode de delete
-    public boolean supprimerCatIntervenant(CategorieIntervenant catInter)
+    public void supprimerCatIntervenant(CategorieIntervenant catInter)
     {
         String req = "DELETE FROM CategorieIntervenant WHERE code = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -578,13 +549,7 @@ public class DB
             ps.setString(1,catInter.getCode());
             ps.executeUpdate();
         }
-        catch (SQLException e)
-        {
-            System.out.print("je suis la aussi ");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        catch (SQLException e) { logger.error("Erreur lors de la suppression d'une catégorie d'intervenant", e); }
     }
 
     //Méthode : SELECT * FROM CategorieIntervenant
@@ -609,12 +574,9 @@ public class DB
                     resultats.add(categorie);
                 }
             }
-        } catch (SQLException e) {
-            // Gérer l'exception (journalisation, affichage, etc.)
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la récupération des catégories d'intervenant", e); }
 
-        // Retourner l'ArrayList contenant les instances de CategorieIntervenant
         return resultats;
     }
 
@@ -638,10 +600,7 @@ public class DB
             ps.setBoolean(6, categorieHeure.estStage        () );
             ps.executeUpdate();
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une catégorie d'heure", e); }
     }
 
     //Méthode update
@@ -659,14 +618,11 @@ public class DB
             ps.setString  (7,catHr.getNom         ());
             ps.executeUpdate();
         }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une catégorie d'heure", e); }
     }
 
     //Méthode delete
-    public boolean supprimerCategorieHeure(CategorieHeure catHr)
+    public void supprimerCategorieHeure(CategorieHeure catHr)
     {
         String req = "DELETE FROM CategorieHeure WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -674,13 +630,7 @@ public class DB
             ps.setString(1,catHr.getNom());
             ps.executeUpdate();
         }
-        catch (SQLException e)
-        {
-            System.out.println("je suis la mais dans categorie heure");
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        catch (SQLException e) { logger.error("Erreur lors de la suppression d'une catégorie d'heure", e); }
     }
 
     //Méthode select *
@@ -706,10 +656,9 @@ public class DB
                     resultats.add(categorie);
                 }
             }
-        } catch (SQLException e) {
-
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la récupération des catégories d'heure", e); }
+
         return resultats;
     }
 
@@ -727,9 +676,8 @@ public class DB
             ps.setString(3, attribution.getModule().getCode     ());
             ps.setString(4, attribution.getCatHr ().getNom      ());
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une attribution", e); }
     }
 
     // Méthode d'update pour la classe Attribution
@@ -743,9 +691,8 @@ public class DB
             ps.setString(5,att.getModule   ().getSemestre().getAnnee ().getNom());
             ps.setString(6,att.getCatHr    ().getNom     ());
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une attribution", e); }
     }
 
     // Méthode delete pour la classe Attribution
@@ -758,9 +705,8 @@ public class DB
             ps.setString (3,att.getModule().getSemestre().getAnnee().getNom());
             ps.setString (4,att.getCatHr ().getNom     ());
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la suppression d'une attribution", e); }
     }
 
     // Méthode select * pour la classe Attribution
@@ -784,15 +730,15 @@ public class DB
                     ensAttribution.add(att);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la récupération des attributions", e); }
+
         return ensAttribution;
     }
 
 
     /*-----------------------*/
-    /* Affectation Ressource */
+    /*  Affectation Modules  */
     /*-----------------------*/
 
     //Méthode insert
@@ -812,10 +758,7 @@ public class DB
             ps.setString   (9,affs.getCommentaire());
             ps.executeUpdate();
         }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une affectation", e); }
     }
 
     //Méthode d'update
@@ -840,10 +783,7 @@ public class DB
             ps.setInt    (11,aff.getModule().getSemestre().getNumero());
             ps.setString (12,aff.getModule().getSemestre().getAnnee().getNom());
         }
-        catch (SQLException e )
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une affectation", e); }
     }
 
     //Méthode delete
@@ -856,10 +796,7 @@ public class DB
             ps.setInt    (2,aff.getModule().getSemestre().getNumero());
             ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
         }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-        }
+        catch (SQLException e) { logger.error("Erreur lors de la suppression d'une affectation", e); }
     }
 
     //Méthode select *
@@ -891,9 +828,9 @@ public class DB
                     ensaff.add(aff);
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+        catch (SQLException e) { logger.error("Erreur lors de la récupération des affectations", e); }
+
         return ensaff;
     }
 }
