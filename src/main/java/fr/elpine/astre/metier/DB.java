@@ -21,6 +21,8 @@ public class DB
 
     public DB()
     {
+        logger.info("Lancement de l'application");
+
         // Verification de l'existance du fichier de connexion
         File fichier = new File("infoBd.txt");
         try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
