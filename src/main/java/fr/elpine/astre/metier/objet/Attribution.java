@@ -31,6 +31,8 @@ public class Attribution
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        this.setRollback();
     }
 
     public Attribution(int nbHeure, Module module, CategorieHeure catHr)
@@ -45,6 +47,8 @@ public class Attribution
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        this.setRollback();
     }
 
     public boolean        hasNbSemaine           () { return this.nbSemaine != null; }

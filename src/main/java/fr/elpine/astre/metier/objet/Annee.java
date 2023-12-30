@@ -30,6 +30,8 @@ public class Annee
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        this.setRollback();
     }
 
     public String getNom() { return nom;  }

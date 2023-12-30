@@ -50,6 +50,8 @@ public class Affectation
         if (module      != null) module     .ajouterAffectation(this);
 
         this.ajoute = Controleur.get().getMetier() != null;
+
+        this.setRollback();
     }
 
 

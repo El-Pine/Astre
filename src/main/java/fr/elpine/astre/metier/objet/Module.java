@@ -40,6 +40,8 @@ public class Module
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        this.setRollback();
     }
 
     /*   GETTER    */
@@ -54,7 +56,7 @@ public class Module
 
     /*   SETTER   */
 
-    //TODO : verif le changement du code
+    //TODO : verif le changement du code lors de l'enregistrement
 
     public void setCode       ( String code        )   { this.code        = code        ; this.modifie = true; }
     public void setNom         ( String nom        )   { this.nom         = nom         ; this.modifie = true; }

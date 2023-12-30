@@ -35,6 +35,8 @@ public class CategorieHeure
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        this.setRollback();
     }
 
     /* GETTER */
