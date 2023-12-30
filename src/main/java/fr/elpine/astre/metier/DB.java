@@ -566,7 +566,7 @@ public class DB
                             rs.getString (2),
                             rs.getInt    (3),
                             rs.getInt    (4),
-                            rs.getFloat  (5)
+                            rs.getString (5)
                     );
                     resultats.add(categorie);
                 }
