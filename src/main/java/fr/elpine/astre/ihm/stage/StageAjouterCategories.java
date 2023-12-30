@@ -76,7 +76,7 @@ public class StageAjouterCategories
     {
         String code    =                     txtfCodeCatInter   .getText();
         String nom     =                     txtfNomCatInter    .getText();
-        double ratioTD = Double .parseDouble(txtfRatioCatInter  .getText());
+        String ratioTD =                     txtfRatioCatInter  .getText();
         int    nbHM    = Integer.parseInt   (txtfNbHMCatInter   .getText());
         int    nbHServ = Integer.parseInt   (txtfNbHServCatInter.getText());
 
