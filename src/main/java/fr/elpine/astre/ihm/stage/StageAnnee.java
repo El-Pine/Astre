@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -53,15 +54,13 @@ public class StageAnnee {
 
     public void setCpbContrat()
     {
-        ArrayList<Annee>  lstAnnee = Controleur.get().getMetier().getAnnees();
-        /*ArrayList<String> lstNomAnnee = new ArrayList<String>();
-        for ( Annee an : lstAnnee)
-            lstNomAnnee.add(an.getNom());*/
+        ArrayList<Annee>      lstAnnee     = Controleur.get().getMetier().getAnnees();
+        ObservableList<Annee> oLstNonAnnee = FXCollections.observableList(lstAnnee);
 
-        ObservableList<Annee/*String*/> oLstNonAnnee = FXCollections.observableList(lstAnnee/*lstNomAnnee*/);
         this.cbbAnnee.setItems(oLstNonAnnee);
+
         if (Controleur.get().getMetier().getAnneeActuelle() != null)
-            this.cbbAnnee.setValue(Controleur.get().getMetier().getAnneeActuelle()/*.getNom()*/);
+            this.cbbAnnee.setValue(Controleur.get().getMetier().getAnneeActuelle());
     }
 
     public void btnAjouter() throws IOException {
@@ -69,65 +68,46 @@ public class StageAnnee {
     }
 
     public void btnConsulter() throws IOException {
-        Annee an = this.cbbAnnee.getValue();//null;
-        /*for ( Annee annee : Controleur.get().getMetier().getAnnees())
-            if ( annee.getNom().equals(this.cbbAnnee.getValue()))
-                an = annee;*/
+        Annee an = this.cbbAnnee.getValue();
+
         Controleur.get().getMetier().changerAnneeActuelle(an);
+
         this.stage.close();
+
         StagePrincipal.creer().show();
     }
 
     public void btnDupliquer() {
         Annee an = this.cbbAnnee.getValue();//null;
-        /*for ( Annee annee : Controleur.get().getMetier().getAnnees())
-            if ( annee.getNom().equals(this.cbbAnnee.getValue()))
-                an = annee;
 
-	    assert an != null;*/
-
-        TextInputDialog dialog = new TextInputDialog(this.cbbAnnee.getValue().toString());
-
-        dialog.setTitle("Dupliquer");
-        dialog.setHeaderText(String.format("Copie de l'année : %s", this.cbbAnnee.getValue().toString()));
-        dialog.setContentText("Nouveau nom :");
-
-	    dialog.showAndWait().ifPresent(name -> {
-            Annee a = an.dupliquer(name);
-
-            System.out.println(a.getSemestres());
-        });
+        PopUp.textInputDialog(
+                this.cbbAnnee.getValue().toString(),
+                "Dupliquer",
+                String.format("Copie de l'année : %s", this.cbbAnnee.getValue().toString()),
+                "Nouveau nom :"
+        ).showAndWait().ifPresent(an::dupliquer);
 
         this.setCpbContrat();
     }
 
     public void btnSupprimer()
     {
-        Annee an = this.cbbAnnee.getValue();/*null;
-        for ( Annee annee : Controleur.get().getMetier().getAnnees())
-            if ( annee.getNom().equals(this.cbbAnnee.getValue()))
-                an = annee;
+        Annee an = this.cbbAnnee.getValue();
 
-        assert an != null;*/
+        Optional<ButtonType> result = PopUp.confirmation("Confirmation", null, String.format("Voulez vous supprimer l'année \"%s\" ?", an.getNom())).showAndWait();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setHeaderText(null);
-        alert.setContentText(String.format("Voulez vous supprimer l'année \"%s\" ?", an.getNom()));
-
-        Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK)
         {
             boolean good = an.supprimer( false );
 
             if (!good)
             {
-                Alert alertSecond = new Alert(Alert.AlertType.CONFIRMATION);
-                alertSecond.setTitle("Confirmation");
-                alertSecond.setHeaderText("La suppression est impossible, il y a encore des données présente dans cette année !");
-                alertSecond.setContentText(String.format("Supprimer l'année \"%s\" et tout son contenu ?", an.getNom()));
+                Optional<ButtonType> resultSecond = PopUp.confirmation(
+                        "Confirmation",
+                        "La suppression est impossible, il y a encore des données présente dans cette année !",
+                        String.format("Supprimer l'année \"%s\" et tout son contenu ?", an.getNom())
+                ).showAndWait();
 
-                Optional<ButtonType> resultSecond = alertSecond.showAndWait();
                 if (resultSecond.isPresent() && resultSecond.get() == ButtonType.OK) an.supprimer( true );
 
                 // TODO : fonction d'enregistrement ici (ps : je gère)

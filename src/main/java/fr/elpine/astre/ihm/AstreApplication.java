@@ -20,7 +20,7 @@ public class AstreApplication extends Application
 		Logger logger = LoggerFactory.getLogger(getClass());
 
 		/* STYLE
-		* Thèmes    : cupertino, nord, primer & dracula (experimental)
+		* Thèmes    : cupertino & dracula
 		* Variantes : dark & light
 		* */
 		Application.setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/cupertino-light.css")).toExternalForm());
