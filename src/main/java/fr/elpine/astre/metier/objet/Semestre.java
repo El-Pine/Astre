@@ -27,7 +27,7 @@ public class Semestre
         this.nbGrpTP   = nbGrpTP;
         this.nbEtd     = nbEtd;
         this.nbSemaine = nbSemaine;
-        this.annee     = annee;
+        this.annee     = annee.ajouterSemestre(this);
 
         this.ensModule = new ArrayList<>();
 
@@ -53,16 +53,6 @@ public class Semestre
     public void setNbEtd     ( int nbEtd     ) { this.nbEtd     = nbEtd; this.modifie = true;      }
     public void setNbSemaine ( int nbSemaine ) { this.nbSemaine = nbSemaine; this.modifie = true;  }
 
-    public void setAnnee( Annee annee )
-    {
-        if ( annee != null )
-            annee.ajouterSemestre(this);
-        else if ( this.annee != null )
-            this.annee.supprimerSemestre(this);
-
-        this.annee = annee;
-        this.modifie = true;
-    }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
@@ -71,23 +61,19 @@ public class Semestre
     public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
 
 
-    public void ajouterModule(Module module)
+    public Semestre ajouterModule(Module module)
     {
         if (module != null && !this.ensModule.contains(module))
-        {
             this.ensModule.add(module);
 
-            module.setSemestre(this);
-        }
+        return this;
     }
 
-    public void supprimerModule(Module module)
+    public void supprimerModule(Module module) // call uniquement si l'objet Module a deja ete supprimer a 100%
     {
         if (module == null || !this.ensModule.contains(module)) return;
 
         this.ensModule.remove(module);
-
-        module.setSemestre(null);
     }
 
     public ArrayList<Module> getModules() { return this.ensModule; }

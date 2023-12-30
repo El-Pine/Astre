@@ -44,23 +44,19 @@ public class Annee
     public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
 
 
-    public void ajouterSemestre(Semestre semestre)
+    public Annee ajouterSemestre(Semestre semestre)
     {
         if (semestre != null && !this.ensSemestre.contains(semestre))
-        {
             this.ensSemestre.add(semestre);
 
-            semestre.setAnnee(this);
-        }
+        return this;
     }
 
-    public void supprimerSemestre(Semestre semestre)
+    public void supprimerSemestre(Semestre semestre) // call uniquement si l'objet Semestre a deja ete supprimer a 100%
     {
         if (semestre == null || !this.ensSemestre.contains(semestre)) return;
 
         this.ensSemestre.remove(semestre);
-
-        semestre.setAnnee(null);
     }
 
     public ArrayList<Semestre> getSemestres() { return this.ensSemestre; }
@@ -89,10 +85,8 @@ public class Annee
                     semestre.getNbGrpTP(),
                     semestre.getNbEtd(),
                     semestre.getNbSemaine(),
-                    null
+                    a
             ));
-
-            a.ajouterSemestre(s);
 
             for (Module module : semestre.getModules())
             {
@@ -103,10 +97,8 @@ public class Annee
                         module.getTypeModule(),
                         module.getCouleur(),
                         module.estValide(),
-                        null
+                        s
                 ));
-
-                s.ajouterModule(m);
 
                 for (Attribution attribution : module.getAttributions())
                 {

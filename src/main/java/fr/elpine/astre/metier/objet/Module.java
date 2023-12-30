@@ -30,7 +30,7 @@ public class Module
         this.typeModule     = typeModule;
         this.couleur        = couleur;
         this.validation     = validation;
-        this.semestre       = semestre;
+        this.semestre       = semestre.ajouterModule(this);
 
         this.ensAttribution = new ArrayList<>();
         this.ensAffectation = new ArrayList<>();
@@ -61,15 +61,6 @@ public class Module
     public void setTypeModule  ( String  typeModule )  { this.typeModule  = typeModule  ; this.modifie = true; }
     public void setValidation  ( boolean validation )  { this.validation  = validation  ; this.modifie = true; }
 
-    public void setSemestre( Semestre semestre  )
-    {
-        if ( semestre != null )
-            semestre.ajouterModule(this);
-        else if ( this.semestre != null )
-            this.semestre.supprimerModule(this);
-
-        this.semestre = semestre;
-    }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
