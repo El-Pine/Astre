@@ -3,6 +3,7 @@ package fr.elpine.astre.metier.objet;
 import fr.elpine.astre.Controleur;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CategorieHeure
 {
@@ -17,7 +18,8 @@ public class CategorieHeure
 
     private boolean ajoute;
     private boolean supprime;
-    private boolean modifie;
+    private boolean                 modifie;
+    private HashMap<String, Object> rollbackDatas;
 
     public CategorieHeure(String nom, String equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage)
     {
@@ -104,6 +106,32 @@ public class CategorieHeure
 
         // supprimer l'élement
         return this.supprime = true;
+    }
+
+    public void rollback()
+    {
+        if (this.rollbackDatas == null) return;
+
+        this.nom = (String) this.rollbackDatas.get("nom");
+        this.equivalentTD = (String) this.rollbackDatas.get("equivalentTD");
+        this.ppp = (boolean) this.rollbackDatas.get("ppp");
+        this.ressource = (boolean) this.rollbackDatas.get("ressource");
+        this.stage = (boolean) this.rollbackDatas.get("stage");
+        this.sae = (boolean) this.rollbackDatas.get("sae");
+
+        this.rollbackDatas.clear();
+    }
+
+    public void setRollback()
+    {
+        if (this.rollbackDatas == null) this.rollbackDatas = new HashMap<>(); else this.rollbackDatas.clear();
+
+        this.rollbackDatas.put("nom", this.nom);
+        this.rollbackDatas.put("equivalentTD", this.equivalentTD);
+        this.rollbackDatas.put("ppp", this.ppp);
+        this.rollbackDatas.put("ressource", this.ressource);
+        this.rollbackDatas.put("stage", this.stage);
+        this.rollbackDatas.put("sae", this.sae);
     }
 
 

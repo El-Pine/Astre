@@ -4,6 +4,7 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.Astre;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Annee
 {
@@ -13,9 +14,10 @@ public class Annee
 
     private ArrayList<Semestre> ensSemestre;
 
-    private boolean ajoute;
-    private boolean supprime;
-    private boolean modifie;
+    private boolean                 ajoute;
+    private boolean                 supprime;
+    private boolean                 modifie;
+    private HashMap<String, Object> rollbackDatas;
 
     public Annee(String nom, String dateDeb, String dateFin)
     {
@@ -143,6 +145,24 @@ public class Annee
         }
 
         return a;
+    }
+
+    public void rollback()
+    {
+        if (this.rollbackDatas == null) return;
+
+        this.dateDeb = (String) this.rollbackDatas.get("dateDeb");
+        this.dateFin = (String) this.rollbackDatas.get("dateFin");
+
+        this.rollbackDatas.clear();
+    }
+
+    public void setRollback()
+    {
+        if (this.rollbackDatas == null) this.rollbackDatas = new HashMap<>(); else this.rollbackDatas.clear();
+
+        this.rollbackDatas.put("dateDeb", this.dateDeb);
+        this.rollbackDatas.put("dateFin", this.dateFin);
     }
 
 

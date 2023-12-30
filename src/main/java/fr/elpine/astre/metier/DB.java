@@ -238,15 +238,13 @@ public class DB
                             semestre = sem;
                     }
 
-                    Module mod = new Module(rs.getString("nom"           ),
-                                            rs.getString  ("code"          ),
-                                            rs.getString  ("abreviation"   ),
-                                            rs.getString  ("typeModule"    ),
-                                            Color.valueOf(rs.getString  ("couleur")),
-                                            rs.getBoolean ("validation"    ),
-                                            semestre);
-                    mod.setSemestre(semestre);
-                    ensModule.add(mod);
+                    ensModule.add(new Module(rs.getString("nom"           ),
+                            rs.getString  ("code"          ),
+                            rs.getString  ("abreviation"   ),
+                            rs.getString  ("typeModule"    ),
+                            Color.valueOf(rs.getString  ("couleur")),
+                            rs.getBoolean ("validation"    ),
+                            semestre));
                 }
             }
         }
@@ -422,16 +420,13 @@ public class DB
                             annee = anTemp;
                     }
 
-                    Semestre semestre = new Semestre(
+                    ensSemestre.add(new Semestre(
                             rs.getInt                      ("numero"    ),
                             rs.getInt                      ("nbGrpTD"   ),
                             rs.getInt                      ("nbGrpTP"   ),
                             rs.getInt                      ("nbEtd"     ),
                             rs.getInt                      ("nbSemaine" ),
-                            annee);
-
-                    semestre.setAnnee(annee);
-                    ensSemestre.add(semestre);
+                            annee));
                 }
             }
         }

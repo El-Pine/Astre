@@ -2,6 +2,8 @@ package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
 
+import java.util.HashMap;
+
 public class CategorieIntervenant
 {
     private String code;
@@ -10,9 +12,10 @@ public class CategorieIntervenant
     private int nbHeureServiceDefault;
     private double ratioTPDefault;
 
-    private boolean ajoute;
-    private boolean supprime;
-    private boolean modifie;
+    private boolean                 ajoute;
+    private boolean                 supprime;
+    private boolean                 modifie;
+    private HashMap<String, Object> rollbackDatas;
 
 
     public CategorieIntervenant(String code, String nom, int nbHeureMaxDefault, int nbHeureServiceDefault, double ratioTPDefault)
@@ -73,6 +76,30 @@ public class CategorieIntervenant
 
         // supprimer l'élement
         return this.supprime = true;
+    }
+
+    public void rollback()
+    {
+        if (this.rollbackDatas == null) return;
+
+        this.code = (String) this.rollbackDatas.get("code");
+        this.nom = (String) this.rollbackDatas.get("nom");
+        this.nbHeureMaxDefault = (int) this.rollbackDatas.get("nbHeureMaxDefault");
+        this.nbHeureServiceDefault = (int) this.rollbackDatas.get("nbHeureServiceDefault");
+        this.ratioTPDefault = (double) this.rollbackDatas.get("ratioTPDefault");
+
+        this.rollbackDatas.clear();
+    }
+
+    public void setRollback()
+    {
+        if (this.rollbackDatas == null) this.rollbackDatas = new HashMap<>(); else this.rollbackDatas.clear();
+
+        this.rollbackDatas.put("code", this.code);
+        this.rollbackDatas.put("nom", this.nom);
+        this.rollbackDatas.put("nbHeureMaxDefault", this.nbHeureMaxDefault);
+        this.rollbackDatas.put("nbHeureServiceDefault", this.nbHeureServiceDefault);
+        this.rollbackDatas.put("ratioTPDefault", this.ratioTPDefault);
     }
 
 

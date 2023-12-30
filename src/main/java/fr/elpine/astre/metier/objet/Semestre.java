@@ -1,8 +1,10 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Semestre
 {
@@ -17,7 +19,8 @@ public class Semestre
 
     private boolean ajoute;
     private boolean supprime;
-    private boolean modifie;
+    private boolean                 modifie;
+    private HashMap<String, Object> rollbackDatas;
 
 
     public Semestre(int numero, int nbGrpTD, int nbGrpTP, int nbEtd, int nbSemaine, Annee annee)
@@ -87,6 +90,28 @@ public class Semestre
 
         // supprimer l'élement
         return this.supprime = true;
+    }
+
+    public void rollback()
+    {
+        if (this.rollbackDatas == null) return;
+
+        this.nbGrpTD = (int) this.rollbackDatas.get("nbGrpTD");
+        this.nbGrpTP = (int) this.rollbackDatas.get("nbGrpTP");
+        this.nbEtd = (int) this.rollbackDatas.get("nbEtd");
+        this.nbSemaine = (int) this.rollbackDatas.get("nbSemaine");
+
+        this.rollbackDatas.clear();
+    }
+
+    public void setRollback()
+    {
+        if (this.rollbackDatas == null) this.rollbackDatas = new HashMap<>(); else this.rollbackDatas.clear();
+
+        this.rollbackDatas.put("nbGrpTD", this.nbGrpTD);
+        this.rollbackDatas.put("nbGrpTP", this.nbGrpTP);
+        this.rollbackDatas.put("nbEtd", this.nbEtd);
+        this.rollbackDatas.put("nbSemaine", this.nbSemaine);
     }
 
 

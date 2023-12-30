@@ -2,6 +2,8 @@ package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
 
+import java.util.HashMap;
+
 public class Affectation
 {
     private Integer nbGroupe; // avec nb semaine ou vide
@@ -16,6 +18,7 @@ public class Affectation
     private boolean ajoute;
     private boolean supprime;
     private boolean modifie;
+    private HashMap<String, Object> rollbackDatas;
 
     public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, int nbGroupe, int nbSemaine, String commentaire)
     {
@@ -89,6 +92,30 @@ public class Affectation
 
         // supprimer l'élement
         this.supprime = true;
+    }
+
+    public void rollback()
+    {
+        if (this.rollbackDatas == null) return;
+
+        this.nbGroupe    = (Integer)        this.rollbackDatas.get("nbGroupe");
+        this.nbSemaine   = (Integer)        this.rollbackDatas.get("nbSemaine");
+        this.nbHeure     = (Integer)        this.rollbackDatas.get("nbHeure");
+        this.commentaire = (String)         this.rollbackDatas.get("commentaire");
+        this.typeHeure   = (CategorieHeure) this.rollbackDatas.get("typeHeure");
+
+        this.rollbackDatas.clear();
+    }
+
+    public void setRollback()
+    {
+        if (this.rollbackDatas == null) this.rollbackDatas = new HashMap<>(); else this.rollbackDatas.clear();
+
+        this.rollbackDatas.put("nbGroupe",    this.nbGroupe);
+        this.rollbackDatas.put("nbSemaine",   this.nbSemaine);
+        this.rollbackDatas.put("nbHeure",     this.nbHeure);
+        this.rollbackDatas.put("commentaire", this.commentaire);
+        this.rollbackDatas.put("typeHeure",   this.typeHeure);
     }
 
 
