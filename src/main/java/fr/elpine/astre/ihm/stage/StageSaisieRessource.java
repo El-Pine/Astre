@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.Module;
@@ -382,7 +383,7 @@ public class StageSaisieRessource implements Initializable
     protected void onBtnSupprimer(ActionEvent e) throws IOException {
         Affectation affectation = tableau.getSelectionModel().getSelectedItem();
 
-        if(affectation != null && StagePopUp.PopUpConfirmation("Suppresion d'une ressource", "Etes-vous sûr de supprimer cette ressource ?")) {
+        if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module Ressource ?")) {
             tableau.getItems().remove(affectation);
             Controleur.get().getDb().supprimeraff(affectation);
             this.refresh();

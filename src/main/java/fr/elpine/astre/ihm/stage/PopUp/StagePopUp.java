@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// TODO : classe inutile
+
 public class StagePopUp {
 
     @FXML private Label  lblMessage;

@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
@@ -137,7 +138,7 @@ public class StageAccueilConfig implements Initializable
             estSupprimer = Astre.estCatInter(Controleur.get().getMetier().getCategorieIntervenants(), catInter.getCode());
             if(estSupprimer)
             {
-                if (StagePopUp.PopUpConfirmation("Suppression d'une catégorie d'intervenant", "Êtes- vous sûr de vouloir supprimer cette catégorie d'intervenant : " + catInter.getNom()));
+                if (PopUp.confirmationR("Suppression d'une catégorie d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'intervenant : %s", catInter.getNom())))
                 {
                     System.out.println("Avant le remove : " + StageAccueilConfig.ensCatInter);
                     StageAccueilConfig.ensCatInter.remove(catInter);
@@ -152,7 +153,7 @@ public class StageAccueilConfig implements Initializable
             estSupprimer = Astre.estCatHr(Controleur.get().getMetier().getCategorieHeures(), catHr.getNom());
             if(estSupprimer)
             {
-                if (StagePopUp.PopUpConfirmation("Suppression d'une catégorie d'heure", "Êtes- vous sûr de vouloir supprimer cette catégorie d'heure : " + catHr.getNom()))
+                if (PopUp.confirmationR("Suppression d'une catégorie d'heure", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'heure : %s", catHr.getNom())))
                 {
                     StageAccueilConfig.ensCatHeure.remove(catHr);
                     StageAccueilConfig.catHrASupp .add   (catHr);

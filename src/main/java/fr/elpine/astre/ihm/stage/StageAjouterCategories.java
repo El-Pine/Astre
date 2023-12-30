@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -80,17 +81,15 @@ public class StageAjouterCategories
         int    nbHM    = Integer.parseInt   (txtfNbHMCatInter   .getText());
         int    nbHServ = Integer.parseInt   (txtfNbHServCatInter.getText());
 
-        if (code != null && nom != null)
-        {
+        if (!code.isEmpty() && !nom.isEmpty()) {
             StageAccueilConfig.categorieInterAAjouter.add(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
 
+            parent.activer();
+            parent.refresh();
+            stage.close();
         }
         else
-            StagePopUp.PopUpErreur("Champ Vide","Les champs code et nom ne peuvent pas être vide.");
-
-        parent.activer();
-        parent.refresh();
-        stage.close();
+            PopUp.warning("Champ Vide", null, "Les champs code et nom ne peuvent pas être vide.").showAndWait();
     }
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {

@@ -4,6 +4,7 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 import javafx.scene.paint.Color;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +58,12 @@ public class DB
             logger.info("Connexion à la base de données établie avec succès !");
 
             return true;
-        } catch (Exception e) { logger.error("Erreur lors de la connexion", e); return false; }
+        }
+        catch (Exception e)
+        {
+            logger.error("Erreur lors de la connexion à la base de données", e);
+            return false;
+        }
     }
 
     public boolean reloadDB()

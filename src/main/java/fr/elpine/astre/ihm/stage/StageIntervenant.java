@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.Controleur;
@@ -119,7 +120,7 @@ public class StageIntervenant implements Initializable
 	@FXML
 	protected void onBtnClickSupprimer() throws IOException {
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
-		if (StagePopUp.PopUpConfirmation("Suprression d'intervenant", "Êtes- vous sûr de vouloir supprimer l'intervenant : " + inter.getNom() + " " + inter.getPrenom()) && StageIntervenant.ensInter.contains(inter))
+		if (PopUp.confirmationR("Suprression d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer l'intervenant : %s %s", inter.getNom(), inter.getPrenom())) && StageIntervenant.ensInter.contains(inter))
 		{
 			StageIntervenant.ensInter.remove(inter);
 			StageIntervenant.interAEnlever.add(inter);
