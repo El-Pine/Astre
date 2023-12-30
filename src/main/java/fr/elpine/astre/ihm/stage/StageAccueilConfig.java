@@ -48,7 +48,7 @@ public class StageAccueilConfig implements Initializable
     @FXML
     private TableColumn<CategorieIntervenant,Integer> tcHServInter;
     @FXML
-    private TableColumn<CategorieIntervenant,Double> tcRatioInter;
+    private TableColumn<CategorieIntervenant,String> tcRatioInter;
 
     @FXML
     private TableView<CategorieHeure>       tabCatHeures;
@@ -204,7 +204,7 @@ public class StageAccueilConfig implements Initializable
         tcNomInter       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getNom       ()));
         tcHMaxInter      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMaxDefault()).asObject());
         tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault   ()).asObject());
-        tcRatioInter     .setCellValueFactory (cellData -> new SimpleDoubleProperty (cellData.getValue().getRatioTPDefault  ()).asObject());
+        tcRatioInter     .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getRatioTPDefault  ()));
 
         tabCatInter.setItems(ensCatInter);
 

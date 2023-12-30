@@ -513,7 +513,7 @@ public class DB
             ps.setString (2, categorieIntervenant.getNom        () );
             ps.setInt    (3, categorieIntervenant.getNbHeureMaxDefault () );
             ps.setInt    (4, categorieIntervenant.getNbHeureServiceDefault    () );
-            ps.setDouble (5, categorieIntervenant.getRatioTPDefault    () );
+            ps.setString (5, categorieIntervenant.getRatioTPDefault    () );
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une catégorie d'intervenant", e); }
@@ -529,7 +529,7 @@ public class DB
             ps.setString (2,       catInter.getNom        ());
             ps.setInt    (3,       catInter.getNbHeureMaxDefault ());
             ps.setInt    (4,       catInter.getNbHeureServiceDefault   ());
-            ps.setFloat  (5,(float)catInter.getRatioTPDefault    ());
+            ps.setString  (5,      catInter.getRatioTPDefault    ());
             ps.setString (6,       catInter.getCode       ());
             ps.executeUpdate();
 

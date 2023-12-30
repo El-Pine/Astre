@@ -10,7 +10,7 @@ public class CategorieIntervenant
     private String nom;
     private int nbHeureMaxDefault;
     private int nbHeureServiceDefault;
-    private double ratioTPDefault;
+    private String ratioTPDefault;
 
     private boolean                 ajoute;
     private boolean                 supprime;
@@ -18,7 +18,7 @@ public class CategorieIntervenant
     private HashMap<String, Object> rollbackDatas;
 
 
-    public CategorieIntervenant(String code, String nom, int nbHeureMaxDefault, int nbHeureServiceDefault, double ratioTPDefault)
+    public CategorieIntervenant(String code, String nom, int nbHeureMaxDefault, int nbHeureServiceDefault, String ratioTPDefault)
     {
         this.code         = code;
         this.nom          = nom;
@@ -37,7 +37,19 @@ public class CategorieIntervenant
     public String getNom         () { return nom          ;}
      public int getNbHeureMaxDefault     () { return nbHeureMaxDefault   ;}
     public int getNbHeureServiceDefault        () { return nbHeureServiceDefault      ;}
-    public double getRatioTPDefault     () { return ratioTPDefault      ;}
+    public String getRatioTPDefault() { return ratioTPDefault; }
+    public double getRatioTPDefaultValue()
+    {
+        String[] splt = this.ratioTPDefault.split("/");
+
+        if (splt.length == 2) {
+            return (double) Integer.parseInt(splt[0]) / Integer.parseInt(splt[1]);
+        } else if (splt.length == 1) {
+            return Double.parseDouble(splt[0]);
+        }
+
+        return 0d;
+    }
 
 
     /*   SETTER   */
@@ -45,7 +57,16 @@ public class CategorieIntervenant
     public void setNom          ( String nom           ) { this.nom          = nom          ; this.modifie = true; }
     public void setNbHeureMaxDefault   ( int nbHeureMaxDefault       ) { this.nbHeureMaxDefault   = nbHeureMaxDefault   ; this.modifie = true; }
     public void setNbHeureServiceDefault      ( int nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ; this.modifie = true; }
-    public void setRatioTPDefault      ( double ratioTPDefault       ) { this.ratioTPDefault      = ratioTPDefault      ; this.modifie = true; }
+    public boolean setRatioTPDefault (String ratioTPDefault      )
+    {
+        if ( ratioTPDefault.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$"))
+        {
+            this.ratioTPDefault = ratioTPDefault;
+            this.modifie = true;
+            return true;
+        }
+        return false;
+    }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
@@ -86,7 +107,7 @@ public class CategorieIntervenant
         this.nom = (String) this.rollbackDatas.get("nom");
         this.nbHeureMaxDefault = (int) this.rollbackDatas.get("nbHeureMaxDefault");
         this.nbHeureServiceDefault = (int) this.rollbackDatas.get("nbHeureServiceDefault");
-        this.ratioTPDefault = (double) this.rollbackDatas.get("ratioTPDefault");
+        this.ratioTPDefault = (String) this.rollbackDatas.get("ratioTPDefault");
 
         this.rollbackDatas.clear();
     }
