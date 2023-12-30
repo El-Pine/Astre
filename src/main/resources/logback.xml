@@ -10,9 +10,9 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/app-latest.log</file>
+        <file>${LOG_DIR}/latest.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/app-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/%d{yyyy-MM-dd}-%i.log</fileNamePattern>
             <maxFileSize>256KB</maxFileSize>
             <maxHistory>32</maxHistory>
             <totalSizeCap>2GB</totalSizeCap>
