@@ -4,6 +4,7 @@ module fr.elpine.astre {
 	requires java.sql;
 	requires java.desktop;
 	requires org.slf4j;
+	requires org.postgresql.jdbc;
 
 	exports fr.elpine.astre;
 	exports fr.elpine.astre.ihm;
