@@ -137,6 +137,7 @@ public class Astre
     public Annee getAnneeActuelle() { return this.anneeActuelle; }
     public void changerAnneeActuelle( Annee a )
     {
+        if (a == null) this.anneeActuelle = null;
         if (this.ensAnnee.contains(a)) this.anneeActuelle = a;
     }
 
@@ -145,18 +146,19 @@ public class Astre
     /*--------------*/
 
     public ArrayList<Annee> getAnnees() { return this.ensAnnee; }
-    public ArrayList<Semestre> getSemestres() { return this.ensSemestre; }
-    public ArrayList<Module> getModules() { return this.ensModule; }
+    public ArrayList<Semestre> getSemestres() { return this.ensSemestre; } // todo : à refaire en private et sans attribut d'instance
+    public ArrayList<Module> getModules() { return this.ensModule; } // todo : à refaire en private et sans attribut d'instance
     public ArrayList<CategorieIntervenant> getCategorieIntervenants() { return this.ensCategorieIntervenant; }
     public ArrayList<Intervenant> getIntervenants() { return this.ensIntervenant; }
     public ArrayList<CategorieHeure> getCategorieHeures() { return this.ensCategorieHeure; }
-    public ArrayList<Affectation> getAffectations() { return this.ensAffectation; }
-    public ArrayList<Attribution> getAttributions() { return this.ensAttribution; }
+    public ArrayList<Affectation> getAffectations() { return this.ensAffectation; } // todo : à refaire en private et sans attribut d'instance
+    public ArrayList<Attribution> getAttributions() { return this.ensAttribution; } // todo : à refaire en private et sans attribut d'instance
 
     /*------------------*/
     /* Méthodes Ajouter */
     /*------------------*/
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté) & transformer en ajout interne à l'objet
     public Annee ajouterAnnee(Annee a)
     {
         if (a == null) return null;
@@ -169,6 +171,7 @@ public class Astre
         return a;
     }
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté)
     public Semestre ajouterSemestre(Semestre s)
     {
         if (s == null) return null;
@@ -177,6 +180,7 @@ public class Astre
         return s;
     }
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté)
     public Module ajouterModule(Module m)
     {
         if (m == null) return null;
@@ -185,6 +189,7 @@ public class Astre
         return m;
     }
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté) & transformer en ajout interne à l'objet
     public Intervenant ajouterIntervenant(Intervenant i)
     {
         if (i == null) return null;
@@ -193,6 +198,7 @@ public class Astre
         return i;
     }
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté) & transformer en ajout interne à l'objet
     public CategorieHeure ajouterCategorieHeure (CategorieHeure catHr)
     {
         if (catHr == null) return null;
@@ -201,6 +207,7 @@ public class Astre
         return catHr;
     }
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté) & transformer en ajout interne à l'objet
     public CategorieIntervenant ajouterCategorieIntervenant( CategorieIntervenant catInter)
     {
         if (catInter == null) return null;
@@ -209,6 +216,7 @@ public class Astre
         return catInter;
     }
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté)
     public Affectation ajouterAffectation(Affectation affectation)
     {
         if (affectation == null) return null;
@@ -217,6 +225,7 @@ public class Astre
         return affectation;
     }
 
+    // todo : à supprimer (les objets lors de leur création sont auto ajouté)
     public Attribution ajouterAttribution(Attribution attribution)
     {
         if (attribution == null) return null;
@@ -229,29 +238,29 @@ public class Astre
     /* Méthodes Supprimer */
     /*--------------------*/
 
+    // todo : à supprimer
     public void supprimerIntervenant   (Intervenant    i    )          { this.ensIntervenant         .remove(i)    ; }
-    public boolean supprimerCategorieHeure(CategorieHeure catHr)
-    {
-        for (Affectation aff : this.ensAffectation)
-        {
-            if ( aff.getTypeHeure().equals(catHr)) return false;
-        }
 
-        for (Attribution att : this.ensAttribution)
-        {
-            if (att.getCatHr().equals(catHr)) return false;
-        }
+    /*------------------------------------*/
+    /* Gestion enregistrement et rollback */
+    /*------------------------------------*/
 
-        this.ensCategorieHeure      .remove(catHr)   ;
-        return true;
-    }
-    public boolean supprimerCategorieInter(CategorieIntervenant catInter)
+    public void enregistrer()
     {
-        for (Intervenant inter : this.ensIntervenant)
-        {
-            if(inter.getCategorie().equals(catInter)) return false;
-        }
-        this.ensCategorieIntervenant.remove(catInter);
-        return true;
+        // preparer ordre
+
+        // appliquer
+
+        // forcer le garbage collector
     }
+
+    public void rollback()
+    {
+        // preparer ordre
+
+        // appliquer
+
+        // forcer le garbage collector
+    }
+
 }
