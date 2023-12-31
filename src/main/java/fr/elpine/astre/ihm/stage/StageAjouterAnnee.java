@@ -40,7 +40,7 @@ public class StageAjouterAnnee {
         StageAjouterAnnee stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {
             stageCtrl.setStage(stage);
-            stageCtrl.creerFormatter("^(\\d{4})-(\\d{4}).*",stageCtrl.txtfNonAnnee);
+            stageCtrl.creerFormatter("^(\\d{4})-(\\d{4}).*$",stageCtrl.txtfNonAnnee);
         }
 
         stage.setTitle("Ajouter une annee");
@@ -71,17 +71,18 @@ public class StageAjouterAnnee {
     private void creerFormatter(String regex, TextField txtf) {
         txtf.setTextFormatter(new TextFormatter<>(change -> {
             Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(txtf.getText());
-            if (matcher.find() && (Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1))
-            {
+            Matcher matcher = pattern.matcher(change.getControlNewText());
+
+            if (matcher.find() && Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1) {
                 txtf.setStyle("");
-                dateDebut.setValue(LocalDate.of(Integer.parseInt(matcher.group(1)),1,1));
-                dateFin.setValue(LocalDate.of(Integer.parseInt(matcher.group(2)),1,1));
+                dateDebut.setValue(LocalDate.of(Integer.parseInt(matcher.group(1)), 1, 1));
+                dateFin.setValue(LocalDate.of(Integer.parseInt(matcher.group(2)), 1, 1));
             } else if (change.getControlNewText().isEmpty()) {
                 txtf.setStyle("");
             } else {
                 txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
             }
+
             return change;
         }));
     }

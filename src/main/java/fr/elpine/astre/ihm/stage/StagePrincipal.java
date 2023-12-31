@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import javafx.event.ActionEvent;
@@ -7,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -22,6 +24,9 @@ import java.util.ResourceBundle;
 public class StagePrincipal implements Initializable
 {
 	public ImageView image;
+	public Button btnPrev;
+	public Button btnInter;
+	public Button btnEtat;
 	private Stage stage;
 
 	public static Stage creer() throws IOException
@@ -39,11 +44,8 @@ public class StagePrincipal implements Initializable
 			stageCtrl.setStage(stage);
 		}
 
-		stage.setTitle("Astre");
+		stage.setTitle("A.S.T.R.E.");
 		stage.setScene(scene);
-
-		scene.getStylesheets().add( StagePrincipal.class.getResource("style.css").toExternalForm());
-
 
 		return stage;
 	}
@@ -84,5 +86,12 @@ public class StagePrincipal implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		image.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
+
+		if (Controleur.get().getMetier().getAnneeActuelle() == null)
+		{
+			this.btnPrev.setDisable( true );
+			this.btnInter.setDisable( true );
+			this.btnEtat.setDisable( true );
+		}
 	}
 }

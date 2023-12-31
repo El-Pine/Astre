@@ -8,18 +8,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class StageAnnee {
+public class StageAnnee
+{
     public ComboBox<Annee> cbbAnnee;
+    public Button btnConsulter;
+    public Button btnDupliquer;
+    public Button btnSupprimer;
     private Stage stage;
 
     public static Stage creer() throws IOException
@@ -55,19 +56,27 @@ public class StageAnnee {
     public void setCpbContrat()
     {
         ArrayList<Annee>      lstAnnee     = Controleur.get().getMetier().getAnnees();
-        ObservableList<Annee> oLstNonAnnee = FXCollections.observableList(lstAnnee);
+        ObservableList<Annee> oLstNonAnnee = FXCollections.observableList( new ArrayList<>() );
+        for (Annee a : lstAnnee) if (!a.isSupprime()) oLstNonAnnee.add(a);
 
         this.cbbAnnee.setItems(oLstNonAnnee);
 
         if (Controleur.get().getMetier().getAnneeActuelle() != null)
             this.cbbAnnee.setValue(Controleur.get().getMetier().getAnneeActuelle());
+
+        boolean disabled = this.cbbAnnee.getItems().isEmpty();
+
+        this.cbbAnnee.setDisable( disabled );
+        this.btnConsulter.setDisable( disabled );
+        this.btnDupliquer.setDisable( disabled );
+        this.btnSupprimer.setDisable( disabled );
     }
 
-    public void btnAjouter() throws IOException {
+    public void onBtnAjouter() throws IOException {
         StageAjouterAnnee.creer( this ).show();
     }
 
-    public void btnConsulter() throws IOException {
+    public void onBtnConsulter() throws IOException {
         Annee an = this.cbbAnnee.getValue();
 
         Controleur.get().getMetier().changerAnneeActuelle(an);
@@ -77,7 +86,7 @@ public class StageAnnee {
         StagePrincipal.creer().show();
     }
 
-    public void btnDupliquer() {
+    public void onBtnDupliquer() {
         Annee an = this.cbbAnnee.getValue();//null;
 
         PopUp.textInputDialog(
@@ -90,7 +99,7 @@ public class StageAnnee {
         this.setCpbContrat();
     }
 
-    public void btnSupprimer()
+    public void onBtnSupprimer()
     {
         Annee an = this.cbbAnnee.getValue();
 

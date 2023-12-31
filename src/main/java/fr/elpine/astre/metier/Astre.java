@@ -166,6 +166,8 @@ public class Astre
 
         this.ensAnnee.sort(Comparator.comparing(Annee::getNom));
 
+        if (this.anneeActuelle == null) this.changerAnneeActuelle(a);
+
         return a;
     }
 

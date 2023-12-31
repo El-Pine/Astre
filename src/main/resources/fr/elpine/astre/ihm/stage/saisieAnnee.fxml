@@ -16,18 +16,18 @@
    <children>
       <FlowPane alignment="CENTER" prefHeight="123.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <Button mnemonicParsing="false" onAction="#btnAjouter" text="Ajouter">
+            <Button mnemonicParsing="false" onAction="#onBtnAjouter" text="Ajouter">
                <FlowPane.margin>
                   <Insets right="10.0" />
                </FlowPane.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#btnConsulter" text="Consulter" />
-            <Button mnemonicParsing="false" onAction="#btnDupliquer" text="Dupliquer">
+            <Button fx:id="btnConsulter" mnemonicParsing="false" onAction="#onBtnConsulter" text="Consulter" />
+            <Button fx:id="btnDupliquer" mnemonicParsing="false" onAction="#onBtnDupliquer" text="Dupliquer">
                <FlowPane.margin>
                   <Insets left="10.0" />
                </FlowPane.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#btnSupprimer" text="Supprimer">
+            <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#onBtnSupprimer" text="Supprimer">
                <FlowPane.margin>
                   <Insets left="10.0" />
                </FlowPane.margin>
