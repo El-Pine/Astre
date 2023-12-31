@@ -155,7 +155,7 @@
                            <left>
                               <AnchorPane prefHeight="83.0" prefWidth="474.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <GridPane fx:id="gridPn" prefHeight="148.0" prefWidth="478.0" style="-fx-border-color: black; -fx-background-color: white;">
+                                    <GridPane fx:id="gridPn" prefHeight="148.0" prefWidth="478.0" style="-fx-border-color: -color-border-default; -fx-background-color: -color-bg-default;">
                                       <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" prefWidth="60.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -240,7 +240,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
                                     </GridPane>
-                                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="-8.0" prefHeight="1.0" prefWidth="135.0" scaleY="0.1" style="-fx-background-color: white;" />
+                                    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="-8.0" prefHeight="1.0" prefWidth="135.0" scaleY="0.1" style="-fx-background-color: -color-bg-default;" />
                                     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="-8.0" prefWidth="135.0" text="PN local ( nb h tot / edt )" />
                                  </children>
                                  <BorderPane.margin>
@@ -251,9 +251,9 @@
                            <center>
                               <AnchorPane prefHeight="150.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <BorderPane prefHeight="150.0" style="-fx-background-color: White;">
+                                    <BorderPane prefHeight="150.0" style="-fx-background-color: -color-bg-default;">
                                        <right>
-                                          <GridPane prefHeight="150.0" prefWidth="647.0" style="-fx-border-color: black; -fx-border-width: 1px 1px 1px 0px;" BorderPane.alignment="CENTER">
+                                          <GridPane prefHeight="150.0" prefWidth="647.0" style="-fx-border-color: -color-border-default; -fx-border-width: 1px 1px 1px 0px;" BorderPane.alignment="CENTER">
                                             <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -419,7 +419,7 @@
                                           </GridPane>
                                        </right>
                                        <left>
-                                          <TabPane fx:id="tabPaneSemaine" prefHeight="150.0" prefWidth="346.0" style="-fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                                          <TabPane fx:id="tabPaneSemaine" prefHeight="150.0" prefWidth="346.0" style="-fx-border-color: -color-border-default;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
                                             <tabs>
                                                 <Tab text="CM">
                                                    <content>
@@ -545,7 +545,7 @@
                                           </TabPane>
                                        </left>
                                     </BorderPane>
-                                    <Label alignment="CENTER" layoutX="340.0" layoutY="-8.0" prefHeight="1.0" prefWidth="70.0" scaleY="0.1" style="-fx-background-color: White;" />
+                                    <Label alignment="CENTER" layoutX="340.0" layoutY="-8.0" prefHeight="1.0" prefWidth="70.0" scaleY="0.1" style="-fx-background-color: -color-bg-default;" />
                                     <Label alignment="CENTER" layoutX="340.0" layoutY="-8.0" prefWidth="70.0" text="Répartition" />
                                  </children>
                               </AnchorPane>
