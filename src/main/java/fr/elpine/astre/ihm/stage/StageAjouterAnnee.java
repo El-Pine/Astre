@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -57,10 +58,19 @@ public class StageAjouterAnnee {
 
     public void onBtnValider(ActionEvent actionEvent)
     {
-        Annee a = new Annee(txtfNonAnnee.getText(),dateDebut.getValue().toString(),dateFin.getValue().toString());
-        Controleur.get().getMetier().ajouterAnnee(a);
-        parent.setCpbContrat();
-        this.stage.close();
+        String  nom      = txtfNonAnnee.getText();
+        boolean nomLibre = true;
+
+        for (Annee a : Controleur.get().getMetier().getAnnees()) if (a.getNom().equals(nom)) nomLibre = false;
+
+        if (nomLibre) {
+            Annee a = new Annee(nom, dateDebut.getValue().toString(), dateFin.getValue().toString());
+            Controleur.get().getMetier().ajouterAnnee(a);
+            parent.setCpbContrat();
+            this.stage.close();
+        } else {
+            PopUp.warning("Nom déjà pris", null, "Une année portant le nom '%s' existe déjà, essayer d'ajouter un suffix.".formatted(nom)).showAndWait();
+        }
     }
 
     public void onBtnAnnuler(ActionEvent actionEvent)
