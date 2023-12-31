@@ -157,6 +157,8 @@ public class DB
     /* Gestion Commits */
     /*-----------------*/
 
+    // TODO : à remplacer par les nouvelles méthodes dans le Astre
+
     public void enregistrer() throws SQLException { co.commit()  ; }
     public void annuler    () throws SQLException { co.rollback(); }
 

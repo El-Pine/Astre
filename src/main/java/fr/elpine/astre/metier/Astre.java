@@ -157,8 +157,6 @@ public class Astre
     /* Méthodes Ajouter */
     /*------------------*/
 
-
-    //TODO:Verification qu'il n'y a pas de doublons ou d'ajout d'objet null
     public Annee ajouterAnnee(Annee a)
     {
         if (a == null) return null;
