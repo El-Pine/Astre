@@ -73,6 +73,7 @@ public class Annee
             else semestre.supprimer(true);
 
         // supprimer l'element
+        if (Controleur.get().getMetier().getAnneeActuelle() == this) Controleur.get().getMetier().changerAnneeActuelle(null);
         return this.supprime = true;
     }
 
