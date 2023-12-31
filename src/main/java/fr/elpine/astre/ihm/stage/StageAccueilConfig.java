@@ -18,10 +18,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -59,7 +57,7 @@ public class StageAccueilConfig implements Initializable
     @FXML
     private TableColumn<CategorieHeure,String > tcEqtdHeures;
     @FXML
-    private TableColumn<CategorieHeure,Boolean> tcRessourcesHeures;
+    private TableColumn<CategorieHeure, Boolean> tcRessourcesHeures;
     @FXML
     private TableColumn<CategorieHeure,Boolean> tcSaeHeures;
     @FXML
@@ -229,10 +227,20 @@ public class StageAccueilConfig implements Initializable
 
         tcNomHeures        .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getNom         ()));
         tcEqtdHeures       .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getEquivalentTD()));
+
+
+
         tcRessourcesHeures .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estRessource   ()));
-        tcSaeHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estSae         ()));
+        tcRessourcesHeures .setCellFactory(CheckBoxTableCell.forTableColumn(tcRessourcesHeures));
+
+        tcSaeHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estSae   ()));
+        tcSaeHeures        .setCellFactory(CheckBoxTableCell.forTableColumn(tcSaeHeures));
+
         tcPppHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estPpp         ()));
+        tcPppHeures        .setCellFactory(CheckBoxTableCell.forTableColumn(tcPppHeures));
+
         tcStageHeures      .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estStage       ()));
+        tcStageHeures      .setCellFactory((CheckBoxTableCell.forTableColumn(tcStageHeures)));
 
         tabCatHeures.setItems(ensCatHeure);
 

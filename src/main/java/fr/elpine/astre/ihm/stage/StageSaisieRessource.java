@@ -264,13 +264,24 @@ public class StageSaisieRessource implements Initializable
         return hmAffecte;
     }
 
-    private void mettreAJourChamps(ArrayList<TextField> alAffecte, HashMap<String, Double> hmAffecte)
-    {
-        for (TextField txt : alAffecte)
-        {
+    private void mettreAJourChamps(ArrayList<TextField> alAffecte, HashMap<String, Double> hmAffecte) {
+        for (TextField txt : alAffecte) {
             String typeHeure = txt.getId().substring(3, 5);
-            //txt.setText(String.valueOf(hmAffecte.getOrDefault(typeHeure, 0.0)));
-            txt.setText("1");
+
+            // Ajout de débogage
+            System.out.println("Type d'heure extrait : " + typeHeure);
+
+            if (hmAffecte.containsKey(typeHeure)) {
+                // Ajout de débogage
+
+                System.out.println("Valeur dans la HashMap : " + hmAffecte.get(typeHeure));
+                System.out.println(String.valueOf(hmAffecte.get(typeHeure)));
+                Integer valeur =  (int) Math.round(hmAffecte.get(typeHeure));
+                System.out.println(valeur);
+                txt.setText(valeur.toString());
+            } else {
+                txt.setText("Valeur non trouvée dans la HashMap");
+            }
         }
     }
 
