@@ -3,14 +3,15 @@ package fr.elpine.astre.metier.objet;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.Astre;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Annee
 {
     private String nom;
-    private String dateDeb;
-    private String dateFin;
+    private Date dateDeb;
+    private Date dateFin;
 
     private ArrayList<Semestre> ensSemestre;
 
@@ -19,7 +20,7 @@ public class Annee
     private boolean                 modifie;
     private HashMap<String, Object> rollbackDatas;
 
-    public Annee(String nom, String dateDeb, String dateFin)
+    public Annee(String nom, Date dateDeb, Date dateFin)
     {
         this.nom         = nom;
         this.dateDeb     = dateDeb;
@@ -34,12 +35,18 @@ public class Annee
         this.setRollback();
     }
 
-    public String getNom() { return nom;  }
-    public String getDateDeb () { return dateDeb; }
-    public String getDateFin () { return dateFin; }
+    public Annee(String nom, String dateDeb, String dateFin)
+    {
+        // Les dates doivent être au format 2023-12-31
+        this(nom, Date.valueOf(dateDeb), Date.valueOf(dateFin));
+    }
 
-    public void setDateDeb (String dateDeb ) { this.dateDeb = dateDeb; this.modifie = true;  }
-    public void setDateFin (String dateFin ) { this.dateFin = dateFin; this.modifie = true;  }
+    public String getNom() { return nom;  }
+    public Date getDateDeb () { return dateDeb; }
+    public Date getDateFin () { return dateFin; }
+
+    public void setDateDeb (Date dateDeb ) { this.dateDeb = dateDeb; this.modifie = true;  }
+    public void setDateFin (Date dateFin ) { this.dateFin = dateFin; this.modifie = true;  }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
@@ -154,8 +161,8 @@ public class Annee
     {
         if (this.rollbackDatas == null) return;
 
-        this.dateDeb = (String) this.rollbackDatas.get("dateDeb");
-        this.dateFin = (String) this.rollbackDatas.get("dateFin");
+        this.dateDeb = (Date) this.rollbackDatas.get("dateDeb");
+        this.dateFin = (Date) this.rollbackDatas.get("dateFin");
 
         this.rollbackDatas.clear();
     }

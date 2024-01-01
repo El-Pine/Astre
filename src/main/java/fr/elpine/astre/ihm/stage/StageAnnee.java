@@ -94,7 +94,16 @@ public class StageAnnee
                 "Dupliquer",
                 String.format("Copie de l'année : %s", this.cbbAnnee.getValue().toString()),
                 "Nouveau nom :"
-        ).showAndWait().ifPresent(an::dupliquer);
+        ).showAndWait().ifPresent(nom -> {
+            boolean nomLibre = true;
+
+            for (Annee a : Controleur.get().getMetier().getAnnees()) if (a.getNom().equals(nom)) nomLibre = false;
+
+            if (nomLibre && nom.matches("^(\\d{4})-(\\d{4}).*$") && nom.startsWith(String.format("%s-%s", an.getDateDeb().toLocalDate().getYear(), an.getDateFin().toLocalDate().getYear())))
+                an.dupliquer(nom);
+            else
+                PopUp.warning("Nom incorrect", null, "Le nom '%s' n'est pas valide.".formatted(nom)).showAndWait();
+        });
 
         this.setCpbContrat();
     }

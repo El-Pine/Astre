@@ -453,8 +453,8 @@ public class DB
         String req = "INSERT INTO Annee VALUES (?,?,?)";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, annee.getNom());
-            ps.setString(2, annee.getDateDeb());
-            ps.setString(3, annee.getDateFin());
+            ps.setDate(2, annee.getDateDeb());
+            ps.setDate(3, annee.getDateFin());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une année", e); }
@@ -465,8 +465,8 @@ public class DB
         String req = "UPDATE Annee SET nom = ?, debut = ?, fin = ? WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, annee.getNom());
-            ps.setString(2, annee.getDateDeb());
-            ps.setString(3, annee.getDateFin());
+            ps.setDate(2, annee.getDateDeb());
+            ps.setDate(3, annee.getDateFin());
             ps.setString(4, annee.getNom());
             ps.executeUpdate();
         }
@@ -492,8 +492,8 @@ public class DB
                 while (rs.next()) {
                     Annee annee = new Annee(
                             rs.getString("nom"),
-                            rs.getString("debut"),
-                            rs.getString("fin")
+                            rs.getDate("debut"),
+                            rs.getDate("fin")
                     );
                     ensAnnee.add(annee);
                 }
