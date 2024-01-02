@@ -125,6 +125,40 @@ public class StageAccueilConfig implements Initializable
         StageAjouterCategories.creer( this ).show();
     }
 
+    public void onBtnEnregistrer(ActionEvent actionEvent) throws IOException
+    {
+        System.out.println("je rentre dans onBtnEnregistrer");
+
+        for (CategorieHeure catHr : StageAccueilConfig.catHeurAAjouter)
+        {
+            Controleur.get().getMetier().ajouterCategorieHeure(catHr);
+        }
+        for (CategorieHeure catHr : StageAccueilConfig.catHrASupp)
+        {
+            Controleur.get().getMetier().supprimerCatHr(catHr);
+        }
+
+        for (CategorieIntervenant catInter : StageAccueilConfig.categorieInterAAjouter)
+        {
+            Controleur.get().getMetier().ajouterCategorieIntervenant(catInter);
+        }
+        for (CategorieIntervenant catInter : StageAccueilConfig.catInterASuppr)
+        {
+            Controleur.get().getMetier().supprimerCatInter(catInter);
+        }
+
+        refresh();
+    }
+
+    public void onBtnAnnuler(ActionEvent actionEvent) throws IOException
+    {
+        System.out.println("Je rentre dans onBtnAnnuler");
+        StageAccueilConfig.catHeurAAjouter = StageAccueilConfig.catHrASupp = new ArrayList<>();
+        StageAccueilConfig.categorieInterAAjouter = StageAccueilConfig.catInterASuppr = new ArrayList<>();
+
+        refresh();
+    }
+
     public void onBtnSupprimer(ActionEvent e) throws IOException
     {
         boolean estSupprimer          = false;
@@ -153,6 +187,7 @@ public class StageAccueilConfig implements Initializable
             {
                 if (PopUp.confirmationR("Suppression d'une catégorie d'heure", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'heure : %s", catHr.getNom())))
                 {
+                    System.out.println("Pourtant je rentre la dedans");
                     StageAccueilConfig.ensCatHeure.remove(catHr);
                     StageAccueilConfig.catHrASupp .add   (catHr);
                 }
@@ -205,7 +240,7 @@ public class StageAccueilConfig implements Initializable
         tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault   ()).asObject());
         tcRatioInter     .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getRatioTPDefault  ()));
 
-        tabCatInter.setItems(ensCatInter);
+        tabCatInter.setItems(StageAccueilConfig.ensCatInter);
 
         tcHr.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
         tcHr.setCellFactory(column -> new TableCell<>() {
@@ -242,7 +277,7 @@ public class StageAccueilConfig implements Initializable
         tcStageHeures      .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estStage       ()));
         tcStageHeures      .setCellFactory((CheckBoxTableCell.forTableColumn(tcStageHeures)));
 
-        tabCatHeures.setItems(ensCatHeure);
+        tabCatHeures.setItems(StageAccueilConfig.ensCatHeure);
 
         tabCatInter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -278,21 +313,29 @@ public class StageAccueilConfig implements Initializable
         }
     }
 
+    public void ajouterSansDoublon(ObservableList list, ArrayList al)
+    {
+        for (int i = 0; i < al.size(); i++)
+            if (!list.contains(al.get(i)))
+                list.add(al.get(i));
+    }
+
     public void refresh()
     {
         System.out.println("Debut refresh " + StageAccueilConfig.ensCatInter );
-        ObservableList<CategorieIntervenant> list1 = FXCollections.observableArrayList(StageAccueilConfig.ensCatInter);
-        ObservableList<CategorieHeure>       list2 = FXCollections.observableArrayList(StageAccueilConfig.ensCatHeure);
+        ObservableList<CategorieIntervenant> list1 = StageAccueilConfig.ensCatInter;
+        ObservableList<CategorieHeure>       list2 = StageAccueilConfig.ensCatHeure;
 
+        ajouterSansDoublon(list1, StageAccueilConfig.categorieInterAAjouter);
+        ajouterSansDoublon(list1, StageAccueilConfig.catInterASuppr);
 
-        list1.addAll(StageAccueilConfig.categorieInterAAjouter);
-        list1.addAll(StageAccueilConfig.catInterASuppr        );
+        ajouterSansDoublon(list2, StageAccueilConfig.catHeurAAjouter);
+        ajouterSansDoublon(list2, StageAccueilConfig.catHrASupp);
 
-        list2.addAll(StageAccueilConfig.catHeurAAjouter);
-        list2.addAll(StageAccueilConfig.catHrASupp     );
-
-        System.out.println("Dans refresh : "+StageAccueilConfig.ensCatInter);
+        System.out.println("Dans refresh : "+StageAccueilConfig.ensCatHeure);
         System.out.println(StageAccueilConfig.catHrASupp);
+
+        System.out.println("list2 : " + list2 );
 
 
         tabCatInter .setItems (list1);
