@@ -69,13 +69,14 @@ public class Astre
         return null;
     }
 
-    public static boolean estCatHr(ArrayList<CategorieHeure> ensCategorie, String nomCatHr)
+    public static boolean estCatHr(ArrayList<Affectation> ensAffectation, String nomCatHr)
     {
-        for (CategorieHeure catHrs : ensCategorie)
+        for (Affectation aff: ensAffectation)
         {
-            if(catHrs.getNom().equals(nomCatHr)){ return true;}
+            if(aff.getTypeHeure().getNom().equals(nomCatHr))
+                return false;
         }
-        return false;
+        return true;
     }
 
     public static Intervenant rechercherInter(ArrayList<Intervenant> ensInter, int idInter)
@@ -96,13 +97,13 @@ public class Astre
         return null;
     }
 
-    public static boolean estCatInter(ArrayList<CategorieIntervenant> ensCatInter, String codeCatInter )
+    public static boolean estCatInter(ArrayList<Affectation> ensAffectation, String codeCatInter )
     {
-        for (CategorieIntervenant catInter : ensCatInter)
+        for (Affectation aff : ensAffectation)
         {
-            if(catInter.getCode().equals(codeCatInter)) return true;
+            if(aff.getIntervenant().getCategorie().getCode().equals(codeCatInter)) return false;
         }
-        return false;
+        return true;
     }
 	public Semestre               rechercheSemestreByNumero  (int numero)
 	{

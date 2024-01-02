@@ -7,13 +7,11 @@ import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -147,6 +145,7 @@ public class StageAccueilConfig implements Initializable
             Controleur.get().getMetier().supprimerCatInter(catInter);
         }
 
+        Controleur.get().getMetier().valider(false);
         refresh();
     }
 
@@ -161,14 +160,14 @@ public class StageAccueilConfig implements Initializable
 
     public void onBtnSupprimer(ActionEvent e) throws IOException
     {
-        boolean estSupprimer          = false;
+        boolean peutSupprimer          = false;
         CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
 
         if(catInter != null)
         {
-            estSupprimer = Astre.estCatInter(Controleur.get().getMetier().getCategorieIntervenants(), catInter.getCode());
-            if(estSupprimer)
+            peutSupprimer = Astre.estCatInter(Controleur.get().getMetier().getAffectations(), catInter.getCode());
+            if(peutSupprimer)
             {
                 if (PopUp.confirmationR("Suppression d'une catégorie d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'intervenant : %s", catInter.getNom())))
                 {
@@ -177,13 +176,17 @@ public class StageAccueilConfig implements Initializable
                     System.out.println("Apres le remove : " + StageAccueilConfig.ensCatInter);
                     StageAccueilConfig.catInterASuppr.add(catInter);
                 }
-
+            }
+            else
+            {
+                PopUp.error("Categorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ");
             }
         }
         if(catHr != null)
         {
-            estSupprimer = Astre.estCatHr(Controleur.get().getMetier().getCategorieHeures(), catHr.getNom());
-            if(estSupprimer)
+            peutSupprimer = Astre.estCatHr(Controleur.get().getMetier().getAffectations(), catHr.getNom());
+            System.out.println(peutSupprimer);
+            if(peutSupprimer)
             {
                 if (PopUp.confirmationR("Suppression d'une catégorie d'heure", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'heure : %s", catHr.getNom())))
                 {
@@ -191,7 +194,11 @@ public class StageAccueilConfig implements Initializable
                     StageAccueilConfig.ensCatHeure.remove(catHr);
                     StageAccueilConfig.catHrASupp .add   (catHr);
                 }
-
+            }
+            else
+            {
+                System.out.println("je suis la -- ");
+                PopUp.error("Categorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ");
             }
         }
 
@@ -214,8 +221,7 @@ public class StageAccueilConfig implements Initializable
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
         tcInter.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
         tcInter.setCellFactory(column -> new TableCell<>() {
             @Override
@@ -234,11 +240,11 @@ public class StageAccueilConfig implements Initializable
             }
         });
 
-        tcCodeInter      .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCode      ()));
-        tcNomInter       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getNom       ()));
-        tcHMaxInter      .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMaxDefault()).asObject());
-        tcHServInter     .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault   ()).asObject());
-        tcRatioInter     .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getRatioTPDefault  ()));
+        tcCodeInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
+        tcNomInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+        tcHMaxInter.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMaxDefault()).asObject());
+        tcHServInter.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault()).asObject());
+        tcRatioInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTPDefault()));
 
         tabCatInter.setItems(StageAccueilConfig.ensCatInter);
 
@@ -260,24 +266,56 @@ public class StageAccueilConfig implements Initializable
             }
         });
 
-        tcNomHeures        .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getNom         ()));
-        tcEqtdHeures       .setCellValueFactory (cellData -> new SimpleStringProperty  (cellData.getValue().getEquivalentTD()));
+        tcNomHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+        tcEqtdHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEquivalentTD()));
+
+        tcRessourcesHeures.setCellValueFactory(cellData -> {
+            CategorieHeure categorieHeure = cellData.getValue();
+            BooleanProperty ressourceProperty = new SimpleBooleanProperty(categorieHeure.estRessource());
+            // Ajoute un ChangeListener à la propriété ressource
+            ressourceProperty.addListener((observable, oldValue, newValue) -> {
+                enregistrerModification(categorieHeure, newValue, "Ressource");
+            });
+            return ressourceProperty;
+        });
+        tcRessourcesHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcRessourcesHeures));
 
 
+        tcStageHeures.setCellValueFactory(cellData -> {
+            CategorieHeure categorieHeure = cellData.getValue();
+            BooleanProperty stageProperty = new SimpleBooleanProperty(categorieHeure.estStage());
+            // Ajoute un ChangeListener à la propriété ressource
+            stageProperty.addListener((observable, oldValue, newValue) -> {
+                enregistrerModification(categorieHeure, newValue, "Stage");
+            });
+            return stageProperty;
+        });
+        tcStageHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcStageHeures));
 
-        tcRessourcesHeures .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estRessource   ()));
-        tcRessourcesHeures .setCellFactory(CheckBoxTableCell.forTableColumn(tcRessourcesHeures));
+        tcPppHeures.setCellValueFactory(cellData -> {
+            CategorieHeure categorieHeure = cellData.getValue();
+            BooleanProperty PppProperty = new SimpleBooleanProperty(categorieHeure.estPpp());
+            // Ajoute un ChangeListener à la propriété ressource
+            PppProperty.addListener((observable, oldValue, newValue) -> {
+                enregistrerModification(categorieHeure, newValue, "Ppp");
+            });
+            return PppProperty;
+        });
+        tcPppHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcPppHeures));
 
-        tcSaeHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estSae   ()));
-        tcSaeHeures        .setCellFactory(CheckBoxTableCell.forTableColumn(tcSaeHeures));
-
-        tcPppHeures        .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estPpp         ()));
-        tcPppHeures        .setCellFactory(CheckBoxTableCell.forTableColumn(tcPppHeures));
-
-        tcStageHeures      .setCellValueFactory (cellData -> new SimpleBooleanProperty (cellData.getValue().estStage       ()));
-        tcStageHeures      .setCellFactory((CheckBoxTableCell.forTableColumn(tcStageHeures)));
+        tcSaeHeures.setCellValueFactory(cellData -> {
+            CategorieHeure categorieHeure = cellData.getValue();
+            BooleanProperty saeProperty = new SimpleBooleanProperty(categorieHeure.estSae());
+            // Ajoute un ChangeListener à la propriété ressource
+            saeProperty.addListener((observable, oldValue, newValue) -> {
+                enregistrerModification(categorieHeure, newValue, "Sae");
+            });
+            return saeProperty;
+        });
+        tcSaeHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcSaeHeures));
 
         tabCatHeures.setItems(StageAccueilConfig.ensCatHeure);
+        tabCatHeures.setEditable(true);
 
         tabCatInter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -291,6 +329,18 @@ public class StageAccueilConfig implements Initializable
             }
         });
     }
+
+    public void enregistrerModification(CategorieHeure categorieHeure, boolean b,String s)
+    {
+        switch (s)
+        {
+            case "Ressource" -> categorieHeure.setRessource(b);
+            case "Sae"       -> categorieHeure.setSae      (b);
+            case "Ppp"       -> categorieHeure.setPpp      (b);
+            case "Stage"     -> categorieHeure.setStage    (b);
+        }
+    }
+
     private String getCellValue(CategorieIntervenant categorieIntervenant)
     {
         if (StageAccueilConfig.categorieInterAAjouter.contains(categorieIntervenant)) {
