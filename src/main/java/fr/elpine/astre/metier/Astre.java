@@ -39,7 +39,7 @@ public class Astre
         this.ensCategorieIntervenant = db.getAllCategorieIntervenant();
         this.ensIntervenant          = db.getAllIntervenant( this.ensCategorieIntervenant );
         this.ensCategorieHeure       = db.getAllCategorieHeure();
-        this.ensAffectation          = db.getAllaff( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
+        this.ensAffectation          = db.getAllAffectation( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
         this.ensAttribution          = db.getAllAttribution( this.ensModule, this.ensCategorieHeure );
 
         this.anneeActuelle = this.ensAnnee.isEmpty() ? null : this.ensAnnee.get(0);
@@ -255,83 +255,14 @@ public class Astre
     /* Gestion enregistrement et rollback */
     /*------------------------------------*/
 
-    public void enregistrer() { this.valider( false ); }
-    public void rollback()    { this.valider( true  ); }
+    public void enregistrer() { this.validation( false ); }
+    public void rollback()    { this.validation( true  ); }
 
-    private void valider( boolean rollback )
+    private void validation( boolean rollback )
     {
-        ArrayList<Action> lstAction = new ArrayList<>();
-
-        /*
-         * supprimer           -> supprimer
-         * ajouter             -> ajouter
-         * modifier            -> modifier (modif code au top)
-         * supprimer, ajouter  -> supprimer (rien dans db)
-         * ajouter, modifier   -> ajouter
-         * supprimer, modifier -> supprimer (modif code au top)
-         * les 3               -> supprimer (rien dans db)
-         * */
-
         // preparer l'ordre d'exécution
-        for (Annee a : this.ensAnnee)
-        {
-            if (a.isSupprime())     lstAction.add( new Action(rollback, 0, a, !a.isAjoute()) );
-            else if (a.isAjoute())  lstAction.add( new Action(rollback, 1, a, true) );
-            else if (a.isModifie()) lstAction.add( new Action(rollback, 2, a, true) );
+        ArrayList<Action> lstAction = rollback ? ordreExecutionRollback() : ordreExecution();
 
-            for (Semestre s : a.getSemestres())
-            {
-                if (s.isSupprime())     lstAction.add( new Action(rollback, 0, s, !s.isAjoute()) );
-                else if (s.isAjoute())  lstAction.add( new Action(rollback, 1, s, true) );
-                else if (s.isModifie()) lstAction.add( new Action(rollback, 2, s, true) );
-
-                for (Module m : s.getModules())
-                {
-                    if (m.isModifie() && !m.isAjoute()) lstAction.add( new Action(rollback, -1, m, true) );
-
-                    if (m.isSupprime())     lstAction.add( new Action(rollback, 0, m, !m.isAjoute()) );
-                    else if (m.isAjoute())  lstAction.add( new Action(rollback, 1, m, true) );
-                    else if (m.isModifie()) lstAction.add( new Action(rollback, 2, m, true) );
-
-                    for (Affectation aff : m.getAffectations())
-                    {
-                        if (aff.isSupprime())     lstAction.add( new Action(rollback, 0, aff, !aff.isAjoute()) );
-                        else if (aff.isAjoute())  lstAction.add( new Action(rollback, 1, aff, true) );
-                        else if (aff.isModifie()) lstAction.add( new Action(rollback, 2, aff, true) );
-                    }
-
-                    for (Attribution att : m.getAttributions())
-                    {
-                        if (att.isSupprime())     lstAction.add( new Action(rollback, 0, att, !att.isAjoute()) );
-                        else if (att.isAjoute())  lstAction.add( new Action(rollback, 1, att, true) );
-                        else if (att.isModifie()) lstAction.add( new Action(rollback, 2, att, true) );
-                    }
-                }
-            }
-        }
-
-        for (CategorieHeure catHr : this.ensCategorieHeure)
-        {
-            if (catHr.isSupprime())     lstAction.add( new Action(rollback, 0, catHr, !catHr.isAjoute()) );
-            else if (catHr.isAjoute())  lstAction.add( new Action(rollback, 1, catHr, true) );
-            else if (catHr.isModifie()) lstAction.add( new Action(rollback, 2, catHr, true) );
-        }
-
-        for (CategorieIntervenant catInt : this.ensCategorieIntervenant)
-        {
-            if (catInt.isSupprime())     lstAction.add( new Action(rollback, 0, catInt, !catInt.isAjoute()) );
-            else if (catInt.isAjoute())  lstAction.add( new Action(rollback, 1, catInt, true) );
-            else if (catInt.isModifie()) lstAction.add( new Action(rollback, 2, catInt, true) );
-        }
-
-        for (Intervenant i : this.ensIntervenant)
-        {
-            if (i.isSupprime())     lstAction.add( new Action(rollback, 0, i, !i.isAjoute()) );
-            else if (i.isAjoute())  lstAction.add( new Action(rollback, 1, i, true) );
-            else if (i.isModifie()) lstAction.add( new Action(rollback, 2, i, true) );
-        }
-
-        Collections.sort(lstAction);
 
         // débug
         logger.debug("Listes des actions de sauvegarde :\n");
@@ -339,6 +270,162 @@ public class Astre
 
 
         // appliquer l'ordre d'exécution
-        // SOON
+        for (Action a : lstAction) a.executer( rollback );
+    }
+
+    private ArrayList<Action> ordreExecution()
+    {
+        ArrayList<Action> lstAction = new ArrayList<>();
+
+        /*
+         * actions normal :
+         *   supprimer           -> supprimer
+         *   ajouter             -> ajouter
+         *   modifier            -> modifier (modif code au top)
+         *   supprimer, ajouter  -> supprimer (rien dans db)
+         *   ajouter, modifier   -> ajouter
+         *   supprimer, modifier -> supprimer (modif code au top)
+         *   les 3               -> supprimer (rien dans db)
+         *
+         * */
+
+        for (Annee a : this.ensAnnee)
+        {
+            if (a.isSupprime())     lstAction.add( new Action(0, a, !a.isAjoute()) );
+            else if (a.isAjoute())  lstAction.add( new Action(1, a, true) );
+            else if (a.isModifie()) lstAction.add( new Action(2, a, true) );
+
+            for (Semestre s : a.getSemestres())
+            {
+                if (s.isSupprime())     lstAction.add( new Action(0, s, !s.isAjoute()) );
+                else if (s.isAjoute())  lstAction.add( new Action(1, s, true) );
+                else if (s.isModifie()) lstAction.add( new Action(2, s, true) );
+
+                for (Module m : s.getModules())
+                {
+                    if (m.isModifie() && !m.isAjoute()) lstAction.add( new Action(-1, m, true) );
+
+                    if (m.isSupprime())     lstAction.add( new Action(0, m, !m.isAjoute()) );
+                    else if (m.isAjoute())  lstAction.add( new Action(1, m, true) );
+                    else if (m.isModifie()) lstAction.add( new Action(2, m, true) );
+
+                    for (Affectation aff : m.getAffectations())
+                    {
+                        if (aff.isSupprime())     lstAction.add( new Action(0, aff, !aff.isAjoute()) );
+                        else if (aff.isAjoute())  lstAction.add( new Action(1, aff, true) );
+                        else if (aff.isModifie()) lstAction.add( new Action(2, aff, true) );
+                    }
+
+                    for (Attribution att : m.getAttributions())
+                    {
+                        if (att.isSupprime())     lstAction.add( new Action(0, att, !att.isAjoute()) );
+                        else if (att.isAjoute())  lstAction.add( new Action(1, att, true) );
+                        else if (att.isModifie()) lstAction.add( new Action(2, att, true) );
+                    }
+                }
+            }
+        }
+
+        for (CategorieHeure catHr : this.ensCategorieHeure)
+        {
+            if (catHr.isSupprime())     lstAction.add( new Action(0, catHr, !catHr.isAjoute()) );
+            else if (catHr.isAjoute())  lstAction.add( new Action(1, catHr, true) );
+            else if (catHr.isModifie()) lstAction.add( new Action(2, catHr, true) );
+        }
+
+        for (CategorieIntervenant catInt : this.ensCategorieIntervenant)
+        {
+            if (catInt.isSupprime())     lstAction.add( new Action(0, catInt, !catInt.isAjoute()) );
+            else if (catInt.isAjoute())  lstAction.add( new Action(1, catInt, true) );
+            else if (catInt.isModifie()) lstAction.add( new Action(2, catInt, true) );
+        }
+
+        for (Intervenant i : this.ensIntervenant)
+        {
+            if (i.isSupprime())     lstAction.add( new Action(0, i, !i.isAjoute()) );
+            else if (i.isAjoute())  lstAction.add( new Action(1, i, true) );
+            else if (i.isModifie()) lstAction.add( new Action(2, i, true) );
+        }
+
+        Collections.sort(lstAction);
+
+        return lstAction;
+    }
+
+    private ArrayList<Action> ordreExecutionRollback()
+    {
+        ArrayList<Action> lstAction = new ArrayList<>();
+
+        /*
+         * actions rollback :
+         *   supprimer           -> reset (2)
+         *   ajouter             -> del obj (0)
+         *   modifier            -> rollback + reset (1)
+         *   supprimer, ajouter  -> del obj
+         *   ajouter, modifier   -> del obj
+         *   supprimer, modifier -> rollback + reset
+         *   les 3               -> del obj
+         *
+         * */
+
+        for (Annee a : this.ensAnnee)
+        {
+            if (a.isAjoute())        lstAction.add( new Action(0, a, false ) );
+            else if (a.isModifie())  lstAction.add( new Action(1, a, false ) );
+            else if (a.isSupprime()) lstAction.add( new Action(2, a, false ) ); // faire pareil partout
+
+            for (Semestre s : a.getSemestres())
+            {
+                if (s.isAjoute())        lstAction.add( new Action(0, s, false ) );
+                else if (s.isModifie())  lstAction.add( new Action(1, s, false ) );
+                else if (s.isSupprime()) lstAction.add( new Action(2, s, false ) );
+
+                for (Module m : s.getModules())
+                {
+                    if (m.isAjoute())        lstAction.add( new Action(0, m, false ) );
+                    else if (m.isModifie())  lstAction.add( new Action(1, m, false ) );
+                    else if (m.isSupprime()) lstAction.add( new Action(2, m, false ) );
+
+                    for (Affectation aff : m.getAffectations())
+                    {
+                        if (aff.isAjoute())        lstAction.add( new Action(0, aff, false ) );
+                        else if (aff.isModifie())  lstAction.add( new Action(1, aff, false ) );
+                        else if (aff.isSupprime()) lstAction.add( new Action(2, aff, false ) );
+                    }
+
+                    for (Attribution att : m.getAttributions())
+                    {
+                        if (att.isAjoute())        lstAction.add( new Action(0, att, false ) );
+                        else if (att.isModifie())  lstAction.add( new Action(1, att, false ) );
+                        else if (att.isSupprime()) lstAction.add( new Action(2, att, false ) );
+                    }
+                }
+            }
+        }
+
+        for (CategorieHeure catHr : this.ensCategorieHeure)
+        {
+            if (catHr.isAjoute())        lstAction.add( new Action(0, catHr, false ) );
+            else if (catHr.isModifie())  lstAction.add( new Action(1, catHr, false ) );
+            else if (catHr.isSupprime()) lstAction.add( new Action(2, catHr, false ) );
+        }
+
+        for (CategorieIntervenant catInt : this.ensCategorieIntervenant)
+        {
+            if (catInt.isAjoute())        lstAction.add( new Action(0, catInt, false ) );
+            else if (catInt.isModifie())  lstAction.add( new Action(1, catInt, false ) );
+            else if (catInt.isSupprime()) lstAction.add( new Action(2, catInt, false ) );
+        }
+
+        for (Intervenant i : this.ensIntervenant)
+        {
+            if (i.isAjoute())        lstAction.add( new Action(0, i, false ) );
+            else if (i.isModifie())  lstAction.add( new Action(1, i, false ) );
+            else if (i.isSupprime()) lstAction.add( new Action(2, i, false ) );
+        }
+
+        Collections.sort(lstAction);
+
+        return lstAction;
     }
 }

@@ -63,7 +63,7 @@ public class Semestre
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
-    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; }
+    public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; this.setRollback(); }
 
 
     public Semestre ajouterModule(Module module)
@@ -106,7 +106,7 @@ public class Semestre
         this.rollbackDatas.clear();
     }
 
-    public void setRollback()
+    private void setRollback()
     {
         if (this.rollbackDatas == null) this.rollbackDatas = new HashMap<>(); else this.rollbackDatas.clear();
 

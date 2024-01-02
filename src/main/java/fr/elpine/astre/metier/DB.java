@@ -4,7 +4,6 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 import javafx.scene.paint.Color;
-import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -259,6 +258,12 @@ public class DB
         catch(SQLException e) { logger.error("Erreur lors de la récupération des modules", e); }
 
         return ensModule;
+    }
+    
+    public void majCodeModule(Module module)
+    {
+        // TODO : Mettre à jour le code d'un module uniquement et en même temps mettre à jour le code du module
+        //  dans les autres tables qui l'utilisent pour pas casser les règles de clé primaires.
     }
 
 
@@ -546,7 +551,7 @@ public class DB
     }
 
     //Méthode de delete
-    public void supprimerCatIntervenant(CategorieIntervenant catInter)
+    public void supprimerCategorieIntervenant(CategorieIntervenant catInter)
     {
         String req = "DELETE FROM CategorieIntervenant WHERE code = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -747,7 +752,7 @@ public class DB
     /*-----------------------*/
 
     //Méthode insert
-    public void ajouterAff(Affectation affs)
+    public void ajouterAffectation(Affectation affs)
     {
         String req = "INSERT INTO Affectation VALUES(?,?,?,?,?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -767,7 +772,7 @@ public class DB
     }
 
     //Méthode d'update
-    public void updateaff(Affectation aff)
+    public void majAffectation(Affectation aff)
     {
         String req = "UPDATE Affectation SET codeModule = ?, numeroSemesreModule = ?, anneeModule = ?, idinter = ?, typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -792,7 +797,7 @@ public class DB
     }
 
     //Méthode delete
-    public void supprimeraff(Affectation aff)
+    public void supprimerAffectation(Affectation aff)
     {
         String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
@@ -805,7 +810,7 @@ public class DB
     }
 
     //Méthode select *
-    public ArrayList<Affectation> getAllaff(ArrayList<Intervenant> ensInter, ArrayList<Module> ensModule, ArrayList<CategorieHeure> ensCatHr)
+    public ArrayList<Affectation> getAllAffectation(ArrayList<Intervenant> ensInter, ArrayList<Module> ensModule, ArrayList<CategorieHeure> ensCatHr)
     {
         ArrayList<Affectation> ensaff = new ArrayList<>();
         String req = "SELECT * FROM Affectation";

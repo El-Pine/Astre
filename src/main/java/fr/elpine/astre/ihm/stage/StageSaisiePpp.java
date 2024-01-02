@@ -3,7 +3,6 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
-import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
@@ -212,7 +211,7 @@ public class StageSaisiePpp implements Initializable {
 
         if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module PPP ?")) {
             tableau.getItems().remove(affectation);
-            Controleur.get().getDb().supprimeraff(affectation);
+            Controleur.get().getDb().supprimerAffectation(affectation);
             this.refresh();
         }
     }
