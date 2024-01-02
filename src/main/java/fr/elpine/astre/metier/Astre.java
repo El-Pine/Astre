@@ -255,7 +255,10 @@ public class Astre
     /* Gestion enregistrement et rollback */
     /*------------------------------------*/
 
-    public void valider( boolean rollback )
+    public void enregistrer() { this.valider( false ); }
+    public void rollback()    { this.valider( true  ); }
+
+    private void valider( boolean rollback )
     {
         ArrayList<Action> lstAction = new ArrayList<>();
 

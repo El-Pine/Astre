@@ -145,7 +145,7 @@ public class StageAccueilConfig implements Initializable
             Controleur.get().getMetier().supprimerCatInter(catInter);
         }
 
-        Controleur.get().getMetier().valider(false);
+        Controleur.get().getMetier().enregistrer();
         refresh();
     }
 
