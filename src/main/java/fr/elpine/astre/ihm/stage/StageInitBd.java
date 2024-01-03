@@ -107,7 +107,7 @@ public class StageInitBd implements Initializable
     public void onBtnAnnuler()
     {
         if ( parent != null ) parent.activer();
-        else stage.close();
+        stage.close();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package fr.elpine.astre.metier;
 
+import com.opencsv.CSVWriter;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
@@ -926,5 +927,53 @@ public class DB
         catch (SQLException e) { logger.error("Erreur lors de la récupération des affectations", e); }
 
         return ensaff;
+    }
+
+    public Boolean getDonneesCSV(String annee) {
+        String nomDossier = "CSV";
+        String nomFichierCSV = nomDossier + "/résultat-" + annee + ".csv";
+
+        // Vérifier si le répertoire existe, sinon le créer
+        File dossier = new File(nomDossier);
+        if (!dossier.exists()) {
+            boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
+            if (!success) {
+                System.err.println("Impossible de créer le répertoire");
+                return false;
+            }
+        }
+        try (FileWriter writer = new FileWriter(nomFichierCSV);
+             CSVWriter csvWriter = new CSVWriter(writer)) {
+
+            String[] headerRecord = {"codeCategorie", "nom", "prenom", "heureService", "heureMax", "ratioTP","tkt", "tkt", "tkt", "tkt", "tkt", "tkt"};
+            csvWriter.writeNext(headerRecord);
+
+            String sql = "SELECT codeCategorie, nom, prenom, heureService, heureMax, ratioTP FROM Intervenant";
+            try (PreparedStatement ps = co.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    String[] data = {
+                            rs.getString("codeCategorie"),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
+                            rs.getString("heureService"),
+                            rs.getString("heureMax"),
+                            rs.getString("ratioTP"),
+                            "tkt",
+                            "tkt",
+                            "tkt",
+                            "tkt",
+                            "tkt",
+                            "tkt"
+                    };
+                    csvWriter.writeNext(data);
+                }
+            }
+            return true;
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.27'
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'ch.qos.logback:logback-classic:1.4.14'
+    implementation 'com.opencsv:opencsv:5.5.2'
 }
 
 compileJava.options.encoding = 'UTF-8'

@@ -5,8 +5,9 @@ module fr.elpine.astre {
 	requires java.desktop;
 	requires org.slf4j;
 	requires org.postgresql.jdbc;
+    requires com.opencsv;
 
-	exports fr.elpine.astre;
+    exports fr.elpine.astre;
 	exports fr.elpine.astre.ihm;
 	exports fr.elpine.astre.ihm.stage;
 	exports fr.elpine.astre.ihm.stage.PopUp;

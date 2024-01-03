@@ -2,22 +2,13 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.metier.objet.Annee;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import fr.elpine.astre.ihm.PopUp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
 public class StageEtats {
     private Stage stage;
 
@@ -39,14 +30,13 @@ public class StageEtats {
 
         stage.setOnCloseRequest(e -> {
             try {
-                StageEtats.creer().show();
+                StagePrincipal.creer().show();
             } catch (IOException ignored) { }
         });
 
         return stage;
-
-
     }
+
     private void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -64,7 +54,15 @@ public class StageEtats {
         StageGeneration.creer("module").show();
     }
 
-    public void onBtnClickEtatCSV(ActionEvent actionEvent) {
+    public void onBtnClickEtatCSV(ActionEvent actionEvent) throws IOException {
+        String nomAnnee = Controleur.get().getMetier().getAnneeActuelle().getNom();
+        if ( !Controleur.get().getDb().getDonneesCSV( nomAnnee ) ) {
+            PopUp.warning("Erreur de génération","Erreur de génération","Les données n'ont pas pus être récupéré");
+        }
+        else if ( PopUp.confirmationR("Fichier CSV","Fichier CSV généré","Le fichier CSV a bien été généré voulez vous l'ouvrir ?") ) {
+            StageAffichageCSV.creer(nomAnnee).show();
+            this.stage.close();
+        }
     }
 
     public void onBtnClickEtatAnnuler(ActionEvent actionEvent) throws IOException{
