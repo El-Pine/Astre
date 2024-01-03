@@ -29,13 +29,13 @@ INSERT INTO Module (code, numeroSemestre, annee, nom, abreviation, couleur, type
 
 -- Insertion des données dans la table CategorieHeure
 INSERT INTO CategorieHeure (nom, eqtd, ressource, sae, ppp, stage) VALUES
-    ('CM', '3/2', false, false, false, false),
-    ('TD', '1', false, false, false, false),
-    ('TP', '1', false, false, false, false),
-    ('H tut', '1', false, false, false, false),
-    ('REH', '1', false, false, false, false),
-    ('H Saé', '1', false, false, false, false),
-    ('HP', '1', false, false, false, false);
+    ('CM', '3/2', true, false, false, false),
+    ('TD', '1', true, false, false, false),
+    ('TP', '1', true, false, false, false),
+    ('H tut', '1', false, true, true, true),
+    ('REH', '1', false, false, true, true),
+    ('H Saé', '1', false, true, false, false),
+    ('HP', '1', true, false, false, false);
 
 -- Insertion des données dans la table CategorieIntervenant
 INSERT INTO CategorieIntervenant (code, nom, nbHeureMaxDefaut, nbHeureServiceDefaut, ratioTPDefaut) VALUES
