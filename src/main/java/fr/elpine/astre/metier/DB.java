@@ -303,27 +303,21 @@ public class DB
     public void ajouterIntervenant(Intervenant inter)
     {
         String req = "INSERT INTO Intervenant (nom, prenom, mail, codeCategorie, heureService, heureMax, ratioTP) VALUES (?, ?, ?, ?,?, ?, ?)";
-        try(PreparedStatement ps = co.prepareStatement(req))
+        try(PreparedStatement ps = co.prepareStatement(req, Statement.RETURN_GENERATED_KEYS))
         {
             ps.setString   (1,inter.getNom                 ()  );
             ps.setString   (2,inter.getPrenom              ()  );
             ps.setString   (3, inter.getMail               ()  );
             ps.setString   (4,inter.getCategorie().getCode ()  );
-            ps.setString      (5,inter.getHeureService().toString()  );
-            ps.setString      (6,inter.getHeureMax().toString()  );
+            ps.setString   (5,inter.getHeureService().toString()  );
+            ps.setString   (6,inter.getHeureMax().toString()  );
             ps.setString   (7,inter.getRatioTP().toString()  );
 
-            int affectedRows = ps.executeUpdate();
-
-            if (affectedRows > 0)
+            if (ps.executeUpdate() > 0)
             {
                 ResultSet generatedKeys = ps.getGeneratedKeys();
 
-                if (generatedKeys.next()) {
-                    inter.setId(generatedKeys.getInt(1));
-                    logger.debug(String.format("Intervenant généré avec l'id :  %d ( %s )", inter.getId(), inter));
-                    logger.debug(String.valueOf(generatedKeys.getInt("idInter")));
-                }
+                if (generatedKeys.next()) inter.setId(generatedKeys.getInt("idInter"));
             }
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'un intervenant", e); }
@@ -806,7 +800,7 @@ public class DB
     public void ajouterAffectation(Affectation affs)
     {
         String req = "INSERT INTO Affectation VALUES(?,?,?,?,?,?,?,?,?)";
-        try(PreparedStatement ps = co.prepareStatement(req))
+        try(PreparedStatement ps = co.prepareStatement(req, Statement.RETURN_GENERATED_KEYS))
         {
             ps.setString   (1,affs.getModule     ().getCode    ());
             ps.setInt      (2,affs.getModule     ().getSemestre().getNumero());
@@ -827,7 +821,14 @@ public class DB
             else                   ps.setNull  (8, Types.FLOAT);
 
             ps.setString   (9,affs.getCommentaire());
-            ps.executeUpdate();
+
+            if (ps.executeUpdate() > 0)
+            {
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+
+                if (generatedKeys.next()) affs.setId(generatedKeys.getInt("idAffectation"));
+            }
+
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une affectation", e); }
     }
@@ -835,7 +836,7 @@ public class DB
     //Méthode d'update
     public void majAffectation(Affectation aff)
     {
-        String req = "UPDATE Affectation SET typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND idInter = ?";
+        String req = "UPDATE Affectation SET typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND idInter = ? AND idAffectation = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString (1,aff.getTypeHeure           ().getNom());
@@ -857,6 +858,7 @@ public class DB
             ps.setInt    (7,aff.getModule().getSemestre().getNumero());
             ps.setString (8,aff.getModule().getSemestre().getAnnee().getNom());
             ps.setInt    (9,aff.getIntervenant().getId());
+            ps.setInt    (10,aff.getId());
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une affectation", e); }
     }
@@ -864,13 +866,14 @@ public class DB
     //Méthode delete
     public void supprimerAffectation(Affectation aff)
     {
-        String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND idInter = ?";
+        String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND idInter = ? AND idAffectation = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString (1,aff.getModule().getCode());
             ps.setInt    (2,aff.getModule().getSemestre().getNumero());
             ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
             ps.setInt    (4,aff.getIntervenant().getId());
+            ps.setInt    (5,aff.getId());
         }
         catch (SQLException e) { logger.error("Erreur lors de la suppression d'une affectation", e); }
     }
@@ -897,26 +900,30 @@ public class DB
                     Fraction nbHeure = Fraction.valueOf( rs.getString("nbHeure") );
 
                     if (rs.wasNull()) {
-                        ensaff.add(
-                                new Affectation(
-                                        mod,
-                                        inter,
-                                        catHr,
-                                        rs.getInt("nbGroupe"),
-                                        rs.getInt("nbSemaine"),
-                                        rs.getString("commentaire")
-                                )
+                        Affectation aff = new Affectation(
+                                mod,
+                                inter,
+                                catHr,
+                                rs.getInt("nbGroupe"),
+                                rs.getInt("nbSemaine"),
+                                rs.getString("commentaire")
                         );
+
+                        aff.setId( rs.getInt("idAffectation") );
+
+                        ensaff.add(aff);
                     } else {
-                        ensaff.add(
-                                new Affectation(
-                                        mod,
-                                        inter,
-                                        catHr,
-                                        nbHeure,
-                                        rs.getString("commentaire")
-                                )
+                        Affectation aff = new Affectation(
+                                mod,
+                                inter,
+                                catHr,
+                                nbHeure,
+                                rs.getString("commentaire")
                         );
+
+                        aff.setId( rs.getInt("idAffectation") );
+
+                        ensaff.add(aff);
                     }
                 }
             }

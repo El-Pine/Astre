@@ -93,6 +93,7 @@ CREATE TABLE Attribution (
 );
 
 CREATE TABLE Affectation (
+    idAffectation SERIAL,
 	codeModule VARCHAR(255),
     numeroSemestreModule INT,
     anneeModule VARCHAR(255),
@@ -107,5 +108,5 @@ CREATE TABLE Affectation (
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
 	FOREIGN KEY (typeHeure)                                     REFERENCES CategorieHeure(nom),
 
-    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter)
+    PRIMARY KEY (codeModule, numeroSemestreModule, anneeModule, idInter, idAffectation)
 );

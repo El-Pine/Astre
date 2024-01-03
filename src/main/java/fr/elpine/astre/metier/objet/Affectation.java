@@ -15,6 +15,7 @@ public class Affectation
     private CategorieHeure typeHeure; // ya tjrs
     private Intervenant intervenant;
     private Module module;
+    private Integer id;
 
     private boolean ajoute;
     private boolean supprime;
@@ -23,6 +24,7 @@ public class Affectation
 
     public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, int nbGroupe, int nbSemaine, String commentaire)
     {
+        this.id          = null;
         this.nbGroupe    = nbGroupe;
         this.nbSemaine   = nbSemaine;
         this.commentaire = commentaire;
@@ -40,6 +42,7 @@ public class Affectation
 
     public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, Fraction nbHeure, String commentaire)
     {
+        this.id          = null;
         this.nbHeure     = nbHeure;
         this.commentaire = commentaire;
         this.typeHeure   = typeHeure;
@@ -58,6 +61,7 @@ public class Affectation
     public boolean hasGrpAndNbSemaine() { return this.nbSemaine != null && this.nbGroupe != null; }
     public boolean hasNbHeure() { return this.nbHeure != null; }
 
+    public int            getId          () { return id;         }
     public int            getNbGroupe    () { return nbGroupe;         }
     public int            getNbSemaine   () { return nbSemaine;        }
     public Fraction       getNbHeure     () { return this.nbHeure; }
@@ -67,6 +71,7 @@ public class Affectation
     public Intervenant    getIntervenant () { return this.intervenant; }
 
 
+    public void setId          ( int            id          ) { this.id          = id;                                }
     public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifie = true;     }
     public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifie = true;    }
     public void setNbHeure     ( Fraction       nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = true;      }
