@@ -4,6 +4,7 @@ import com.opencsv.CSVWriter;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,16 +153,6 @@ public class DB
         return content.toString();
     }
 
-
-    /*-----------------*/
-    /* Gestion Commits */
-    /*-----------------*/
-
-    // TODO : à remplacer par les nouvelles méthodes dans le Astre
-
-    public void enregistrer() throws SQLException { co.commit()  ; }
-    public void annuler    () throws SQLException { co.rollback(); }
-
     /*-----------------*/
     /*     Module      */
     /*-----------------*/
@@ -246,13 +237,15 @@ public class DB
                             semestre = sem;
                     }
 
-                    ensModule.add(new Module(rs.getString("nom"           ),
-                            rs.getString  ("code"          ),
-                            rs.getString  ("abreviation"   ),
-                            rs.getString  ("typeModule"    ),
-                            Color.valueOf(rs.getString  ("couleur")),
-                            rs.getBoolean ("validation"    ),
-                            semestre));
+                    if (semestre != null) {
+                        ensModule.add(new Module(rs.getString("nom"),
+                                rs.getString("code"),
+                                rs.getString("abreviation"),
+                                rs.getString("typeModule"),
+                                Color.valueOf(rs.getString("couleur")),
+                                rs.getBoolean("validation"),
+                                semestre));
+                    }
                 }
             }
         }
@@ -316,9 +309,9 @@ public class DB
             ps.setString   (2,inter.getPrenom              ()  );
             ps.setString   (3, inter.getMail               ()  );
             ps.setString   (4,inter.getCategorie().getCode ()  );
-            ps.setDouble      (5,inter.getHeureService        ()  );
-            ps.setDouble      (6,inter.getHeureMax            ()  );
-            ps.setString   (7,inter.getRatioTP             ()  );
+            ps.setString      (5,inter.getHeureService().toString()  );
+            ps.setString      (6,inter.getHeureMax().toString()  );
+            ps.setString   (7,inter.getRatioTP().toString()  );
 
             int affectedRows = ps.executeUpdate();
 
@@ -346,9 +339,9 @@ public class DB
             ps.setString(2,                 inter.getPrenom ()           );
             ps.setString(3,                 inter.getMail()           );
             ps.setString(4,                 inter.getCategorie().getCode() );
-            ps.setDouble(5, inter.getHeureService()          );
-            ps.setDouble(6, inter.getHeureMax  ()          );
-            ps.setString(7, inter.getRatioTP());
+            ps.setString(5, inter.getHeureService().toString()          );
+            ps.setString(6, inter.getHeureMax  ().toString()          );
+            ps.setString(7, inter.getRatioTP().toString());
             ps.setInt(8,inter.getId());
             ps.executeUpdate();
         }
@@ -387,9 +380,9 @@ public class DB
                             rs.getString("prenom"),
                             rs.getString("mail"),
                             catInter,
-                            rs.getDouble("heureService"),
-                            rs.getDouble("heureMax"),
-                            rs.getString("ratioTP")
+                            Fraction.valueOf( rs.getString("heureService") ),
+                            Fraction.valueOf( rs.getString("heureMax")     ),
+                            Fraction.valueOf( rs.getString("ratioTP")      )
                     );
 
                     inter.setId(rs.getInt("idInter"));
@@ -472,13 +465,15 @@ public class DB
                             annee = anTemp;
                     }
 
-                    ensSemestre.add(new Semestre(
-                            rs.getInt                      ("numero"    ),
-                            rs.getInt                      ("nbGrpTD"   ),
-                            rs.getInt                      ("nbGrpTP"   ),
-                            rs.getInt                      ("nbEtd"     ),
-                            rs.getInt                      ("nbSemaine" ),
-                            annee));
+                    if (annee != null) {
+                        ensSemestre.add(new Semestre(
+                                rs.getInt("numero"),
+                                rs.getInt("nbGrpTD"),
+                                rs.getInt("nbGrpTP"),
+                                rs.getInt("nbEtd"),
+                                rs.getInt("nbSemaine"),
+                                annee));
+                    }
                 }
             }
         }
@@ -562,9 +557,9 @@ public class DB
 
             ps.setString (1, categorieIntervenant.getCode       () );
             ps.setString (2, categorieIntervenant.getNom        () );
-            ps.setDouble    (3, categorieIntervenant.getNbHeureMaxDefault () );
-            ps.setDouble    (4, categorieIntervenant.getNbHeureServiceDefault    () );
-            ps.setString (5, categorieIntervenant.getRatioTPDefault    () );
+            ps.setString    (3, categorieIntervenant.getNbHeureMaxDefault ().toString() );
+            ps.setString    (4, categorieIntervenant.getNbHeureServiceDefault    ().toString() );
+            ps.setString (5, categorieIntervenant.getRatioTPDefault    ().toString() );
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une catégorie d'intervenant", e); }
@@ -577,9 +572,9 @@ public class DB
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString (1,       catInter.getNom        ());
-            ps.setDouble    (2,       catInter.getNbHeureMaxDefault ());
-            ps.setDouble    (3,       catInter.getNbHeureServiceDefault   ());
-            ps.setString  (4,      catInter.getRatioTPDefault    ());
+            ps.setString    (2,       catInter.getNbHeureMaxDefault ().toString());
+            ps.setString    (3,       catInter.getNbHeureServiceDefault   ().toString());
+            ps.setString  (4,      catInter.getRatioTPDefault    ().toString());
             ps.setString (5,       catInter.getCode       ());
             ps.executeUpdate();
 
@@ -614,9 +609,9 @@ public class DB
                     CategorieIntervenant categorie = new CategorieIntervenant(
                             rs.getString ("code"),
                             rs.getString ("nom"),
-                            rs.getDouble    ("nbHeureMaxDefaut"),
-                            rs.getDouble    ("nbHeureServiceDefaut"),
-                            rs.getString ("ratioTPDefaut")
+                            Fraction.valueOf( rs.getString("nbHeureMaxDefaut") ),
+                            Fraction.valueOf( rs.getString("nbHeureServiceDefaut") ),
+                            Fraction.valueOf( rs.getString("ratioTPDefaut") )
                     );
                     resultats.add(categorie);
                 }
@@ -640,7 +635,7 @@ public class DB
         {
 
             ps.setString (1, categorieHeure.getNom          () );
-            ps.setString (2, categorieHeure.getEquivalentTD () );
+            ps.setString (2, categorieHeure.getEquivalentTD ().toString() );
             ps.setBoolean(3, categorieHeure.estRessource    () );
             ps.setBoolean(4, categorieHeure.estSae          () );
             ps.setBoolean(5, categorieHeure.estPpp          () );
@@ -656,7 +651,7 @@ public class DB
         String req = "UPDATE CategorieHeure SET eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ? WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString  (1,catHr.getEquivalentTD());
+            ps.setString  (1,catHr.getEquivalentTD().toString());
             ps.setBoolean (2,catHr.estRessource   ());
             ps.setBoolean (3,catHr.estSae         ());
             ps.setBoolean (4,catHr.estStage       ());
@@ -693,7 +688,7 @@ public class DB
                 while (rs.next()) {
                     resultats.add(new CategorieHeure(
                             rs.getString  ("nom"       ),
-                            rs.getString  ("eqtd"      ),
+                            Fraction.valueOf( rs.getString("eqtd") ),
                             rs.getBoolean ("ressource" ),
                             rs.getBoolean ("sae"       ),
                             rs.getBoolean ("ppp"       ),
@@ -720,7 +715,7 @@ public class DB
             ps.setInt   (2, attribution.getModule().getSemestre().getNumero());
             ps.setString(3, attribution.getModule().getSemestre().getAnnee().getNom());
             ps.setString(4, attribution.getCatHr().getNom());
-            ps.setDouble(5, attribution.getNbHeure());
+            ps.setString(5, attribution.getNbHeure().toString());
             if (attribution.hasNbSemaine()) ps.setInt(6, attribution.getNbSemaine());
             else                            ps.setNull(6, Types.INTEGER);
             ps.executeUpdate();
@@ -732,7 +727,7 @@ public class DB
     public void majAttribution(Attribution att) {
         String req = "UPDATE Attribution SET nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setDouble   (1,att.getNbHeure  ());
+            ps.setString   (1,att.getNbHeure  ().toString());
             if (att.hasNbSemaine()) ps.setInt   (2,att.getNbSemaine());
             else                    ps.setNull(2, Types.INTEGER);
 
@@ -778,15 +773,17 @@ public class DB
 
                     int nbSemaine = rs.getInt("nbSemaine");
 
+                    Fraction f = Fraction.valueOf( rs.getString("nbHeure") );
+
                     if (rs.wasNull()) {
                         ensAttribution.add( new Attribution(
-                                rs.getDouble("nbHeure"),
+                                f,
                                 mod,
                                 catHr
                         ));
                     } else {
                         ensAttribution.add( new Attribution(
-                                rs.getDouble("nbHeure"),
+                                f,
                                 nbSemaine,
                                 mod,
                                 catHr
@@ -826,7 +823,7 @@ public class DB
                 ps.setNull(7, Types.INTEGER);
             }
 
-            if (affs.hasNbHeure()) ps.setDouble(8, affs.getNbHeure());
+            if (affs.hasNbHeure()) ps.setString(8, affs.getNbHeure().toString());
             else                   ps.setNull  (8, Types.FLOAT);
 
             ps.setString   (9,affs.getCommentaire());
@@ -851,7 +848,7 @@ public class DB
                 ps.setNull(3, Types.INTEGER);
             }
 
-            if (aff.hasNbHeure()) ps.setDouble(4, aff.getNbHeure());
+            if (aff.hasNbHeure()) ps.setString(4, aff.getNbHeure().toString());
             else                   ps.setNull  (4, Types.FLOAT);
 
             ps.setString (5,aff.getCommentaire         ());
@@ -897,7 +894,7 @@ public class DB
                     Module         mod   = Astre.rechercherModule(ensModule,codeModule,numSem,anneeSem);
                     CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr,rs.getString("typeHeure"));
 
-                    double nbHeure = rs.getDouble("nbHeure");
+                    Fraction nbHeure = Fraction.valueOf( rs.getString("nbHeure") );
 
                     if (rs.wasNull()) {
                         ensaff.add(
@@ -971,9 +968,7 @@ public class DB
                 }
             }
             return true;
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-            return false;
         }
+        catch (SQLException | IOException e) { logger.error("Erreur lors de la récupération des données pour le fichier csv", e); return false; }
     }
 }

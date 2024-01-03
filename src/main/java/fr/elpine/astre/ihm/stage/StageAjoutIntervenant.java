@@ -4,6 +4,7 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -113,7 +114,15 @@ public class StageAjoutIntervenant
         });
 
         if (test.get())
-            StageIntervenant.interAAjouter.add(new Intervenant(this.txtNom.getText(),this.txtPrenom.getText(),this.txtEmail.getText(), this.cpbContrat.getValue(),Integer.parseInt(this.txtService.getText()),Integer.parseInt(this.txtComplementaire.getText()),this.txtfRatio.getText()));
+            StageIntervenant.interAAjouter.add(new Intervenant(
+                    this.txtNom.getText(),
+                    this.txtPrenom.getText(),
+                    this.txtEmail.getText(),
+                    this.cpbContrat.getValue(),
+                    Fraction.valueOf(this.txtService.getText()),
+                    Fraction.valueOf(this.txtComplementaire.getText()),
+                    Fraction.valueOf(this.txtfRatio.getText())
+            ));
 
         parent.refresh();
         this.stage.close();

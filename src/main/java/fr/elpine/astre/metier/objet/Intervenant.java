@@ -1,6 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.outil.Fraction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,9 +12,9 @@ public class Intervenant
     private String               nom;
     private String prenom;
     private String mail;
-    private double    heureService;
-    private double                  heureMax;
-    private String               ratioTP;
+    private Fraction heureService;
+    private Fraction heureMax;
+    private Fraction ratioTP;
 
     private CategorieIntervenant   categorie;
     private ArrayList<Affectation> ensAffectation;
@@ -23,7 +24,7 @@ public class Intervenant
     private boolean                 modifie;
     private HashMap<String, Object> rollbackDatas;
 
-    public Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, double heureService, double heureMax, String ratioTP)
+    public Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, Fraction heureService, Fraction heureMax, Fraction ratioTP)
     {
         this.id           = null;
         this.nom          = nom;
@@ -49,21 +50,9 @@ public class Intervenant
     public String    getNom                    () { return nom      ;}
     public String    getPrenom                 () { return prenom   ;}
     public String    getMail                   () { return mail;}
-    public double getHeureService() { return heureService  ;}
-    public double getHeureMax() { return heureMax; }
-    public String getRatioTP() { return ratioTP; }
-    public double getRatioTPValue()
-    {
-        String[] splt = this.ratioTP.split("/");
-
-        if (splt.length == 2) {
-            return (double) Integer.parseInt(splt[0]) / Integer.parseInt(splt[1]);
-        } else if (splt.length == 1) {
-            return Double.parseDouble(splt[0]);
-        }
-
-        return 0d;
-    }
+    public Fraction getHeureService() { return heureService  ;}
+    public Fraction getHeureMax() { return heureMax; }
+    public Fraction getRatioTP() { return ratioTP; }
     public CategorieIntervenant getCategorie() { return categorie   ;}
 
     /*   SETTER   */
@@ -81,18 +70,9 @@ public class Intervenant
         }
         return false;
     }
-    public void setHeureService (double heureService  ) { this.heureService = heureService   ; this.modifie = true; }
-    public void setHeureMax (double heureMax          ) { this.heureMax = heureMax   ; this.modifie = true; }
-    public boolean setRatioTP (String ratioTP      )
-    {
-        if ( ratioTP.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$"))
-        {
-            this.ratioTP = ratioTP;
-            this.modifie = true;
-            return true;
-        }
-        return false;
-    }
+    public void setHeureService (Fraction heureService  ) { this.heureService = heureService   ; this.modifie = true; }
+    public void setHeureMax (Fraction heureMax          ) { this.heureMax = heureMax   ; this.modifie = true; }
+    public void setRatioTP (Fraction ratioTP          ) { this.ratioTP = ratioTP   ; this.modifie = true; }
     public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ; this.modifie = true; }
 
     /* Synchronisation */
@@ -135,9 +115,9 @@ public class Intervenant
         this.nom = (String) this.rollbackDatas.get("nom");
         this.prenom = (String) this.rollbackDatas.get("prenom");
         this.mail = (String) this.rollbackDatas.get("mail");
-        this.heureMax = (double) this.rollbackDatas.get("heureMax");
-        this.heureService = (double) this.rollbackDatas.get("heureService");
-        this.ratioTP = (String) this.rollbackDatas.get("ratioTP");
+        this.heureMax = (Fraction) this.rollbackDatas.get("heureMax");
+        this.heureService = (Fraction) this.rollbackDatas.get("heureService");
+        this.ratioTP = (Fraction) this.rollbackDatas.get("ratioTP");
         this.categorie = (CategorieIntervenant) this.rollbackDatas.get("categorie");
 
         this.rollbackDatas.clear();

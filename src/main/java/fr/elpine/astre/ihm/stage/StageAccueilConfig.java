@@ -41,9 +41,9 @@ public class StageAccueilConfig implements Initializable
     @FXML
     private TableColumn<CategorieIntervenant,String> tcNomInter;
     @FXML
-    private TableColumn<CategorieIntervenant,Double> tcHMaxInter;
+    private TableColumn<CategorieIntervenant,String> tcHMaxInter;
     @FXML
-    private TableColumn<CategorieIntervenant,Double> tcHServInter;
+    private TableColumn<CategorieIntervenant,String> tcHServInter;
     @FXML
     private TableColumn<CategorieIntervenant,String> tcRatioInter;
 
@@ -242,9 +242,9 @@ public class StageAccueilConfig implements Initializable
 
         tcCodeInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
         tcNomInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-        tcHMaxInter.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeureMaxDefault()).asObject());
-        tcHServInter.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeureServiceDefault()).asObject());
-        tcRatioInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTPDefault()));
+        tcHMaxInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureMaxDefault().toString()));
+        tcHServInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureServiceDefault().toString()));
+        tcRatioInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTPDefault().toString()));
 
         tabCatInter.setItems(StageAccueilConfig.ensCatInter);
 
@@ -267,7 +267,7 @@ public class StageAccueilConfig implements Initializable
         });
 
         tcNomHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-        tcEqtdHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEquivalentTD()));
+        tcEqtdHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEquivalentTD().toString()));
 
         tcRessourcesHeures.setCellValueFactory(cellData -> {
             CategorieHeure categorieHeure = cellData.getValue();

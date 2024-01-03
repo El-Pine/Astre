@@ -40,9 +40,9 @@ public class StageIntervenant implements Initializable
 	@FXML
 	private TableColumn<Intervenant, String> tcCategorie;
 	@FXML
-	private TableColumn<Intervenant, Double> tcHServ;
+	private TableColumn<Intervenant, String> tcHServ;
 	@FXML
-	private TableColumn<Intervenant, Double> tcHMax;
+	private TableColumn<Intervenant, String> tcHMax;
 	@FXML
 	private TableColumn<Intervenant, String> tcRatioTP;
 
@@ -98,7 +98,7 @@ public class StageIntervenant implements Initializable
 			Controleur.get().getMetier().supprimerIntervenant(inter);
 		}
 
-		Controleur.get().getDb().enregistrer();
+		Controleur.get().getMetier().enregistrer();
 		stage.close();
 		StagePrincipal.creer().show();
 	}
@@ -166,9 +166,9 @@ public class StageIntervenant implements Initializable
 		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCategorie()  .getCode  ()));
 		tcNom      .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getNom     ()));
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
-		tcHServ    .setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHeureService() ).asObject ());
-		tcHMax     .setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHeureMax() ).asObject ());
-		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTP  () ));
+		tcHServ    .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureService().toString() ));
+		tcHMax     .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureMax().toString() ));
+		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTP  ().toString() ));
 
 /*
 		tcNom.setCellFactory(TextFieldTableCell.forTableColumn());

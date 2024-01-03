@@ -1,13 +1,14 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.outil.Fraction;
 
 import java.util.HashMap;
 
 public class Attribution
 {
-    private double        nbHeure;
-    private Integer    nbSemaine;
+    private Fraction nbHeure;
+    private Integer  nbSemaine;
 
     private Module module;
     private CategorieHeure catHr;
@@ -18,7 +19,7 @@ public class Attribution
     private HashMap<String, Object> rollbackDatas;
 
 
-    public Attribution(double nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
+    public Attribution(Fraction nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
     {
         this.nbHeure   = nbHeure;
         this.nbSemaine = nbSemaine;
@@ -35,7 +36,7 @@ public class Attribution
         this.setRollback();
     }
 
-    public Attribution(double nbHeure, Module module, CategorieHeure catHr)
+    public Attribution(Fraction nbHeure, Module module, CategorieHeure catHr)
     {
         this.nbHeure   = nbHeure;
         this.module    = module;
@@ -52,13 +53,13 @@ public class Attribution
     }
 
     public boolean        hasNbSemaine           () { return this.nbSemaine != null; }
-    public double            getNbHeure             () { return nbHeure;                }
+    public Fraction       getNbHeure             () { return nbHeure;                }
     public int            getNbSemaine           () { return nbSemaine;              }
     public Module         getModule              () { return module;                 }
     public CategorieHeure getCatHr               () { return catHr;                  }
 
-    public void setNbHeure             (double nbHeure             ) { this.nbHeure              = nbHeure;    this.modifie = true;            }
-    public void setNbSemaine           (int nbSemaine           ) { this.nbSemaine            = nbSemaine;  this.modifie = true;            }
+    public void setNbHeure   (Fraction nbHeure ) { this.nbHeure   = nbHeure;   this.modifie = true; }
+    public void setNbSemaine (int nbSemaine    ) { this.nbSemaine = nbSemaine; this.modifie = true; }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
@@ -80,8 +81,8 @@ public class Attribution
     {
         if (this.rollbackDatas == null) return;
 
-        this.nbSemaine   = (Integer) this.rollbackDatas.get("nbSemaine");
-        this.nbHeure     = (double) this.rollbackDatas.get("nbHeure");
+        this.nbSemaine   = (Integer)  this.rollbackDatas.get("nbSemaine");
+        this.nbHeure     = (Fraction) this.rollbackDatas.get("nbHeure");
 
         this.rollbackDatas.clear();
     }

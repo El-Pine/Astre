@@ -53,7 +53,7 @@ public class StageSaisieSae implements Initializable
     @FXML
     public TableColumn<Affectation, String> tcCommentaire;
     @FXML
-    public TableColumn<Affectation, Double> tcTotalEqtd;
+    public TableColumn<Affectation, String> tcTotalEqtd;
     @FXML
     public ObservableList<Affectation> ensAff;
     @FXML
@@ -243,7 +243,7 @@ public class StageSaisieSae implements Initializable
             Controleur.get().getMetier().ajouterAffectation(aff);
         }
 
-        Controleur.get().getDb().enregistrer();
+        Controleur.get().getMetier().enregistrer();
         stage.close();
         StagePrincipal.creer().show();
     }
@@ -282,7 +282,7 @@ public class StageSaisieSae implements Initializable
         tcType       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getTypeHeure  ().getNom()));
         tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());
         tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine  ()).asObject());
-        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeure    ()).asObject());
+        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getNbHeure    ().toString()));
         tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
 
         tableau.setItems(this.ensAff);
@@ -368,11 +368,11 @@ public class StageSaisieSae implements Initializable
                 if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
                 {
                     int valeurXgroupe = valeurSemaine * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-                    valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTDValue());
+                    valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
                 }
                 else
                 {
-                    valeurFinal = (int) (valeurSemaine * catHr.getEquivalentTDValue());
+                    valeurFinal = (int) (valeurSemaine * catHr.getEquivalentTD().value());
                 }
 
                 txt1.setText(Integer.toString(valeurFinal));
@@ -447,13 +447,13 @@ public class StageSaisieSae implements Initializable
         if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
         {
             int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-            int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTDValue());
+            int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
             return Integer.toString(valeurFinal);
         }
         else
         {
             System.out.println();
-            int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTDValue());
+            int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTD().value());
             return Integer.toString(valeurFinal);
         }
     }

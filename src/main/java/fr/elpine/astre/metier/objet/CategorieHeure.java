@@ -1,18 +1,19 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.outil.Fraction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CategorieHeure
 {
-    private String nom;
-    private String equivalentTD;
-    private boolean ressource;
-    private boolean sae;
-    private boolean ppp;
-    private boolean stage;
+    private String   nom;
+    private Fraction equivalentTD;
+    private boolean  ressource;
+    private boolean  sae;
+    private boolean  ppp;
+    private boolean  stage;
 
     private ArrayList<Attribution> ensAttribution;
 
@@ -21,7 +22,7 @@ public class CategorieHeure
     private boolean                 modifie;
     private HashMap<String, Object> rollbackDatas;
 
-    public CategorieHeure(String nom, String equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage)
+    public CategorieHeure(String nom, Fraction equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage)
     {
         this.nom           = nom;
         this.equivalentTD  = equivalentTD;
@@ -42,27 +43,16 @@ public class CategorieHeure
     /* GETTER */
 
     public String getNom          () { return this.nom          ;}
-    public String getEquivalentTD () { return this.equivalentTD ;}
+    public Fraction getEquivalentTD () { return this.equivalentTD ;}
     public boolean estRessource() { return ressource;}
     public boolean estSae      () { return sae;      }
     public boolean estPpp      () { return ppp;      }
     public boolean estStage    () { return stage;    }
-    public double getEquivalentTDValue ()
-    {
-        String[] splt = this.equivalentTD.split("/");
 
-        if (splt.length == 2) {
-            return (double) Integer.parseInt(splt[0]) / Integer.parseInt(splt[1]);
-        } else if (splt.length == 1) {
-            return Double.parseDouble(splt[0]);
-        }
-
-        return 0d;
-    }
 
     /*  SETTER   */
 
-    public void setEquivalentTD ( String equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = true; }
+    public void setEquivalentTD ( Fraction equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = true; }
     public void setRessource    ( boolean estRessource ) { this.ressource    = estRessource ; this.modifie = true; }
     public void setSae          ( boolean estSae       ) { this.sae          = estSae       ; this.modifie = true; }
     public void setPpp          ( boolean estPpp       ) { this.ppp          = estPpp       ; this.modifie = true; }
@@ -115,7 +105,7 @@ public class CategorieHeure
         if (this.rollbackDatas == null) return;
 
         this.nom = (String) this.rollbackDatas.get("nom");
-        this.equivalentTD = (String) this.rollbackDatas.get("equivalentTD");
+        this.equivalentTD = (Fraction) this.rollbackDatas.get("equivalentTD");
         this.ppp = (boolean) this.rollbackDatas.get("ppp");
         this.ressource = (boolean) this.rollbackDatas.get("ressource");
         this.stage = (boolean) this.rollbackDatas.get("stage");

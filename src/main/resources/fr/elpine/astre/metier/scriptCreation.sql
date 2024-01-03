@@ -58,8 +58,8 @@ CREATE TABLE CategorieHeure (
 CREATE TABLE CategorieIntervenant (
 	code VARCHAR(255) PRIMARY KEY,
 	nom VARCHAR(255),
-	nbHeureMaxDefaut FLOAT,
-	nbHeureServiceDefaut FLOAT,
+	nbHeureMaxDefaut TEXT,
+	nbHeureServiceDefaut TEXT,
 	ratioTPDefaut TEXT
 );
 
@@ -69,8 +69,8 @@ CREATE TABLE Intervenant (
 	prenom VARCHAR(255),
 	mail varchar(255),
 	codeCategorie VARCHAR(255),
-	heureService FLOAT,
-	heureMax FLOAT,
+	heureService TEXT,
+	heureMax TEXT,
 	ratioTP TEXT,
 
 	FOREIGN KEY (codeCategorie) REFERENCES CategorieIntervenant(code)
@@ -83,7 +83,7 @@ CREATE TABLE Attribution (
 	numeroSemestreModule INT,
 	anneeModule VARCHAR(255),
 	nomCategorieHeure VARCHAR(255),
-	nbHeure FLOAT,
+	nbHeure TEXT,
 	nbSemaine INT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
@@ -101,7 +101,7 @@ CREATE TABLE Affectation (
     typeHeure   VARCHAR(255),
     nbGroupe    INT,
     nbSemaine   INT,
-    nbHeure     FLOAT,
+    nbHeure     TEXT,
     commentaire TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),

@@ -1,15 +1,16 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.outil.Fraction;
 
 import java.util.HashMap;
 
 public class Affectation
 {
     private Integer nbGroupe; // avec nb semaine ou vide
-    private Integer nbSemaine; // avec nb grp ou vide
-    private Double nbHeure; // sans nb semaine & nb grp
-    private String commentaire; // optionnel mais tjrs la au moins vide
+    private Integer  nbSemaine; // avec nb grp ou vide
+    private Fraction nbHeure; // sans nb semaine & nb grp
+    private String   commentaire; // optionnel mais tjrs la au moins vide
 
     private CategorieHeure typeHeure; // ya tjrs
     private Intervenant intervenant;
@@ -37,7 +38,7 @@ public class Affectation
         this.supprime = false;
     }
 
-    public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, double nbHeure, String commentaire)
+    public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, Fraction nbHeure, String commentaire)
     {
         this.nbHeure     = nbHeure;
         this.commentaire = commentaire;
@@ -59,14 +60,7 @@ public class Affectation
 
     public int            getNbGroupe    () { return nbGroupe;         }
     public int            getNbSemaine   () { return nbSemaine;        }
-    public double            getNbHeure     ()
-    {
-        if(this.hasNbHeure())
-        {
-            return nbHeure;
-        }
-        return 0;
-    }
+    public Fraction       getNbHeure     () { return this.nbHeure; }
     public String         getCommentaire () { return commentaire;      }
     public CategorieHeure getTypeHeure   () { return typeHeure;        }
     public Module         getModule      () { return this.module;      }
@@ -75,7 +69,7 @@ public class Affectation
 
     public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifie = true;     }
     public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifie = true;    }
-    public void setNbHeure     ( double            nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = true;      }
+    public void setNbHeure     ( Fraction       nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = true;      }
     public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifie = true;  }
     public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = true;    }
 
@@ -101,7 +95,7 @@ public class Affectation
 
         this.nbGroupe    = (Integer)        this.rollbackDatas.get("nbGroupe");
         this.nbSemaine   = (Integer)        this.rollbackDatas.get("nbSemaine");
-        this.nbHeure     = (Double)        this.rollbackDatas.get("nbHeure");
+        this.nbHeure     = (Fraction)       this.rollbackDatas.get("nbHeure");
         this.commentaire = (String)         this.rollbackDatas.get("commentaire");
         this.typeHeure   = (CategorieHeure) this.rollbackDatas.get("typeHeure");
 

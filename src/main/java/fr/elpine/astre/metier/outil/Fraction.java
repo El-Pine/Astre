@@ -21,7 +21,7 @@ public class Fraction
 
 	public static Fraction valueOf( String str )
 	{
-		if (!str.matches(REGEX)) return null;
+		if (str == null || !str.matches(REGEX)) return null;
 
 		return new Fraction( str );
 	}
@@ -39,6 +39,8 @@ public class Fraction
 
 	public String toString()
 	{
+		if (this.d == 0) return String.format( "%d", this.n );
+
 		return String.format( this.fraction ? "%d/%d" : "%d.%d", this.n, this.d );
 	}
 }

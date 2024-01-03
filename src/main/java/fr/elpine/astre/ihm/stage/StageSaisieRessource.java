@@ -46,7 +46,7 @@ public class StageSaisieRessource implements Initializable
     public TableColumn<Affectation, String> tcType;
     public TableColumn<Affectation, Integer> tcSemaine;
     @FXML
-    public TableColumn<Affectation, Double> tcNbH;
+    public TableColumn<Affectation, String> tcNbH;
     @FXML
     public TableColumn<Affectation, Integer> tcGrp;
     @FXML
@@ -183,9 +183,24 @@ public class StageSaisieRessource implements Initializable
         this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant () .getNom()));
         tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure   () .getNom()));
-        tcSemaine    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine  ()).asObject());
-        tcGrp        .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());
-        tcNbH        .setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeure    ()).asObject());
+        tcSemaine    .setCellValueFactory(cellData -> {
+            if (cellData.getValue().hasGrpAndNbSemaine())
+	            return new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject();
+            else
+                return null;
+        });
+        tcGrp    .setCellValueFactory(cellData -> {
+            if (cellData.getValue().hasGrpAndNbSemaine())
+                return new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject();
+            else
+                return null;
+        });
+        tcNbH    .setCellValueFactory(cellData -> {
+            if (cellData.getValue().hasNbHeure())
+                return new SimpleStringProperty(cellData.getValue().getNbHeure    ().toString());
+            else
+                return null;
+        });
         tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
 
 
@@ -249,11 +264,11 @@ public class StageSaisieRessource implements Initializable
             String typeHeure = aff.getTypeHeure().getNom();
             double valeur;
 
-            if (typeHeure.equals("CM")) {
-                valeur = aff.getNbHeure() * aff.getTypeHeure().getEquivalentTDValue();
-            } else {
-                valeur = aff.getNbHeure() * aff.getNbSemaine() * aff.getNbGroupe() * aff.getTypeHeure().getEquivalentTDValue();
-            }
+            // TODO : pas bon, il faut aussi mettre les attributions
+            if (aff.hasGrpAndNbSemaine())
+                valeur = aff.getNbSemaine() * aff.getNbGroupe() * aff.getTypeHeure().getEquivalentTD().value();
+            else
+                valeur = aff.getNbHeure().value() * aff.getTypeHeure().getEquivalentTD().value();
 
             // Ajouter ou mettre à jour la valeur dans la HashMap
             hmAffecte.put(typeHeure, hmAffecte.getOrDefault(typeHeure, 0.0) + valeur);
@@ -470,7 +485,7 @@ public class StageSaisieRessource implements Initializable
             Controleur.get().getMetier().ajouterAffectation(aff);
         }
 
-        Controleur.get().getDb().enregistrer();
+        Controleur.get().getMetier().enregistrer();
         stage.close();
         StagePrincipal.creer().show();
     }
@@ -727,11 +742,11 @@ public class StageSaisieRessource implements Initializable
                 if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
                 {
                     int valeurXgroupe = valeurSemaine * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-                    valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTDValue());
+                    valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
                 }
                 else
                 {
-                    valeurFinal = (int) (valeurSemaine * catHr.getEquivalentTDValue());
+                    valeurFinal = (int) (valeurSemaine * catHr.getEquivalentTD().value());
                 }
 
                 txt1.setText(Integer.toString(valeurFinal));
@@ -804,13 +819,13 @@ public class StageSaisieRessource implements Initializable
        if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
        {
            int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-           int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTDValue());
+           int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
            return Integer.toString(valeurFinal);
        }
        else
        {
            System.out.println();
-           int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTDValue());
+           int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTD().value());
            return Integer.toString(valeurFinal);
        }
     }

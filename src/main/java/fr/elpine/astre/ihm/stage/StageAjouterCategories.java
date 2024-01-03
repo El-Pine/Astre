@@ -5,6 +5,7 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -77,19 +78,20 @@ public class StageAjouterCategories
     {
         String code    =                     txtfCodeCatInter   .getText();
         String nom     =                     txtfNomCatInter    .getText();
-        String ratioTD =                     txtfRatioCatInter  .getText();
-        int    nbHM    = Integer.parseInt   (txtfNbHMCatInter   .getText());
-        int    nbHServ = Integer.parseInt   (txtfNbHServCatInter.getText());
 
-        if (!code.isEmpty() && !nom.isEmpty()) {
+        Fraction ratioTD = Fraction.valueOf( txtfRatioCatInter  .getText() );
+        Fraction nbHM    = Fraction.valueOf( txtfNbHMCatInter   .getText() );
+        Fraction nbHServ = Fraction.valueOf( txtfNbHServCatInter.getText() );
+
+        if (code.isEmpty() || nom.isEmpty() || ratioTD == null || nbHM == null || nbHServ == null) {
+            PopUp.warning("Champ Vide", null, "Erreur dans la saisie.").showAndWait();
+        } else {
             StageAccueilConfig.categorieInterAAjouter.add(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
 
             parent.activer();
             parent.refresh();
             stage.close();
         }
-        else
-            PopUp.warning("Champ Vide", null, "Les champs code et nom ne peuvent pas être vide.").showAndWait();
     }
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {
@@ -100,20 +102,25 @@ public class StageAjouterCategories
 
     public void onBtnEnregistrerCatH(ActionEvent actionEvent) {
 
-        String nom  = txtfNomCatH.getText();
-        String eqtd = txtfEqtdCatH.getText();
+        String nom         = txtfNomCatH.getText();
         boolean ressources = cbRessourcesCatH.isSelected();
-        boolean c_sae = cbSaeCatH.isSelected();
-        boolean c_ppp = cbPppCatH.isSelected();
-        boolean c_stage = cbStageCatH.isSelected();
+        boolean c_sae      = cbSaeCatH.isSelected();
+        boolean c_ppp      = cbPppCatH.isSelected();
+        boolean c_stage    = cbStageCatH.isSelected();
 
-        CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage);
+        Fraction eqtd      = Fraction.valueOf( txtfEqtdCatH.getText() );
 
-        StageAccueilConfig.catHeurAAjouter.add(cat);
+        if (eqtd == null)
+            PopUp.warning("Champ Vide", null, "Erreur dans la saisie.").showAndWait();
+        else {
+            CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage);
 
-        parent.activer();
-        parent.refresh();
-        stage.close();
+            StageAccueilConfig.catHeurAAjouter.add(cat);
+
+            parent.activer();
+            parent.refresh();
+            stage.close();
+        }
     }
 
 

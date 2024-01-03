@@ -6,6 +6,7 @@ import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -89,7 +90,7 @@ public class StageAjoutStage implements Initializable {
         if(rbAutre.isSelected())
             Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbGp.getText()), Integer.parseInt(this.txtNbSemaine.getText()), this.txtCommentaire.getText()));
         if(rbAutre.isSelected())
-            Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbHeure.getText()), this.txtCommentaire.getText()));
+            Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Fraction.valueOf(this.txtNbHeure.getText()), this.txtCommentaire.getText()));
 
         this.stage.close();
     }
