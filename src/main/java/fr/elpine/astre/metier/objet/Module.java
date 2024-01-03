@@ -46,13 +46,14 @@ public class Module
 
     /*   GETTER    */
 
-    public String  getCode        () { return code        ;}
-    public String  getNom         () { return nom         ;}
-    public String  getAbreviation () { return abreviation ;}
-    public Color   getCouleur     () { return couleur     ;}
-    public String  getTypeModule  () { return typeModule  ;}
-    public boolean estValide      () { return validation  ;}
-    public Semestre getSemestre   () { return semestre    ;}
+    public String  getCode        () { return code                               ;}
+    public String  getLastCode    () { return (String) rollbackDatas.get("code") ;}
+    public String  getNom         () { return nom                                ;}
+    public String  getAbreviation () { return abreviation                        ;}
+    public Color   getCouleur     () { return couleur                            ;}
+    public String  getTypeModule  () { return typeModule                         ;}
+    public boolean estValide      () { return validation                         ;}
+    public Semestre getSemestre   () { return semestre                           ;}
 
     /*   SETTER   */
 

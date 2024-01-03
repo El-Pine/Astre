@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class Attribution
 {
-    private int        nbHeure;
+    private double        nbHeure;
     private Integer    nbSemaine;
 
     private Module module;
@@ -18,7 +18,7 @@ public class Attribution
     private HashMap<String, Object> rollbackDatas;
 
 
-    public Attribution(int nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
+    public Attribution(double nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
     {
         this.nbHeure   = nbHeure;
         this.nbSemaine = nbSemaine;
@@ -35,7 +35,7 @@ public class Attribution
         this.setRollback();
     }
 
-    public Attribution(int nbHeure, Module module, CategorieHeure catHr)
+    public Attribution(double nbHeure, Module module, CategorieHeure catHr)
     {
         this.nbHeure   = nbHeure;
         this.module    = module;
@@ -52,12 +52,12 @@ public class Attribution
     }
 
     public boolean        hasNbSemaine           () { return this.nbSemaine != null; }
-    public int            getNbHeure             () { return nbHeure;                }
+    public double            getNbHeure             () { return nbHeure;                }
     public int            getNbSemaine           () { return nbSemaine;              }
     public Module         getModule              () { return module;                 }
     public CategorieHeure getCatHr               () { return catHr;                  }
 
-    public void setNbHeure             (int nbHeure             ) { this.nbHeure              = nbHeure;    this.modifie = true;            }
+    public void setNbHeure             (double nbHeure             ) { this.nbHeure              = nbHeure;    this.modifie = true;            }
     public void setNbSemaine           (int nbSemaine           ) { this.nbSemaine            = nbSemaine;  this.modifie = true;            }
 
     /* Synchronisation */
@@ -81,7 +81,7 @@ public class Attribution
         if (this.rollbackDatas == null) return;
 
         this.nbSemaine   = (Integer) this.rollbackDatas.get("nbSemaine");
-        this.nbHeure     = (Integer) this.rollbackDatas.get("nbHeure");
+        this.nbHeure     = (double) this.rollbackDatas.get("nbHeure");
 
         this.rollbackDatas.clear();
     }

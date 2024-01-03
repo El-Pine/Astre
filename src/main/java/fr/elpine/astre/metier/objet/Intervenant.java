@@ -11,8 +11,8 @@ public class Intervenant
     private String               nom;
     private String prenom;
     private String mail;
-    private int    heureService;
-    private int                  heureMax;
+    private double    heureService;
+    private double                  heureMax;
     private String               ratioTP;
 
     private CategorieIntervenant   categorie;
@@ -23,7 +23,7 @@ public class Intervenant
     private boolean                 modifie;
     private HashMap<String, Object> rollbackDatas;
 
-    public Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, int heureService, int heureMax, String ratioTP)
+    public Intervenant(String nom, String prenom, String mail, CategorieIntervenant categorie, double heureService, double heureMax, String ratioTP)
     {
         this.id           = null;
         this.nom          = nom;
@@ -49,8 +49,8 @@ public class Intervenant
     public String    getNom                    () { return nom      ;}
     public String    getPrenom                 () { return prenom   ;}
     public String    getMail                   () { return mail;}
-    public int getHeureService() { return heureService  ;}
-    public int getHeureMax() { return heureMax; }
+    public double getHeureService() { return heureService  ;}
+    public double getHeureMax() { return heureMax; }
     public String getRatioTP() { return ratioTP; }
     public double getRatioTPValue()
     {
@@ -81,8 +81,8 @@ public class Intervenant
         }
         return false;
     }
-    public void setHeureService (int heureService  ) { this.heureService = heureService   ; this.modifie = true; }
-    public void setHeureMax (int heureMax          ) { this.heureMax = heureMax   ; this.modifie = true; }
+    public void setHeureService (double heureService  ) { this.heureService = heureService   ; this.modifie = true; }
+    public void setHeureMax (double heureMax          ) { this.heureMax = heureMax   ; this.modifie = true; }
     public boolean setRatioTP (String ratioTP      )
     {
         if ( ratioTP.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$"))
@@ -135,8 +135,8 @@ public class Intervenant
         this.nom = (String) this.rollbackDatas.get("nom");
         this.prenom = (String) this.rollbackDatas.get("prenom");
         this.mail = (String) this.rollbackDatas.get("mail");
-        this.heureMax = (int) this.rollbackDatas.get("heureMax");
-        this.heureService = (int) this.rollbackDatas.get("heureService");
+        this.heureMax = (double) this.rollbackDatas.get("heureMax");
+        this.heureService = (double) this.rollbackDatas.get("heureService");
         this.ratioTP = (String) this.rollbackDatas.get("ratioTP");
         this.categorie = (CategorieIntervenant) this.rollbackDatas.get("categorie");
 

@@ -8,7 +8,7 @@ public class Affectation
 {
     private Integer nbGroupe; // avec nb semaine ou vide
     private Integer nbSemaine; // avec nb grp ou vide
-    private Integer nbHeure; // sans nb semaine & nb grp
+    private Double nbHeure; // sans nb semaine & nb grp
     private String commentaire; // optionnel mais tjrs la au moins vide
 
     private CategorieHeure typeHeure; // ya tjrs
@@ -28,7 +28,6 @@ public class Affectation
         this.typeHeure   = typeHeure;
         this.intervenant = intervenant;
         this.module      = module;
-        this.nbHeure     = 2;
 
         if (intervenant != null) intervenant.ajouterAffectation(this);
         if (module      != null) module     .ajouterAffectation(this);
@@ -38,7 +37,7 @@ public class Affectation
         this.supprime = false;
     }
 
-    public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, int nbHeure, String commentaire)
+    public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, double nbHeure, String commentaire)
     {
         this.nbHeure     = nbHeure;
         this.commentaire = commentaire;
@@ -60,7 +59,7 @@ public class Affectation
 
     public int            getNbGroupe    () { return nbGroupe;         }
     public int            getNbSemaine   () { return nbSemaine;        }
-    public int            getNbHeure     ()
+    public double            getNbHeure     ()
     {
         if(this.hasNbHeure())
         {
@@ -76,7 +75,7 @@ public class Affectation
 
     public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifie = true;     }
     public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifie = true;    }
-    public void setNbHeure     ( int            nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = true;      }
+    public void setNbHeure     ( double            nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = true;      }
     public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifie = true;  }
     public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = true;    }
 
@@ -102,7 +101,7 @@ public class Affectation
 
         this.nbGroupe    = (Integer)        this.rollbackDatas.get("nbGroupe");
         this.nbSemaine   = (Integer)        this.rollbackDatas.get("nbSemaine");
-        this.nbHeure     = (Integer)        this.rollbackDatas.get("nbHeure");
+        this.nbHeure     = (Double)        this.rollbackDatas.get("nbHeure");
         this.commentaire = (String)         this.rollbackDatas.get("commentaire");
         this.typeHeure   = (CategorieHeure) this.rollbackDatas.get("typeHeure");
 

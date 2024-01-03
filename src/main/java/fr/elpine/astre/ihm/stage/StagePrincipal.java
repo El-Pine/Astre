@@ -73,9 +73,9 @@ public class StagePrincipal implements Initializable
 	@FXML
 	protected void onBtnClickEtat() throws IOException
 	{
-		this.stage.close();
-		StageEtats.creer().show();
-
+		//this.stage.close();
+		//StageEtats.creer().show();
+		Controleur.get().getMetier().enregistrer();
 	}
 
 	public void onBtnClickAnnee(ActionEvent actionEvent) throws IOException {

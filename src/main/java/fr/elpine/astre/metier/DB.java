@@ -168,7 +168,7 @@ public class DB
     //Méthode d'insert
     public void ajouterModule(Module module)
     {
-        String req = "INSERT INTO Module VALUES(?,?,?,?,?,?)";
+        String req = "INSERT INTO Module VALUES(?,?,?,?,?,?,?,?)";
 
         try ( PreparedStatement ps = co.prepareStatement(req) )
         {
@@ -262,8 +262,42 @@ public class DB
     
     public void majCodeModule(Module module)
     {
-        // TODO : Mettre à jour le code d'un module uniquement et en même temps mettre à jour le code du module
-        //  dans les autres tables qui l'utilisent pour pas casser les règles de clé primaires.
+        String lastCode = module.getLastCode();
+
+        try
+        {
+            // Ajout module
+            this.ajouterModule( module );
+
+            // Modification des affectations et des attributions liées au module
+
+            // Affectations
+            PreparedStatement ps = co.prepareStatement("UPDATE Affectation SET codeModule = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?");
+
+            ps.setString (1, module.getCode());
+            ps.setString (2, lastCode);
+            ps.setInt    (3, module.getSemestre().getNumero());
+            ps.setString (4, module.getSemestre().getAnnee().getNom());
+            ps.executeUpdate();
+
+            // Attributions
+            ps = co.prepareStatement("UPDATE Attribution SET codeModule = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?");
+
+            ps.setString (1, module.getCode());
+            ps.setString (2, lastCode);
+            ps.setInt    (3, module.getSemestre().getNumero());
+            ps.setString (4, module.getSemestre().getAnnee().getNom());
+            ps.executeUpdate();
+
+            // Suppression
+            ps = co.prepareStatement("DELETE FROM Module WHERE code = ? AND numeroSemestre = ? AND annee = ?");
+
+            ps.setString(1, module.getLastCode());
+            ps.setInt  (2, module.getSemestre().getNumero());
+            ps.setString  (3, module.getSemestre().getAnnee().getNom());
+            ps.executeUpdate();
+        }
+        catch (SQLException e) { logger.error("Erreur lors d'un changement de code de module'", e); }
     }
 
 
@@ -281,8 +315,8 @@ public class DB
             ps.setString   (2,inter.getPrenom              ()  );
             ps.setString   (3, inter.getMail               ()  );
             ps.setString   (4,inter.getCategorie().getCode ()  );
-            ps.setInt      (5,inter.getHeureService        ()  );
-            ps.setInt      (6,inter.getHeureMax            ()  );
+            ps.setDouble      (5,inter.getHeureService        ()  );
+            ps.setDouble      (6,inter.getHeureMax            ()  );
             ps.setString   (7,inter.getRatioTP             ()  );
 
             int affectedRows = ps.executeUpdate();
@@ -293,6 +327,8 @@ public class DB
 
                 if (generatedKeys.next()) {
                     inter.setId(generatedKeys.getInt(1));
+                    logger.debug(String.format("Intervenant généré avec l'id :  %d ( %s )", inter.getId(), inter));
+                    logger.debug(String.valueOf(generatedKeys.getInt("idInter")));
                 }
             }
         }
@@ -302,16 +338,17 @@ public class DB
     //Méthode d'update
     public void majIntervenant(Intervenant inter)
     {
-        String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, codeCategorie = ?, heureService = ?, heureTotal = ? WHERE id = ?";
+        String req = "UPDATE Intervenant SET nom = ?, prenom = ?, mail = ?, codeCategorie = ?, heureService = ?, heureMax = ?, ratioTP = ? WHERE idInter = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString(1,                 inter.getNom    ()           );
             ps.setString(2,                 inter.getPrenom ()           );
             ps.setString(3,                 inter.getMail()           );
             ps.setString(4,                 inter.getCategorie().getCode() );
-            ps.setString(5,Integer.toString(inter.getHeureService())          );
-            ps.setString(6,Integer.toString(inter.getHeureMax  ())          );
-            ps.setInt(7,inter.getId());
+            ps.setDouble(5, inter.getHeureService()          );
+            ps.setDouble(6, inter.getHeureMax  ()          );
+            ps.setString(7, inter.getRatioTP());
+            ps.setInt(8,inter.getId());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'un intervenant", e); }
@@ -320,7 +357,7 @@ public class DB
     //Méthode delete
     public void supprimerIntervenant(Intervenant inter)
     {
-        String req = "DELETE FROM Intervenant WHERE id = ?";
+        String req = "DELETE FROM Intervenant WHERE idInter = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setInt(1, inter.getId   () );
@@ -341,20 +378,20 @@ public class DB
             {
                 while (rs.next())
                 {
-                    String codeInter = rs.getString(5);
+                    String codeInter = rs.getString("codeCategorie");
                     CategorieIntervenant catInter =  Astre.rechercherCatInter(ensCatInter, codeInter);
 
                     Intervenant inter = new Intervenant(
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
+                            rs.getString("mail"),
                             catInter,
-                            rs.getInt(6),
-                            rs.getInt(7),
-                            rs.getString(8)
+                            rs.getDouble("heureService"),
+                            rs.getDouble("heureMax"),
+                            rs.getString("ratioTP")
                     );
 
-                    inter.setId(rs.getInt(1));
+                    inter.setId(rs.getInt("idInter"));
 
                     resultats.add(inter);
                 }
@@ -372,14 +409,15 @@ public class DB
     //Méthode insert
     public void ajouterSemestre(Semestre semestre)
     {
-        String req = "INSERT INTO Semestre VALUES (?,?,?,?,?)";
+        String req = "INSERT INTO Semestre VALUES (?,?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setInt(1,semestre.getNumero   ());
-            ps.setInt(2,semestre.getNbGrpTD  ());
-            ps.setInt(3,semestre.getNbGrpTP  ());
-            ps.setInt(4,semestre.getNbEtd    ());
-            ps.setInt(5,semestre.getNbSemaine());
+            ps.setString(2,semestre.getAnnee().getNom());
+            ps.setInt(3,semestre.getNbGrpTD  ());
+            ps.setInt(4,semestre.getNbGrpTP  ());
+            ps.setInt(5,semestre.getNbEtd    ());
+            ps.setInt(6,semestre.getNbSemaine());
             ps.executeUpdate();
         } catch (SQLException e) { logger.error("Erreur lors de l'ajout d'un semestre", e); }
     }
@@ -387,15 +425,15 @@ public class DB
     //Méthode d'update
     public void majSemestre(Semestre semestre)
     {
-        String req = "UPDATE Semestre SET numero = ?, nbGrpTD = ?, nbGrpTP = ?, nbEtd = ?, nbSemaine = ? WHERE numero = ?";
+        String req = "UPDATE Semestre SET nbGrpTD = ?, nbGrpTP = ?, nbEtd = ?, nbSemaine = ? WHERE numero = ? AND annee = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setInt(1,semestre.getNumero   () );
             ps.setInt(2,semestre.getNbGrpTD  () );
             ps.setInt(3,semestre.getNbGrpTP  () );
             ps.setInt(4,semestre.getNbEtd    () );
             ps.setInt(5,semestre.getNbSemaine() );
-            ps.setInt(6,semestre.getNbSemaine() );
+            ps.setInt(1,semestre.getNumero   () );
+            ps.setString(6,semestre.getAnnee().getNom() );
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'un semestre", e); }
@@ -467,12 +505,11 @@ public class DB
 
     // Méthode d'update
     public void majAnnee(Annee annee) {
-        String req = "UPDATE Annee SET nom = ?, debut = ?, fin = ? WHERE nom = ?";
+        String req = "UPDATE Annee SET debut = ?, fin = ? WHERE nom = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString(1, annee.getNom());
-            ps.setDate(2, annee.getDateDeb());
-            ps.setDate(3, annee.getDateFin());
-            ps.setString(4, annee.getNom());
+            ps.setDate(1, annee.getDateDeb());
+            ps.setDate(2, annee.getDateFin());
+            ps.setString(3, annee.getNom());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une année", e); }
@@ -524,8 +561,8 @@ public class DB
 
             ps.setString (1, categorieIntervenant.getCode       () );
             ps.setString (2, categorieIntervenant.getNom        () );
-            ps.setInt    (3, categorieIntervenant.getNbHeureMaxDefault () );
-            ps.setInt    (4, categorieIntervenant.getNbHeureServiceDefault    () );
+            ps.setDouble    (3, categorieIntervenant.getNbHeureMaxDefault () );
+            ps.setDouble    (4, categorieIntervenant.getNbHeureServiceDefault    () );
             ps.setString (5, categorieIntervenant.getRatioTPDefault    () );
             ps.executeUpdate();
         }
@@ -535,15 +572,14 @@ public class DB
     //Méthode d'update
     public void majCategorieIntervenant(CategorieIntervenant catInter)
     {
-        String req = "UPDATE CategorieIntervenant SET code = ?, nom = ?, nbHeureMax = ?, service = ?, ratioTP = ? WHERE code = ?";
+        String req = "UPDATE CategorieIntervenant SET nom = ?, nbHeureMaxDefaut = ?, nbHeureServiceDefaut = ?, ratioTPDefaut = ? WHERE code = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString (1,       catInter.getCode       ());
-            ps.setString (2,       catInter.getNom        ());
-            ps.setInt    (3,       catInter.getNbHeureMaxDefault ());
-            ps.setInt    (4,       catInter.getNbHeureServiceDefault   ());
-            ps.setString  (5,      catInter.getRatioTPDefault    ());
-            ps.setString (6,       catInter.getCode       ());
+            ps.setString (1,       catInter.getNom        ());
+            ps.setDouble    (2,       catInter.getNbHeureMaxDefault ());
+            ps.setDouble    (3,       catInter.getNbHeureServiceDefault   ());
+            ps.setString  (4,      catInter.getRatioTPDefault    ());
+            ps.setString (5,       catInter.getCode       ());
             ps.executeUpdate();
 
         }
@@ -575,11 +611,11 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     CategorieIntervenant categorie = new CategorieIntervenant(
-                            rs.getString (1),
-                            rs.getString (2),
-                            rs.getInt    (3),
-                            rs.getInt    (4),
-                            rs.getString (5)
+                            rs.getString ("code"),
+                            rs.getString ("nom"),
+                            rs.getDouble    ("nbHeureMaxDefaut"),
+                            rs.getDouble    ("nbHeureServiceDefaut"),
+                            rs.getString ("ratioTPDefaut")
                     );
                     resultats.add(categorie);
                 }
@@ -616,16 +652,15 @@ public class DB
     //Méthode update
     public void majCategorieHeure(CategorieHeure catHr)
     {
-        String req = "UPDATE CategorieHeure SET nom = ?,eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ? WHERE nom = ?";
+        String req = "UPDATE CategorieHeure SET eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ? WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString  (1,catHr.getNom         ());
-            ps.setString  (2,catHr.getEquivalentTD());
-            ps.setBoolean (3,catHr.estRessource   ());
-            ps.setBoolean (4,catHr.estSae         ());
-            ps.setBoolean (5,catHr.estStage       ());
-            ps.setBoolean (6,catHr.estPpp         ());
-            ps.setString  (7,catHr.getNom         ());
+            ps.setString  (1,catHr.getEquivalentTD());
+            ps.setBoolean (2,catHr.estRessource   ());
+            ps.setBoolean (3,catHr.estSae         ());
+            ps.setBoolean (4,catHr.estStage       ());
+            ps.setBoolean (5,catHr.estPpp         ());
+            ps.setString  (6,catHr.getNom         ());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une catégorie d'heure", e); }
@@ -655,15 +690,14 @@ public class DB
             {
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
-                    CategorieHeure categorie = new CategorieHeure(
+                    resultats.add(new CategorieHeure(
                             rs.getString  ("nom"       ),
                             rs.getString  ("eqtd"      ),
                             rs.getBoolean ("ressource" ),
                             rs.getBoolean ("sae"       ),
                             rs.getBoolean ("ppp"       ),
                             rs.getBoolean ("stage"     )
-                    );
-                    resultats.add(categorie);
+                    ));
                 }
             }
         }
@@ -681,10 +715,13 @@ public class DB
     public void ajouterAttribution(Attribution attribution) {
         String req = "INSERT INTO Attribution VALUES (?,?,?,?,?,?)";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setInt   (1, attribution.getNbHeure              ());
-            ps.setInt   (2, attribution.getNbSemaine            ());
-            ps.setString(3, attribution.getModule().getCode     ());
-            ps.setString(4, attribution.getCatHr ().getNom      ());
+            ps.setString(1, attribution.getModule().getCode     ());
+            ps.setInt   (2, attribution.getModule().getSemestre().getNumero());
+            ps.setString(3, attribution.getModule().getSemestre().getAnnee().getNom());
+            ps.setString(4, attribution.getCatHr().getNom());
+            ps.setDouble(5, attribution.getNbHeure());
+            if (attribution.hasNbSemaine()) ps.setInt(6, attribution.getNbSemaine());
+            else                            ps.setNull(6, Types.INTEGER);
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une attribution", e); }
@@ -694,8 +731,10 @@ public class DB
     public void majAttribution(Attribution att) {
         String req = "UPDATE Attribution SET nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setInt   (1,att.getNbHeure  ());
-            ps.setInt   (2,att.getNbSemaine());
+            ps.setDouble   (1,att.getNbHeure  ());
+            if (att.hasNbSemaine()) ps.setInt   (2,att.getNbSemaine());
+            else                    ps.setNull(2, Types.INTEGER);
+
             ps.setInt   (3,att.getModule   ().getSemestre().getNumero());
             ps.setString(4,att.getModule   ().getCode    ());
             ps.setString(5,att.getModule   ().getSemestre().getAnnee ().getNom());
@@ -728,16 +767,30 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next())
                 {
-                    String codeModule        = rs.getString(1);
-                    int numSem               = rs.getInt(2);
-                    String anneeSem          = rs.getString(3);
-                    String nomCategorieHeure = rs.getString(4);
+                    String codeModule        = rs.getString("codeModule");
+                    int numSem               = rs.getInt("numeroSemestreModule");
+                    String anneeSem          = rs.getString("anneeModule");
+                    String nomCategorieHeure = rs.getString("nomCategorieHeure");
 
                     Module mod           = Astre.rechercherModule(ensModule, codeModule,numSem,anneeSem);
                     CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr, nomCategorieHeure);
 
-                    Attribution att = new Attribution(rs.getInt(5),rs.getInt(6),mod,catHr );
-                    ensAttribution.add(att);
+                    int nbSemaine = rs.getInt("nbSemaine");
+
+                    if (rs.wasNull()) {
+                        ensAttribution.add( new Attribution(
+                                rs.getDouble("nbHeure"),
+                                mod,
+                                catHr
+                        ));
+                    } else {
+                        ensAttribution.add( new Attribution(
+                                rs.getDouble("nbHeure"),
+                                nbSemaine,
+                                mod,
+                                catHr
+                        ));
+                    }
                 }
             }
         }
@@ -761,10 +814,20 @@ public class DB
             ps.setInt      (2,affs.getModule     ().getSemestre().getNumero());
             ps.setString   (3,affs.getModule     ().getSemestre().getAnnee().getNom());
             ps.setInt      (4,affs.getIntervenant().getId      ());
+
             ps.setString   (5,affs.getTypeHeure  ().getNom     ());
-            ps.setInt      (6,affs.getNbGroupe   ());
-            ps.setInt      (7,affs.getNbSemaine  ());
-            ps.setInt      (8,affs.getNbHeure    ());
+
+            if (affs.hasGrpAndNbSemaine()) {
+                ps.setInt(6, affs.getNbGroupe());
+                ps.setInt(7, affs.getNbSemaine());
+            } else {
+                ps.setNull(6, Types.INTEGER);
+                ps.setNull(7, Types.INTEGER);
+            }
+
+            if (affs.hasNbHeure()) ps.setDouble(8, affs.getNbHeure());
+            else                   ps.setNull  (8, Types.FLOAT);
+
             ps.setString   (9,affs.getCommentaire());
             ps.executeUpdate();
         }
@@ -774,24 +837,28 @@ public class DB
     //Méthode d'update
     public void majAffectation(Affectation aff)
     {
-        String req = "UPDATE Affectation SET codeModule = ?, numeroSemesreModule = ?, anneeModule = ?, idinter = ?, typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
+        String req = "UPDATE Affectation SET typeHeure = ?, nbGroupe = ?, nbSemaine = ?, nbHeure = ?, commentaire = ? WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND idInter = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            //SET
-            ps.setString (1,aff.getModule().getCode());
-            ps.setInt    (2,aff.getModule().getSemestre().getNumero());
-            ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
-            ps.setInt    (4,aff.getIntervenant().getId());
-            ps.setString (5,aff.getTypeHeure           ().getNom());
-            ps.setInt    (6,aff.getNbGroupe            ());
-            ps.setInt    (7,aff.getNbSemaine           ());
-            ps.setInt    (8,aff.getNbHeure             ());
-            ps.setString (9,aff.getCommentaire         ());
+            ps.setString (1,aff.getTypeHeure           ().getNom());
 
-            // WHERE
-            ps.setString (10,aff.getModule().getCode());
-            ps.setInt    (11,aff.getModule().getSemestre().getNumero());
-            ps.setString (12,aff.getModule().getSemestre().getAnnee().getNom());
+            if (aff.hasGrpAndNbSemaine()) {
+                ps.setInt(2, aff.getNbGroupe());
+                ps.setInt(3, aff.getNbSemaine());
+            } else {
+                ps.setNull(2, Types.INTEGER);
+                ps.setNull(3, Types.INTEGER);
+            }
+
+            if (aff.hasNbHeure()) ps.setDouble(4, aff.getNbHeure());
+            else                   ps.setNull  (4, Types.FLOAT);
+
+            ps.setString (5,aff.getCommentaire         ());
+
+            ps.setString (6,aff.getModule().getCode());
+            ps.setInt    (7,aff.getModule().getSemestre().getNumero());
+            ps.setString (8,aff.getModule().getSemestre().getAnnee().getNom());
+            ps.setInt    (9,aff.getIntervenant().getId());
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une affectation", e); }
     }
@@ -799,12 +866,13 @@ public class DB
     //Méthode delete
     public void supprimerAffectation(Affectation aff)
     {
-        String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ?";
+        String req = "DELETE FROM Affectation WHERE codeModule = ? AND numeroSemestreModule = ? AND anneeModule = ? AND idInter = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString (1,aff.getModule().getCode());
             ps.setInt    (2,aff.getModule().getSemestre().getNumero());
             ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
+            ps.setInt    (4,aff.getIntervenant().getId());
         }
         catch (SQLException e) { logger.error("Erreur lors de la suppression d'une affectation", e); }
     }
@@ -820,22 +888,38 @@ public class DB
             {
                 while (rs.next())
                 {
-                    int idInter = rs.getInt(4);
+                    String codeModule        = rs.getString("codeModule");
+                    int numSem               = rs.getInt   ("numeroSemestreModule");
+                    String anneeSem          = rs.getString("anneeModule");
 
-                    String codeModule        = rs.getString(1);
-                    int numSem               = rs.getInt   (2);
-                    String anneeSem          = rs.getString(3);
-
-                    String nomCategorieHeure = rs.getString(5);
-
-                    Intervenant    inter = Astre.rechercherInter (ensInter,idInter);
+                    Intervenant    inter = Astre.rechercherInter (ensInter,rs.getInt("idInter"));
                     Module         mod   = Astre.rechercherModule(ensModule,codeModule,numSem,anneeSem);
-                    CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr,nomCategorieHeure);
+                    CategorieHeure catHr = Astre.rechercherCatHr(ensCatHr,rs.getString("typeHeure"));
 
-                    Affectation aff = new Affectation(mod, inter, catHr, rs.getInt(6),rs.getInt(7),rs.getString(9) );
+                    double nbHeure = rs.getDouble("nbHeure");
 
-
-                    ensaff.add(aff);
+                    if (rs.wasNull()) {
+                        ensaff.add(
+                                new Affectation(
+                                        mod,
+                                        inter,
+                                        catHr,
+                                        rs.getInt("nbGroupe"),
+                                        rs.getInt("nbSemaine"),
+                                        rs.getString("commentaire")
+                                )
+                        );
+                    } else {
+                        ensaff.add(
+                                new Affectation(
+                                        mod,
+                                        inter,
+                                        catHr,
+                                        nbHeure,
+                                        rs.getString("commentaire")
+                                )
+                        );
+                    }
                 }
             }
         }

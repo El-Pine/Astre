@@ -40,9 +40,9 @@ public class StageIntervenant implements Initializable
 	@FXML
 	private TableColumn<Intervenant, String> tcCategorie;
 	@FXML
-	private TableColumn<Intervenant, Integer> tcHServ;
+	private TableColumn<Intervenant, Double> tcHServ;
 	@FXML
-	private TableColumn<Intervenant, Integer> tcHMax;
+	private TableColumn<Intervenant, Double> tcHMax;
 	@FXML
 	private TableColumn<Intervenant, String> tcRatioTP;
 
@@ -166,8 +166,8 @@ public class StageIntervenant implements Initializable
 		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCategorie()  .getCode  ()));
 		tcNom      .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getNom     ()));
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
-		tcHServ    .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureService() ).asObject ());
-		tcHMax     .setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getHeureMax() ).asObject ());
+		tcHServ    .setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHeureService() ).asObject ());
+		tcHMax     .setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHeureMax() ).asObject ());
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTP  () ));
 
 /*

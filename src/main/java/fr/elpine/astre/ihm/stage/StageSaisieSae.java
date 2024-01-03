@@ -6,6 +6,7 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -52,7 +53,7 @@ public class StageSaisieSae implements Initializable
     @FXML
     public TableColumn<Affectation, String> tcCommentaire;
     @FXML
-    public TableColumn<Affectation, Integer> tcTotalEqtd;
+    public TableColumn<Affectation, Double> tcTotalEqtd;
     @FXML
     public ObservableList<Affectation> ensAff;
     @FXML
@@ -281,7 +282,7 @@ public class StageSaisieSae implements Initializable
         tcType       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getTypeHeure  ().getNom()));
         tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());
         tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine  ()).asObject());
-        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeure    ()).asObject());
+        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeure    ()).asObject());
         tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
 
         tableau.setItems(this.ensAff);

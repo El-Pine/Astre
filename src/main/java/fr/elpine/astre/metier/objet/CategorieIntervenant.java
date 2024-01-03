@@ -8,8 +8,8 @@ public class CategorieIntervenant
 {
     private String code;
     private String nom;
-    private int nbHeureMaxDefault;
-    private int nbHeureServiceDefault;
+    private double nbHeureMaxDefault;
+    private double nbHeureServiceDefault;
     private String ratioTPDefault;
 
     private boolean                 ajoute;
@@ -18,7 +18,7 @@ public class CategorieIntervenant
     private HashMap<String, Object> rollbackDatas;
 
 
-    public CategorieIntervenant(String code, String nom, int nbHeureMaxDefault, int nbHeureServiceDefault, String ratioTPDefault)
+    public CategorieIntervenant(String code, String nom, double nbHeureMaxDefault, double nbHeureServiceDefault, String ratioTPDefault)
     {
         this.code         = code;
         this.nom          = nom;
@@ -37,8 +37,8 @@ public class CategorieIntervenant
 
     public String getCode        () { return code         ;}
     public String getNom         () { return nom          ;}
-     public int getNbHeureMaxDefault     () { return nbHeureMaxDefault   ;}
-    public int getNbHeureServiceDefault        () { return nbHeureServiceDefault      ;}
+     public double getNbHeureMaxDefault     () { return nbHeureMaxDefault   ;}
+    public double getNbHeureServiceDefault        () { return nbHeureServiceDefault      ;}
     public String getRatioTPDefault() { return ratioTPDefault; }
     public double getRatioTPDefaultValue()
     {
@@ -57,8 +57,8 @@ public class CategorieIntervenant
     /*   SETTER   */
 
     public void setNom          ( String nom           ) { this.nom          = nom          ; this.modifie = true; }
-    public void setNbHeureMaxDefault   ( int nbHeureMaxDefault       ) { this.nbHeureMaxDefault   = nbHeureMaxDefault   ; this.modifie = true; }
-    public void setNbHeureServiceDefault      ( int nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ; this.modifie = true; }
+    public void setNbHeureMaxDefault   ( double nbHeureMaxDefault       ) { this.nbHeureMaxDefault   = nbHeureMaxDefault   ; this.modifie = true; }
+    public void setNbHeureServiceDefault      ( double nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ; this.modifie = true; }
     public boolean setRatioTPDefault (String ratioTPDefault      )
     {
         if ( ratioTPDefault.matches("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$"))
@@ -107,8 +107,8 @@ public class CategorieIntervenant
 
         this.code = (String) this.rollbackDatas.get("code");
         this.nom = (String) this.rollbackDatas.get("nom");
-        this.nbHeureMaxDefault = (int) this.rollbackDatas.get("nbHeureMaxDefault");
-        this.nbHeureServiceDefault = (int) this.rollbackDatas.get("nbHeureServiceDefault");
+        this.nbHeureMaxDefault = (double) this.rollbackDatas.get("nbHeureMaxDefault");
+        this.nbHeureServiceDefault = (double) this.rollbackDatas.get("nbHeureServiceDefault");
         this.ratioTPDefault = (String) this.rollbackDatas.get("ratioTPDefault");
 
         this.rollbackDatas.clear();

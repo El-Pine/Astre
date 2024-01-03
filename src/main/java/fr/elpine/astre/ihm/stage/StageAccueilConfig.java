@@ -41,9 +41,9 @@ public class StageAccueilConfig implements Initializable
     @FXML
     private TableColumn<CategorieIntervenant,String> tcNomInter;
     @FXML
-    private TableColumn<CategorieIntervenant,Integer> tcHMaxInter;
+    private TableColumn<CategorieIntervenant,Double> tcHMaxInter;
     @FXML
-    private TableColumn<CategorieIntervenant,Integer> tcHServInter;
+    private TableColumn<CategorieIntervenant,Double> tcHServInter;
     @FXML
     private TableColumn<CategorieIntervenant,String> tcRatioInter;
 
@@ -242,8 +242,8 @@ public class StageAccueilConfig implements Initializable
 
         tcCodeInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
         tcNomInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-        tcHMaxInter.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureMaxDefault()).asObject());
-        tcHServInter.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbHeureServiceDefault()).asObject());
+        tcHMaxInter.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeureMaxDefault()).asObject());
+        tcHServInter.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getNbHeureServiceDefault()).asObject());
         tcRatioInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTPDefault()));
 
         tabCatInter.setItems(StageAccueilConfig.ensCatInter);
