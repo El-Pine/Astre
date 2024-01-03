@@ -2,19 +2,19 @@ package fr.elpine.astre.ihm.stage;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.metier.objet.Intervenant;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +28,8 @@ public class StageAffichageCSV implements Initializable {
     public Button btnAnnuler;
     public TextField txtFieldRecherche;
 
-    public TableView<ObservableList<String>> tabAffInter;
+    @FXML
+    private TableView<ObservableList<String>> tabAffCsv;
     public TableColumn<ObservableList<String>,String> tcCategorie;
     public TableColumn<ObservableList<String>,String> tcNom;
     public TableColumn<ObservableList<String>,String> tcPrenom;
@@ -41,10 +42,10 @@ public class StageAffichageCSV implements Initializable {
     public TableColumn<ObservableList<String>,String> tcReelTotPair;
     public TableColumn<ObservableList<String>,String> tcTheoTot;
     public TableColumn<ObservableList<String>,String> tcReelTot;
+    public ChoiceBox<String> cbNomAnnee;
     private Stage stage;
 
     private ArrayList<String[]> alDonnees;
-    private static ObservableList<String[]> ensDonnes;
 
     public static Stage creer( String nomAnnee ) throws IOException{
 
@@ -63,26 +64,37 @@ public class StageAffichageCSV implements Initializable {
         stage.setTitle("Affichage CSV");
         stage.setScene(scene);
 
-        stage.setOnCloseRequest(e -> {
-            try {
-                StageEtats.creer().show();
-            } catch (IOException ignored) { }
-        });
-
         return stage;
     }
-    
+
     private void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public ArrayList<String[]> LireCSV(String annee ) {
-        // Chemin du fichier CSV
-        String cheminFichierCSV = "CSV/résultat-" + annee + ".csv";
+    public static ArrayList<String> listerFichiers() {
+        ArrayList<String> fichiers = new ArrayList<String>();
+        File repertoire = new File("CSV");
 
-        try (CSVReader reader = new CSVReader(new FileReader(cheminFichierCSV))) {
+        if (repertoire.isDirectory()) {
+            File[] files = repertoire.listFiles();
+
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        fichiers.add(file.getName());
+                    }
+                }
+            }
+        }
+
+        return fichiers;
+    }
+
+    public ArrayList<String[]> lireCSV(String cheminFichierCSV ) {
+        try (CSVReader reader = new CSVReader(new FileReader("CSV/" + cheminFichierCSV))) {
             ArrayList<String[]> alLigne = new ArrayList<String[]>();
             String[] ligne;
+            reader.readNext();
             while ((ligne = reader.readNext()) != null) {
                 alLigne.add(ligne);
             }
@@ -91,7 +103,13 @@ public class StageAffichageCSV implements Initializable {
 
     }
 
-    public void onBtnClickAnnuler(ActionEvent actionEvent) {
+    public void onBtnClickAnnuler(ActionEvent actionEvent)
+    {
+        stage.setOnCloseRequest(e -> {
+            try {
+                StageEtats.creer().show();
+            } catch (IOException ignored) { }
+        });
     }
 
     public void onBtnRechercher(ActionEvent actionEvent) {
@@ -108,12 +126,19 @@ public class StageAffichageCSV implements Initializable {
             }
         }
 
-        tabAffInter.setItems(listeToObservable(ensTemp));
+        this.tabAffCsv.setItems(listeToObservable(ensTemp));
     }
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.alDonnees = this.LireCSV(StageAffichageCSV.nomAnnee);
+        this.cbNomAnnee.setItems(FXCollections.observableArrayList(listerFichiers()));
+        this.cbNomAnnee.setValue("résultat-" + StageAffichageCSV.nomAnnee + ".csv");
+        this.cbNomAnnee.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(this.cbNomAnnee.getValue());
+            this.tabAffCsv.setItems(this.listeToObservable(this.lireCSV(this.cbNomAnnee.getValue())));
+        });
+
+        this.alDonnees = this.lireCSV("résultat-" + StageAffichageCSV.nomAnnee + ".csv");
 
         tcCategorie.setCellValueFactory     (cellData -> new SimpleStringProperty( cellData.getValue().get(0))); // Colonne de codeCategorie
         tcNom.setCellValueFactory           (cellData -> new SimpleStringProperty( cellData.getValue().get(1))); // Colonne de nom
@@ -128,15 +153,14 @@ public class StageAffichageCSV implements Initializable {
         tcTheoTot.setCellValueFactory       (cellData -> new SimpleStringProperty( cellData.getValue().get(10)));
         tcReelTot.setCellValueFactory       (cellData -> new SimpleStringProperty( cellData.getValue().get(11)));
 
-        tabAffInter.setItems(listeToObservable(this.alDonnees));
+        tabAffCsv.setItems(listeToObservable(this.alDonnees));
     }
 
     public ObservableList<ObservableList<String>> listeToObservable(ArrayList<String[]> liste) {
         ObservableList<ObservableList<String>> rows = FXCollections.observableArrayList();
 
         // Convertir chaque ligne (tableau de chaînes) en ObservableList de chaînes pour l'affichage dans la TableView
-        for (int i = 1; i < liste.size(); i++) {
-            String[] ligne = liste.get(i);
+        for (String[] ligne : liste) {
             ObservableList<String> row = FXCollections.observableArrayList();
             row.addAll(Arrays.asList(ligne));
             rows.add(row);

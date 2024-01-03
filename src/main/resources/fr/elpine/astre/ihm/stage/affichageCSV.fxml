@@ -9,6 +9,7 @@
        <Pane prefHeight="73.0" prefWidth="787.0" BorderPane.alignment="CENTER">
            <Button fx:id="btnAnnuler" layoutX="50.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickAnnuler" prefWidth="100.0" text="Retour" />
          <TextField fx:id="txtFieldRecherche" layoutX="545.0" layoutY="14.0" onAction="#onBtnRechercher" prefHeight="25.0" prefWidth="219.0" promptText="Rehercher (Categorie,nom,prénom)" />
+         <ChoiceBox fx:id="cbNomAnnee" layoutX="175.0" layoutY="14.0" prefHeight="25.0" prefWidth="198.0" />
        </Pane>
    </bottom>
    <left>
@@ -24,7 +25,7 @@
        </Pane>
    </top>
    <center>
-      <TableView fx:id="tabAffInter" prefHeight="228.0" prefWidth="926.0" snapToPixel="false" BorderPane.alignment="CENTER">
+      <TableView fx:id="tabAffCsv" prefHeight="228.0" prefWidth="926.0" snapToPixel="false" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="tcCategorie" maxWidth="500.0" minWidth="79.0" prefWidth="79.0" reorderable="false" resizable="false" text="Catégorie" />
           <TableColumn fx:id="tcNom" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Nom" />
