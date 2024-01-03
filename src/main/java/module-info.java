@@ -13,6 +13,7 @@ module fr.elpine.astre {
 	exports fr.elpine.astre.ihm.stage.PopUp;
 	exports fr.elpine.astre.metier;
 	exports fr.elpine.astre.metier.objet;
+	exports fr.elpine.astre.metier.outil;
 
 	opens fr.elpine.astre                 to javafx.fxml;
 	opens fr.elpine.astre.ihm             to javafx.fxml;

@@ -1,6 +1,8 @@
-package fr.elpine.astre.metier;
+package fr.elpine.astre.metier.outil;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.Astre;
+import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 

@@ -3,6 +3,7 @@ package fr.elpine.astre.metier;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
+import fr.elpine.astre.metier.outil.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
