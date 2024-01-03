@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class Attribution
 {
+    private Fraction nbHeurePN;
     private Fraction nbHeure;
     private Integer  nbSemaine;
 
@@ -19,8 +20,9 @@ public class Attribution
     private HashMap<String, Object> rollbackDatas;
 
 
-    public Attribution(Fraction nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
+    public Attribution(Fraction nbHeurePN, Fraction nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
     {
+        this.nbHeurePN = nbHeurePN;
         this.nbHeure   = nbHeure;
         this.nbSemaine = nbSemaine;
         this.module    = module;
@@ -36,8 +38,9 @@ public class Attribution
         this.setRollback();
     }
 
-    public Attribution(Fraction nbHeure, Module module, CategorieHeure catHr)
+    public Attribution(Fraction nbHeurePN, Fraction nbHeure, Module module, CategorieHeure catHr)
     {
+        this.nbHeurePN = nbHeurePN;
         this.nbHeure   = nbHeure;
         this.module    = module;
         this.catHr     = catHr;
@@ -53,13 +56,15 @@ public class Attribution
     }
 
     public boolean        hasNbSemaine           () { return this.nbSemaine != null; }
+    public Fraction       getNbHeurePN           () { return nbHeurePN;              }
     public Fraction       getNbHeure             () { return nbHeure;                }
     public int            getNbSemaine           () { return nbSemaine;              }
     public Module         getModule              () { return module;                 }
     public CategorieHeure getCatHr               () { return catHr;                  }
 
-    public void setNbHeure   (Fraction nbHeure ) { this.nbHeure   = nbHeure;   this.modifie = true; }
-    public void setNbSemaine (int nbSemaine    ) { this.nbSemaine = nbSemaine; this.modifie = true; }
+    public void setNbHeurePN (Fraction nbHeurePN ) { this.nbHeurePN = nbHeurePN; this.modifie = true; }
+    public void setNbHeure   (Fraction nbHeure   ) { this.nbHeure   = nbHeure;   this.modifie = true; }
+    public void setNbSemaine (int nbSemaine      ) { this.nbSemaine = nbSemaine; this.modifie = true; }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
@@ -83,6 +88,7 @@ public class Attribution
 
         this.nbSemaine   = (Integer)  this.rollbackDatas.get("nbSemaine");
         this.nbHeure     = (Fraction) this.rollbackDatas.get("nbHeure");
+        this.nbHeurePN   = (Fraction) this.rollbackDatas.get("nbHeurePN");
 
         this.rollbackDatas.clear();
     }
@@ -93,6 +99,7 @@ public class Attribution
 
         this.rollbackDatas.put("nbSemaine", this.nbSemaine);
         this.rollbackDatas.put("nbHeure",   this.nbHeure);
+        this.rollbackDatas.put("nbHeurePN", this.nbHeurePN);
     }
 
 
@@ -100,6 +107,7 @@ public class Attribution
     public String toString() {
         return "Attribution{" +
                 "nbHeure=" + nbHeure +
+                ", nbHeurePN=" + nbHeurePN +
                 ", nbSemaine=" + nbSemaine +
                 ", module=" + module.getCode() +
                 ", catHr=" + catHr +

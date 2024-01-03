@@ -85,6 +85,7 @@ CREATE TABLE Attribution (
 	nomCategorieHeure VARCHAR(255),
 	nbHeure TEXT,
 	nbSemaine INT,
+    nbHeurePN TEXT,
 
 	FOREIGN KEY (codeModule, numeroSemestreModule, anneeModule) REFERENCES Module(code, numeroSemestre, annee),
 	FOREIGN KEY (nomCategorieHeure)                             REFERENCES CategorieHeure(nom),

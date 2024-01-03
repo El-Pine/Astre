@@ -116,6 +116,7 @@ public class Annee
                 {
                     if (attribution.hasNbSemaine()) {
                         astre.ajouterAttribution(new Attribution(
+                                attribution.getNbHeurePN(),
                                 attribution.getNbHeure(),
                                 attribution.getNbSemaine(),
                                 m,
@@ -123,6 +124,7 @@ public class Annee
                         ));
                     } else {
                         astre.ajouterAttribution(new Attribution(
+                                attribution.getNbHeurePN(),
                                 attribution.getNbHeure(),
                                 m,
                                 attribution.getCatHr()

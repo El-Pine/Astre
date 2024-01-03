@@ -48,10 +48,10 @@ INSERT INTO Intervenant (nom, prenom, mail, codeCategorie, heureService, heureMa
     ('Martin', 'Alice', 'alice.martin@example.com', 'CAT2', '25', '30', '3/5');
 
 -- Insertion des données dans la table Attribution
-INSERT INTO Attribution (codeModule, numeroSemestreModule, anneeModule, nomCategorieHeure, nbHeure, nbSemaine) VALUES
-    ('MATH101', 1, '2022-2023', 'CM', '30', '12'),
-    ('MATH102', 1, '2022-2023', 'TD', '15', '12'),
-    ('PHYS101', 1, '2022-2023', 'TP', '20', '12');
+INSERT INTO Attribution (codeModule, numeroSemestreModule, anneeModule, nomCategorieHeure, nbHeure, nbSemaine, nbHeurePN) VALUES
+    ('MATH101', 1, '2022-2023', 'CM', '30', '12', '5'),
+    ('MATH102', 1, '2022-2023', 'TD', '15', '12', '5'),
+    ('PHYS101', 1, '2022-2023', 'TP', '20', '12', '5');
 
 -- Insertion des données dans la table Affectation
 INSERT INTO Affectation (codeModule, numeroSemestreModule, anneeModule, idInter, typeHeure, nbGroupe, nbSemaine, nbHeure, commentaire) VALUES

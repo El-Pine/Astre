@@ -703,7 +703,7 @@ public class DB
 
     // Méthode insert pour la classe Attribution
     public void ajouterAttribution(Attribution attribution) {
-        String req = "INSERT INTO Attribution VALUES (?,?,?,?,?,?)";
+        String req = "INSERT INTO Attribution VALUES (?,?,?,?,?,?,?)";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString(1, attribution.getModule().getCode     ());
             ps.setInt   (2, attribution.getModule().getSemestre().getNumero());
@@ -712,6 +712,7 @@ public class DB
             ps.setString(5, attribution.getNbHeure().toString());
             if (attribution.hasNbSemaine()) ps.setInt(6, attribution.getNbSemaine());
             else                            ps.setNull(6, Types.INTEGER);
+            ps.setString(7, attribution.getNbHeurePN().toString());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une attribution", e); }
@@ -719,16 +720,17 @@ public class DB
 
     // Méthode d'update pour la classe Attribution
     public void majAttribution(Attribution att) {
-        String req = "UPDATE Attribution SET nbHeure = ?, nbSemaine = ? WHERE numeroSemestreModule = ? AND codeModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
+        String req = "UPDATE Attribution SET nbHeure = ?, nbSemaine = ?, nbHeurePN = ? WHERE numeroSemestreModule = ? AND codeModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
             ps.setString   (1,att.getNbHeure  ().toString());
             if (att.hasNbSemaine()) ps.setInt   (2,att.getNbSemaine());
             else                    ps.setNull(2, Types.INTEGER);
+            ps.setString   (3,att.getNbHeurePN().toString());
 
-            ps.setInt   (3,att.getModule   ().getSemestre().getNumero());
-            ps.setString(4,att.getModule   ().getCode    ());
-            ps.setString(5,att.getModule   ().getSemestre().getAnnee ().getNom());
-            ps.setString(6,att.getCatHr    ().getNom     ());
+            ps.setInt   (4,att.getModule   ().getSemestre().getNumero());
+            ps.setString(5,att.getModule   ().getCode    ());
+            ps.setString(6,att.getModule   ().getSemestre().getAnnee ().getNom());
+            ps.setString(7,att.getCatHr    ().getNom     ());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une attribution", e); }
@@ -767,16 +769,19 @@ public class DB
 
                     int nbSemaine = rs.getInt("nbSemaine");
 
-                    Fraction f = Fraction.valueOf( rs.getString("nbHeure") );
+                    Fraction f   = Fraction.valueOf( rs.getString("nbHeure") );
+                    Fraction fPN = Fraction.valueOf( rs.getString("nbHeurePN") );
 
                     if (rs.wasNull()) {
                         ensAttribution.add( new Attribution(
+                                fPN,
                                 f,
                                 mod,
                                 catHr
                         ));
                     } else {
                         ensAttribution.add( new Attribution(
+                                fPN,
                                 f,
                                 nbSemaine,
                                 mod,
