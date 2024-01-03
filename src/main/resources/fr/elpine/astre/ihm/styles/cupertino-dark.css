@@ -618,8 +618,8 @@ Text {
 .check-box > .box {
   -fx-background-color: -color-border-default, -color-bg-default;
   -fx-background-insets: 0, 1.5px;
-  -fx-background-radius: 6px, 5px;
-  -fx-padding: 3px 4px 3px 4px;
+  -fx-background-radius: 6px, 6px;
+  -fx-padding: 4px 4px 4px 4px;
   -fx-alignment: CENTER;
 }
 .check-box > .box > .mark {
