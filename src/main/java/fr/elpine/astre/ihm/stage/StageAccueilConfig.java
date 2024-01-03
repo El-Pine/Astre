@@ -198,7 +198,7 @@ public class StageAccueilConfig implements Initializable
             else
             {
                 System.out.println("je suis la -- ");
-                PopUp.error("Categorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ");
+                PopUp.error("Categorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ").showAndWait();
             }
         }
 
