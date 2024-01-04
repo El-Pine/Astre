@@ -143,10 +143,13 @@ public class StageAccueilConfig implements Initializable
         for (CategorieIntervenant catInter : StageAccueilConfig.catInterASuppr)
         {
             Controleur.get().getMetier().supprimerCatInter(catInter);
+            catInter.supprimer(false);
         }
 
         Controleur.get().getMetier().enregistrer();
         refresh();
+        this.stage.close();
+        StagePrincipal.creer().show();
     }
 
     public void onBtnAnnuler(ActionEvent actionEvent) throws IOException
@@ -171,9 +174,7 @@ public class StageAccueilConfig implements Initializable
             {
                 if (PopUp.confirmationR("Suppression d'une catégorie d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'intervenant : %s", catInter.getNom())))
                 {
-                    System.out.println("Avant le remove : " + StageAccueilConfig.ensCatInter);
                     StageAccueilConfig.ensCatInter.remove(catInter);
-                    System.out.println("Apres le remove : " + StageAccueilConfig.ensCatInter);
                     StageAccueilConfig.catInterASuppr.add(catInter);
                 }
             }
@@ -190,14 +191,12 @@ public class StageAccueilConfig implements Initializable
             {
                 if (PopUp.confirmationR("Suppression d'une catégorie d'heure", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'heure : %s", catHr.getNom())))
                 {
-                    System.out.println("Pourtant je rentre la dedans");
                     StageAccueilConfig.ensCatHeure.remove(catHr);
                     StageAccueilConfig.catHrASupp .add   (catHr);
                 }
             }
             else
             {
-                System.out.println("je suis la -- ");
                 PopUp.error("Categorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ").showAndWait();
             }
         }
