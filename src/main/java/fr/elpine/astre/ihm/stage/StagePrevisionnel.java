@@ -5,6 +5,7 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,37 +38,37 @@ public class StagePrevisionnel implements Initializable {
 	@FXML
 	public TableColumn<Module,String>  s1liblong;
 	@FXML
-	public TableColumn<Module,Integer> s1hahpn;
+	public TableColumn<Module,String> s1hahpn;
 	@FXML
 	public TableColumn<Module,String>  s2code;
 	@FXML
 	public TableColumn<Module,String>  s2liblong;
 	@FXML
-	public TableColumn<Module,Integer> s2hahpn;
+	public TableColumn<Module,String> s2hahpn;
 	@FXML
 	public TableColumn<Module,String>  s3code;
 	@FXML
 	public TableColumn<Module,String>  s3liblong;
 	@FXML
-	public TableColumn<Module,Integer> s3hahpn;
+	public TableColumn<Module,String> s3hahpn;
 	@FXML
 	public TableColumn<Module,String>  s4code;
 	@FXML
 	public TableColumn<Module,String>  s4liblong;
 	@FXML
-	public TableColumn<Module,Integer> s4hahpn;
+	public TableColumn<Module,String> s4hahpn;
 	@FXML
 	public TableColumn<Module,String>  s5code;
 	@FXML
 	public TableColumn<Module,String>  s5liblong;
 	@FXML
-	public TableColumn<Module,Integer> s5hahpn;
+	public TableColumn<Module,String> s5hahpn;
 	@FXML
 	public TableColumn<Module,String>  s6code;
 	@FXML
 	public TableColumn<Module,String>  s6liblong;
 	@FXML
-	public TableColumn<Module,Integer> s6hahpn;
+	public TableColumn<Module,String> s6hahpn;
 	@FXML
 	public TableView<Module>           tabs6;
 	@FXML
@@ -179,26 +180,50 @@ public class StagePrevisionnel implements Initializable {
 	{
 		s1code.setCellValueFactory   (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom ()));
+		s1hahpn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%s/%s",
+				Fraction.simplifyDouble(cellData.getValue().getSommeAffecte(), true),
+				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
+		)));
 		tabs1.setItems(moduleListS1);
 
 		s2code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s2liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+		s2hahpn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%s/%s",
+				Fraction.simplifyDouble(cellData.getValue().getSommeAffecte(), true),
+				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
+		)));
 		tabs2.setItems(moduleListS2);
 
 		s3code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s3liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+		s3hahpn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%s/%s",
+				Fraction.simplifyDouble(cellData.getValue().getSommeAffecte(), true),
+				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
+		)));
 		tabs3.setItems(moduleListS3);
 
 		s4code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s4liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+		s4hahpn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%s/%s",
+				Fraction.simplifyDouble(cellData.getValue().getSommeAffecte(), true),
+				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
+		)));
 		tabs4.setItems(moduleListS4);
 
 		s5code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s5liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+		s5hahpn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%s/%s",
+				Fraction.simplifyDouble(cellData.getValue().getSommeAffecte(), true),
+				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
+		)));
 		tabs5.setItems(moduleListS5);
 
 		s6code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s6liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
+		s6hahpn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%s/%s",
+				Fraction.simplifyDouble(cellData.getValue().getSommeAffecte(), true),
+				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
+		)));
 		tabs6.setItems(moduleListS6);
 
 		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
