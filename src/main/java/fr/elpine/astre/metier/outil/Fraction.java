@@ -33,6 +33,18 @@ public class Fraction
 		return str.isEmpty() ? new Fraction() : new Fraction( str );
 	}
 
+	public static String simplifyDouble( Double d, boolean showZero )
+	{
+		int entier = (int) d.doubleValue();
+		int decimal = (int) ((d - entier) * 10);
+
+		if (entier != 0 && decimal != 0) return String.format("%d,%d", entier, decimal);
+		if (entier != 0)                 return String.format("%d", entier);
+		if (showZero)                    return "0";
+
+		return "";
+	}
+
 	public static boolean matches( String str )
 	{
 		return str.matches(REGEX);
