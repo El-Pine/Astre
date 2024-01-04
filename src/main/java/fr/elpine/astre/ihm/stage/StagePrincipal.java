@@ -89,7 +89,6 @@ public class StagePrincipal implements Initializable
 		if (Controleur.get().getMetier().getAnneeActuelle() == null)
 		{
 			this.btnPrev.setDisable( true );
-			this.btnInter.setDisable( true );
 			this.btnEtat.setDisable( true );
 		}
 	}
