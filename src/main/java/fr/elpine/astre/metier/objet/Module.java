@@ -67,6 +67,38 @@ public class Module
     public void setValidation  ( boolean validation )  { this.validation  = validation  ; this.modifie = true; }
 
 
+    /* Calculs */
+
+    public double getSommePN() {
+        double s = 0.0;
+        for (Attribution att : this.ensAttribution) s += att.getNbHeurePN().value();
+        return s;
+    }
+    public double getSommePNPromo() {
+        double s = 0.0;
+        for (Attribution att : this.ensAttribution) s += att.getNbHeurePNPromo();
+        return s;
+    }
+
+    public double getSomme() {
+        double s = 0.0;
+        for (Attribution att : this.ensAttribution) s += att.getNbHeureEtd();
+        return s;
+    }
+
+    public double getSommePromo() {
+        double s = 0.0;
+        for (Attribution att : this.ensAttribution) s += att.getNbHeurePromo();
+        return s;
+    }
+
+    public double getSommeAffecte() {
+        double s = 0.0;
+        for (Attribution att : this.ensAttribution) s += att.getNbHeureAffecte();
+        return s;
+    }
+
+
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
@@ -88,6 +120,12 @@ public class Module
     }
 
     public ArrayList<Attribution> getAttributions() { return this.ensAttribution; }
+
+    public Attribution getAttribution(CategorieHeure typeHeure)
+    {
+        for (Attribution att : this.ensAttribution) if (att.getCatHr() == typeHeure) return att;
+        return null;
+    }
 
 
     public void ajouterAffectation( Affectation affectation )

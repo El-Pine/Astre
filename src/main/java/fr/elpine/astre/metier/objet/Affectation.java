@@ -78,6 +78,16 @@ public class Affectation
     public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifie = true;  }
     public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = true;    }
 
+    /* Calculs */
+    public double getTotalEqtd() {
+        if (this.hasNbHeure()) return this.nbHeure.value() * this.typeHeure.getEquivalentTD().value();
+        else {
+            Attribution att = this.module.getAttribution( this.typeHeure );
+
+            return this.nbSemaine * this.nbGroupe * ( att == null ? 1 : ( att.hasNbSemaine() ? att.getNbSemaine() : 1 ) ) * this.typeHeure.getEquivalentTD().value();
+        }
+    }
+
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }

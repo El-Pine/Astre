@@ -66,6 +66,45 @@ public class Attribution
     public void setNbHeure   (Fraction nbHeure   ) { this.nbHeure   = nbHeure;   this.modifie = true; }
     public void setNbSemaine (int nbSemaine      ) { this.nbSemaine = nbSemaine; this.modifie = true; }
 
+    /* Calculs */
+
+    private int getNbGroupe()
+    {
+        Semestre s     = this.module.getSemestre();
+        int      nbGrp = 1;
+
+        if (this.catHr.getNom().equals("TD")) nbGrp = s.getNbGrpTD();
+        if (this.catHr.getNom().equals("TP")) nbGrp = s.getNbGrpTP();
+
+        return nbGrp;
+    }
+
+    public double getNbHeurePNPromo() {
+
+        return this.nbHeurePN.value() * this.catHr.getEquivalentTD().value() * this.getNbGroupe();
+    }
+
+    public double getNbHeureEtd()
+    {
+        return this.hasNbSemaine() ? this.nbSemaine * this.nbHeure.value() : this.nbHeure.value();
+    }
+
+    public double getNbHeurePromo()
+    {
+        return this.getNbHeureEtd() * this.catHr.getEquivalentTD().value() * this.getNbGroupe();
+    }
+
+    public double getNbHeureAffecte()
+    {
+        double nb = 0.0;
+
+        for (Affectation aff : this.module.getAffectations())
+            if ( aff.getTypeHeure() == this.catHr ) nb += aff.getTotalEqtd();
+
+        return nb;
+    }
+
+
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }

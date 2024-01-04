@@ -75,6 +75,31 @@ public class Intervenant
     public void setRatioTP (Fraction ratioTP          ) { this.ratioTP = ratioTP   ; this.modifie = true; }
     public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ; this.modifie = true; }
 
+    /* Calculs */
+
+    public ArrayList<Double> getHeure() // récupère les heures des 6 semestres de l'année actuelle de l'intervenant
+    {
+        Annee a = Controleur.get().getMetier().getAnneeActuelle();
+        ArrayList<Double> lst = new ArrayList<>();
+
+        for (int i = 0; i < 6; i++) lst.add(i, 0d);
+
+        if (a != null)
+            for (Semestre s : a.getSemestres())
+            {
+                double d = 0d;
+
+                for (Module m : s.getModules())
+                    for (Affectation aff : m.getAffectations())
+                        if (aff.getIntervenant() == this) d += aff.getTotalEqtd() * (aff.getTypeHeure().getNom().equals("TP") ? this.ratioTP.value() : 1);
+
+                lst.add(s.getNumero(), d);
+            }
+
+        return lst;
+    }
+
+
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
