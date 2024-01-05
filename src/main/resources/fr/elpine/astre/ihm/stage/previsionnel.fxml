@@ -3,182 +3,251 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
+<BorderPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
    <center>
-      <TabPane fx:id="pnlControlSem" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="pnlControlSem" nodeOrientation="LEFT_TO_RIGHT" style="-fx-border-color: -color-border-default; -fx-border-radius: 3px;" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="90.0" tabMinWidth="90.0" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab text="    S1    ">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <TableView fx:id="tabs1" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="s1code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
-                            <TableColumn fx:id="s1liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s1hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
-                          </columns>
-                           <columnResizePolicy>
-                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                           </columnResizePolicy>
-                        </TableView>
-                     </center>
-                     <top>
-                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </BorderPane.margin>
-                        </Label>
-                     </top>
-                  </BorderPane>
-               </content>
+            <Tab text="Semestre 1">
+               <BorderPane>
+                  <center>
+                     <TableView fx:id="tabs1" editable="true">
+                        <columns>
+                           <TableColumn fx:id="s1code" minWidth="75.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Code"/>
+                           <TableColumn fx:id="s1liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Libelle long"/>
+                           <TableColumn fx:id="s1hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Heure Affectés / Heure PN"/>
+                        </columns>
+                        <opaqueInsets>
+                           <Insets/>
+                        </opaqueInsets>
+                        <BorderPane.margin>
+                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0"/>
+                        </BorderPane.margin>
+                     </TableView>
+                  </center>
+                  <top>
+                     <Label alignment="CENTER" text="Liste des Modules" textAlignment="CENTER"
+                            BorderPane.alignment="BOTTOM_CENTER">
+                        <BorderPane.margin>
+                           <Insets top="10.0"/>
+                        </BorderPane.margin>
+                        <font>
+                           <Font name="System Bold Italic" size="12.0"/>
+                        </font>
+                     </Label>
+                  </top>
+               </BorderPane>
             </Tab>
-            <Tab text="    S2    ">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <TableView fx:id="tabs2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <columns>
-                              <TableColumn fx:id="s2code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
-                              <TableColumn fx:id="s2liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s2hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
-                           </columns>
-                        </TableView>
-                     </center>
-                     <top>
-                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </BorderPane.margin>
-                        </Label>
-                     </top>
-                  </BorderPane>
-               </content>
+            <Tab text="Semestre 2">
+               <BorderPane>
+                  <center>
+                     <TableView fx:id="tabs2" editable="true">
+                        <columns>
+                           <TableColumn fx:id="s2code" minWidth="75.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Code"/>
+                           <TableColumn fx:id="s2liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Libelle long"/>
+                           <TableColumn fx:id="s2hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Heure Affectés / Heure PN"/>
+                        </columns>
+                        <opaqueInsets>
+                           <Insets/>
+                        </opaqueInsets>
+                        <BorderPane.margin>
+                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0"/>
+                        </BorderPane.margin>
+                     </TableView>
+                  </center>
+                  <top>
+                     <Label alignment="CENTER" text="Liste des Modules" textAlignment="CENTER"
+                            BorderPane.alignment="BOTTOM_CENTER">
+                        <BorderPane.margin>
+                           <Insets top="10.0"/>
+                        </BorderPane.margin>
+                        <font>
+                           <Font name="System Bold Italic" size="12.0"/>
+                        </font>
+                     </Label>
+                  </top>
+               </BorderPane>
             </Tab>
-            <Tab text="    S3    ">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <TableView fx:id="tabs3" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <columns>
-                              <TableColumn fx:id="s3code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
-                              <TableColumn fx:id="s3liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s3hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
-                           </columns>
-                        </TableView>
-                     </center>
-                     <top>
-                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </BorderPane.margin>
-                        </Label>
-                     </top>
-                  </BorderPane>
-               </content>
+            <Tab text="Semestre 3">
+               <BorderPane>
+                  <center>
+                     <TableView fx:id="tabs3" editable="true">
+                        <columns>
+                           <TableColumn fx:id="s3code" minWidth="75.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Code"/>
+                           <TableColumn fx:id="s3liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Libelle long"/>
+                           <TableColumn fx:id="s3hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Heure Affectés / Heure PN"/>
+                        </columns>
+                        <opaqueInsets>
+                           <Insets/>
+                        </opaqueInsets>
+                        <BorderPane.margin>
+                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0"/>
+                        </BorderPane.margin>
+                     </TableView>
+                  </center>
+                  <top>
+                     <Label alignment="CENTER" text="Liste des Modules" textAlignment="CENTER"
+                            BorderPane.alignment="BOTTOM_CENTER">
+                        <BorderPane.margin>
+                           <Insets top="10.0"/>
+                        </BorderPane.margin>
+                        <font>
+                           <Font name="System Bold Italic" size="12.0"/>
+                        </font>
+                     </Label>
+                  </top>
+               </BorderPane>
             </Tab>
-            <Tab id="4" text="    S4    ">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <TableView fx:id="tabs4" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="s4code" maxWidth="500.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
-                            <TableColumn fx:id="s4liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s4hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
-                          </columns>
-                        </TableView>
-                     </center>
-                     <top>
-                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </BorderPane.margin>
-                        </Label>
-                     </top>
-                  </BorderPane>
-               </content>
+            <Tab text="Semestre 4">
+               <BorderPane>
+                  <center>
+                     <TableView fx:id="tabs4" editable="true">
+                        <columns>
+                           <TableColumn fx:id="s4code" minWidth="75.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Code"/>
+                           <TableColumn fx:id="s4liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Libelle long"/>
+                           <TableColumn fx:id="s4hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Heure Affectés / Heure PN"/>
+                        </columns>
+                        <opaqueInsets>
+                           <Insets/>
+                        </opaqueInsets>
+                        <BorderPane.margin>
+                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0"/>
+                        </BorderPane.margin>
+                     </TableView>
+                  </center>
+                  <top>
+                     <Label alignment="CENTER" text="Liste des Modules" textAlignment="CENTER"
+                            BorderPane.alignment="BOTTOM_CENTER">
+                        <BorderPane.margin>
+                           <Insets top="10.0"/>
+                        </BorderPane.margin>
+                        <font>
+                           <Font name="System Bold Italic" size="12.0"/>
+                        </font>
+                     </Label>
+                  </top>
+               </BorderPane>
             </Tab>
-            <Tab text="    S5    ">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <TableView fx:id="tabs5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="s5code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
-                            <TableColumn fx:id="s5liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s5hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
-                          </columns>
-                        </TableView>
-                     </center>
-                     <top>
-                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </BorderPane.margin>
-                        </Label>
-                     </top>
-                  </BorderPane>
-               </content>
+            <Tab text="Semestre 5">
+               <BorderPane>
+                  <center>
+                     <TableView fx:id="tabs5" editable="true">
+                        <columns>
+                           <TableColumn fx:id="s5code" minWidth="75.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Code"/>
+                           <TableColumn fx:id="s5liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Libelle long"/>
+                           <TableColumn fx:id="s5hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Heure Affectés / Heure PN"/>
+                        </columns>
+                        <opaqueInsets>
+                           <Insets/>
+                        </opaqueInsets>
+                        <BorderPane.margin>
+                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0"/>
+                        </BorderPane.margin>
+                     </TableView>
+                  </center>
+                  <top>
+                     <Label alignment="CENTER" text="Liste des Modules" textAlignment="CENTER"
+                            BorderPane.alignment="BOTTOM_CENTER">
+                        <BorderPane.margin>
+                           <Insets top="10.0"/>
+                        </BorderPane.margin>
+                        <font>
+                           <Font name="System Bold Italic" size="12.0"/>
+                        </font>
+                     </Label>
+                  </top>
+               </BorderPane>
             </Tab>
-            <Tab text="    S6    ">
-               <content>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <TableView fx:id="tabs6" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                          <columns>
-                            <TableColumn fx:id="s6code" maxWidth="133.0" minWidth="133.0" prefWidth="133.0" reorderable="false" resizable="false" text="Code" />
-                            <TableColumn fx:id="s6liblong" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Libelle long" />
-                              <TableColumn fx:id="s6hahpn" maxWidth="500.0" minWidth="240.0" prefWidth="240.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
-                          </columns>
-                        </TableView>
-                     </center>
-                     <top>
-                        <Label text="Liste des Modules :" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </BorderPane.margin>
-                        </Label>
-                     </top>
-                  </BorderPane>
-               </content>
+            <Tab text="Semestre 6">
+               <BorderPane>
+                  <center>
+                     <TableView fx:id="tabs6" editable="true">
+                        <columns>
+                           <TableColumn fx:id="s6code" minWidth="75.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Code"/>
+                           <TableColumn fx:id="s6liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Libelle long"/>
+                           <TableColumn fx:id="s6hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false"
+                                        resizable="false" text="Heure Affectés / Heure PN"/>
+                        </columns>
+                        <opaqueInsets>
+                           <Insets/>
+                        </opaqueInsets>
+                        <BorderPane.margin>
+                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0"/>
+                        </BorderPane.margin>
+                     </TableView>
+                  </center>
+                  <top>
+                     <Label alignment="CENTER" text="Liste des Modules" textAlignment="CENTER"
+                            BorderPane.alignment="BOTTOM_CENTER">
+                        <BorderPane.margin>
+                           <Insets top="10.0"/>
+                        </BorderPane.margin>
+                        <font>
+                           <Font name="System Bold Italic" size="12.0"/>
+                        </font>
+                     </Label>
+                  </top>
+               </BorderPane>
             </Tab>
         </tabs>
-      </TabPane>
+         <padding>
+            <Insets bottom="4.0" top="4.0" />
+         </padding>
+       </TabPane>
    </center>
    <top>
-      <FlowPane alignment="CENTER" prefHeight="42.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="18.0" prefWidth="56.0" text="nb gp TD" />
-            <TextField fx:id="txtNbTD" prefHeight="20.0" prefWidth="40.0" />
-            <Label prefHeight="18.0" prefWidth="60.0" text="nb gp TP">
+            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
                <FlowPane.margin>
-                  <Insets left="10.0" />
+                  <Insets right="5.0" />
                </FlowPane.margin>
             </Label>
-            <TextField fx:id="txtNbTP" prefHeight="20.0" prefWidth="40.0" />
-            <Label prefHeight="18.0" prefWidth="50.0" text="nb Etd">
+            <TextField fx:id="txtNbTD" prefHeight="20.0" prefWidth="50.0" />
+            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
                <FlowPane.margin>
-                  <Insets left="10.0" />
+                  <Insets left="10.0" right="5.0" />
                </FlowPane.margin>
             </Label>
-            <TextField fx:id="txtNbEtd" prefHeight="26.0" prefWidth="40.0" />
-            <Label prefHeight="18.0" prefWidth="76.0" text="nb semaines">
+            <TextField fx:id="txtNbTP" prefHeight="20.0" prefWidth="50.0" />
+            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
                <FlowPane.margin>
-                  <Insets left="10.0" />
+                  <Insets left="10.0" right="5.0" />
                </FlowPane.margin>
             </Label>
-            <TextField fx:id="txtNbSemaine" prefHeight="20.0" prefWidth="40.0" />
-         </children></FlowPane>
+            <TextField fx:id="txtNbEtd" prefHeight="26.0" prefWidth="50.0" />
+            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
+               <FlowPane.margin>
+                  <Insets left="10.0" right="5.0" />
+               </FlowPane.margin>
+            </Label>
+            <TextField fx:id="txtNbSemaine" prefHeight="20.0" prefWidth="50.0" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin>
+      </FlowPane>
    </top>
-   <left>
-      <FlowPane prefHeight="322.0" prefWidth="43.0" BorderPane.alignment="CENTER" />
-   </left>
-   <right>
-      <FlowPane prefHeight="322.0" prefWidth="41.0" BorderPane.alignment="CENTER" />
-   </right>
    <bottom>
-      <FlowPane alignment="CENTER" prefHeight="44.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#onBtnCreerRessource" text="Créer Ressource" />
             <Button mnemonicParsing="false" onAction="#onBtnCreerSae" text="Créer SAE">
@@ -202,6 +271,12 @@
                </FlowPane.margin>
             </Button>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin>
       </FlowPane>
    </bottom>
+   <padding>
+      <Insets left="50.0" right="50.0" />
+   </padding>
 </BorderPane>

@@ -119,7 +119,9 @@ public class StagePrevisionnel implements Initializable {
 		}
 
 		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
-		Scene scene = new Scene(fxmlLoader.load(), 700, 400);
+		Scene scene = new Scene(fxmlLoader.load());
+		stage.setMinHeight(400);
+		stage.setMinWidth(800);
 
 		StagePrevisionnel stageCtrl = fxmlLoader.getController();
 		if (stageCtrl != null) stageCtrl.setStage(stage);
