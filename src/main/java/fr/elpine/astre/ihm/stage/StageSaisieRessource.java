@@ -6,6 +6,7 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -459,11 +460,10 @@ public class StageSaisieRessource implements Initializable
                     txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                 }
 
-                return change;
             } else {
                 txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
-                return change;
             }
+            return change;
         } else {
             return null;
         }
@@ -480,15 +480,79 @@ public class StageSaisieRessource implements Initializable
     }
 
     @FXML
-    protected void onBtnEnregistrer() throws IOException, SQLException {
-        for (Affectation aff : StageSaisieRessource.affAAjouter) {
-            Controleur.get().getMetier().ajouterAffectation(aff);
+    protected void onBtnEnregistrer() throws IOException, SQLException
+    {
+        if(StageSaisieRessource.affAAjouter != null)
+            for (Affectation aff : StageSaisieRessource.affAAjouter)
+            {
+                Controleur.get().getMetier().ajouterAffectation(aff);
+            }
+
+        for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
+        {
+            Fraction fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
+            System.out.println("---"+fractPn);
+            Fraction fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
+            int      nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+
+            Module mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+
+            Attribution att = new Attribution(fractPn, fractNbHeure, nbSemaine, mod, catHr);
+
+            Controleur.get().getMetier().ajouterAttribution(att);
         }
+
 
         Controleur.get().getMetier().enregistrer();
         stage.close();
         StagePrincipal.creer().show();
     }
+
+
+    public String getNbHeureByCatHr(String nom,boolean nbSemaine)
+    {
+        for (Map.Entry<String,ArrayList<TextField>> entry : hmTxtSemaine.entrySet())
+        {
+            String key                 = entry.getKey  ();
+            ArrayList<TextField> value = entry.getValue();
+
+            System.out.println(key);
+            System.out.println(value);
+
+            if(key.equals(nom))
+            {
+                if(nbSemaine)
+                {
+                    System.out.println("je suis la");
+                    return value.get(0).getText();
+                }
+                else
+                {
+                    System.out.println("je suis laaaaaaa");
+                    return value.get(1).getText();
+                }
+            }
+        }
+        System.out.println("null ?");
+        return "0";
+    }
+
+
+    public String getHeurePnByCatHr(String nom)
+    {
+        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtPn.entrySet())
+        {
+            String key                 = entry.getKey  ();
+            ArrayList<TextField> value = entry.getValue();
+
+            if(key.equals(nom))
+            {
+                return value.get(0).getText();
+            }
+        }
+        return null;
+    }
+
 
     @FXML
     protected void onBtnAnnuler() throws IOException {

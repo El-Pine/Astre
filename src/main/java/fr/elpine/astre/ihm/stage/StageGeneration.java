@@ -67,7 +67,7 @@ public class StageGeneration implements Initializable
 
         stage.setOnCloseRequest(e -> {
             try {
-                StageGeneration.creer("intervenant").show();
+                StageEtats.creer().show();
             } catch (IOException ignored) { }
         });
 

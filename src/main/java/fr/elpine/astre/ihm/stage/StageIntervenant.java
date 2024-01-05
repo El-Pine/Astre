@@ -52,6 +52,9 @@ public class StageIntervenant implements Initializable
 
 	private Stage stage;
 
+
+
+
 	public static ArrayList<Intervenant> interAAjouter;
 	public static ArrayList<Intervenant> interAEnlever;
 
@@ -79,7 +82,7 @@ public class StageIntervenant implements Initializable
 			// perform actions before closing
 			try { StagePrincipal.creer().show(); } catch (IOException ignored) {}
 		});
-
+		
 		return stage;
 	}
 
@@ -124,6 +127,7 @@ public class StageIntervenant implements Initializable
 		{
 			StageIntervenant.ensInter.remove(inter);
 			StageIntervenant.interAEnlever.add(inter);
+			inter.supprimer(false);
 		}
 		this.refresh();
 	}

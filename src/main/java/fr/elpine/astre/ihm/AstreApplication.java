@@ -23,6 +23,7 @@ public class AstreApplication extends Application
 		* Thèmes    : cupertino & dracula
 		* Variantes : dark & light
 		* */
+
 		Application.setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/cupertino-light.css")).toExternalForm());
 
 

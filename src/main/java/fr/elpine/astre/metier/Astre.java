@@ -248,9 +248,9 @@ public class Astre
     // todo : à supprimer
     public void supprimerIntervenant   (Intervenant    i    )          { this.ensIntervenant         .remove(i)    ; }
 
-    public void supprimerCatHr         (CategorieHeure catHr) {this.ensCategorieHeure.remove(catHr);}
+    public void supprimerCatHr         (CategorieHeure catHr) {this.ensCategorieHeure.remove(catHr); catHr.supprimer(false);}
 
-    public void supprimerCatInter  (CategorieIntervenant catInter) {this.ensCategorieIntervenant.remove(catInter);}
+    public void supprimerCatInter  (CategorieIntervenant catInter) {this.ensCategorieIntervenant.remove(catInter); catInter.supprimer(false);}
 
     /*------------------------------------*/
     /* Gestion enregistrement et rollback */
