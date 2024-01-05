@@ -388,7 +388,9 @@ public class StageSaisieRessource implements Initializable
     private void init(String nomMod, int id)
     {
         txtTypeModule.setText(nomMod);
+        txtTypeModule.setEditable(false);
         txtSemestre.setText("" + id);
+        txtSemestre.setEditable(false);
         int code = Controleur.get().getMetier().rechercheSemestreByNumero(id).getModules().size() + 1;
         txtCode.setText("R" + id + "." + String.format("%02d", id));
         Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(id); //TODO: Rajouter l'année une fois que l'on a géré
@@ -490,19 +492,19 @@ public class StageSaisieRessource implements Initializable
 
         for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
-            Fraction fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
-            System.out.println("---"+fractPn);
-            Fraction fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
-            int      nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+            if(catHr.estRessource())
+            {
+                Fraction fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
+                Fraction fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
+                int      nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
 
-            Module mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+                Module mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
 
-            Attribution att = new Attribution(fractPn, fractNbHeure, nbSemaine, mod, catHr);
+                Attribution att = new Attribution(fractPn, fractNbHeure, nbSemaine, mod, catHr);
 
-            Controleur.get().getMetier().ajouterAttribution(att);
+                Controleur.get().getMetier().ajouterAttribution(att);
+            }
         }
-
-
         Controleur.get().getMetier().enregistrer();
         stage.close();
         StagePrincipal.creer().show();
@@ -523,17 +525,14 @@ public class StageSaisieRessource implements Initializable
             {
                 if(nbSemaine)
                 {
-                    System.out.println("je suis la");
                     return value.get(0).getText();
                 }
                 else
                 {
-                    System.out.println("je suis laaaaaaa");
                     return value.get(1).getText();
                 }
             }
         }
-        System.out.println("null ?");
         return "0";
     }
 

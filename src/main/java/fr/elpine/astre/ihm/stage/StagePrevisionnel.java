@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import fr.elpine.astre.metier.outil.Fraction;
@@ -23,6 +24,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class StagePrevisionnel implements Initializable {
@@ -94,6 +97,8 @@ public class StagePrevisionnel implements Initializable {
 
 	@FXML
 	private TabPane pnlControlSem;
+
+	private HashMap<String, TableView<Module>> hmTabView;
 
 
 	private Stage stage;
@@ -168,8 +173,23 @@ public class StagePrevisionnel implements Initializable {
 	}
 
 	@FXML
-	public void onBtnSupprimer(ActionEvent actionEvent) {
-		System.out.println(txtNbTD.getText());
+	public void onBtnSupprimer(ActionEvent actionEvent)
+	{
+		for (Map.Entry<String, TableView<Module>> entry : this.hmTabView.entrySet())
+		{
+			String key              = entry.getKey  ();
+			TableView<Module> value = entry.getValue();
+
+			if(value.getSelectionModel().getSelectedItem() != null)
+			{
+				Module mod = value.getSelectionModel().getSelectedItem();
+
+				if(PopUp.confirmationR("Suppression d'un module",null, "Etes-vous sûr de vouloir supprimer ce module : " + mod.getCode()))
+					mod.supprimer(true);
+					Controleur.get().getMetier().enregistrer();
+			}
+			this.refresh(key);
+		}
 	}
 
 	@FXML
@@ -180,6 +200,9 @@ public class StagePrevisionnel implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
+		this.hmTabView = new HashMap<>();
+
+
 		s1code.setCellValueFactory   (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s1liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom ()));
 		s1hahpn.setCellValueFactory(cellData -> new SimpleStringProperty(String.format("%s/%s",
@@ -187,6 +210,8 @@ public class StagePrevisionnel implements Initializable {
 				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 		)));
 		tabs1.setItems(moduleListS1);
+		this.hmTabView.put("S1",tabs1);
+
 
 		s2code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s2liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
@@ -195,6 +220,7 @@ public class StagePrevisionnel implements Initializable {
 				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 		)));
 		tabs2.setItems(moduleListS2);
+		this.hmTabView.put("S2",tabs2);
 
 		s3code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s3liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
@@ -203,6 +229,7 @@ public class StagePrevisionnel implements Initializable {
 				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 		)));
 		tabs3.setItems(moduleListS3);
+		this.hmTabView.put("S3",tabs3);
 
 		s4code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s4liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
@@ -211,6 +238,7 @@ public class StagePrevisionnel implements Initializable {
 				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 		)));
 		tabs4.setItems(moduleListS4);
+		this.hmTabView.put("S4",tabs4);
 
 		s5code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s5liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
@@ -219,6 +247,7 @@ public class StagePrevisionnel implements Initializable {
 				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 		)));
 		tabs5.setItems(moduleListS5);
+		this.hmTabView.put("S5",tabs5);
 
 		s6code.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 		s6liblong.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
@@ -227,6 +256,7 @@ public class StagePrevisionnel implements Initializable {
 				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 		)));
 		tabs6.setItems(moduleListS6);
+		this.hmTabView.put("S6",tabs6);
 
 		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 			if (newTab != null) {
@@ -238,7 +268,35 @@ public class StagePrevisionnel implements Initializable {
 		initializeTextFields();
 	}
 
-
+	public void refresh(String semestre)
+	{
+		switch (semestre) {
+			case "S1":
+				StagePrevisionnel.moduleListS1 = FXCollections.observableArrayList(Controleur.get().getMetier().rechercheSemestreByNumero(1).getModules());
+				tabs1.setItems(StagePrevisionnel.moduleListS1);
+				break;
+			case "S2":
+				StagePrevisionnel.moduleListS2 = FXCollections.observableArrayList(Controleur.get().getMetier().rechercheSemestreByNumero(2).getModules());
+				tabs2.setItems(StagePrevisionnel.moduleListS2);
+				break;
+			case "S3":
+				StagePrevisionnel.moduleListS3 = FXCollections.observableArrayList(Controleur.get().getMetier().rechercheSemestreByNumero(3).getModules());
+				tabs3.setItems(StagePrevisionnel.moduleListS3);
+				break;
+			case "S4":
+				StagePrevisionnel.moduleListS4 = FXCollections.observableArrayList(Controleur.get().getMetier().rechercheSemestreByNumero(4).getModules());
+				tabs4.setItems(StagePrevisionnel.moduleListS4);
+				break;
+			case "S5":
+				StagePrevisionnel.moduleListS5 = FXCollections.observableArrayList(Controleur.get().getMetier().rechercheSemestreByNumero(5).getModules());
+				tabs5.setItems(StagePrevisionnel.moduleListS5);
+				break;
+			case "S6":
+				StagePrevisionnel.moduleListS6 = FXCollections.observableArrayList(Controleur.get().getMetier().rechercheSemestreByNumero(6).getModules());
+				tabs6.setItems(StagePrevisionnel.moduleListS6);
+				break;
+		}
+	}
 
 	private void initializeTextFields()
 	{
