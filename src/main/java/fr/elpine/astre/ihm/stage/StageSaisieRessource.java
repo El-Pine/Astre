@@ -485,38 +485,34 @@ public class StageSaisieRessource implements Initializable
     @FXML
     protected void onBtnEnregistrer() throws IOException, SQLException
     {
+        Module mod;
+        Fraction fractPn      = null;
+        Fraction fractNbHeure = null;
+        int nbSemaine         = 0;
+
         if(StageSaisieRessource.affAAjouter != null)
             for (Affectation aff : StageSaisieRessource.affAAjouter)
             {
                 Controleur.get().getMetier().ajouterAffectation(aff);
             }
 
+        mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
         for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
             if(catHr.estRessource())
             {
                 //Recuperation des paramètres du module
-                Fraction fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
-                Fraction fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
-                int      nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+                fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
+                fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
+                nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+            }
 
-                //Creation du Module
-                Module mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+            Attribution att = new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
+            mod.ajouterAttribution(att);
 
-                ObservableList<Affectation> alAff = tableau.getSelectionModel().getSelectedItems();
-                Attribution att = new Attribution(fractPn, fractNbHeure, nbSemaine, mod, catHr);
-
-                //Ajout des Attribution et Affectation au nouveau Module
-                mod.ajouterAttribution(att);
-                for (Affectation aff: alAff)
-                {
-                    System.out.println("je suis la ? ");
-                    mod.ajouterAffectation(aff);
-                    Controleur.get().getMetier().ajouterAffectation(aff);
-                }
-
-
-                Controleur.get().getMetier().ajouterAttribution(att);
+            for (Affectation aff : tableau.getItems())
+            {
+                mod.ajouterAffectation(aff);
             }
         }
         Controleur.get().getMetier().enregistrer();
