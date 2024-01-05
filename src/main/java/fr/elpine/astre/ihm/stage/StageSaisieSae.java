@@ -4,23 +4,23 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.Astre;
-import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.objet.*;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -29,12 +29,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
-import static java.lang.Integer.parseInt;
+import static java.lang.Integer.*;
+
+//TODO:Faire les heures affectées (dans tableau Affectation nbHeuure * nbSemaine * eqtd)
 
 public class StageSaisieSae implements Initializable
 {
@@ -46,14 +45,15 @@ public class StageSaisieSae implements Initializable
     public TableColumn<Affectation, String> tcIntervenant;
     @FXML
     public TableColumn<Affectation, String> tcType;
+    public TableColumn<Affectation, Integer> tcSemaine;
     @FXML
-    public TableColumn<Affectation, Integer> tcNbH;
+    public TableColumn<Affectation, String> tcNbH;
     @FXML
     public TableColumn<Affectation, Integer> tcGrp;
     @FXML
     public TableColumn<Affectation, String> tcCommentaire;
     @FXML
-    public TableColumn<Affectation, String> tcTotalEqtd;
+    public TableColumn<Affectation, Integer> tcTotalEqtd;
     @FXML
     public ObservableList<Affectation> ensAff;
     @FXML
@@ -72,6 +72,11 @@ public class StageSaisieSae implements Initializable
     public TextField txtLibelleCourt;
     @FXML
     public TextField txtSemestre;
+
+    public TextField txtTORepartion;
+    public TextField txtTOPromo;
+    public TextField txtTOAffecte;
+
     private Stage stage;
     public static ArrayList<Affectation> affAAjouter;
     public static ArrayList<Affectation> affAEnlever;
@@ -81,15 +86,19 @@ public class StageSaisieSae implements Initializable
 
     public GridPane gridPn;
     public GridPane gridPaneRepartition;
+    public GridPane gridTot;
 
     public TabPane tabPaneSemaine;
 
     private HashMap<String, ArrayList<TextField>> hmTxtPn;
     private HashMap<String, ArrayList<TextField>> hmTxtSemaine;
     private HashMap<String, ArrayList<TextField>> hmTxtRepartion;
+
+
+    //Méthode d'initialisation de la scène
     public static Stage creer(int semestre) throws IOException
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieSae.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieSae.class.getResource("saisieRessource.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1500, 700);
 
         Stage stage = new Stage();
@@ -116,6 +125,201 @@ public class StageSaisieSae implements Initializable
         return stage;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        initGridPn();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(cat.estSae())
+            {
+                ajouterColonne(cat.getNom());
+            }
+        }
+        ajouterColonne("TO");
+
+        initTabPan();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(cat.estSae())
+            {
+                ajouterOnglet(cat.getNom());
+            }
+        }
+
+        this.gridPaneRepartition.getChildren().clear();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if (cat.estSae())
+            {
+                ajouterColonneRepartition(cat.getNom());
+            }
+        }
+
+
+        this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
+        StageSaisieSae.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
+
+        /*
+        tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
+        tc.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item);
+
+                if (item != null && item.equals("❌")) {
+                    setTextFill(Color.RED);
+                } else if (item != null && item.equals("➕")) {
+                    setTextFill(Color.LIGHTGREEN);
+                } else {
+                    setTextFill(Color.BLACK);
+                    setText("");
+                }
+            }
+        });
+
+         */
+
+        this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+        tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant () .getNom()));
+        tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure   () .getNom()));
+        tcSemaine    .setCellValueFactory(cellData -> {
+            if (cellData.getValue().hasGrpAndNbSemaine())
+                return new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject();
+            else
+                return null;
+        });
+        tcGrp    .setCellValueFactory(cellData -> {
+            if (cellData.getValue().hasGrpAndNbSemaine())
+                return new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject();
+            else
+                return null;
+        });
+        tcNbH    .setCellValueFactory(cellData -> {
+            if (cellData.getValue().hasNbHeure())
+                return new SimpleStringProperty(cellData.getValue().getNbHeure    ().toString());
+            else
+                return null;
+        });
+        tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
+
+
+        //System.out.println(ensAff);
+
+        tableau.setItems(ensAff);
+        tableau.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+
+        this.hmTxtPn = initHmPn(getAllTextFieldsPn(gridPn));
+
+        this.hmTxtPn.forEach((key,value) -> {
+            for (TextField txt: value)
+            {
+                if(txt.isEditable())
+                {
+                    ajouterListener(txt);
+                    creerFormatter(key,txt);
+                }
+            }
+        });
+
+        this.hmTxtSemaine = initHmPn(extractTextFields(tabPaneSemaine));
+
+        //System.out.println(hmTxtSemaine);
+
+        this.hmTxtSemaine.forEach((key,value) -> {
+            for (TextField txt: value)
+            {
+                ajouterListenerSemaine(txt);
+                creerFormatter(key,txt);
+            }
+        });
+
+        this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
+        this.hmTxtRepartion.forEach((key,value) -> {
+            for (TextField txt: value)
+            {
+                ajouterListenerTotal(txt);
+                creerFormatter(key,txt);
+            }
+        });
+
+        calculeAffecte();
+    }
+
+    private void calculeAffecte() {
+        // Générer la liste de champs texte
+        ArrayList<TextField> alAffecte = genererArrayList();
+
+        // Calculer les valeurs en fonction des données du modèle
+        HashMap<String, Double> hmAffecte = calculerValeursAffecte();
+
+        // Mettre à jour les champs texte avec les valeurs calculées
+        mettreAJourChamps(alAffecte, hmAffecte);
+    }
+
+    private HashMap<String, Double> calculerValeursAffecte() {
+        HashMap<String, Double> hmAffecte = new HashMap<>();
+
+        for (Affectation aff : tableau.getItems()) {
+            String typeHeure = aff.getTypeHeure().getNom();
+            double valeur;
+
+            // TODO : pas bon, il faut aussi mettre les attributions
+            if (aff.hasGrpAndNbSemaine())
+                valeur = aff.getNbSemaine() * aff.getNbGroupe() * aff.getTypeHeure().getEquivalentTD().value();
+            else
+                valeur = aff.getNbHeure().value() * aff.getTypeHeure().getEquivalentTD().value();
+
+            // Ajouter ou mettre à jour la valeur dans la HashMap
+            hmAffecte.put(typeHeure, hmAffecte.getOrDefault(typeHeure, 0.0) + valeur);
+        }
+
+        return hmAffecte;
+    }
+
+    private void mettreAJourChamps(ArrayList<TextField> alAffecte, HashMap<String, Double> hmAffecte) {
+        for (TextField txt : alAffecte) {
+            String typeHeure = txt.getId().substring(3, 5);
+
+            // Ajout de débogage
+            System.out.println("Type d'heure extrait : " + typeHeure);
+
+            if (hmAffecte.containsKey(typeHeure)) {
+                // Ajout de débogage
+
+                System.out.println("Valeur dans la HashMap : " + hmAffecte.get(typeHeure));
+                System.out.println(String.valueOf(hmAffecte.get(typeHeure)));
+                Integer valeur =  (int) Math.round(hmAffecte.get(typeHeure));
+                System.out.println(valeur);
+                txt.setText(valeur.toString());
+            } else {
+                txt.setText("Valeur non trouvée dans la HashMap");
+            }
+        }
+    }
+
+    private ArrayList<TextField> genererArrayList()
+    {
+        ArrayList<TextField> alAffecte = new ArrayList<>();
+        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtRepartion.entrySet())
+        {
+            String key = entry.getKey();
+            ArrayList<TextField> value = entry.getValue();
+
+            for (TextField txt: value)
+            {
+                String jesaispascommentappelercettevariable = txt.getId().substring(5);
+                if(jesaispascommentappelercettevariable.equals("Affecte"))
+                    alAffecte.add(txt);
+            }
+        }
+
+        return alAffecte;
+    }
+
+
     /*-----------------------------*/
     /*   TextField dans tablePane  */
     /*-----------------------------*/
@@ -128,23 +332,17 @@ public class StageSaisieSae implements Initializable
 
     private static void extractTextFieldsFromTab(Tab tab, ArrayList<TextField> textFields) {
         Node content = tab.getContent();
-        if (content instanceof AnchorPane) {
-            extractTextFieldsFromAnchorPane((AnchorPane) content, textFields);
+        if (content instanceof GridPane) {
+            extractTextFieldsFromGridPane((GridPane) content, textFields);
         }
-    }
-
-    private static void extractTextFieldsFromAnchorPane(AnchorPane anchorPane, ArrayList<TextField> textFields) {
-        anchorPane.getChildren().forEach(node -> {
-            if (node instanceof GridPane) {
-                extractTextFieldsFromGridPane((GridPane) node, textFields);
-            }
-        });
     }
 
     private static void extractTextFieldsFromGridPane(GridPane gridPane, ArrayList<TextField> textFields) {
         gridPane.getChildren().forEach(node -> {
             if (node instanceof FlowPane) {
                 extractTextFieldsFromFlowPane((FlowPane) node, textFields);
+            } else if (node instanceof TextField) {
+                textFields.add((TextField) node);
             }
         });
     }
@@ -163,8 +361,7 @@ public class StageSaisieSae implements Initializable
         ArrayList<TextField> textFields = new ArrayList<>();
 
         for (Node node : gridPane.getChildren()) {
-            if (node instanceof FlowPane) {
-                FlowPane flowPane = (FlowPane) node;
+            if (node instanceof FlowPane flowPane) {
                 textFields.addAll(getTextFieldsFromFlowPane(flowPane));
             }
         }
@@ -192,7 +389,9 @@ public class StageSaisieSae implements Initializable
     private void init(String nomMod, int id)
     {
         txtTypeModule.setText(nomMod);
+        txtTypeModule.setEditable(false);
         txtSemestre.setText("" + id);
+        txtSemestre.setEditable(false);
         int code = Controleur.get().getMetier().rechercheSemestreByNumero(id).getModules().size() + 1;
         txtCode.setText("R" + id + "." + String.format("%02d", id));
         Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(id); //TODO: Rajouter l'année une fois que l'on a géré
@@ -212,7 +411,7 @@ public class StageSaisieSae implements Initializable
     protected void onBtnSupprimer(ActionEvent e) throws IOException {
         Affectation affectation = tableau.getSelectionModel().getSelectedItem();
 
-        if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module SAE ?")) {
+        if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module Ressource ?")) {
             tableau.getItems().remove(affectation);
             Controleur.get().getDb().supprimerAffectation(affectation);
             this.refresh();
@@ -234,89 +433,295 @@ public class StageSaisieSae implements Initializable
         this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
     }
 
-    @FXML
-    protected void onBtnEnregistrer() throws IOException, SQLException {
-        for (Affectation aff : StageSaisieRessource.affAAjouter) {
-            Controleur.get().getMetier().ajouterAffectation(aff);
-        }
-        for (Affectation aff : StageSaisieRessource.affAAjouter) {
-            Controleur.get().getMetier().ajouterAffectation(aff);
-        }
+    private void creerFormatter(String nom, TextField txtf) {
+        txtf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("^\\d+$") || change.getControlNewText().isEmpty()) {
+                String newText = change.getControlNewText();
 
+                if (isNumeric(newText)) {
+                    int newValue = Integer.parseInt(newText);
+
+                    List<TextField> repartitionList = this.hmTxtRepartion.get(nom);
+                    List<TextField> pnList = this.hmTxtPn.get(nom);
+
+                    if (repartitionList != null && pnList != null) {
+                        int index = repartitionList.indexOf(txtf);
+
+                        if (index != -1 && index < pnList.size()) {
+                            int pnValue = Integer.parseInt(pnList.get(index).getText());
+
+                            if (!repartitionList.contains(txtf) || newValue <= pnValue) {
+                                txtf.setStyle("");
+                            } else {
+                                txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                            }
+                        } else {
+                            txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                        }
+                    } else {
+                        // Handle the case when either repartitionList or pnList is null
+                        txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                    }
+
+                } else {
+                    txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                }
+                return change;
+            } else {
+                return null;
+            }
+        }));
+    }
+    // Méthode utilitaire pour vérifier si une chaîne est un nombre
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    @FXML
+    protected void onBtnEnregistrer() throws IOException, SQLException
+    {
+        if(StageSaisieSae.affAAjouter != null)
+            for (Affectation aff : StageSaisieSae.affAAjouter)
+            {
+                Controleur.get().getMetier().ajouterAffectation(aff);
+            }
+
+        for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(catHr.estSae())
+            {
+                //Recuperation des paramètres du module
+                Fraction fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
+                Fraction fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
+                int      nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+
+                //Creation du Module
+                Module mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+
+                ObservableList<Affectation> alAff = tableau.getSelectionModel().getSelectedItems();
+                Attribution att = new Attribution(fractPn, fractNbHeure, nbSemaine, mod, catHr);
+
+                //Ajout des Attribution et Affectation au nouveau Module
+                mod.ajouterAttribution(att);
+                for (Affectation aff: alAff)
+                {
+                    mod.ajouterAffectation(aff);
+                    Controleur.get().getMetier().ajouterAffectation(aff);
+                }
+
+
+                Controleur.get().getMetier().ajouterAttribution(att);
+            }
+        }
         Controleur.get().getMetier().enregistrer();
         stage.close();
         StagePrincipal.creer().show();
     }
 
+
+
+
+    public String getNbHeureByCatHr(String nom,boolean nbSemaine)
+    {
+        for (Map.Entry<String,ArrayList<TextField>> entry : hmTxtSemaine.entrySet())
+        {
+            String key                 = entry.getKey  ();
+            ArrayList<TextField> value = entry.getValue();
+
+            System.out.println(key);
+            System.out.println(value);
+
+            if(key.equals(nom))
+            {
+                if(nbSemaine)
+                {
+                    return value.get(0).getText();
+                }
+                else
+                {
+                    return value.get(1).getText();
+                }
+            }
+        }
+        return "0";
+    }
+
+
+    public String getHeurePnByCatHr(String nom)
+    {
+        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtPn.entrySet())
+        {
+            String key                 = entry.getKey  ();
+            ArrayList<TextField> value = entry.getValue();
+
+            if(key.equals(nom))
+            {
+                return value.get(0).getText();
+            }
+        }
+        return null;
+    }
+
+
     @FXML
-    protected void onBtnAnnuler() throws IOException, SQLException {
-        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<Affectation>();
+    protected void onBtnAnnuler() throws IOException {
+        StageSaisieSae.affAAjouter = StageSaisieSae.affAEnlever = new ArrayList<>();
         stage.close();
         StagePrincipal.creer().show();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
-        StageSaisieSae.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
-
-        tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
-        tc.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-
-                if (item != null && item.equals("❌")) {
-                    setTextFill(Color.RED);
-                } else if (item != null && item.equals("➕")) {
-                    setTextFill(Color.LIGHTGREEN);
-                } else {
-                    setTextFill(Color.BLACK);
-                    setText("");
-                }
-            }
-        });
-        tcIntervenant.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getIntervenant().getNom()));
-        tcType       .setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getTypeHeure  ().getNom()));
-        tcGrp        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbGroupe   ()).asObject());
-        tcNbH        .setCellValueFactory (cellData -> new SimpleIntegerProperty(cellData.getValue().getNbSemaine  ()).asObject());
-        tcTotalEqtd  .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getNbHeure    ().toString()));
-        tcCommentaire.setCellValueFactory (cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
-
-        tableau.setItems(this.ensAff);
 
 
-        this.hmTxtPn = initHmPn(getAllTextFieldsPn(gridPn));
+    private void ajouterOnglet(String nom) {
+        // Créer un GridPane pour l'onglet
+        GridPane grid = new GridPane();
 
-        this.hmTxtPn.forEach((key,value) -> {
-            for (TextField txt: value)
-            {
-                if(txt.isEditable())
-                {
-                    ajouterListener(txt);
-                }
-            }
-        });
+        // Ajouter des colonnes au GridPane
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        grid.getColumnConstraints().addAll(column1, column2);
 
+        // Collection pour stocker les FlowPane
+        FlowPane[] flowPanes = new FlowPane[4];
 
+        // Créer et configurer les FlowPane dans une boucle
+        for (int i = 0; i < flowPanes.length; i++) {
+            FlowPane fp = new FlowPane();
+            fp.setAlignment(Pos.CENTER);
+            flowPanes[i] = fp;
+        }
 
-        this.hmTxtSemaine = initHmPn(extractTextFields(tabPaneSemaine));
+        // Ajouter du contenu aux FlowPane
+        flowPanes[0].getChildren().add(new Label("Nombre Semaine"));
 
-        System.out.println(hmTxtSemaine);
+        TextField txtNbSemaine = creerTextField("txt" + nom + "NbSemaine");
+        flowPanes[1].getChildren().add(txtNbSemaine);
 
-        this.hmTxtSemaine.forEach((key,value) -> {
-            for (TextField txt: value)
-            {
-                System.out.println("je suis la aussi ");
-                ajouterListenerSemaine(txt);
-            }
-        });
+        flowPanes[2].getChildren().add(new Label("Nombre heure / semaine"));
 
-        this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
+        TextField txtNbHrSem = creerTextField("txt" + nom + "NbHrSem");
+        flowPanes[3].getChildren().add(txtNbHrSem);
 
+        // Ajouter les FlowPane au GridPane
+        grid.add(flowPanes[0], 0, 0);
+        grid.add(flowPanes[1], 0, 1);
+        grid.add(flowPanes[2], 1, 0);
+        grid.add(flowPanes[3], 1, 1);
+
+        // Créer un onglet
+        Tab tab = new Tab(nom);
+        tab.setContent(grid);
+
+        // Ajouter l'onglet au TabPane
+        this.tabPaneSemaine.getTabs().add(tab);
     }
+
+    private TextField creerTextField(String id) {
+        TextField textField = new TextField();
+        textField.setId(id);
+        textField.setPrefSize(50, 26);
+        return textField;
+    }
+
+    private void ajouterColonne(String nom)
+    {
+        ArrayList<FlowPane> ensFp = new ArrayList<>();
+        for (int i = 0; i <= 2; i++)
+        {
+            FlowPane fp = new FlowPane();
+            fp.setAlignment(Pos.CENTER);
+
+            ensFp.add(fp);
+        }
+        Label lbl = new Label(nom);
+        ensFp.get(0).getChildren().add(lbl);
+
+        TextField txt1 = new TextField();
+        TextField txt2 = new TextField();
+
+        txt1.setId("txt"+nom+"Pn");
+
+        if(nom.equals("TO"))
+            txt1.setEditable(false);
+
+        txt2.setId("txt"+nom+"PromoPn");
+        txt2.setEditable(false);
+
+        txt1.setPrefSize(50,26);
+        txt2.setPrefSize(50,26);
+
+        ensFp.get(1).getChildren().add(txt1);
+        ensFp.get(2).getChildren().add(txt2);
+
+        gridPn.getColumnConstraints().add(new ColumnConstraints());
+
+        int cpt = 0;
+        for (FlowPane fp : ensFp)
+        {
+            gridPn.add(fp,gridPn.getColumnConstraints().size() - 1, cpt++ );
+        }
+    }
+
+    private void ajouterColonneRepartition(String nom) {
+        ArrayList<FlowPane> ensFp = new ArrayList<>();
+
+        for (int i = 0; i <= 3; i++) {
+            FlowPane fp = creerFlowPane();
+            ensFp.add(fp);
+        }
+
+        Label lbl = new Label(nom);
+        ensFp.get(0).getChildren().add(lbl);
+
+        String[] ids = { "Repartition", "Promo", "Affecte" };
+        for (int i = 0; i < ids.length; i++) {
+            TextField txt = creerTextField("txt" + nom + ids[i]);
+            txt.setEditable(false);
+            ensFp.get(i + 1).getChildren().add(txt);
+        }
+
+        gridPaneRepartition.getColumnConstraints().add(new ColumnConstraints());
+
+        int cpt = 0;
+        for (FlowPane fp : ensFp) {
+            gridPaneRepartition.add(fp, gridPaneRepartition.getColumnConstraints().size() - 1, cpt++);
+        }
+    }
+
+    private FlowPane creerFlowPane() {
+        FlowPane fp = new FlowPane();
+        fp.setAlignment(Pos.CENTER);
+        return fp;
+    }
+
+
+    private void initTabPan()
+    {
+        this.tabPaneSemaine.getTabs().clear();
+    }
+
+    private void initGridPn()
+    {
+        this.gridPn.getChildren().clear();
+
+        FlowPane fp = new FlowPane();
+        fp.setAlignment(Pos.CENTER);
+
+        Label lbl = new Label("Total promo(eqtd)");
+        fp.getChildren().add(lbl);
+
+        ColumnConstraints col = new ColumnConstraints();
+        gridPn.getColumnConstraints().add(col);
+
+        gridPn.add(fp, 0, 2);
+    }
+
+
 
     /*-----------------------------*/
     /*    Ajout des Listenner      */
@@ -324,21 +729,68 @@ public class StageSaisieSae implements Initializable
 
     private void ajouterListener(TextField txt)
     {
-        txt.textProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                valeurChangerPn(txt, newValue);
-            }
-        });
+        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerPn(txt, newValue));
     }
 
     private void ajouterListenerSemaine(TextField txt)
     {
-        System.out.println("je suis la");
-        txt.textProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                valeurChangerSemaine(txt, newValue);
+        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerSemaine(txt, newValue));
+    }
+
+    private void ajouterListenerTotal(TextField txt)
+    {
+        txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerRepart(txt, newValue));
+    }
+
+    private void valeurChangerRepart(TextField txt, String newValue)
+    {
+        String txtTypeHeure = txt.getId().substring(3, 5);
+        String txtNiveauCase = txt.getId().substring(6);
+
+        int total = 0;
+        int totalPromo = 0;
+        int totalAffecte = 0;
+
+        // Liste pour simplifier l'itération
+        List<String> niveaux = Arrays.asList("Repartition", "Promo", "Affecte");
+
+        for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtRepartion.entrySet()) {
+            String key = entry.getKey();
+            ArrayList<TextField> value = entry.getValue();
+
+            if (!key.equals("TO")) {
+                for (TextField textField : value) {
+                    String niveau = textField.getId().substring(5);
+                    if (!textField.getText().isEmpty()) {
+                        switch (niveau)
+                        {
+                            case "Repartition":
+                                total += Integer.parseInt(textField.getText());
+                                break;
+                            case "Promo":
+                                totalPromo += Integer.parseInt(textField.getText());
+                                break;
+                            case "Affecte":
+                                totalAffecte += Integer.parseInt(textField.getText());
+                                break;
+                        }
+                    }
+                }
             }
-        });
+            else
+            {
+
+            }
+        }
+        setValeurTxtTot2(this.txtTORepartion, total, this.txtTOPromo, totalPromo, this.txtTOAffecte, totalAffecte);
+    }
+    private void setValeurTxtTot2(TextField txt1, int total, TextField txt2, int totalPromo, TextField txt3, int totalAffecte) {
+        if (txt1 != null && txt2 != null && txt3 != null)
+        {
+            txt1.setText(Integer.toString(total));
+            txt2.setText(Integer.toString(totalPromo));
+            txt3.setText(Integer.toString(totalAffecte));
+        }
     }
 
     private void valeurChangerSemaine(TextField txt, String newValue)
@@ -351,19 +803,19 @@ public class StageSaisieSae implements Initializable
         int valeurSemaine = 0;
         int valeurFinal   = 0;
 
-        if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().equals("")) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")) )
+        System.out.println(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().isEmpty()));
+        if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().isEmpty()) )
         {
             valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText()) * Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
         }
         for (TextField txt1 : this.hmTxtRepartion.get(keyCatHrMAJ))
         {
-            System.out.println(txt1);
             if(txt1.getId().equals("txt" + keyCatHr +"Repartition"))
             {
                 txt1.setText(Integer.toString(valeurSemaine));
             }
 
-            if(txt1.getId().equals("txt" + keyCatHr + "PromoRepartion"))
+            if(txt1.getId().equals("txt" + keyCatHr + "Promo"))
             {
                 if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
                 {
@@ -388,7 +840,7 @@ public class StageSaisieSae implements Initializable
         {
             if(!txt1.isEditable())
             {
-                if(txt.getText() != "")
+                if(!txt.getText().isEmpty())
                 {
                     int valeurInitial = Integer.parseInt(txt.getText());
                     txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), keyCatHr)));
@@ -410,7 +862,6 @@ public class StageSaisieSae implements Initializable
             ArrayList<TextField> value = entry.getValue();
 
             if (!key.equals("TO")) {
-                System.out.println("bah ? je ne rentre pas ici ? ");
                 for (TextField txt : value) {
                     if (!txt.getText().isEmpty()) {
                         if (txt.isEditable()) {
@@ -422,7 +873,7 @@ public class StageSaisieSae implements Initializable
                 }
             } else {
                 for (TextField txt : value) {
-                    if (txt.getId().equals("txtTotPn"))
+                    if (txt.getId().equals("txtTOPn"))
                         txtTotPn = txt;
                     else
                         txtTotPromoPn = txt;
@@ -432,10 +883,8 @@ public class StageSaisieSae implements Initializable
         setValeurTxtTot(txtTotPn, total, txtTotPromoPn, totalPromo);
     }
 
-    private void setValeurTxtTot(TextField txt1, int total, TextField txt2, int totalPromo) {
-        System.out.println("je rentre ici non ?");
-        System.out.println("total : " + total + " totalPromo : " + totalPromo);
-
+    private void setValeurTxtTot(TextField txt1, int total, TextField txt2, int totalPromo)
+    {
         if (txt1 != null && txt2 != null)
         {
             txt1.setText(Integer.toString(total));
@@ -444,6 +893,7 @@ public class StageSaisieSae implements Initializable
     }
     private String calculeNvValeur(int valeurInitial, CategorieHeure catHr)
     {
+        //TODO: Ajouter le regex de mathys
         if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
         {
             int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
@@ -477,6 +927,7 @@ public class StageSaisieSae implements Initializable
         return hmTemp;
     }
 
+    /*
     private String getCellValue(Intervenant intervenant) {
         if (StageIntervenant.interAAjouter.contains(intervenant)) {
             return "➕";
@@ -486,9 +937,11 @@ public class StageSaisieSae implements Initializable
             return "";
         }
     }
+    */
+
 
     public void refresh() {
-        this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
-        tableau.setItems(this.ensAff);
+        ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+        tableau.setItems(ensAff);
     }
 }

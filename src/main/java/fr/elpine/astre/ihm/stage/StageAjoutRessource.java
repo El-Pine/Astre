@@ -36,9 +36,9 @@ public class StageAjoutRessource implements Initializable {
     private static Module module;
 
     @FXML
-    private static RadioButton rbHP;
+    private RadioButton rbHP;
     @FXML
-    private static RadioButton rbAutre;
+    private RadioButton rbAutre;
     @FXML
     private ComboBox<Intervenant> cbbInter;
     @FXML
@@ -58,14 +58,9 @@ public class StageAjoutRessource implements Initializable {
 
         AstreApplication.refreshIcon(stage);
 
-        toggleGroup = new ToggleGroup();
-        rbAutre.setToggleGroup(toggleGroup);
-        rbHP.setToggleGroup(toggleGroup);
-        StageAjoutRessource.module = module;
-        listInter = new ArrayList<>();
-        listInter = Controleur.get().getMetier().getIntervenants();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("CreationModules.fxml"));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("creationModules.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 1000, 660);
 
@@ -98,7 +93,15 @@ public class StageAjoutRessource implements Initializable {
     public void onBtnAnnuler() {stage.close();}
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        toggleGroup = new ToggleGroup();
+        rbAutre.setToggleGroup(toggleGroup);
+        rbHP.setToggleGroup(toggleGroup);
+        StageAjoutRessource.module = module;
+        listInter = new ArrayList<>();
+        listInter = Controleur.get().getMetier().getIntervenants();
+
         ObservableList<Intervenant> observableListInter = FXCollections.observableList(listInter);
         cbbInter.setItems(observableListInter);
         rbHP.setSelected(false);

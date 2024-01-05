@@ -210,6 +210,16 @@ public class StagePrevisionnel implements Initializable {
 				Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 		)));
 		tabs1.setItems(moduleListS1);
+
+		for (Module mod : moduleListS1)
+		{
+			System.out.println("----- " + mod.getCode() + " ----");
+			System.out.println(mod.getAffectations());
+			System.out.println(mod.getAttributions());
+			System.out.println();
+		}
+
+
 		this.hmTabView.put("S1",tabs1);
 
 
