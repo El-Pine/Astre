@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -88,7 +89,12 @@ public class StageAffichageCSV extends Stage implements Initializable {
         File repertoire = new File("CSV");
 
         if (repertoire.isDirectory()) {
-            File[] files = repertoire.listFiles();
+            File[] files = repertoire.listFiles( new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.contains(".csv");
+                }
+            });
 
             if (files != null) {
                 for (File file : files) {
