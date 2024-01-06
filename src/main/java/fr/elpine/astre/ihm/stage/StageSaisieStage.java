@@ -36,6 +36,8 @@ import java.util.ResourceBundle;
 
 import static java.lang.Integer.parseInt;
 
+// TODO : classe inutile
+
 public class StageSaisieStage implements Initializable {
     @FXML
     public TableView<Affectation> tableau;
@@ -103,12 +105,12 @@ public class StageSaisieStage implements Initializable {
             stageCtrl.init("Stage", semestre);
         }
 
-        stage.setOnCloseRequest(e -> {
+        /*stage.setOnCloseRequest(e -> {
             try {
                 StagePrevisionnel.creer().show();
             } catch (IOException ignored) {
             }
-        });
+        });*/
 
         stage.show();
 
@@ -234,23 +236,23 @@ public class StageSaisieStage implements Initializable {
 
     @FXML
     protected void onBtnEnregistrer() throws IOException, SQLException {
-        for (Affectation aff : StageSaisieRessource.affAAjouter) {
+        /*for (Affectation aff : StageSaisieRessource.affAAjouter) {
             Controleur.get().getMetier().ajouterAffectation(aff);
         }
         for (Affectation aff : StageSaisieRessource.affAAjouter) {
             Controleur.get().getMetier().ajouterAffectation(aff);
-        }
+        }*/
 
         Controleur.get().getMetier().enregistrer();
         stage.close();
-        StagePrincipal.creer().show();
+        //StagePrincipal.creer().show();
     }
 
     @FXML
     protected void onBtnAnnuler() throws IOException, SQLException {
-        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<Affectation>();
+        //StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<Affectation>();
         stage.close();
-        StagePrincipal.creer().show();
+        //StagePrincipal.creer().show();
     }
 
     @Override
@@ -476,13 +478,13 @@ public class StageSaisieStage implements Initializable {
     }
 
     private String getCellValue(Intervenant intervenant) {
-        if (StageIntervenant.interAAjouter.contains(intervenant)) {
+        /*if (StageIntervenant.interAAjouter.contains(intervenant)) {
             return "➕";
         } else if (StageIntervenant.interAEnlever.contains(intervenant)) {
             return "❌";
-        } else {
+        } else {*/
             return "";
-        }
+        //}
     }
 
     public void refresh() {

@@ -16,9 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StageAjouterCategories
+public class StageAjouterCategories extends Stage
 {
-    private Stage stage;
+    //private Stage stage;
 
 
     @FXML
@@ -34,7 +34,7 @@ public class StageAjouterCategories
 
     //private Label lblErreur;
 
-    private static StageAccueilConfig parent;
+    //private static StageAccueilConfig parent;
 
     @FXML
     private TextField txtfNomCatH;
@@ -49,7 +49,13 @@ public class StageAjouterCategories
     @FXML
     private CheckBox cbStageCatH;
 
-    public static Stage creer( StageAccueilConfig parent ) throws IOException
+
+    public StageAjouterCategories() // fxml -> "ajouterCategories"
+    {
+        this.setTitle("Accueil Config");
+    }
+
+    /*public static Stage creer( StageAccueilConfig parent ) throws IOException
     {
         Stage stage = new Stage();
 
@@ -72,7 +78,7 @@ public class StageAjouterCategories
         return stage;
     }
 
-    private void setStage(Stage stage) { this.stage = stage; }
+    private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void onBtnEnregistrerCatInter(ActionEvent actionEvent)
     {
@@ -88,16 +94,16 @@ public class StageAjouterCategories
         } else {
             StageAccueilConfig.categorieInterAAjouter.add(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
 
-            parent.activer();
-            parent.refresh();
-            stage.close();
+            //parent.activer();
+            //parent.refresh();
+            this.close();
         }
     }
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {
-        parent.activer();
-        parent.refresh();
-        stage.close();
+        //parent.activer();
+        //parent.refresh();
+        this.close();
     }
 
     public void onBtnEnregistrerCatH(ActionEvent actionEvent) {
@@ -117,15 +123,15 @@ public class StageAjouterCategories
 
             StageAccueilConfig.catHeurAAjouter.add(cat);
 
-            parent.activer();
-            parent.refresh();
-            stage.close();
+            //parent.activer();
+            //parent.refresh();
+            this.close();
         }
     }
 
 
     public void onBtnAnnulerCatH(ActionEvent actionEvent) {
-        parent.activer();
-        stage.close();
+        //parent.activer();
+        this.close();
     }
 }

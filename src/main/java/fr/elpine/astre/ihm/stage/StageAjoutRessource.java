@@ -24,8 +24,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class StageAjoutRessource implements Initializable {
-    private Stage stage;
+// TODO : renommer en affectation et non ajout ... ou creationModules
+
+public class StageAjoutRessource extends Stage implements Initializable {
+    //private Stage stage;
 
     private String code;
     private String semestre;
@@ -33,7 +35,7 @@ public class StageAjoutRessource implements Initializable {
 
     private static ToggleGroup toggleGroup;
 
-    private static Module module;
+    private Module module;
 
     @FXML
     private RadioButton rbHP;
@@ -52,7 +54,13 @@ public class StageAjoutRessource implements Initializable {
     @FXML
     private TextField txtNbGp;
 
-    public static Stage creer(Module module, StageSaisieRessource parent) throws IOException
+
+    public StageAjoutRessource() // fxml -> "creationModules"
+    {
+        this.setTitle("Affectation");
+    }
+
+    /*public static Stage creer(Module module, StageSaisieRessource parent) throws IOException
     {
         Stage stage = new Stage();
 
@@ -79,7 +87,7 @@ public class StageAjoutRessource implements Initializable {
     }
 
     @FXML
-    private void setStage(Stage stage) { this.stage = stage; }
+    private void setStage(Stage stage) { this.stage = stage; }*/
     @FXML
     public void onBtnAjouter() {
         if(rbAutre.isSelected())
@@ -87,10 +95,10 @@ public class StageAjoutRessource implements Initializable {
         if(rbAutre.isSelected())
             Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Fraction.valueOf(this.txtNbHeure.getText()), this.txtCommentaire.getText()));
 
-        this.stage.close();
+        this.close();
     }
 
-    public void onBtnAnnuler() {stage.close();}
+    public void onBtnAnnuler() {this.close();}
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -98,7 +106,6 @@ public class StageAjoutRessource implements Initializable {
         toggleGroup = new ToggleGroup();
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);
-        StageAjoutRessource.module = module;
         listInter = new ArrayList<>();
         listInter = Controleur.get().getMetier().getIntervenants();
 
@@ -128,5 +135,9 @@ public class StageAjoutRessource implements Initializable {
         txtNbSemaine.setDisable(true);
         txtNbGp.setDisable(true);
         cbbCatHeure.setDisable(true);
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
     }
 }

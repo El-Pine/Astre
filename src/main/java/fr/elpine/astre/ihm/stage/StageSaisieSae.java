@@ -35,6 +35,8 @@ import static java.lang.Integer.*;
 
 //TODO:Faire les heures affectées (dans tableau Affectation nbHeuure * nbSemaine * eqtd)
 
+// TODO : classe inutile
+
 public class StageSaisieSae implements Initializable
 {
     @FXML
@@ -113,12 +115,12 @@ public class StageSaisieSae implements Initializable
             stageCtrl.init("SAE", semestre);
         }
 
-        stage.setOnCloseRequest(e -> {
+        /*stage.setOnCloseRequest(e -> {
             try {
                 StagePrevisionnel.creer().show();
             } catch (IOException ignored) {
             }
-        });
+        });*/
 
         stage.show();
 
@@ -520,7 +522,7 @@ public class StageSaisieSae implements Initializable
         }
         Controleur.get().getMetier().enregistrer();
         stage.close();
-        StagePrincipal.creer().show();
+        //StagePrincipal.creer().show();
     }
 
 
@@ -572,7 +574,7 @@ public class StageSaisieSae implements Initializable
     protected void onBtnAnnuler() throws IOException {
         StageSaisieSae.affAAjouter = StageSaisieSae.affAEnlever = new ArrayList<>();
         stage.close();
-        StagePrincipal.creer().show();
+        //StagePrincipal.creer().show();
     }
 
 

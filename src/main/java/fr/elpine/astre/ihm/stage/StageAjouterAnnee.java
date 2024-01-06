@@ -6,6 +6,7 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -13,20 +14,28 @@ import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StageAjouterAnnee {
+public class StageAjouterAnnee extends Stage implements Initializable
+{
     public TextField txtfNonAnnee;
     public DatePicker dateDebut;
     public DatePicker dateFin;
 
-    private static StageAnnee parent;
+    //private static StageAnnee parent;
 
-    private Stage stage;
+    //private Stage stage;
 
-    public static Stage creer( StageAnnee parent ) throws IOException
+    public StageAjouterAnnee() // fxml -> "ajouterAnnee"
+    {
+        this.setTitle("Ajouter une année");
+    }
+
+    /*public static Stage creer( StageAnnee parent ) throws IOException
     {
         Stage stage = new Stage();
 
@@ -54,7 +63,7 @@ public class StageAjouterAnnee {
         return stage;
     }
 
-    private void setStage(Stage stage) { this.stage = stage; }
+    private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void onBtnValider(ActionEvent actionEvent)
     {
@@ -66,8 +75,9 @@ public class StageAjouterAnnee {
         if (nomLibre) {
             Annee a = new Annee(nom, dateDebut.getValue().toString(), dateFin.getValue().toString());
             Controleur.get().getMetier().ajouterAnnee(a);
-            parent.setCpbContrat();
-            this.stage.close();
+
+            //parent.setCpbContrat();
+            this.close();
         } else {
             PopUp.warning("Nom déjà pris", null, "Une année portant le nom '%s' existe déjà, essayer d'ajouter un suffix.".formatted(nom)).showAndWait();
         }
@@ -75,7 +85,7 @@ public class StageAjouterAnnee {
 
     public void onBtnAnnuler(ActionEvent actionEvent)
     {
-        this.stage.close();
+        this.close();
     }
 
     private void creerFormatter(String regex, TextField txtf) {
@@ -95,5 +105,10 @@ public class StageAjouterAnnee {
 
             return change;
         }));
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.creerFormatter("^(\\d{4})-(\\d{4}).*$", this.txtfNonAnnee);
     }
 }

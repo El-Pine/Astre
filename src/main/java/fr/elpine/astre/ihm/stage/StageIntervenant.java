@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 // TODO : ajouter une colonne mail
 
-public class StageIntervenant implements Initializable
+public class StageIntervenant extends Stage implements Initializable
 {
 	@FXML
 	private TableView<Intervenant> tabAffInter;
@@ -46,19 +46,29 @@ public class StageIntervenant implements Initializable
 	@FXML
 	private TableColumn<Intervenant, String> tcRatioTP;
 
-	private static ObservableList<Intervenant> ensInter;
+	private ObservableList<Intervenant> ensInter;
 	@FXML
 	private TextField txtFieldRecherche;
 
-	private Stage stage;
+	//private Stage stage;
 
 
 
 
-	public static ArrayList<Intervenant> interAAjouter;
-	public static ArrayList<Intervenant> interAEnlever;
+	public ArrayList<Intervenant> interAAjouter;
+	public ArrayList<Intervenant> interAEnlever;
 
-	public static Stage creer() throws IOException
+
+	public StageIntervenant() // fxml -> "intervenant"
+	{
+		this.setTitle("Intervenants");
+
+		this.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
+		this.interAAjouter = new ArrayList<>();
+		this.interAEnlever = new ArrayList<>();
+	}
+
+	/*public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
 
@@ -86,66 +96,70 @@ public class StageIntervenant implements Initializable
 		return stage;
 	}
 
-	private void setStage(Stage stage) { this.stage = stage; }
+	private void setStage(Stage stage) { this.stage = stage; }*/
 
 	@FXML
 	protected void onBtnClickEnregistrer() throws IOException, SQLException
 	{
 
-		for ( Intervenant inter : StageIntervenant.interAAjouter )
+		for ( Intervenant inter : this.interAAjouter )
 		{
 			Controleur.get().getMetier().ajouterIntervenant(inter);
 		}
-		for ( Intervenant inter : StageIntervenant.interAEnlever )
+		for ( Intervenant inter : this.interAEnlever )
 		{
 			Controleur.get().getMetier().supprimerIntervenant(inter);
 		}
 
 		Controleur.get().getMetier().enregistrer();
-		stage.close();
-		StagePrincipal.creer().show();
+		this.close();
+		//StagePrincipal.creer().show();
 	}
 
 	@FXML
 	protected void onBtnClickAnnuler() throws IOException {
-		StageIntervenant.interAAjouter = StageIntervenant.interAEnlever = new ArrayList<>();
-		stage.close();
-		StagePrincipal.creer().show();
+		this.interAAjouter = this.interAEnlever = new ArrayList<>();
+		this.close();
+		//StagePrincipal.creer().show();
 	}
 
 	@FXML
 	protected void onBtnClickAjouter() throws IOException
 	{
-		this.desactiver();
-		StageAjoutIntervenant.creer( this ).show();
+		//this.desactiver();
+		//StageAjoutIntervenant.creer( this ).show();
+		Stage stage = Manager.creer("saisieIntervenant", this);
+
+		stage.showAndWait();
+		this.refresh();
 	}
 
 	@FXML
 	protected void onBtnClickSupprimer() throws IOException {
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
-		if (PopUp.confirmationR("Suprression d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer l'intervenant : %s %s", inter.getNom(), inter.getPrenom())) && StageIntervenant.ensInter.contains(inter))
+		if (PopUp.confirmationR("Suprression d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer l'intervenant : %s %s", inter.getNom(), inter.getPrenom())) && this.ensInter.contains(inter))
 		{
-			StageIntervenant.ensInter.remove(inter);
-			StageIntervenant.interAEnlever.add(inter);
+			this.ensInter.remove(inter);
+			this.interAEnlever.add(inter);
 			inter.supprimer(false);
 		}
 		this.refresh();
 	}
 
-	public void desactiver()
+	/*public void desactiver()
 	{
-		this.stage.getScene().lookup("#btnEnregistrer").setDisable(true);
-		this.stage.getScene().lookup("#btnAnnuler").setDisable(true);
-		this.stage.getScene().lookup("#btnAjouter").setDisable(true);
-		this.stage.getScene().lookup("#btnSupprimer").setDisable(true);
+		this.getScene().lookup("#btnEnregistrer").setDisable(true);
+		this.getScene().lookup("#btnAnnuler").setDisable(true);
+		this.getScene().lookup("#btnAjouter").setDisable(true);
+		this.getScene().lookup("#btnSupprimer").setDisable(true);
 	}
 
 	public void activer() {
-		this.stage.getScene().lookup("#btnEnregistrer").setDisable(false);
-		this.stage.getScene().lookup("#btnAnnuler").setDisable(false);
-		this.stage.getScene().lookup("#btnAjouter").setDisable(false);
-		this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
-	}
+		this.getScene().lookup("#btnEnregistrer").setDisable(false);
+		this.getScene().lookup("#btnAnnuler").setDisable(false);
+		this.getScene().lookup("#btnAjouter").setDisable(false);
+		this.getScene().lookup("#btnSupprimer").setDisable(false);
+	}*/
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
@@ -210,16 +224,16 @@ public class StageIntervenant implements Initializable
 		tabAffInter.setEditable(true);
 		*/
 
-		ObservableList<Intervenant> list = FXCollections.observableArrayList(StageIntervenant.ensInter);
-		list.addAll(StageIntervenant.interAAjouter);
-		list.addAll(StageIntervenant.interAEnlever);
+		ObservableList<Intervenant> list = FXCollections.observableArrayList(this.ensInter);
+		list.addAll(this.interAAjouter);
+		list.addAll(this.interAEnlever);
 		tabAffInter.setItems(list);
 	}
 
 	private String getCellValue(Intervenant intervenant) {
-		if (StageIntervenant.interAAjouter.contains(intervenant)) {
+		if (this.interAAjouter.contains(intervenant)) {
 			return "➕";
-		} else if (StageIntervenant.interAEnlever.contains(intervenant)) {
+		} else if (this.interAEnlever.contains(intervenant)) {
 			return "❌";
 		} else {
 			return "";
@@ -227,9 +241,9 @@ public class StageIntervenant implements Initializable
 	}
 
 	public void refresh() {
-		ObservableList<Intervenant> list = FXCollections.observableArrayList(StageIntervenant.ensInter);
-		list.addAll(StageIntervenant.interAAjouter);
-		list.addAll(StageIntervenant.interAEnlever);
+		ObservableList<Intervenant> list = FXCollections.observableArrayList(this.ensInter);
+		list.addAll(this.interAAjouter);
+		list.addAll(this.interAEnlever);
 		tabAffInter.setItems(list);
 		tabAffInter.refresh();
 	}

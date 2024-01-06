@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class StageInitBd implements Initializable
+public class StageInitBd extends Stage implements Initializable
 {
     private ArrayList<TextField> textFields;
     @FXML
@@ -34,10 +34,16 @@ public class StageInitBd implements Initializable
     @FXML
     public TextField txtfIp;
 
-    private Stage stage;
-    private static StageAccueilConfig parent;
+    //private Stage stage;
+    //private static StageAccueilConfig parent;
 
-    public static Stage creer( StageAccueilConfig parent ) throws IOException
+
+    public StageInitBd() // fxml -> "initDb"
+    {
+        this.setTitle("Config Base de données");
+    }
+
+    /*public static Stage creer( StageAccueilConfig parent ) throws IOException
     {
         Stage stage = new Stage();
 
@@ -66,7 +72,7 @@ public class StageInitBd implements Initializable
         return stage;
     }
 
-    private void setStage(Stage stage) { this.stage = stage; }
+    private void setStage(Stage stage) { this.stage = stage; }*/
 
     private void addTxtField()
     {
@@ -90,15 +96,15 @@ public class StageInitBd implements Initializable
 
         if (dbReloaded)
         {
-            stage.close();
+            this.close();
 
-            if ( parent != null ) parent.activer();
+            /*if ( parent != null ) parent.activer();
             else
             {
                 try {
                     StagePrincipal.creer().show();
                 } catch (IOException e) { throw new RuntimeException(e); }
-            }
+            }*/
         }
         else
             PopUp.warning("Erreur de connexion", null, "Les informations entrées sont invalides, ou la base de données n'est pas accessible").showAndWait();
@@ -106,13 +112,15 @@ public class StageInitBd implements Initializable
 
     public void onBtnAnnuler()
     {
-        if ( parent != null ) parent.activer();
-        stage.close();
+        //if ( parent != null ) parent.activer();
+        this.close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        this.addTxtField();
+
         String[] elements = DB.getInformations();
 
         if ( elements != null )

@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class StageAffichageCSV implements Initializable {
+public class StageAffichageCSV extends Stage implements Initializable {
 
-    private static String nomAnnee;
+    private String nomAnnee;
     public Button btnAnnuler;
     public TextField txtFieldRecherche;
 
@@ -43,11 +43,21 @@ public class StageAffichageCSV implements Initializable {
     public TableColumn<ObservableList<String>,String> tcTheoTot;
     public TableColumn<ObservableList<String>,String> tcReelTot;
     public ChoiceBox<String> cbNomAnnee;
-    private Stage stage;
+    //private Stage stage;
 
     private ArrayList<String[]> alDonnees;
 
-    public static Stage creer( String nomAnnee ) throws IOException{
+    public StageAffichageCSV() // fxml -> "affichageCSV"
+    {
+        this.setTitle("Affichage CSV");
+    }
+
+    public void setNomAnnee( String nomAnnee )
+    {
+        this.nomAnnee = nomAnnee;
+    }
+
+    /*public static Stage creer( String nomAnnee ) throws IOException{
 
         Stage stage = new Stage();
 
@@ -69,7 +79,7 @@ public class StageAffichageCSV implements Initializable {
 
     private void setStage(Stage stage) {
         this.stage = stage;
-    }
+    }*/
 
     public static ArrayList<String> listerFichiers() {
         ArrayList<String> fichiers = new ArrayList<String>();
@@ -105,11 +115,12 @@ public class StageAffichageCSV implements Initializable {
 
     public void onBtnClickAnnuler(ActionEvent actionEvent)
     {
-        stage.setOnCloseRequest(e -> {
+        /*this.setOnCloseRequest(e -> {
             try {
                 StageEtats.creer().show();
             } catch (IOException ignored) { }
-        });
+        });*/
+        this.close();
     }
 
     public void onBtnRechercher(ActionEvent actionEvent) {
@@ -132,13 +143,13 @@ public class StageAffichageCSV implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.cbNomAnnee.setItems(FXCollections.observableArrayList(listerFichiers()));
-        this.cbNomAnnee.setValue("résultat-" + StageAffichageCSV.nomAnnee + ".csv");
+        this.cbNomAnnee.setValue("résultat-" + this.nomAnnee + ".csv");
         this.cbNomAnnee.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println(this.cbNomAnnee.getValue());
             this.tabAffCsv.setItems(this.listeToObservable(this.lireCSV(this.cbNomAnnee.getValue())));
         });
 
-        this.alDonnees = this.lireCSV("résultat-" + StageAffichageCSV.nomAnnee + ".csv");
+        this.alDonnees = this.lireCSV("résultat-" + this.nomAnnee + ".csv");
 
         tcCategorie.setCellValueFactory     (cellData -> new SimpleStringProperty( cellData.getValue().get(0))); // Colonne de codeCategorie
         tcNom.setCellValueFactory           (cellData -> new SimpleStringProperty( cellData.getValue().get(1))); // Colonne de nom

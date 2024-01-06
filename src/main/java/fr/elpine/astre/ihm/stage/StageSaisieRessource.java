@@ -35,7 +35,7 @@ import static java.lang.Integer.*;
 
 //TODO:Faire les heures affectées (dans tableau Affectation nbHeuure * nbSemaine * eqtd)
 
-public class StageSaisieRessource implements Initializable
+public class StageSaisieRessource extends Stage implements Initializable
 {
     @FXML
     public TableView<Affectation> tableau;
@@ -77,12 +77,13 @@ public class StageSaisieRessource implements Initializable
     public TextField txtTOPromo;
     public TextField txtTOAffecte;
 
-    private Stage stage;
-    public static ArrayList<Affectation> affAAjouter;
-    public static ArrayList<Affectation> affAEnlever;
+    //private Stage stage;
+    public ArrayList<Affectation> affAAjouter;
+    public ArrayList<Affectation> affAEnlever;
     @FXML
     private TextField txtCode;
-    private static Module module;
+    private Module module;
+    private int semestre;
 
     public GridPane gridPn;
     public GridPane gridPaneRepartition;
@@ -95,8 +96,14 @@ public class StageSaisieRessource implements Initializable
     private HashMap<String, ArrayList<TextField>> hmTxtRepartion;
 
 
+    public StageSaisieRessource() // fxml -> "saisieRessource"
+    {
+        this.setTitle("Affectation");
+    }
+
+
     //Méthode d'initialisation de la scène
-    public static Stage creer(int semestre, Module mod) throws IOException
+    /*public static Stage creer(int semestre, Module mod) throws IOException
     {
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieRessource.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1500, 700);
@@ -122,16 +129,15 @@ public class StageSaisieRessource implements Initializable
             }
         });
 
-
-
         stage.show();
 
         return stage;
-    }
+    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        this.init("Ressource");
         initGridPn();
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
         {
@@ -162,8 +168,7 @@ public class StageSaisieRessource implements Initializable
 
 
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
-        StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
-
+        this.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
         this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant () .getNom()));
@@ -367,17 +372,17 @@ public class StageSaisieRessource implements Initializable
     /* Initialisation de la scène  */
     /*-----------------------------*/
 
-    private void setStage(Stage stage) { this.stage = stage; }
+    //private void setStage(Stage stage) { this.stage = stage; }
 
-    private void init(Module mod, String nomMod, int id) {
-        if (mod != null) {
+    private void init(String nomMod) {
+        if (this.module != null) {
             // Initialisation pour la modification
-            txtTypeModule.setText(mod.getTypeModule());
-            txtSemestre.setText("" + mod.getSemestre().getNumero());
+            txtTypeModule.setText(this.module.getTypeModule());
+            txtSemestre.setText("" + this.module.getSemestre().getNumero());
             txtSemestre.setEditable(false);
-            txtCode.setText(mod.getCode());
+            txtCode.setText(this.module.getCode());
 
-            Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(mod.getSemestre().getNumero());
+            Semestre sem = this.module.getSemestre(); // Controleur.get().getMetier().rechercheSemestreByNumero(this.module.getSemestre().getNumero());
             txtNbEtd.setText("" + sem.getNbEtd());
             txtNbGpTD.setText("" + sem.getNbGrpTD());
             txtnbGpTP.setText("" + sem.getNbGrpTP());
@@ -385,13 +390,13 @@ public class StageSaisieRessource implements Initializable
             // Initialisation pour une nouvelle création
             txtTypeModule.setText(nomMod);
             txtTypeModule.setEditable(false);
-            txtSemestre.setText("" + id);
+            txtSemestre.setText("" + this.semestre);
             txtSemestre.setEditable(false);
 
-            int code = Controleur.get().getMetier().rechercheSemestreByNumero(id).getModules().size() + 1;
-            txtCode.setText("R" + id + "." + String.format("%02d", code));
-            Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(id);
-            txtNbEtd.setText("" + sem.getNbEtd());
+            Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
+
+            txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
+	        txtNbEtd.setText("" + sem.getNbEtd());
             txtNbGpTD.setText("" + sem.getNbGrpTD());
             txtnbGpTP.setText("" + sem.getNbGrpTP());
         }
@@ -399,8 +404,12 @@ public class StageSaisieRessource implements Initializable
 
     @FXML
     protected void onBtnAjouter(ActionEvent e) throws IOException {
-        this.desactiver();
-        StageAjoutRessource.creer(StageSaisieRessource.module ,this ).show();
+        //this.desactiver();
+        //StageAjoutRessource.creer(StageSaisieRessource.module ,this ).show();
+        StageAjoutRessource stage = Manager.creer("creationModules", this);
+
+        stage.setModule(this.module);
+        stage.showAndWait();
     }
 
     @FXML
@@ -414,7 +423,7 @@ public class StageSaisieRessource implements Initializable
         }
     }
 
-    public void desactiver()
+    /*public void desactiver()
     {
         this.stage.getScene().lookup("#btnEnregistrer").setDisable(true);
         this.stage.getScene().lookup("#btnAnnuler").setDisable(true);
@@ -427,7 +436,7 @@ public class StageSaisieRessource implements Initializable
         this.stage.getScene().lookup("#btnAnnuler").setDisable(false);
         this.stage.getScene().lookup("#btnAjouter").setDisable(false);
         this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
-    }
+    }*/
 
     private void creerFormatter(String nom, TextField txtf) {
     txtf.setTextFormatter(new TextFormatter<>(change -> {
@@ -486,8 +495,8 @@ public class StageSaisieRessource implements Initializable
         Fraction fractNbHeure = null;
         int nbSemaine         = 0;
 
-        if(StageSaisieRessource.affAAjouter != null)
-            for (Affectation aff : StageSaisieRessource.affAAjouter)
+        if(this.affAAjouter != null)
+            for (Affectation aff : this.affAAjouter)
             {
                 Controleur.get().getMetier().ajouterAffectation(aff);
             }
@@ -512,8 +521,8 @@ public class StageSaisieRessource implements Initializable
             }
         }
         Controleur.get().getMetier().enregistrer();
-        stage.close();
-        StagePrevisionnel.creer().show();
+        this.close();
+        //StagePrincipal.creer().show();
     }
 
 
@@ -563,9 +572,9 @@ public class StageSaisieRessource implements Initializable
 
     @FXML
     protected void onBtnAnnuler() throws IOException {
-        StageSaisieRessource.affAAjouter = StageSaisieRessource.affAEnlever = new ArrayList<>();
-        stage.close();
-        StagePrincipal.creer().show();
+        this.affAAjouter = this.affAEnlever = new ArrayList<>();
+        this.close();
+        //StagePrincipal.creer().show();
     }
 
 
@@ -637,11 +646,11 @@ public class StageSaisieRessource implements Initializable
         TextField txt1 = new TextField();
         TextField txt2 = new TextField();
 
-        if(StageSaisieRessource.module != null &&  nom != "TO")
+        if(this.module != null &&  nom != "TO")
         {
             CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
             System.out.println("Nom CatHr :" +catHr.getNom());
-            System.out.println("StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString() : " +StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString());
+            System.out.println("StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString() : " +this.module.getAttribution(catHr).getNbHeurePN().toString());
 
 
             //txt1.setText(StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString());
@@ -946,5 +955,13 @@ public class StageSaisieRessource implements Initializable
     public void refresh() {
         ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tableau.setItems(ensAff);
+    }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+
+    public void setModule(Module mod) {
+        this.module = mod;
     }
 }

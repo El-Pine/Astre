@@ -26,9 +26,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class StageAccueilConfig implements Initializable
+public class StageAccueilConfig extends Stage implements Initializable
 {
-    private Stage stage;
+    //private Stage stage;
 
     @FXML
     private TableView<CategorieIntervenant> tabCatInter;
@@ -76,7 +76,13 @@ public class StageAccueilConfig implements Initializable
     public static ArrayList<CategorieIntervenant> catInterASuppr;
 
 
-    public static Stage creer() throws IOException
+    public StageAccueilConfig() // fxml -> "accueilConfig"
+    {
+        this.setTitle("Accueil Config");
+    }
+
+
+    /*public static Stage creer() throws IOException
     {
         Stage stage = new Stage();
 
@@ -110,17 +116,24 @@ public class StageAccueilConfig implements Initializable
         return stage;
     }
 
-    private void setStage(Stage stage) { this.stage = stage; }
+    private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void onBtnConfigBdd(ActionEvent actionEvent) throws IOException {
-        desactiver();
-        StageInitBd.creer( this ).show();
+        //desactiver();
+        //StageInitBd.creer( this ).show();
+        Stage stage = Manager.creer( "initDb", this );
+
+        stage.showAndWait();
     }
 
     public void onBtnAjouter(ActionEvent actionEvent) throws IOException
     {
-        desactiver();
-        StageAjouterCategories.creer( this ).show();
+        //desactiver();
+        //StageAjouterCategories.creer( this ).show();
+
+        Stage stage = Manager.creer( "ajouterCategories", this );
+
+        stage.showAndWait();
     }
 
     public void onBtnEnregistrer(ActionEvent actionEvent) throws IOException
@@ -148,8 +161,7 @@ public class StageAccueilConfig implements Initializable
 
         Controleur.get().getMetier().enregistrer();
         refresh();
-        this.stage.close();
-        StagePrincipal.creer().show();
+        this.close();
     }
 
     public void onBtnAnnuler(ActionEvent actionEvent) throws IOException
@@ -206,21 +218,31 @@ public class StageAccueilConfig implements Initializable
         this.refresh();
     }
 
-    public void desactiver()
+    /*public void desactiver()
     {
-        this.stage.getScene().lookup("#btnConfigBd") .setDisable(true);
-        this.stage.getScene().lookup("#btnAjouter")  .setDisable(true);
-        this.stage.getScene().lookup("#btnSupprimer").setDisable(true);
+        this.getScene().lookup("#btnConfigBd") .setDisable(true);
+        this.getScene().lookup("#btnAjouter")  .setDisable(true);
+        this.getScene().lookup("#btnSupprimer").setDisable(true);
     }
 
     public void activer() {
-        this.stage.getScene().lookup("#btnConfigBd" ).setDisable(false);
-        this.stage.getScene().lookup("#btnAjouter"  ).setDisable(false);
-        this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
-    }
+        this.getScene().lookup("#btnConfigBd" ).setDisable(false);
+        this.getScene().lookup("#btnAjouter"  ).setDisable(false);
+        this.getScene().lookup("#btnSupprimer").setDisable(false);
+    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
+        StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
+
+        StageAccueilConfig.catHeurAAjouter = new ArrayList<>();
+        StageAccueilConfig.categorieInterAAjouter = new ArrayList<>();
+
+        StageAccueilConfig.catHrASupp     = new ArrayList<>();
+        StageAccueilConfig.catInterASuppr = new ArrayList<>();
+
+
         tcInter.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
         tcInter.setCellFactory(column -> new TableCell<>() {
             @Override

@@ -7,23 +7,32 @@ import fr.elpine.astre.metier.objet.Annee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class StageAnnee
+public class StageAnnee extends Stage implements Initializable
 {
     public ComboBox<Annee> cbbAnnee;
     public Button btnConsulter;
     public Button btnDupliquer;
     public Button btnSupprimer;
-    private Stage stage;
+    //private Stage stage;
 
-    public static Stage creer() throws IOException
+
+    public StageAnnee() // fxml -> "saisieAnnee"
+    {
+        this.setTitle("Choix de l'annee");
+    }
+
+    /*public static Stage creer() throws IOException
     {
         Stage stage = new Stage();
 
@@ -51,7 +60,7 @@ public class StageAnnee
         return stage;
     }
 
-    private void setStage(Stage stage) { this.stage = stage; }
+    private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void setCpbContrat()
     {
@@ -72,18 +81,22 @@ public class StageAnnee
         this.btnSupprimer.setDisable( disabled );
     }
 
-    public void onBtnAjouter() throws IOException {
-        StageAjouterAnnee.creer( this ).show();
+    public void onBtnAjouter() {
+        //StageAjouterAnnee.creer( this ).show();
+        Stage stage = Manager.creer("ajouterAnnee", this);
+
+        stage.showAndWait();
+        this.setCpbContrat();
     }
 
-    public void onBtnConsulter() throws IOException {
+    public void onBtnConsulter() {
         Annee an = this.cbbAnnee.getValue();
 
         Controleur.get().getMetier().changerAnneeActuelle(an);
 
-        this.stage.close();
+        this.close();
 
-        StagePrincipal.creer().show();
+        //StagePrincipal.creer().show();
     }
 
     public void onBtnDupliquer() {
@@ -126,12 +139,19 @@ public class StageAnnee
                         String.format("Supprimer l'année \"%s\" et tout son contenu ?", an.getNom())
                 ).showAndWait();
 
-                if (resultSecond.isPresent() && resultSecond.get() == ButtonType.OK) an.supprimer( true );
+                if (resultSecond.isPresent() && resultSecond.get() == ButtonType.OK) {
+                    an.supprimer(true);
 
-                // TODO : fonction d'enregistrement ici (ps : je gère)
+                    Controleur.get().getMetier().enregistrer();
+                }
             }
         }
 
+        this.setCpbContrat();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setCpbContrat();
     }
 }

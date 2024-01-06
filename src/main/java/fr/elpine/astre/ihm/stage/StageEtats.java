@@ -9,10 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-public class StageEtats {
-    private Stage stage;
+public class StageEtats extends Stage {
+    //private Stage stage;
 
-    public static Stage creer() throws IOException{
+    public StageEtats() // fxml -> "etats"
+    {
+        this.setTitle("Etats");
+    }
+
+    /*public static Stage creer() throws IOException{
 
         Stage stage = new Stage();
 
@@ -39,19 +44,24 @@ public class StageEtats {
 
     private void setStage(Stage stage) {
         this.stage = stage;
-    }
+    }*/
 
     @FXML
     protected void onBtnClickEtatIntervenant() throws IOException
     {
-        this.stage.close();
-        StageGeneration.creer("intervenant").show();
+        StageGeneration stage = Manager.creer("generation", this);
 
+        stage.setVue("intervenant");
+        stage.showAndWait();
+        //StageGeneration.creer("intervenant").show();
     }
 
     public void onBtnClickEtatModule(ActionEvent actionEvent) throws IOException {
-        this.stage.close();
-        StageGeneration.creer("module").show();
+        StageGeneration stage = Manager.creer("generation", this);
+
+        stage.setVue("module");
+        stage.showAndWait();
+        //StageGeneration.creer("module").show();
     }
 
     public void onBtnClickEtatCSV(ActionEvent actionEvent) throws IOException {
@@ -60,13 +70,15 @@ public class StageEtats {
             PopUp.warning("Erreur de génération","Erreur de génération","Les données n'ont pas pus être récupéré");
         }
         else if ( PopUp.confirmationR("Fichier CSV","Fichier CSV généré","Le fichier CSV a bien été généré voulez vous l'ouvrir ?") ) {
-            StageAffichageCSV.creer(nomAnnee).show();
-            this.stage.close();
+            //StageAffichageCSV.creer(nomAnnee).show();
+            Stage stage = Manager.creer("affichageCSV");
+            stage.show();
+            this.close();
         }
     }
 
     public void onBtnClickEtatAnnuler(ActionEvent actionEvent) throws IOException{
-        this.stage.close();
-        StagePrincipal.creer().show();
+        this.close();
+        //StagePrincipal.creer().show();
     }
 }

@@ -24,6 +24,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+// TODO : classe inutile
+
 public class StageAjoutPpp implements Initializable {
     private Stage stage;
 

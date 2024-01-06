@@ -21,15 +21,22 @@ import java.util.ResourceBundle;
 
 // TODO : Bloquer les boutons nécessaire dans le cas ou il n'y a pas d'année
 
-public class StagePrincipal implements Initializable
+public class StagePrincipal extends Stage implements Initializable
 {
 	public ImageView image;
 	public Button btnPrev;
 	public Button btnInter;
 	public Button btnEtat;
-	private Stage stage;
+	//private Stage stage;
 
-	public static Stage creer() throws IOException
+	public StagePrincipal() // fxml -> "accueil"
+	{
+		this.setMinWidth(300);
+		this.setMinHeight(400);
+		this.setTitle("A.S.T.R.E.");
+	}
+
+	/*public static Stage creer() throws IOException
 	{
 		Stage stage = new Stage();
 
@@ -50,46 +57,73 @@ public class StagePrincipal implements Initializable
 		return stage;
 	}
 
-	private void setStage(Stage stage) { this.stage = stage; }
+	private void setStage(Stage stage) { this.stage = stage; }*/
 
 	@FXML
 	protected void onBtnClickParametre() throws IOException {
-		stage.close();
-		StageAccueilConfig.creer().show();
+		//stage.close();
+		//StageAccueilConfig.creer().show();
+		Stage stage = Manager.creer("accueilConfig", this);
+
+		stage.showAndWait();
 	}
 
 	@FXML
 	protected void onBtnClickPrevisionnel() throws IOException {
-		stage.close();
-		StagePrevisionnel.creer().show();
+		//stage.close();
+		//StagePrevisionnel.creer().show();
+		Stage stage = Manager.creer("previsionnel", this);
+
+		stage.showAndWait();
 	}
 
 	@FXML
 	protected void onBtnClickIntervenant() throws IOException {
-		stage.close();
-		StageIntervenant.creer().show();
+		//stage.close();
+		//StageIntervenant.creer().show();
+		Stage stage = Manager.creer("intervenant", this);
+
+		stage.showAndWait();
 	}
 
 	@FXML
 	protected void onBtnClickEtat() throws IOException
 	{
-		this.stage.close();
-		StageEtats.creer().show();
+		//this.stage.close();
+		//StageEtats.creer().show();
+		Stage stage = Manager.creer("etats", this);
+
+		stage.showAndWait();
 	}
 
 	public void onBtnClickAnnee(ActionEvent actionEvent) throws IOException {
-		this.stage.close();
-		StageAnnee.creer().show();
+		//this.stage.close();
+		//StageAnnee.creer().show();
+		Stage stage = Manager.creer("saisieAnnee", this);
+
+		stage.showAndWait();
+
+		this.refresh();
+	}
+
+	public void refresh()
+	{
+		if (Controleur.get().getMetier().getAnneeActuelle() == null)
+		{
+			this.btnPrev.setDisable( true );
+			this.btnEtat.setDisable( true );
+		}
+		else
+		{
+			this.btnPrev.setDisable( false );
+			this.btnEtat.setDisable( false );
+		}
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		image.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
 
-		if (Controleur.get().getMetier().getAnneeActuelle() == null)
-		{
-			this.btnPrev.setDisable( true );
-			this.btnEtat.setDisable( true );
-		}
+		this.refresh();
 	}
 }

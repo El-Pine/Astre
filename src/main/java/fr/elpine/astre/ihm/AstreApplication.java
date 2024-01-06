@@ -1,8 +1,8 @@
 package fr.elpine.astre.ihm;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.stage.Manager;
 import fr.elpine.astre.ihm.stage.StageInitBd;
-import fr.elpine.astre.ihm.stage.StagePrincipal;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -29,9 +29,16 @@ public class AstreApplication extends Application
 
 		if ( !Controleur.get().getDb().reloadDB() ) {
 			logger.warn("Informations de connexion à la base de données erronées, nouvelle saisie demandé !");
-			StageInitBd.creer(null).show();
+
+			//StageInitBd.creer(null).show();
+
+			Stage stage = Manager.creer( "initDb" );
+			stage.show();
 		} else {
-			StagePrincipal.creer().show();
+			//StagePrincipal.creer().show();
+
+			Stage stage = Manager.creer( "accueil" );
+			stage.show();
 		}
 	}
 

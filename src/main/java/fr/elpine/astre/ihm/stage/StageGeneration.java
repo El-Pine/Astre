@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-public class StageGeneration implements Initializable
+public class StageGeneration extends Stage implements Initializable
 {
-    private Stage stage;
-    private static ObservableList<Intervenant> ensInter;
-    private static ObservableList<Module> ensMod;
+    //private Stage stage;
+    private ObservableList<Intervenant> ensInter;
+    private ObservableList<Module> ensMod;
 
     @FXML
     private TableView<String>tabGeneration;
@@ -39,8 +39,14 @@ public class StageGeneration implements Initializable
     private TableColumn<String,String>g_2;
 
 
+    public StageGeneration()
+    {
+        this.setTitle("Generation");
+    }
 
-    public static Stage creer(String vue) throws IOException {
+
+
+    /*public static Stage creer(String vue) throws IOException {
 
         Stage stage = new Stage();
 
@@ -78,7 +84,7 @@ public class StageGeneration implements Initializable
     }
     private void setStage(Stage stage) {
         this.stage = stage;
-    }
+    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -88,4 +94,14 @@ public class StageGeneration implements Initializable
     }
 
 
+    public void setVue(String vue) {
+        if(vue=="intervenant")
+        {
+            this.ensInter = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
+        }
+        else if(vue=="module")
+        {
+            this.ensMod = FXCollections.observableArrayList(Controleur.get().getMetier().getModules());
+        }
+    }
 }

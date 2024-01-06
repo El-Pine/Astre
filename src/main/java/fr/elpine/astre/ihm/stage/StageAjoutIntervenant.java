@@ -10,20 +10,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class StageAjoutIntervenant
+public class StageAjoutIntervenant extends Stage implements Initializable
 {
-    public Button btnValider;
     @FXML
     private TextField txtfRatio;
-    private Stage stage;
+    //private Stage stage;
     @FXML
     private TextField txtNom;
     @FXML
@@ -37,12 +39,19 @@ public class StageAjoutIntervenant
     @FXML
     private TextField txtEmail;
 
-    private static HashMap<TextField,Boolean> hmChampValider;
+    private HashMap<TextField,Boolean> hmChampValider;
 
 
-    private static StageIntervenant parent;
+    //private static StageIntervenant parent;
 
-    public static Stage creer( StageIntervenant parent) throws IOException
+
+    public StageAjoutIntervenant() // fxml -> "saisieIntervenant"
+    {
+        this.setTitle("Ajout Intervenant");
+        this.setCpbContrat();
+    }
+
+    /*public static Stage creer( StageIntervenant parent) throws IOException
     {
         Stage stage = new Stage();
 
@@ -80,24 +89,24 @@ public class StageAjoutIntervenant
         stage.setOnCloseRequest(e -> parent.activer());
 
         return stage;
-    }
+    }*/
 
     private void creerFormatter(String regex, TextField txtf) {
         txtf.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getControlNewText().matches(regex)) {
                 txtf.setStyle("");
-                StageAjoutIntervenant.hmChampValider.put(txtf,true);
+                this.hmChampValider.put(txtf,true);
             } else if (change.getControlNewText().isEmpty()) {
-                StageAjoutIntervenant.hmChampValider.put(txtf,false);
+                this.hmChampValider.put(txtf,false);
             } else {
                 txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
-                StageAjoutIntervenant.hmChampValider.put(txtf,false);
+                this.hmChampValider.put(txtf,false);
             }
             return change;
         }));
     }
 
-    private void setStage(Stage stage) { this.stage = stage; }
+    /*private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void setCpbContrat()
     {
@@ -109,12 +118,12 @@ public class StageAjoutIntervenant
     public void onBtnValider(ActionEvent actionEvent)
     {
         AtomicBoolean test = new AtomicBoolean(true);
-        StageAjoutIntervenant.hmChampValider.forEach((key, value) -> {
+        this.hmChampValider.forEach((key, value) -> {
             if ( !value ) test.set(false);
         });
 
         if (test.get())
-            StageIntervenant.interAAjouter.add(new Intervenant(
+            /*StageIntervenant.interAAjouter.add(*/new Intervenant(
                     this.txtNom.getText(),
                     this.txtPrenom.getText(),
                     this.txtEmail.getText(),
@@ -122,15 +131,34 @@ public class StageAjoutIntervenant
                     Fraction.valueOf(this.txtService.getText()),
                     Fraction.valueOf(this.txtComplementaire.getText()),
                     Fraction.valueOf(this.txtfRatio.getText())
-            ));
+            );//);
 
-        parent.refresh();
-        this.stage.close();
-        parent.activer();
+        //parent.refresh();
+        this.close();
+        //parent.activer();
     }
 
     public void btnAnnuler() {
-        this.stage.close();
-        parent.activer();
+        this.close();
+        //parent.activer();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.hmChampValider = new HashMap<>();
+
+        this.hmChampValider.put(this.txtNom,false);
+        this.hmChampValider.put(this.txtPrenom,false);
+        this.hmChampValider.put(this.txtEmail,false);
+        this.hmChampValider.put(this.txtService,false);
+        this.hmChampValider.put(this.txtComplementaire,false);
+        this.hmChampValider.put(this.txtfRatio,false);
+
+        this.creerFormatter("[\\p{L}]+",this.txtNom);
+        this.creerFormatter("[\\p{L}]+",this.txtPrenom);
+        this.creerFormatter("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$",this.txtEmail);
+        this.creerFormatter("\\b[1-9]\\d*\\b",this.txtService);
+        this.creerFormatter("\\b[1-9]\\d*\\b",this.txtComplementaire);
+        this.creerFormatter("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$",this.txtfRatio);
     }
 }
