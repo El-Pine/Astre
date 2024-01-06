@@ -12,7 +12,7 @@
             <Tab text="Semestre 1">
                <BorderPane>
                   <center>
-                     <TableView fx:id="tabs1" editable="true">
+                     <TableView fx:id="tabs1">
                         <columns>
                            <TableColumn fx:id="s1code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s1liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
@@ -41,7 +41,7 @@
             <Tab text="Semestre 2">
                <BorderPane>
                   <center>
-                     <TableView fx:id="tabs2" editable="true">
+                     <TableView fx:id="tabs2">
                         <columns>
                            <TableColumn fx:id="s2code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s2liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
@@ -70,7 +70,7 @@
             <Tab text="Semestre 3">
                <BorderPane>
                   <center>
-                     <TableView fx:id="tabs3" editable="true">
+                     <TableView fx:id="tabs3">
                         <columns>
                            <TableColumn fx:id="s3code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s3liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
@@ -99,7 +99,7 @@
             <Tab text="Semestre 4">
                <BorderPane>
                   <center>
-                     <TableView fx:id="tabs4" editable="true">
+                     <TableView fx:id="tabs4">
                         <columns>
                            <TableColumn fx:id="s4code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s4liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
@@ -128,7 +128,7 @@
             <Tab text="Semestre 5">
                <BorderPane>
                   <center>
-                     <TableView fx:id="tabs5" editable="true">
+                     <TableView fx:id="tabs5">
                         <columns>
                            <TableColumn fx:id="s5code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s5liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
@@ -157,7 +157,7 @@
             <Tab text="Semestre 6">
                <BorderPane>
                   <center>
-                     <TableView fx:id="tabs6" editable="true">
+                     <TableView fx:id="tabs6">
                         <columns>
                            <TableColumn fx:id="s6code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s6liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />

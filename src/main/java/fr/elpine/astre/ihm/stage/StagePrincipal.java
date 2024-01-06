@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
+import fr.elpine.astre.metier.objet.Annee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,10 +28,18 @@ public class StagePrincipal extends Stage implements Initializable
 	public Button btnPrev;
 	public Button btnInter;
 	public Button btnEtat;
+
+	private boolean anneeSelectionne;
 	//private Stage stage;
 
 	public StagePrincipal() // fxml -> "accueil"
 	{
+		try {
+			Controleur.get().getMetier().getAnneeActuelle().getNom();
+			this.anneeSelectionne = true;
+		}
+		catch ( Exception ignored ) { this.anneeSelectionne = false; }
+
 		this.setTitle("A.S.T.R.E.");
 		this.setMinWidth(300);
 		this.setMinHeight(450);

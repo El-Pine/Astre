@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
    <bottom>
        <Pane prefHeight="123.0" prefWidth="701.0" BorderPane.alignment="CENTER">
            <Button fx:id="btnEnregistrer" layoutX="22.0" layoutY="84.0" mnemonicParsing="false" onAction="#onBtnClickEnregistrer" prefWidth="100.0" text="Enregister" />
@@ -33,6 +33,7 @@
           <TableColumn fx:id="tcCategorie" maxWidth="500.0" minWidth="79.0" prefWidth="79.0" reorderable="false" resizable="false" text="Catégorie" />
           <TableColumn fx:id="tcNom" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Nom" />
             <TableColumn fx:id="tcPrenom" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Prénom" />
+            <TableColumn fx:id="tcMail" minWidth="100.0" prefWidth="100.0" resizable="false" text="Mail" />
             <TableColumn fx:id="tcHServ" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="hServ" />
             <TableColumn fx:id="tcHMax" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="hMax" />
             <TableColumn fx:id="tcRatioTP" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="CoefTP" />

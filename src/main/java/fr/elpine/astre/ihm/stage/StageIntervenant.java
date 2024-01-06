@@ -25,8 +25,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-// TODO : ajouter une colonne mail
-
 public class StageIntervenant extends Stage implements Initializable
 {
 	@FXML
@@ -37,6 +35,8 @@ public class StageIntervenant extends Stage implements Initializable
 	private TableColumn<Intervenant,String> tcNom;
 	@FXML
 	private TableColumn<Intervenant, String> tcPrenom;
+	@FXML
+	private TableColumn<Intervenant,String> tcMail;
 	@FXML
 	private TableColumn<Intervenant, String> tcCategorie;
 	@FXML
@@ -63,7 +63,7 @@ public class StageIntervenant extends Stage implements Initializable
 	{
 		this.setTitle("Intervenants");
 
-		this.setMinWidth(1400);
+		this.setMinWidth(1500);
 		this.setMinHeight(600);
 
 		this.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
@@ -190,6 +190,7 @@ public class StageIntervenant extends Stage implements Initializable
 		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCategorie()  .getCode  ()));
 		tcNom      .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getNom     ()));
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
+		tcMail     .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getMail     ()));
 		tcHServ    .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureService().toString() ));
 		tcHMax     .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureMax().toString() ));
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTP  ().toString() ));
@@ -222,8 +223,6 @@ public class StageIntervenant extends Stage implements Initializable
 				return string;
 			}
 		}, comboBox.getItems()));
-
-		// TODO : supprimer toutes les propriétés editable des fxml
 
 		tcPrenom.set
 
