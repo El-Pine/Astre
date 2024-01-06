@@ -169,7 +169,7 @@ public class StagePrevisionnel implements Initializable {
 	@FXML
 	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException {
 		stage.close();
-		StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
+		StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1,null).show();
 	}
 
 	@FXML
@@ -193,8 +193,22 @@ public class StagePrevisionnel implements Initializable {
 	}
 
 	@FXML
-	public void onBtnModifier(ActionEvent actionEvent) {
-		// Logique pour modifier
+	public void onBtnModifier(ActionEvent actionEvent) throws IOException {
+		System.out.println(tabs1.getSelectionModel().getSelectedIndex());
+
+		for (Map.Entry<String, TableView<Module>> entry : this.hmTabView.entrySet())
+		{
+			String    key   = entry.getKey();
+			TableView<Module> value = entry.getValue();
+
+			if(value.getSelectionModel().getSelectedIndex() != -1)
+			{
+				Module mod = value.getSelectionModel().getSelectedItem();
+				StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1, mod).show();
+			}
+		}
+
+
 	}
 
 	@Override

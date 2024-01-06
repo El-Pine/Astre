@@ -96,7 +96,7 @@ public class StageSaisieRessource implements Initializable
 
 
     //Méthode d'initialisation de la scène
-    public static Stage creer(int semestre) throws IOException
+    public static Stage creer(int semestre, Module mod) throws IOException
     {
         FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieRessource.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1500, 700);
@@ -107,10 +107,12 @@ public class StageSaisieRessource implements Initializable
 
         AstreApplication.refreshIcon(stage);
 
+        if(mod != null) StageSaisieRessource.module = mod;
+
         StageSaisieRessource stageCtrl = fxmlLoader.getController();
         if (stageCtrl != null) {
             stageCtrl.setStage(stage);
-            stageCtrl.init("Ressource", semestre);
+            stageCtrl.init(mod,"Ressource", semestre);
         }
 
         stage.setOnCloseRequest(e -> {
@@ -119,6 +121,8 @@ public class StageSaisieRessource implements Initializable
             } catch (IOException ignored) {
             }
         });
+
+
 
         stage.show();
 
@@ -160,26 +164,6 @@ public class StageSaisieRessource implements Initializable
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
         StageSaisieRessource.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
-        /*
-        tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
-        tc.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-
-                if (item != null && item.equals("❌")) {
-                    setTextFill(Color.RED);
-                } else if (item != null && item.equals("➕")) {
-                    setTextFill(Color.LIGHTGREEN);
-                } else {
-                    setTextFill(Color.BLACK);
-                    setText("");
-                }
-            }
-        });
-
-         */
 
         this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant () .getNom()));
@@ -208,7 +192,6 @@ public class StageSaisieRessource implements Initializable
         //System.out.println(ensAff);
 
         tableau.setItems(ensAff);
-        tableau.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 
         this.hmTxtPn = initHmPn(getAllTextFieldsPn(gridPn));
@@ -386,19 +369,32 @@ public class StageSaisieRessource implements Initializable
 
     private void setStage(Stage stage) { this.stage = stage; }
 
-    private void init(String nomMod, int id)
-    {
-        txtTypeModule.setText(nomMod);
-        txtTypeModule.setEditable(false);
-        txtSemestre.setText("" + id);
-        txtSemestre.setEditable(false);
-        int code = Controleur.get().getMetier().rechercheSemestreByNumero(id).getModules().size() + 1;
-        txtCode.setText("R" + id + "." + String.format("%02d", id));
-        Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(id); //TODO: Rajouter l'année une fois que l'on a géré
+    private void init(Module mod, String nomMod, int id) {
+        if (mod != null) {
+            // Initialisation pour la modification
+            txtTypeModule.setText(mod.getTypeModule());
+            txtSemestre.setText("" + mod.getSemestre().getNumero());
+            txtSemestre.setEditable(false);
+            txtCode.setText(mod.getCode());
 
-        txtNbEtd .setText("" + sem.getNbEtd  ());
-        txtNbGpTD.setText("" + sem.getNbGrpTD());
-        txtnbGpTP.setText("" + sem.getNbGrpTP());
+            Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(mod.getSemestre().getNumero());
+            txtNbEtd.setText("" + sem.getNbEtd());
+            txtNbGpTD.setText("" + sem.getNbGrpTD());
+            txtnbGpTP.setText("" + sem.getNbGrpTP());
+        } else {
+            // Initialisation pour une nouvelle création
+            txtTypeModule.setText(nomMod);
+            txtTypeModule.setEditable(false);
+            txtSemestre.setText("" + id);
+            txtSemestre.setEditable(false);
+
+            int code = Controleur.get().getMetier().rechercheSemestreByNumero(id).getModules().size() + 1;
+            txtCode.setText("R" + id + "." + String.format("%02d", code));
+            Semestre sem = Controleur.get().getMetier().rechercheSemestreByNumero(id);
+            txtNbEtd.setText("" + sem.getNbEtd());
+            txtNbGpTD.setText("" + sem.getNbGrpTD());
+            txtnbGpTP.setText("" + sem.getNbGrpTP());
+        }
     }
 
     @FXML
@@ -517,7 +513,7 @@ public class StageSaisieRessource implements Initializable
         }
         Controleur.get().getMetier().enregistrer();
         stage.close();
-        StagePrincipal.creer().show();
+        StagePrevisionnel.creer().show();
     }
 
 
@@ -640,6 +636,16 @@ public class StageSaisieRessource implements Initializable
 
         TextField txt1 = new TextField();
         TextField txt2 = new TextField();
+
+        if(StageSaisieRessource.module != null &&  nom != "TO")
+        {
+            CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
+            System.out.println("Nom CatHr :" +catHr.getNom());
+            System.out.println("StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString() : " +StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString());
+
+
+            //txt1.setText(StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString());
+        }
 
         txt1.setId("txt"+nom+"Pn");
 
