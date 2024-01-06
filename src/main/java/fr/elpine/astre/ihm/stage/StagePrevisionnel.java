@@ -127,7 +127,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		StageSaisieRessource stage = Manager.creer("saisieRessource", this);
 
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
-
+		System.out.println("num : " + num);
 		stage.setSemestre(num);
 		stage.showAndWait();
 	}
@@ -159,6 +159,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 				Module mod = value.getSelectionModel().getSelectedItem();
 				//StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1, mod).show();
 				StageSaisieRessource stage = Manager.creer("saisieRessource", this);
+
 
 				stage.setSemestre(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
 				stage.setModule(mod);

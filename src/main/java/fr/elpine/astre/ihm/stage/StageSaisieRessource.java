@@ -379,31 +379,40 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     //private void setStage(Stage stage) { this.stage = stage; }
 
-    private void init(String nomMod) {
+    private void init(String nomMod)
+    {
+        System.out.println("this.semestre : "+this.semestre);
         if (this.module != null) {
             // Initialisation pour la modification
             txtTypeModule.setText(this.module.getTypeModule());
-            txtSemestre.setText("" + this.module.getSemestre().getNumero());
-            txtSemestre.setEditable(false);
-            txtCode.setText(this.module.getCode());
+            txtSemestre  .setText("" + this.semestre);
+            txtSemestre  .setEditable(false);
+            txtCode      .setText(this.module.getCode());
 
-            Semestre sem = this.module.getSemestre(); // Controleur.get().getMetier().rechercheSemestreByNumero(this.module.getSemestre().getNumero());
-            txtNbEtd.setText("" + sem.getNbEtd());
-            txtNbGpTD.setText("" + sem.getNbGrpTD());
-            txtnbGpTP.setText("" + sem.getNbGrpTP());
+            initPn(this.module);
+
         } else {
             // Initialisation pour une nouvelle création
             txtTypeModule.setText(nomMod);
             txtTypeModule.setEditable(false);
-            txtSemestre.setText("" + this.semestre);
-            txtSemestre.setEditable(false);
+            txtSemestre  .setText("" + this.semestre);
+            txtSemestre  .setEditable(false);
+        }
 
-            Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
+        Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
 
-            txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
-	        txtNbEtd.setText("" + sem.getNbEtd());
-            txtNbGpTD.setText("" + sem.getNbGrpTD());
-            txtnbGpTP.setText("" + sem.getNbGrpTP());
+        txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
+        txtNbEtd.setText("" + sem.getNbEtd());
+        txtNbGpTD.setText("" + sem.getNbGrpTD());
+        txtnbGpTP.setText("" + sem.getNbGrpTP());
+    }
+
+    public void initPn(Module mod)
+    {
+        for (Attribution att : mod.getAttributions())
+        {
+            System.out.println("att.getNb"+att.getNbHeurePN().toString());
+            this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());
         }
     }
 
@@ -527,7 +536,9 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
         Controleur.get().getMetier().enregistrer();
         this.close();
-        //StagePrincipal.creer().show();
+        Stage stage = Manager.creer("previsionnel", this);
+
+        stage.showAndWait();
     }
 
 
@@ -962,8 +973,10 @@ public class StageSaisieRessource extends Stage implements Initializable
         tableau.setItems(ensAff);
     }
 
-    public void setSemestre(int semestre) {
+    public void setSemestre(int semestre)
+    {
         this.semestre = semestre;
+        init(this.module.getNom());
     }
 
     public void setModule(Module mod) {
