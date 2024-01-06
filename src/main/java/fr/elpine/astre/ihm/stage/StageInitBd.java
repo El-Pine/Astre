@@ -98,6 +98,13 @@ public class StageInitBd extends Stage implements Initializable
         {
             this.close();
 
+            if (this.getOwner() == null)
+            {
+                Stage stage = Manager.creer( "accueil" );
+
+                stage.show();
+            }
+
             /*if ( parent != null ) parent.activer();
             else
             {
