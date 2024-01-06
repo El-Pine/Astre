@@ -9,14 +9,17 @@ import fr.elpine.astre.metier.outil.Fraction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class StageAjouterCategories extends Stage
+public class StageAjouterCategories extends Stage implements Initializable
 {
     //private Stage stage;
 
@@ -53,6 +56,9 @@ public class StageAjouterCategories extends Stage
     public StageAjouterCategories() // fxml -> "ajouterCategories"
     {
         this.setTitle("Accueil Config");
+        this.setMinWidth(600);
+        this.setMinHeight(400);
+        this.setResizable(false);
     }
 
     /*public static Stage creer( StageAccueilConfig parent ) throws IOException
@@ -133,5 +139,13 @@ public class StageAjouterCategories extends Stage
     public void onBtnAnnulerCatH(ActionEvent actionEvent) {
         //parent.activer();
         this.close();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
     }
 }

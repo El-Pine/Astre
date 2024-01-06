@@ -58,6 +58,8 @@ public class StageAjoutRessource extends Stage implements Initializable {
     public StageAjoutRessource() // fxml -> "creationModules"
     {
         this.setTitle("Affectation");
+        this.setMinWidth(1000);
+        this.setMinHeight(700);
     }
 
     /*public static Stage creer(Module module, StageSaisieRessource parent) throws IOException
@@ -103,6 +105,9 @@ public class StageAjoutRessource extends Stage implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
         toggleGroup = new ToggleGroup();
         rbAutre.setToggleGroup(toggleGroup);
         rbHP.setToggleGroup(toggleGroup);

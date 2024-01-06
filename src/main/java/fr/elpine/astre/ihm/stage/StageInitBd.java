@@ -41,6 +41,9 @@ public class StageInitBd extends Stage implements Initializable
     public StageInitBd() // fxml -> "initDb"
     {
         this.setTitle("Config Base de données");
+        this.setMinWidth(600);
+        this.setMinHeight(400);
+        this.setResizable(false);
     }
 
     /*public static Stage creer( StageAccueilConfig parent ) throws IOException
@@ -126,6 +129,9 @@ public class StageInitBd extends Stage implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
         this.addTxtField();
 
         String[] elements = DB.getInformations();

@@ -39,9 +39,11 @@ public class StageGeneration extends Stage implements Initializable
     private TableColumn<String,String>g_2;
 
 
-    public StageGeneration()
+    public StageGeneration() // fxml -> "generation"
     {
         this.setTitle("Generation");
+        this.setMinWidth(1400);
+        this.setMinHeight(600);
     }
 
 
@@ -90,6 +92,8 @@ public class StageGeneration extends Stage implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
 
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
 
     }
 

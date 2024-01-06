@@ -48,6 +48,9 @@ public class StageAjoutIntervenant extends Stage implements Initializable
     public StageAjoutIntervenant() // fxml -> "saisieIntervenant"
     {
         this.setTitle("Ajout Intervenant");
+        this.setMinWidth(700);
+        this.setMinHeight(450);
+
         this.setCpbContrat();
     }
 
@@ -145,6 +148,9 @@ public class StageAjoutIntervenant extends Stage implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
         this.hmChampValider = new HashMap<>();
 
         this.hmChampValider.put(this.txtNom,false);

@@ -64,9 +64,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 	public StagePrevisionnel() // fxml -> "previsionnel"
 	{
-		this.setMinHeight(400);
-		this.setMinWidth(800);
 		this.setTitle("Previsions");
+		this.setMinHeight(450);
+		this.setMinWidth(800);
 	}
 
 	/*public static Stage creer() throws IOException
@@ -170,6 +170,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
+		this.setWidth( this.getMinWidth() );
+		this.setHeight( this.getMinHeight() );
+
 		this.lstViews  = new ArrayList<>(Arrays.asList(tabs1, tabs2, tabs3, tabs4, tabs5, tabs6));
 
 		for (TableView<Module> view : this.lstViews)

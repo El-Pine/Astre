@@ -79,6 +79,8 @@ public class StageAccueilConfig extends Stage implements Initializable
     public StageAccueilConfig() // fxml -> "accueilConfig"
     {
         this.setTitle("Accueil Config");
+        this.setMinWidth(850);
+        this.setMinHeight(450);
     }
 
 
@@ -233,6 +235,9 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
         StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
         StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
 

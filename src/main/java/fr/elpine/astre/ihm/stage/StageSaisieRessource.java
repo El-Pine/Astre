@@ -99,6 +99,8 @@ public class StageSaisieRessource extends Stage implements Initializable
     public StageSaisieRessource() // fxml -> "saisieRessource"
     {
         this.setTitle("Affectation");
+        this.setMinWidth(1550);
+        this.setMinHeight(700);
     }
 
 
@@ -137,6 +139,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
         this.init("Ressource");
         initGridPn();
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())

@@ -31,9 +31,10 @@ public class StagePrincipal extends Stage implements Initializable
 
 	public StagePrincipal() // fxml -> "accueil"
 	{
-		this.setMinWidth(300);
-		this.setMinHeight(400);
 		this.setTitle("A.S.T.R.E.");
+		this.setMinWidth(300);
+		this.setMinHeight(450);
+		this.setResizable(false);
 	}
 
 	/*public static Stage creer() throws IOException
@@ -122,6 +123,9 @@ public class StagePrincipal extends Stage implements Initializable
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.setWidth( this.getMinWidth() );
+		this.setHeight( this.getMinHeight() );
+
 		image.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
 
 		this.refresh();

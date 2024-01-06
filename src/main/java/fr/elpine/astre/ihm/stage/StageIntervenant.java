@@ -63,6 +63,9 @@ public class StageIntervenant extends Stage implements Initializable
 	{
 		this.setTitle("Intervenants");
 
+		this.setMinWidth(1400);
+		this.setMinHeight(600);
+
 		this.ensInter      = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
 		this.interAAjouter = new ArrayList<>();
 		this.interAEnlever = new ArrayList<>();
@@ -164,6 +167,9 @@ public class StageIntervenant extends Stage implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
+		this.setWidth( this.getMinWidth() );
+		this.setHeight( this.getMinHeight() );
+
 		tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
 		tc.setCellFactory(column -> new TableCell<>() {
 			@Override

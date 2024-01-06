@@ -33,6 +33,9 @@ public class StageAjouterAnnee extends Stage implements Initializable
     public StageAjouterAnnee() // fxml -> "ajouterAnnee"
     {
         this.setTitle("Ajouter une année");
+        this.setMinWidth(600);
+        this.setMinHeight(150);
+        this.setResizable(false);
     }
 
     /*public static Stage creer( StageAnnee parent ) throws IOException
@@ -109,6 +112,9 @@ public class StageAjouterAnnee extends Stage implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
         this.creerFormatter("^(\\d{4})-(\\d{4}).*$", this.txtfNonAnnee);
     }
 }

@@ -50,6 +50,8 @@ public class StageAffichageCSV extends Stage implements Initializable {
     public StageAffichageCSV() // fxml -> "affichageCSV"
     {
         this.setTitle("Affichage CSV");
+        this.setMinWidth(800);
+        this.setMinHeight(400);
     }
 
     public void setNomAnnee( String nomAnnee )
@@ -141,6 +143,9 @@ public class StageAffichageCSV extends Stage implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
 
         this.cbNomAnnee.setItems(FXCollections.observableArrayList(listerFichiers()));
         this.cbNomAnnee.setValue("résultat-" + this.nomAnnee + ".csv");

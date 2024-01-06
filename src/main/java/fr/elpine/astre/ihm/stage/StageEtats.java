@@ -6,15 +6,22 @@ import fr.elpine.astre.ihm.PopUp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-public class StageEtats extends Stage {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class StageEtats extends Stage implements Initializable {
     //private Stage stage;
 
     public StageEtats() // fxml -> "etats"
     {
         this.setTitle("Etats");
+        this.setMinWidth(300);
+        this.setMinHeight(450);
+        this.setResizable(false);
     }
 
     /*public static Stage creer() throws IOException{
@@ -80,5 +87,13 @@ public class StageEtats extends Stage {
     public void onBtnClickEtatAnnuler(ActionEvent actionEvent) throws IOException{
         this.close();
         //StagePrincipal.creer().show();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
     }
 }
