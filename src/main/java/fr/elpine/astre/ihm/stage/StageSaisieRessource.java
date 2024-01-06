@@ -55,7 +55,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     public TableColumn<Affectation, Integer> tcTotalEqtd;
     @FXML
-    public ObservableList<Affectation> ensAff;
+    public static ObservableList<Affectation> ensAff;
     @FXML
     public TextField txtTypeModule;
     @FXML
@@ -153,6 +153,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
         ajouterColonne("TO");
 
+
         initTabPan();
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
         {
@@ -170,12 +171,14 @@ public class StageSaisieRessource extends Stage implements Initializable
                 ajouterColonneRepartition(cat.getNom());
             }
         }
+        ajouterColonneRepartition("HP");
 
 
         this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
-        this.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
+        this.module  = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
 
-        this.ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+        this.ensAff = FXCollections.observableArrayList(this.module.getAffectations());
+
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant () .getNom()));
         tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure   () .getNom()));
         tcSemaine    .setCellValueFactory(cellData -> {
@@ -379,10 +382,11 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     //private void setStage(Stage stage) { this.stage = stage; }
 
-    private void init(String nomMod)
+    public void init(String nomMod)
     {
         System.out.println("this.semestre : "+this.semestre);
         if (this.module != null) {
+            System.out.println("mmmmh je rentre dans ce truc ?");
             // Initialisation pour la modification
             txtTypeModule.setText(this.module.getTypeModule());
             txtSemestre  .setText("" + this.semestre);
@@ -390,6 +394,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtCode      .setText(this.module.getCode());
 
             initPn(this.module);
+            initSemaine(this.module);
 
         } else {
             // Initialisation pour une nouvelle création
@@ -410,20 +415,25 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
+        {this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());}
+    }
+
+    public void initSemaine(Module mod)
+    {
+        for (Attribution att : mod.getAttributions())
         {
-            System.out.println("att.getNb"+att.getNbHeurePN().toString());
-            this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());
+            this.hmTxtSemaine.get(att.getCatHr().getNom()).get(0).setText("" + att.getNbSemaine());
+            this.hmTxtSemaine.get(att.getCatHr().getNom()).get(1).setText("" + att.getNbHeure  ().toString());
         }
     }
 
     @FXML
-    protected void onBtnAjouter(ActionEvent e) throws IOException {
-        //this.desactiver();
-        //StageAjoutRessource.creer(StageSaisieRessource.module ,this ).show();
-        StageAjoutRessource stage = Manager.creer("creationModules", this);
-
-        stage.setModule(this.module);
+    protected void onBtnAjouter(ActionEvent e) throws IOException
+    {
+        StageAjoutAffectation stage = Manager.creer("ajoutAffectation", this);
         stage.showAndWait();
+        this.refresh();
+
     }
 
     @FXML
@@ -509,12 +519,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         Fraction fractNbHeure = null;
         int nbSemaine         = 0;
 
-        if(this.affAAjouter != null)
-            for (Affectation aff : this.affAAjouter)
-            {
-                Controleur.get().getMetier().ajouterAffectation(aff);
-            }
-
         mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
         for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
@@ -524,21 +528,20 @@ public class StageSaisieRessource extends Stage implements Initializable
                 fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
                 fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
                 nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
-            }
 
-            Attribution att = new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
-            mod.ajouterAttribution(att);
+
+                Attribution att = new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
+                mod.ajouterAttribution(att);
+            }
 
             for (Affectation aff : tableau.getItems())
             {
+                System.out.println("affectation : " + aff);
                 mod.ajouterAffectation(aff);
             }
         }
         Controleur.get().getMetier().enregistrer();
         this.close();
-        Stage stage = Manager.creer("previsionnel", this);
-
-        stage.showAndWait();
     }
 
 
@@ -968,8 +971,8 @@ public class StageSaisieRessource extends Stage implements Initializable
     */
 
 
-    public void refresh() {
-        ensAff = FXCollections.observableArrayList(Controleur.get().getMetier().getAffectations());
+    public void refresh()
+    {
         tableau.setItems(ensAff);
     }
 
@@ -981,5 +984,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void setModule(Module mod) {
         this.module = mod;
+        init(this.module.getNom());
     }
 }
