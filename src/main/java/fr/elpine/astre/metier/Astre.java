@@ -1,5 +1,6 @@
 package fr.elpine.astre.metier;
 
+import com.opencsv.CSVWriter;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
@@ -7,6 +8,12 @@ import fr.elpine.astre.metier.outil.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -428,5 +435,61 @@ public class Astre
         Collections.sort(lstAction);
 
         return lstAction;
+    }
+
+    public Boolean getDonneesCSV(String annee) {
+        String nomDossier = "CSV";
+        String nomFichierCSV = nomDossier + "/résultat-" + annee + ".csv";
+
+        // Vérifier si le répertoire existe, sinon le créer
+        File dossier = new File(nomDossier);
+        if (!dossier.exists()) {
+            boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
+            if (!success) {
+                System.err.println("Impossible de créer le répertoire");
+                return false;
+            }
+        }
+        try (FileWriter writer = new FileWriter(nomFichierCSV);
+             CSVWriter csvWriter = new CSVWriter(writer)) {
+
+            String[] headerRecord = {"codeCategorie", "nom", "prenom", "heureService", "heureMax", "ratioTP", "S1 Théo", "S1 Réel", "S3 Théo", "S3 Réel", "S5 Théo", "S5 Réel", "TotImp Théo", "TotImp Réel", "S2 Théo", "S2 Réel", "S4 Théo", "S4 Réel", "S6 Théo", "S6 Réel", "TotPair Théo", "TotPair Réel", "Total Théo", "Total Réel"};
+            csvWriter.writeNext(headerRecord);
+
+                for ( Intervenant intervenant : this.ensIntervenant)
+                {
+                    ArrayList<Double> listHT = intervenant.getHeure(true );
+                    ArrayList<Double> listHR = intervenant.getHeure(false);
+                    String[] data = {
+                            intervenant.getCategorie().getCode(),
+                            intervenant.getNom(),
+                            intervenant.getPrenom(),
+                            intervenant.getHeureService().toString(),
+                            intervenant.getHeureMax().toString(),
+                            intervenant.getRatioTP().toString(),
+                            "" + listHT.get(0),
+                            "" + listHR.get(0),
+                            "" + listHT.get(2),
+                            "" + listHR.get(2),
+                            "" + listHT.get(4),
+                            "" + listHR.get(4),
+                            "" + (listHT.get(0)+listHT.get(2)+listHT.get(4)),
+                            "" + (listHR.get(0)+listHR.get(2)+listHR.get(4)),
+                            "" + listHT.get(1),
+                            "" + listHR.get(1),
+                            "" + listHT.get(3),
+                            "" + listHR.get(3),
+                            "" + listHT.get(5),
+                            "" + listHR.get(5),
+                            "" + (listHT.get(1)+listHT.get(3)+listHT.get(5)),
+                            "" + (listHR.get(1)+listHR.get(3)+listHR.get(5)),
+                            "" + (listHT.get(0)+listHT.get(1)+listHT.get(2)+listHT.get(3)+listHT.get(4)+listHT.get(5)),
+                            "" + (listHR.get(0)+listHR.get(1)+listHR.get(2)+listHR.get(3)+listHR.get(4)+listHR.get(5))
+                    };
+                    csvWriter.writeNext(data);
+                }
+            return true;
+        }
+        catch (IOException e) { logger.error("Erreur lors de la récupération des données pour le fichier csv", e); return false; }
     }
 }

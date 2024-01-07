@@ -4,11 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAffichageCSV">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1370.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAffichageCSV">
    <bottom>
        <Pane prefHeight="73.0" prefWidth="787.0" BorderPane.alignment="CENTER">
            <Button fx:id="btnAnnuler" layoutX="50.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickAnnuler" prefWidth="100.0" text="Retour" />
-         <TextField fx:id="txtFieldRecherche" layoutX="545.0" layoutY="14.0" onAction="#onBtnRechercher" prefHeight="25.0" prefWidth="219.0" promptText="Rehercher (Categorie,nom,prénom)" />
+         <TextField fx:id="txtFieldRecherche" layoutX="1094.0" layoutY="14.0" onAction="#onBtnRechercher" prefHeight="25.0" prefWidth="219.0" promptText="Rehercher (Categorie,nom,prénom)" />
          <ChoiceBox fx:id="cbNomAnnee" layoutX="175.0" layoutY="14.0" prefHeight="25.0" prefWidth="198.0" />
        </Pane>
    </bottom>
@@ -33,11 +33,48 @@
             <TableColumn fx:id="tcHServ" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="hServ" />
             <TableColumn fx:id="tcHMax" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="hMax" />
             <TableColumn fx:id="tcRatioTP" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="CoefTP" />
+            <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="S1">
+                <columns>
+                    <TableColumn fx:id="tcTheoS1" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
+                    <TableColumn fx:id="tcReelS1" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
+                </columns>
+            </TableColumn>
+            <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="S3">
+                <columns>
+                    <TableColumn fx:id="tcTheoS3" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
+                    <TableColumn fx:id="tcReelS3" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
+                </columns>
+            </TableColumn>
+            <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="S5">
+                <columns>
+                    <TableColumn fx:id="tcTheoS5" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
+                    <TableColumn fx:id="tcReelS5" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
+                </columns>
+            </TableColumn>
             <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="sTot Impair">
                <columns>
                   <TableColumn fx:id="tcTheoTotImpair" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
                   <TableColumn fx:id="tcReelTotImpair" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
+               </columns>
+            </TableColumn>
+            <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="S2">
+                <columns>
+                    <TableColumn fx:id="tcTheoS2" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
+                    <TableColumn fx:id="tcReelS2" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
+                </columns>
+            </TableColumn>
+            <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="S4">
+                <columns>
+                    <TableColumn fx:id="tcTheoS4" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
+                    <TableColumn fx:id="tcReelS4" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
+                </columns>
+            </TableColumn>
+            <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="S6">
+                <columns>
+                    <TableColumn fx:id="tcTheoS6" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
+                    <TableColumn fx:id="tcReelS6" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
+                </columns>
+            </TableColumn>
             <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="sTot Pair">
                <columns>
                   <TableColumn fx:id="tcTheoTotPair" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />

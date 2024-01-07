@@ -73,7 +73,7 @@ public class StageEtats extends Stage implements Initializable {
 
     public void onBtnClickEtatCSV(ActionEvent actionEvent) throws IOException {
         String nomAnnee = Controleur.get().getMetier().getAnneeActuelle().getNom();
-        if ( !Controleur.get().getDb().getDonneesCSV( nomAnnee ) ) {
+        if ( !Controleur.get().getMetier().getDonneesCSV( nomAnnee ) ) {
             PopUp.warning("Erreur de génération","Erreur de génération","Les données n'ont pas pus être récupéré");
         }
         else if ( PopUp.confirmationR("Fichier CSV","Fichier CSV généré","Le fichier CSV a bien été généré voulez vous l'ouvrir ?") ) {
