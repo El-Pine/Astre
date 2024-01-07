@@ -84,6 +84,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     private TextField txtCode;
     private Module module;
     private int semestre;
+    private String typeModule;
 
     public GridPane gridPn;
     public GridPane gridPaneRepartition;
@@ -142,108 +143,107 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
 
-        this.init("Ressource");
+        if(this.typeModule != null)
+            if(this.typeModule.equals("ressource"))
+            {
+                System.out.println("????");
+                initializeRessource();
+            }
+
+
+    }
+
+    public void initializeRessource()
+    {
+
         initGridPn();
+        initTabPan();
+        initRepartitionColumns();
+        initTableColumns();
+
+
+        initializeModuleAndAffectations();
+
+        setupTableAndBindings();
+        setupListenersAndFormatters();
+        calculateAffecte();
+    }
+
+    private void initTableColumns() {
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
         {
-            if(cat.estRessource())
+            System.out.println(cat);
+            if (cat.estRessource())
             {
                 ajouterColonne(cat.getNom());
             }
         }
         ajouterColonne("TO");
 
+        tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom()));
+        tcType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
+        tcSemaine.setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject() : null);
+        tcGrp.setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject() : null);
+        tcNbH.setCellValueFactory(cellData -> cellData.getValue().hasNbHeure() ? new SimpleStringProperty(cellData.getValue().getNbHeure().toString()) : null);
+        tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
+    }
 
-        initTabPan();
-        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
-        {
-            if(cat.estRessource())
-            {
-                ajouterOnglet(cat.getNom());
-            }
-        }
-
+    private void initRepartitionColumns() {
         this.gridPaneRepartition.getChildren().clear();
-        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
-        {
-            if (cat.estRessource())
-            {
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures()) {
+            if (cat.estRessource()) {
                 ajouterColonneRepartition(cat.getNom());
             }
         }
         ajouterColonneRepartition("HP");
+    }
 
-
-        this.hmTxtPn = new HashMap<String,ArrayList<TextField>>();
-        this.module  = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(), txtTypeModule.getText(), Color.rgb(255,255,255), cbValidation.isSelected(), Controleur.get().getMetier().getSemestres().get(parseInt(txtSemestre.getText())));
+    private void initializeModuleAndAffectations() {
+        this.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(),
+                txtTypeModule.getText(), Color.rgb(255, 255, 255), cbValidation.isSelected(),
+                Controleur.get().getMetier().getSemestres().get(Integer.parseInt(txtSemestre.getText())));
 
         this.ensAff = FXCollections.observableArrayList(this.module.getAffectations());
+    }
 
-        tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant () .getNom()));
-        tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure   () .getNom()));
-        tcSemaine    .setCellValueFactory(cellData -> {
-            if (cellData.getValue().hasGrpAndNbSemaine())
-	            return new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject();
-            else
-                return null;
-        });
-        tcGrp    .setCellValueFactory(cellData -> {
-            if (cellData.getValue().hasGrpAndNbSemaine())
-                return new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject();
-            else
-                return null;
-        });
-        tcNbH    .setCellValueFactory(cellData -> {
-            if (cellData.getValue().hasNbHeure())
-                return new SimpleStringProperty(cellData.getValue().getNbHeure    ().toString());
-            else
-                return null;
-        });
-        tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCommentaire()));
-
-
-        //System.out.println(ensAff);
-
+    private void setupTableAndBindings() {
         tableau.setItems(ensAff);
+    }
 
-
+    private void setupListenersAndFormatters() {
         this.hmTxtPn = initHmPn(getAllTextFieldsPn(gridPn));
+        activationTextField(this.hmTxtPn,"Pn");
 
-        this.hmTxtPn.forEach((key,value) -> {
+
+        this.hmTxtSemaine = initHmPn(extractTextFields(tabPaneSemaine));
+        activationTextField(this.hmTxtSemaine,"Semaine");
+
+        this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
+        activationTextField(this.hmTxtRepartion,"Repartition");
+    }
+
+    private void activationTextField(HashMap<String, ArrayList<TextField>> hm,String prout)
+    {
+        hm.forEach((key,value) -> {
             for (TextField txt: value)
             {
                 if(txt.isEditable())
                 {
-                    ajouterListener(txt);
+                    switch (prout)
+                    {
+                        case "Pn"          -> ajouterListener(txt);
+                        case "Semaine"     -> ajouterListenerSemaine(txt);
+                        case "Repartition" -> ajouterListenerTotal(txt);
+                    }
                     creerFormatter(key,txt);
                 }
             }
         });
-
-        this.hmTxtSemaine = initHmPn(extractTextFields(tabPaneSemaine));
-
-        //System.out.println(hmTxtSemaine);
-
-        this.hmTxtSemaine.forEach((key,value) -> {
-            for (TextField txt: value)
-            {
-                ajouterListenerSemaine(txt);
-                creerFormatter(key,txt);
-            }
-        });
-
-        this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
-        this.hmTxtRepartion.forEach((key,value) -> {
-            for (TextField txt: value)
-            {
-                ajouterListenerTotal(txt);
-                creerFormatter(key,txt);
-            }
-        });
-
-        calculeAffecte();
     }
 
+    private void calculateAffecte() {
+        calculeAffecte();
+    }
     private void calculeAffecte() {
         // Générer la liste de champs texte
         ArrayList<TextField> alAffecte = genererArrayList();
@@ -382,11 +382,9 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     //private void setStage(Stage stage) { this.stage = stage; }
 
-    public void init(String nomMod)
+    public void init()
     {
-        System.out.println("this.semestre : "+this.semestre);
         if (this.module != null) {
-            System.out.println("mmmmh je rentre dans ce truc ?");
             // Initialisation pour la modification
             txtTypeModule.setText(this.module.getTypeModule());
             txtSemestre  .setText("" + this.semestre);
@@ -398,7 +396,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         } else {
             // Initialisation pour une nouvelle création
-            txtTypeModule.setText(nomMod);
+            txtTypeModule.setText(this.typeModule);
             txtTypeModule.setEditable(false);
             txtSemestre  .setText("" + this.semestre);
             txtSemestre  .setEditable(false);
@@ -410,6 +408,8 @@ public class StageSaisieRessource extends Stage implements Initializable
         txtNbEtd.setText("" + sem.getNbEtd());
         txtNbGpTD.setText("" + sem.getNbGrpTD());
         txtnbGpTP.setText("" + sem.getNbGrpTP());
+
+        initializeRessource();
     }
 
     public void initPn(Module mod)
@@ -665,11 +665,9 @@ public class StageSaisieRessource extends Stage implements Initializable
         TextField txt1 = new TextField();
         TextField txt2 = new TextField();
 
-        if(this.module != null &&  nom != "TO")
+        if(this.module != null &&  nom.equals("TO"))
         {
             CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
-            System.out.println("Nom CatHr :" +catHr.getNom());
-            System.out.println("StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString() : " +this.module.getAttribution(catHr).getNbHeurePN().toString());
 
 
             //txt1.setText(StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString());
@@ -734,6 +732,13 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initTabPan()
     {
         this.tabPaneSemaine.getTabs().clear();
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(cat.estRessource())
+            {
+                ajouterOnglet(cat.getNom());
+            }
+        }
     }
 
     private void initGridPn()
@@ -979,11 +984,17 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void setSemestre(int semestre)
     {
         this.semestre = semestre;
-        init(this.module.getNom());
+        init();
     }
 
     public void setModule(Module mod) {
         this.module = mod;
-        init(this.module.getNom());
+        init();
+    }
+
+    public void setTypeModule(String typeModule)
+    {
+        this.typeModule = typeModule;
+        init();
     }
 }

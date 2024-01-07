@@ -115,8 +115,10 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 	@FXML
 	public void onBtnCreerStage(ActionEvent actionEvent) throws IOException {
-		//stage.close();
-		//StageSaisieStage.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
+		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
+		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
+		stage.setSemestre(num);
+		stage.setTypeModule("stage");
 	}
 
 	@FXML
@@ -127,7 +129,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 		StageSaisieRessource stage = Manager.creer("saisieRessource", this);
 
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
+
 		stage.setSemestre(num);
+		stage.setTypeModule("ressource");
 		stage.showAndWait();
 	}
 
