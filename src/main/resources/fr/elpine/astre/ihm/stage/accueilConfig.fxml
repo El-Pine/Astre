@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAccueilConfig">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAccueilConfig">
    <bottom>
-      <ToolBar BorderPane.alignment="CENTER_LEFT">
+      <ToolBar prefHeight="40.0" BorderPane.alignment="CENTER_LEFT">
         <items>
           <Button fx:id="btnConfigBd" mnemonicParsing="false" onAction="#onBtnConfigBdd" text="Configurer la base de données" />
             <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="100.0" text="Ajouter" />
@@ -52,7 +52,7 @@
       </GridPane>
    </center>
    <top>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
