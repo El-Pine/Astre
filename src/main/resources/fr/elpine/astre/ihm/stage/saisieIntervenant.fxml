@@ -4,18 +4,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutIntervenant">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutIntervenant">
    <bottom>
       <ButtonBar prefHeight="35.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button fx:id="btnValider" defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" style="-fx-background-color: lightgray; -fx-border-color: gray; -fx-border-radius: 3px;" text="Valider" />
+          <Button fx:id="btnValider" defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#btnAnnuler" text="Annuler" />
         </buttons>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
          <padding>
-            <Insets right="10.0" />
+            <Insets bottom="10.0" right="10.0" top="10.0" />
          </padding>
       </ButtonBar>
    </bottom>
@@ -28,11 +28,12 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+            <FlowPane alignment="CENTER">
                <children>
                   <Label prefWidth="100.0" text="Nom">
                      <FlowPane.margin>
@@ -46,7 +47,7 @@
                   </TextField>
                </children>
             </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <FlowPane alignment="CENTER" GridPane.rowIndex="1">
                <children>
                   <Label contentDisplay="CENTER" prefWidth="100.0" text="Prenom">
                      <FlowPane.margin>
@@ -60,32 +61,7 @@
                   </TextField>
                </children>
             </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
-               <children>
-                  <Label prefWidth="100.0" text="Contrat" />
-                  <ComboBox fx:id="cpbContrat" prefWidth="200.0">
-                     <FlowPane.margin>
-                        <Insets left="10.0" />
-                     </FlowPane.margin>
-                  </ComboBox>
-               </children>
-            </FlowPane>
-            <Label GridPane.rowIndex="4" />
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
-               <children>
-                  <Label alignment="CENTER" text="Heure service : " />
-                  <TextField fx:id="txtService" prefHeight="26.0" prefWidth="42.0" text="192" />
-                  <Label text="Heure complementaire : ">
-                     <FlowPane.margin>
-                        <Insets left="10.0" />
-                     </FlowPane.margin>
-                  </Label>
-                  <TextField fx:id="txtComplementaire" prefHeight="26.0" prefWidth="42.0" text="172" />
-                  <Label text="  Ratio TP : " />
-                  <TextField fx:id="txtfRatio" prefHeight="26.0" prefWidth="42.0" />
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+            <FlowPane alignment="CENTER" GridPane.rowIndex="2">
                <children>
                   <Label prefWidth="100.0" text="Adresse Mail">
                      <FlowPane.margin>
@@ -99,7 +75,53 @@
                   </TextField>
                </children>
             </FlowPane>
+            <FlowPane alignment="BOTTOM_CENTER" columnHalignment="CENTER" hgap="10.0" GridPane.rowIndex="3">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="90.0" text="Heure de service" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="130.0" text="Heure complementaire">
+                     <FlowPane.margin>
+                        <Insets left="10.0" />
+                     </FlowPane.margin>
+                  </Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="90.0" text="Ratio TP" />
+               </children>
+               <padding>
+                  <Insets bottom="8.0" />
+               </padding>
+            </FlowPane>
+            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="10.0" GridPane.rowIndex="4">
+               <children>
+                  <TextField fx:id="txtService" prefWidth="60.0" text="192">
+                     <FlowPane.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </FlowPane.margin></TextField>
+                  <TextField fx:id="txtComplementaire" prefWidth="60.0" text="172">
+                     <FlowPane.margin>
+                        <Insets left="35.0" right="35.0" />
+                     </FlowPane.margin></TextField>
+                  <TextField fx:id="txtfRatio" prefWidth="60.0">
+                     <FlowPane.margin>
+                        <Insets left="15.0" right="15.0" />
+                     </FlowPane.margin></TextField>
+               </children>
+               <padding>
+                  <Insets top="8.0" />
+               </padding>
+            </FlowPane>
+            <FlowPane alignment="CENTER" GridPane.rowIndex="5">
+               <children>
+                  <Label prefWidth="100.0" text="Catégorie" />
+                  <ComboBox fx:id="cpbContrat" prefWidth="200.0">
+                     <FlowPane.margin>
+                        <Insets left="10.0" />
+                     </FlowPane.margin>
+                  </ComboBox>
+               </children>
+            </FlowPane>
          </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" top="10.0" />
+         </BorderPane.margin>
       </GridPane>
    </center>
 </BorderPane>
