@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutRessource">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -31,7 +31,7 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <ComboBox prefWidth="150.0" />
+                  <ComboBox fx:id="cbbInter" prefWidth="150.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
@@ -41,7 +41,7 @@
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <TextField prefHeight="26.0" prefWidth="241.0" />
+                  <TextField fx:id="txtCommentaire" prefHeight="26.0" prefWidth="241.0" />
                </children>
             </FlowPane>
          </children>
@@ -134,13 +134,16 @@
       </GridPane>
       <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" prefWidth="60.0" text="Ajouter">
+            <Button mnemonicParsing="false" prefWidth="80.0" text="Ajouter">
                <FlowPane.margin>
                   <Insets right="30.0" />
                </FlowPane.margin>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" prefWidth="60.0" text="Annuler" />
+            <Button alignment="CENTER" mnemonicParsing="false" prefWidth="80.0" text="Annuler" />
          </children>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
       </FlowPane>
    </children>
 </GridPane>

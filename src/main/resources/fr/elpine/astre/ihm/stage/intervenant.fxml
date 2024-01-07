@@ -1,91 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
-   <bottom>
-       <Pane prefHeight="123.0" prefWidth="701.0" BorderPane.alignment="CENTER">
-           <Button fx:id="btnEnregistrer" layoutX="22.0" layoutY="84.0" mnemonicParsing="false" onAction="#onBtnClickEnregistrer" prefWidth="100.0" text="Enregister" />
-           <Button fx:id="btnAnnuler" layoutX="133.0" layoutY="84.0" mnemonicParsing="false" onAction="#onBtnClickAnnuler" prefWidth="100.0" text="Annuler" />
-           <Button fx:id="btnAjouter" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickAjouter" prefWidth="100.0" text="Ajouter" />
-           <Button fx:id="btnSupprimer" layoutX="133.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBtnClickSupprimer" prefWidth="100.0" text="Supprimer" />
-         <TextField fx:id="txtFieldRecherche" layoutX="949.0" layoutY="14.0" onAction="#onBtnRechercher" prefWidth="250.0" promptText="Rehercher (Categorie,nom,prénom)" />
-       </Pane>
-   </bottom>
-   <left>
-      <Pane prefHeight="227.0" prefWidth="30.0" BorderPane.alignment="CENTER" />
-   </left>
-   <right>
-      <Pane prefHeight="285.0" prefWidth="30.0" BorderPane.alignment="CENTER" />
-   </right>
+<BorderPane maxHeight="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageIntervenant">
    <top>
-       <Pane prefHeight="49.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-           <TextFlow layoutX="89.0" layoutY="-43.0" prefHeight="200.0" prefWidth="200.0" />
-           <Label layoutX="21.0" layoutY="27.0" text="Liste des intervenants" />
-       </Pane>
+        <Label text="Liste des intervenants">
+         <padding>
+            <Insets bottom="10.0" top="20.0" />
+         </padding>
+      </Label>
    </top>
    <center>
-      <TableView fx:id="tabAffInter" prefHeight="227.0" prefWidth="1320.0" snapToPixel="false" BorderPane.alignment="CENTER">
+      <TableView fx:id="tabAffInter" snapToPixel="false" BorderPane.alignment="CENTER">
         <columns>
-            <TableColumn fx:id="tc" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" reorderable="false" resizable="false" text=" " />
-          <TableColumn fx:id="tcCategorie" maxWidth="500.0" minWidth="79.0" prefWidth="79.0" reorderable="false" resizable="false" text="Catégorie" />
-          <TableColumn fx:id="tcNom" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Nom" />
-            <TableColumn fx:id="tcPrenom" maxWidth="500.0" minWidth="80.0" reorderable="false" resizable="false" text="Prénom" />
-            <TableColumn fx:id="tcMail" minWidth="100.0" prefWidth="100.0" resizable="false" text="Mail" />
-            <TableColumn fx:id="tcHServ" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="hServ" />
-            <TableColumn fx:id="tcHMax" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="hMax" />
-            <TableColumn fx:id="tcRatioTP" minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="CoefTP" />
-            <TableColumn minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="s1">
-               <columns>
-                  <TableColumn fx:id="tc1Theo" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tc1Reel" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="s3">
-               <columns>
-                  <TableColumn fx:id="tc3Theo" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tc3Reel" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="65.0" prefWidth="65.0" reorderable="false" resizable="false" text="s5">
-               <columns>
-                  <TableColumn fx:id="tc5Theo" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tc5Reel" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="42.79998779296875" prefWidth="43.79998779296875" reorderable="false" resizable="false" text="stot">
-               <columns>
-                  <TableColumn fx:id="tcTheoTotImp" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tcReelTotImp" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="36.39996337890625" prefWidth="36.39996337890625" reorderable="false" resizable="false" text="s2">
-               <columns>
-                  <TableColumn fx:id="tc2Theo" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tc2Reel" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="11.0" prefWidth="22.0" reorderable="false" resizable="false" text="s4">
-               <columns>
-                  <TableColumn fx:id="tc4Theo" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tc4Reel" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="40.0" prefWidth="66.4000244140625" reorderable="false" resizable="false" text="s6">
-               <columns>
-                  <TableColumn fx:id="tc6Theo" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tc6Reel" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="50.0" prefWidth="80.2000732421875" reorderable="false" resizable="false" text="sTot">
-               <columns>
-                  <TableColumn fx:id="tcTheoTotPair" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tcReelTotPair" minWidth="45.0" prefWidth="45.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
-            <TableColumn minWidth="50.0" prefWidth="110.2000732421875" reorderable="false" resizable="false" text="Total">
-               <columns>
-                  <TableColumn fx:id="tcTheoTot" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Théo" />
-                  <TableColumn fx:id="tcReelTot" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Réel" />
-               </columns></TableColumn>
+            <TableColumn fx:id="tcAjout" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" reorderable="false" resizable="false" text=" " />
+          <TableColumn fx:id="tcCategorie" minWidth="80.0" reorderable="false" resizable="false" text="Catégorie" />
+          <TableColumn fx:id="tcNom" minWidth="80.0" reorderable="false" resizable="false" text="Nom" />
+            <TableColumn fx:id="tcPrenom" minWidth="80.0" reorderable="false" resizable="false" text="Prénom" />
+            <TableColumn fx:id="tcMail" minWidth="200.0" prefWidth="200.0" resizable="false" text="Mail" />
+            <TableColumn fx:id="tcHServ" minWidth="70.0" prefWidth="70.0" reorderable="false" resizable="false" text="H Service" />
+            <TableColumn fx:id="tcHMax" minWidth="70.0" prefWidth="70.0" reorderable="false" resizable="false" text="H Max" />
+            <TableColumn fx:id="tcRatioTP" minWidth="60.0" prefWidth="60.0" reorderable="false" resizable="false" text="Coef TP" />
+            <TableColumn fx:id="tcS1" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="S1" />
+            <TableColumn fx:id="tcS3" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="S3" />
+            <TableColumn fx:id="tcS5" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="S5" />
+            <TableColumn fx:id="tcTotImpair" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="sTot" />
+            <TableColumn fx:id="tcS2" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="S2" />
+            <TableColumn fx:id="tcS4" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="S4" />
+            <TableColumn fx:id="tcS6" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="S6" />
+            <TableColumn fx:id="tcTotPair" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="sTot" />
+            <TableColumn fx:id="tcTot" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Total" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
    </center>
+   <padding>
+      <Insets left="30.0" right="30.0" />
+   </padding>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <FlowPane alignment="CENTER_RIGHT">
+               <children>
+                  <TextField fx:id="txtFieldRecherche" onAction="#onBtnRechercher" prefWidth="250.0" promptText="Rehercher (Categorie,nom,prénom)">
+                     <FlowPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </FlowPane.margin></TextField>
+               </children>
+            </FlowPane>
+            <GridPane alignment="CENTER">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <columnConstraints>
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <ButtonBar>
+                    <buttons>
+                          <Button fx:id="btnEnregistrer" defaultButton="true" mnemonicParsing="false" onAction="#onBtnClickEnregistrer" prefWidth="100.0" text="Enregister" />
+                          <Button fx:id="btnAnnuler" cancelButton="true" mnemonicParsing="false" onAction="#onBtnClickAnnuler" prefWidth="100.0" text="Annuler" />
+                    </buttons>
+                  </ButtonBar>
+                  <ButtonBar layoutX="10.0" layoutY="10.0" GridPane.columnIndex="1">
+                     <buttons>
+                          <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#onBtnClickAjouter" prefWidth="100.0" text="Ajouter" />
+                          <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#onBtnClickSupprimer" prefWidth="100.0" text="Supprimer" />
+                     </buttons>
+                  </ButtonBar>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>

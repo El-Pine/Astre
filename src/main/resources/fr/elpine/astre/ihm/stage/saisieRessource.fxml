@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <BorderPane prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
    <top>
@@ -65,10 +51,10 @@
                      </padding>
                   </Label>
                   <TextField fx:id="txtTypeModule" prefHeight="26.0" prefWidth="120.0" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtSemestre" prefHeight="26.0" prefWidth="80.0" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtCode" prefHeight="26.0" prefWidth="80.0" text="R1.01" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtLibelleLong" prefHeight="26.0" prefWidth="300.0" text="Initiation au développement" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtLibelleCourt" prefWidth="150.0" text="Init Dev" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtSemestre" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtCode" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtLibelleLong" prefHeight="26.0" prefWidth="300.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtLibelleCourt" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                </children>
                <GridPane.margin>
                   <Insets />
@@ -258,7 +244,7 @@
                                  </BorderPane.margin>
                               </AnchorPane>
                            </left>
-                           <center>
+                           <right>
                               <AnchorPane prefHeight="150.0" BorderPane.alignment="CENTER">
                                  <children>
                                     <BorderPane prefHeight="150.0" style="-fx-background-color: -color-bg-default;">
@@ -571,7 +557,7 @@
                                     <Label alignment="CENTER" layoutX="356.0" layoutY="-8.0" prefWidth="70.0" text="Répartition" />
                                  </children>
                               </AnchorPane>
-                           </center>
+                           </right>
                         </BorderPane>
                      </content>
                      <opaqueInsets>
@@ -582,6 +568,9 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
+               <BorderPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </BorderPane.margin>
             </Accordion>
          </top>
          <opaqueInsets>
@@ -610,10 +599,13 @@
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
+                     <BorderPane.margin>
+                        <Insets right="10.0" />
+                     </BorderPane.margin>
                   </TableView>
                </center>
                <top>
-                  <Label text="Affectation" BorderPane.alignment="BOTTOM_LEFT" />
+                  <Label text="Affectations" BorderPane.alignment="BOTTOM_LEFT" />
                </top>
             </BorderPane>
          </center>

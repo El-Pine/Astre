@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 // TODO : renommer en affectation et non ajout ... ou creationModules
+//  et faire en sorte que cette classe gère l'ajout d'affectation pour tous les types de modules
 
 public class StageAjoutRessource extends Stage implements Initializable {
     //private Stage stage;
@@ -58,8 +59,8 @@ public class StageAjoutRessource extends Stage implements Initializable {
     public StageAjoutRessource() // fxml -> "creationModules"
     {
         this.setTitle("Affectation");
-        this.setMinWidth(1000);
-        this.setMinHeight(700);
+        this.setMinWidth(600);
+        this.setMinHeight(400);
     }
 
     /*public static Stage creer(Module module, StageSaisieRessource parent) throws IOException

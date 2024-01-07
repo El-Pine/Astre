@@ -226,7 +226,7 @@
       <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#onBtnCreerRessource" text="Créer Ressource" />
-            <Button mnemonicParsing="false" onAction="#onBtnCreerSae" text="Créer SAE">
+            <Button mnemonicParsing="false" onAction="#onBtnCreerSae" text="Créer SAÉ">
                <FlowPane.margin>
                   <Insets left="20.0" />
                </FlowPane.margin>
