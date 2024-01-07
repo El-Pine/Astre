@@ -2,9 +2,12 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
+import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Module;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -28,15 +32,16 @@ import java.util.ResourceBundle;
 public class StageGeneration extends Stage implements Initializable
 {
     //private Stage stage;
-    private ObservableList<Intervenant> ensInter;
-    private ObservableList<Module> ensMod;
+    private ObservableList<Object> ens;
 
     @FXML
-    private TableView<String>tabGeneration;
+    private TableView<Object>tabGeneration;
     @FXML
-    private TableColumn<String,String> g_1;
+    private TableColumn<Object,String> g_1;
     @FXML
-    private TableColumn<String,String>g_2;
+    private TableColumn<Object,Boolean>g_2;
+
+    private String vue;
 
 
     public StageGeneration() // fxml -> "generation"
@@ -44,6 +49,8 @@ public class StageGeneration extends Stage implements Initializable
         this.setTitle("Generation");
         this.setMinWidth(1400);
         this.setMinHeight(600);
+
+
     }
 
 
@@ -91,21 +98,38 @@ public class StageGeneration extends Stage implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
-
     }
 
 
     public void setVue(String vue) {
-        if(vue=="intervenant")
+        if(vue.equals("intervenant"))
         {
-            this.ensInter = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
+            this.ens = FXCollections.observableArrayList(Controleur.get().getMetier().getIntervenants());
+            this.vue = "intervenant";
         }
-        else if(vue=="module")
+        else if(vue.equals("module"))
         {
-            this.ensMod = FXCollections.observableArrayList(Controleur.get().getMetier().getModules());
+            this.ens = FXCollections.observableArrayList(Controleur.get().getMetier().getModules());
+            this.vue = "module";
         }
+
+        this.g_2.setCellValueFactory(cellData -> new SimpleBooleanProperty(false));
+        g_2.setCellFactory(CheckBoxTableCell.forTableColumn(g_2));
+
+
+        if (this.vue.equals("intervenant"))
+        {
+            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( ((Intervenant)cellData.getValue()).getNom() ) );
+        }
+        else if (this.vue.equals("module"))
+        {
+            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( ((Module)cellData.getValue()).getCode() ) );
+        }
+
+        this.tabGeneration.setItems(this.ens);
+        this.tabGeneration.setEditable(true);
     }
+
 }
