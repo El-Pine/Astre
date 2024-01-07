@@ -79,12 +79,12 @@ public class Affectation
     public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = true;    }
 
     /* Calculs */
-    public double getTotalEqtd() {
-        if (this.hasNbHeure()) return this.nbHeure.value() * this.typeHeure.getEquivalentTD().value();
+    public double getTotalEqtd( boolean avecEqtd ) {
+        if (this.hasNbHeure()) return this.nbHeure.value() * (avecEqtd ? this.typeHeure.getEquivalentTD().value() : 1);
         else {
             Attribution att = this.module.getAttribution( this.typeHeure );
 
-            return this.nbSemaine * this.nbGroupe * ( att == null ? 1 : ( att.hasNbSemaine() ? att.getNbSemaine() : 1 ) ) * this.typeHeure.getEquivalentTD().value();
+            return this.nbSemaine * this.nbGroupe * ( att == null ? 1 : ( att.hasNbSemaine() ? att.getNbSemaine() : 1 ) ) * (avecEqtd ? this.typeHeure.getEquivalentTD().value() : 1);
         }
     }
 
