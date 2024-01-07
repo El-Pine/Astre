@@ -84,7 +84,7 @@ public class StageAjoutIntervenant extends Stage implements Initializable
             this.close();
         }
         else
-            PopUp.warning("Informations incorrectes", null, "Les informations entrées ne sont pas toutes valide").showAndWait();
+            PopUp.warning("Informations incorrectes", null, "Les informations entrées ne sont pas toutes valides").showAndWait();
     }
 
     public void btnAnnuler() {
