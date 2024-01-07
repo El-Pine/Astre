@@ -463,12 +463,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     }*/
 
     private void creerFormatter(String nom, TextField txtf) {
-    txtf.setTextFormatter(new TextFormatter<>(change -> {
-        if (change.getControlNewText().matches("^\\d+$")) {
-            String newText = change.getControlNewText();
-
-            if (isNumeric(newText)) {
-                int newValue = Integer.parseInt(newText);
+        txtf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("^\\d+$")) {
+                String newText = change.getControlNewText();
 
                 List<TextField> repartitionList = this.hmTxtRepartion.get(nom);
                 List<TextField> pnList = this.hmTxtPn.get(nom);
@@ -476,10 +473,10 @@ public class StageSaisieRessource extends Stage implements Initializable
                 if (repartitionList != null && pnList != null) {
                     int index = repartitionList.indexOf(txtf);
 
-                    if (index != -1 && index < pnList.size()) {
+                    if (index > -1 && index < pnList.size()) { //source pb regex
                         int pnValue = Integer.parseInt(pnList.get(index).getText());
 
-                        if (!repartitionList.contains(txtf) || newValue <= pnValue) {
+                        if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue) {
                             txtf.setStyle("");
                         } else {
                             txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
@@ -491,16 +488,15 @@ public class StageSaisieRessource extends Stage implements Initializable
                     // Handle the case when either repartitionList or pnList is null
                     txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                 }
-
+                return change;
+            } else if (change.getText().isEmpty()) {
+                txtf.setStyle("");
+                return change;
             } else {
-                txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                return null;
             }
-            return change;
-        } else {
-            return null;
-        }
-    }));
-}
+        }));
+    }
     // Méthode utilitaire pour vérifier si une chaîne est un nombre
     private boolean isNumeric(String str) {
         try {
