@@ -13,9 +13,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class StageAjoutAffectation extends Stage
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class StageAjoutAffectation extends Stage implements Initializable
 {
     @FXML
     private ComboBox<Intervenant>    cbIntervenant;
@@ -41,8 +45,6 @@ public class StageAjoutAffectation extends Stage
     public StageAjoutAffectation() //fxml -> ajoutAffectation
     {
         this.setTitle("Ajout Affectation");
-
-        init();
     }
 
     public void init()
@@ -60,7 +62,7 @@ public class StageAjoutAffectation extends Stage
         Affectation aff = null;
         if(rbHP.isSelected())
         {
-            aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
+            aff = new Affectation(null, cbIntervenant.getValue(),cbbCatHeure.getValue(), Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
         }
         else
         {
@@ -78,7 +80,12 @@ public class StageAjoutAffectation extends Stage
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        init();
+    }
 
-
+    public void setModule(Module mod) { this.module = mod; }
 
 }

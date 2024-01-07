@@ -102,30 +102,37 @@ public class StagePrevisionnel extends Stage implements Initializable
 	}*/
 
 	@FXML
-	public void onBtnCreerPpp(ActionEvent actionEvent) throws IOException {
-		//stage.close();
-		//StageSaisiePpp.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
-	}
-
-	@FXML
-	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException {
-		//stage.close();
-		//StageSaisieSae.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1).show();
-	}
-
-	@FXML
-	public void onBtnCreerStage(ActionEvent actionEvent) throws IOException {
+	public void onBtnCreerPpp(ActionEvent actionEvent) throws IOException
+	{
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
 		stage.setTypeModule("stage");
+		stage.showAndWait();
+	}
+
+	@FXML
+	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException
+	{
+		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
+		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
+		stage.setSemestre(num);
+		stage.setTypeModule("stage");
+		stage.showAndWait();
+	}
+
+	@FXML
+	public void onBtnCreerStage(ActionEvent actionEvent) throws IOException
+	{
+		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
+		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
+		stage.setSemestre(num);
+		stage.setTypeModule("stage");
+		stage.showAndWait();
 	}
 
 	@FXML
 	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException {
-		//stage.close();
-		//StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1, null).showAndWait();
-
 		StageSaisieRessource stage = Manager.creer("saisieRessource", this);
 
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;

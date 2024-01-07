@@ -82,7 +82,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     public ArrayList<Affectation> affAEnlever;
     @FXML
     private TextField txtCode;
-    private Module module;
+    private Module moduleModif;
+
+    private Module futurModule;
     private int semestre;
     private String typeModule;
 
@@ -140,29 +142,47 @@ public class StageSaisieRessource extends Stage implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        this.setWidth( this.getMinWidth() );
+        this.setWidth ( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
 
+
+
         if(this.typeModule != null)
-            if(this.typeModule.equals("ressource"))
-            {
-                System.out.println("????");
+        {
+            if (this.typeModule.equals("ressource")) {
                 initializeRessource();
             }
+            if (this.typeModule.equals("stage")) {
+                System.out.println("je suis la");
+                initializeStage();
+            }
+        }
+    }
 
+    public void initializeStage()
+    {
+        System.out.println("mais euuuh ?");
+        initGridPn();
+        initRepartitionColumns();
+
+        initTableColumns();
+
+        initializeAffectations();
+
+        setupTableAndBindings();
+        setupListenersAndFormatters();
+        calculateAffecte();
 
     }
 
     public void initializeRessource()
     {
-
         initGridPn();
         initTabPan();
         initRepartitionColumns();
         initTableColumns();
 
-
-        initializeModuleAndAffectations();
+        initializeAffectations();
 
         setupTableAndBindings();
         setupListenersAndFormatters();
@@ -181,10 +201,10 @@ public class StageSaisieRessource extends Stage implements Initializable
         ajouterColonne("TO");
 
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom()));
-        tcType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure().getNom()));
-        tcSemaine.setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject() : null);
-        tcGrp.setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe()).asObject() : null);
-        tcNbH.setCellValueFactory(cellData -> cellData.getValue().hasNbHeure() ? new SimpleStringProperty(cellData.getValue().getNbHeure().toString()) : null);
+        tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure  ().getNom()));
+        tcSemaine    .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject()  : null);
+        tcGrp        .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe ()).asObject()  : null);
+        tcNbH        .setCellValueFactory(cellData -> cellData.getValue().hasNbHeure        () ? new SimpleStringProperty (cellData.getValue().getNbHeure  () .toString()) : null);
         tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
     }
 
@@ -198,12 +218,12 @@ public class StageSaisieRessource extends Stage implements Initializable
         ajouterColonneRepartition("HP");
     }
 
-    private void initializeModuleAndAffectations() {
-        this.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(),
-                txtTypeModule.getText(), Color.rgb(255, 255, 255), cbValidation.isSelected(),
-                Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(Integer.parseInt(txtSemestre.getText())));
-
-        this.ensAff = FXCollections.observableArrayList(this.module.getAffectations());
+    private void initializeAffectations()
+    {
+        if(this.moduleModif != null)
+            StageSaisieRessource.ensAff = FXCollections.observableArrayList(this.moduleModif.getAffectations());
+        else
+            StageSaisieRessource.ensAff = FXCollections.observableArrayList(new ArrayList<>());
     }
 
     private void setupTableAndBindings() {
@@ -219,7 +239,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         activationTextField(this.hmTxtSemaine,"Semaine");
 
         this.hmTxtRepartion = initHmPn(getAllTextFieldsPn(gridPaneRepartition));
-        activationTextField(this.hmTxtRepartion,"Repartition");
+        activationTextField(this.hmTxtRepartion,"R");
     }
 
     private void activationTextField(HashMap<String, ArrayList<TextField>> hm,String prout)
@@ -227,13 +247,13 @@ public class StageSaisieRessource extends Stage implements Initializable
         hm.forEach((key,value) -> {
             for (TextField txt: value)
             {
-                if(txt.isEditable())
+                if(txt.isEditable() || prout.equals("R"))
                 {
                     switch (prout)
                     {
                         case "Pn"          -> ajouterListener(txt);
                         case "Semaine"     -> ajouterListenerSemaine(txt);
-                        case "Repartition" -> ajouterListenerTotal(txt);
+                        case "R"           -> ajouterListenerTotal(txt);
                     }
                     creerFormatter(key,txt);
                 }
@@ -258,18 +278,20 @@ public class StageSaisieRessource extends Stage implements Initializable
     private HashMap<String, Double> calculerValeursAffecte() {
         HashMap<String, Double> hmAffecte = new HashMap<>();
 
-        for (Affectation aff : tableau.getItems()) {
-            String typeHeure = aff.getTypeHeure().getNom();
-            double valeur;
+        if(tableau.getItems() != null) {
+            for (Affectation aff : tableau.getItems()) {
+                String typeHeure = aff.getTypeHeure().getNom();
+                double valeur;
 
-            // TODO : pas bon, il faut aussi mettre les attributions
-            if (aff.hasGrpAndNbSemaine())
-                valeur = aff.getNbSemaine() * aff.getNbGroupe() * aff.getTypeHeure().getEquivalentTD().value();
-            else
-                valeur = aff.getNbHeure().value() * aff.getTypeHeure().getEquivalentTD().value();
+                // TODO : pas bon, il faut aussi mettre les attributions
+                if (aff.hasGrpAndNbSemaine())
+                    valeur = aff.getNbSemaine() * aff.getNbGroupe() * aff.getTypeHeure().getEquivalentTD().value();
+                else
+                    valeur = aff.getNbHeure().value() * aff.getTypeHeure().getEquivalentTD().value();
 
-            // Ajouter ou mettre à jour la valeur dans la HashMap
-            hmAffecte.put(typeHeure, hmAffecte.getOrDefault(typeHeure, 0.0) + valeur);
+                // Ajouter ou mettre à jour la valeur dans la HashMap
+                hmAffecte.put(typeHeure, hmAffecte.getOrDefault(typeHeure, 0.0) + valeur);
+            }
         }
 
         return hmAffecte;
@@ -384,23 +406,25 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void init()
     {
-        if (this.module != null) {
+        if (this.moduleModif != null) {
             // Initialisation pour la modification
-            txtTypeModule.setText(this.module.getTypeModule());
+            txtTypeModule.setText(this.moduleModif.getTypeModule());
             txtSemestre  .setText("" + this.semestre);
             txtSemestre  .setEditable(false);
-            txtCode      .setText(this.module.getCode());
+            txtCode      .setText(this.moduleModif.getCode());
 
-            initPn(this.module);
-            initSemaine(this.module);
+            initPn(this.moduleModif);
+            initSemaine(this.moduleModif);
 
-        } else {
+        } else
+        {
             // Initialisation pour une nouvelle création
             txtTypeModule.setText(this.typeModule);
             txtTypeModule.setEditable(false);
             txtSemestre  .setText("" + this.semestre);
             txtSemestre  .setEditable(false);
-        }
+
+           this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));        }
 
         Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
 
@@ -431,7 +455,15 @@ public class StageSaisieRessource extends Stage implements Initializable
     protected void onBtnAjouter(ActionEvent e) throws IOException
     {
         StageAjoutAffectation stage = Manager.creer("ajoutAffectation", this);
+
+        if (this.moduleModif != null) {
+            stage.setModule(this.moduleModif);
+        } else {
+            stage.setModule(this.futurModule);
+        }
+
         stage.showAndWait();
+        this.calculeAffecte();
         this.refresh();
 
     }
@@ -515,7 +547,16 @@ public class StageSaisieRessource extends Stage implements Initializable
         Fraction fractNbHeure = null;
         int nbSemaine         = 0;
 
-        mod = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+        if(this.moduleModif != null)
+        {
+            majInformation(this.moduleModif);
+            mod = this.moduleModif;
+        }
+        else
+        {
+            majInformation(this.futurModule);
+            mod = this.futurModule;
+        }
         for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
             if(catHr.estRessource())
@@ -525,21 +566,19 @@ public class StageSaisieRessource extends Stage implements Initializable
                 fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
                 nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
 
-
                 Attribution att = new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
-                mod.ajouterAttribution(att);
-            }
-
-            for (Affectation aff : tableau.getItems())
-            {
-                System.out.println("affectation : " + aff);
-                mod.ajouterAffectation(aff);
             }
         }
         Controleur.get().getMetier().enregistrer();
         this.close();
     }
 
+    public void majInformation(Module mod)
+    {
+        mod.setNom(txtLibelleLong.getText());
+        mod.setCode(txtCode.getText());
+        mod.setAbreviation(txtLibelleCourt.getText());
+    }
 
 
 
@@ -661,12 +700,12 @@ public class StageSaisieRessource extends Stage implements Initializable
         TextField txt1 = new TextField();
         TextField txt2 = new TextField();
 
-        if(this.module != null &&  nom.equals("TO"))
+        if(this.moduleModif != null &&  nom.equals("TO"))
         {
             CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
 
 
-            //txt1.setText(StageSaisieRessource.module.getAttribution(catHr).getNbHeurePN().toString());
+            txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN().toString());
         }
 
         txt1.setId("txt"+nom+"Pn");
@@ -983,14 +1022,16 @@ public class StageSaisieRessource extends Stage implements Initializable
         init();
     }
 
+    public Semestre getSemestre(){return Controleur.get().getMetier().rechercheSemestreByNumero(this.semestre);}
+
     public void setModule(Module mod) {
-        this.module = mod;
+        this.moduleModif = mod;
         init();
     }
 
     public void setTypeModule(String typeModule)
     {
         this.typeModule = typeModule;
-        init();
+        txtTypeModule.setText(this.typeModule);
     }
 }
