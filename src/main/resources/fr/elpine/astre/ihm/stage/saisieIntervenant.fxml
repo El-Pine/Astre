@@ -49,7 +49,7 @@
             </FlowPane>
             <FlowPane alignment="CENTER" GridPane.rowIndex="1">
                <children>
-                  <Label contentDisplay="CENTER" prefWidth="100.0" text="Prenom">
+                  <Label contentDisplay="CENTER" prefWidth="100.0" text="Prénom">
                      <FlowPane.margin>
                         <Insets />
                      </FlowPane.margin>
@@ -77,13 +77,13 @@
             </FlowPane>
             <FlowPane alignment="BOTTOM_CENTER" columnHalignment="CENTER" hgap="10.0" GridPane.rowIndex="3">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="90.0" text="Heure de service" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="130.0" text="Heure complementaire">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="100.0" text="Heures de service" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="140.0" text="Heures complementaires">
                      <FlowPane.margin>
                         <Insets left="10.0" />
                      </FlowPane.margin>
                   </Label>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="90.0" text="Ratio TP" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="100.0" text="Ratio TP" />
                </children>
                <padding>
                   <Insets bottom="8.0" />
@@ -93,15 +93,15 @@
                <children>
                   <TextField fx:id="txtService" prefWidth="60.0" text="192">
                      <FlowPane.margin>
-                        <Insets left="15.0" right="15.0" />
+                        <Insets left="20.0" right="20.0" />
                      </FlowPane.margin></TextField>
                   <TextField fx:id="txtComplementaire" prefWidth="60.0" text="172">
                      <FlowPane.margin>
-                        <Insets left="35.0" right="35.0" />
+                        <Insets left="40.0" right="40.0" />
                      </FlowPane.margin></TextField>
                   <TextField fx:id="txtfRatio" prefWidth="60.0">
                      <FlowPane.margin>
-                        <Insets left="15.0" right="15.0" />
+                        <Insets left="20.0" right="20.0" />
                      </FlowPane.margin></TextField>
                </children>
                <padding>
