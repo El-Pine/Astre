@@ -464,7 +464,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void creerFormatter(String nom, TextField txtf) {
     txtf.setTextFormatter(new TextFormatter<>(change -> {
-        if (change.getControlNewText().matches("^\\d+$") || change.getControlNewText().isEmpty()) {
+        if (change.getControlNewText().matches("^\\d+$")) {
             String newText = change.getControlNewText();
 
             if (isNumeric(newText)) {
