@@ -28,18 +28,11 @@ public class StagePrincipal extends Stage implements Initializable
 	public Button btnPrev;
 	public Button btnInter;
 	public Button btnEtat;
-
-	private boolean anneeSelectionne;
+	@FXML private Button btnAnnee;
 	//private Stage stage;
 
 	public StagePrincipal() // fxml -> "accueil"
 	{
-		try {
-			Controleur.get().getMetier().getAnneeActuelle().getNom();
-			this.anneeSelectionne = true;
-		}
-		catch ( Exception ignored ) { this.anneeSelectionne = false; }
-
 		this.setTitle("A.S.T.R.E.");
 		this.setMinWidth(300);
 		this.setMinHeight(450);
@@ -134,6 +127,14 @@ public class StagePrincipal extends Stage implements Initializable
 	public void initialize(URL location, ResourceBundle resources) {
 		this.setWidth( this.getMinWidth() );
 		this.setHeight( this.getMinHeight() );
+
+		try {
+			String nom = Controleur.get().getMetier().getAnneeActuelle().getNom();
+			this.btnAnnee.setText("Annee (" + nom + ")");
+		}
+		catch ( Exception e ) {
+			System.out.println(e);
+		}
 
 		image.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
 

@@ -13,7 +13,7 @@
                <Insets top="20.0" />
             </VBox.margin>
          </Button>
-         <Button layoutX="110.0" layoutY="25.0" mnemonicParsing="false" onAction="#onBtnClickAnnee" prefWidth="150.0" text="Années" wrapText="true" />
+         <Button fx:id="btnAnnee" layoutX="110.0" layoutY="25.0" mnemonicParsing="false" onAction="#onBtnClickAnnee" prefWidth="150.0" text="Années" wrapText="true" />
          <Button fx:id="btnPrev" mnemonicParsing="false" onAction="#onBtnClickPrevisionnel" prefWidth="150.0" text="Prévisionnel" />
          <Button fx:id="btnInter" mnemonicParsing="false" onAction="#onBtnClickIntervenant" prefWidth="150.0" text="Intervenants" />
          <Button fx:id="btnEtat" mnemonicParsing="false" onAction="#onBtnClickEtat" prefWidth="150.0" text="États">
