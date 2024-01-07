@@ -5,6 +5,7 @@ import fr.elpine.astre.metier.Astre;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class Annee
@@ -31,6 +32,16 @@ public class Annee
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        if (this.ajoute) {
+            Astre metier = Controleur.get().getMetier();
+
+            if (!metier.getAnnees().contains( this )) metier.getAnnees().add( this );
+
+            metier.getAnnees().sort(Comparator.comparing(Annee::getNom));
+
+            if (metier.getAnneeActuelle() == null) metier.changerAnneeActuelle( this );
+        }
 
         this.setRollback();
     }
@@ -87,7 +98,7 @@ public class Annee
     public Annee dupliquer( String nom )
     {
         Astre astre = Controleur.get().getMetier();
-        Annee a     = astre.ajouterAnnee( new Annee( nom, this.dateDeb, this.dateFin) );
+        Annee a     = new Annee( nom, this.dateDeb, this.dateFin);
 
         for ( Semestre semestre : this.ensSemestre)
         {

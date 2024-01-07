@@ -141,22 +141,8 @@ public class StageAccueilConfig extends Stage implements Initializable
     {
         System.out.println("je rentre dans onBtnEnregistrer");
 
-        for (CategorieHeure catHr : StageAccueilConfig.catHeurAAjouter)
-        {
-            Controleur.get().getMetier().ajouterCategorieHeure(catHr);
-        }
-        for (CategorieHeure catHr : StageAccueilConfig.catHrASupp)
-        {
-            Controleur.get().getMetier().supprimerCatHr(catHr);
-        }
-
-        for (CategorieIntervenant catInter : StageAccueilConfig.categorieInterAAjouter)
-        {
-            Controleur.get().getMetier().ajouterCategorieIntervenant(catInter);
-        }
         for (CategorieIntervenant catInter : StageAccueilConfig.catInterASuppr)
         {
-            Controleur.get().getMetier().supprimerCatInter(catInter);
             catInter.supprimer(false);
         }
 

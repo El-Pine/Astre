@@ -77,7 +77,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
 
         if (nomLibre) {
             Annee a = new Annee(nom, dateDebut.getValue().toString(), dateFin.getValue().toString());
-            Controleur.get().getMetier().ajouterAnnee(a);
+            Controleur.get().getMetier().enregistrer();
 
             //parent.setCpbContrat();
             this.close();

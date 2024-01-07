@@ -1,6 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.outil.Fraction;
 
 import java.util.HashMap;
@@ -30,6 +31,12 @@ public class CategorieIntervenant
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        if (this.ajoute) {
+            Astre metier = Controleur.get().getMetier();
+
+            if (!metier.getCategorieIntervenants().contains( this )) metier.getCategorieIntervenants().add( this );
+        }
 
         this.setRollback();
     }

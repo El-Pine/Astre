@@ -79,8 +79,6 @@ public class StageAjoutIntervenant extends Stage implements Initializable
                     Fraction.valueOf(this.txtfRatio.getText())
             );
 
-            Controleur.get().getMetier().ajouterIntervenant( i );
-
             this.close();
         }
         else
