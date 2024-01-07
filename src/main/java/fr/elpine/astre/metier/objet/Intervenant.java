@@ -77,7 +77,7 @@ public class Intervenant
 
     /* Calculs */
 
-    public ArrayList<Double> getHeure() // récupère les heures des 6 semestres de l'année actuelle de l'intervenant
+    public ArrayList<Double> getHeure( boolean avecRatio ) // récupère les heures des 6 semestres de l'année actuelle de l'intervenant
     {
         Annee a = Controleur.get().getMetier().getAnneeActuelle();
         ArrayList<Double> lst = new ArrayList<>();
@@ -91,7 +91,7 @@ public class Intervenant
 
                 for (Module m : s.getModules())
                     for (Affectation aff : m.getAffectations())
-                        if (aff.getIntervenant() == this) d += aff.getTotalEqtd() * (aff.getTypeHeure().getNom().equals("TP") ? this.ratioTP.value() : 1);
+                        if (aff.getIntervenant() == this) d += aff.getTotalEqtd() * (aff.getTypeHeure().getNom().equals("TP") && avecRatio ? this.ratioTP.value() : 1);
 
                 lst.add(s.getNumero(), d);
             }

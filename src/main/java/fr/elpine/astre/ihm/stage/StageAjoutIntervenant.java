@@ -41,7 +41,7 @@ public class StageAjoutIntervenant extends Stage implements Initializable
 
     public StageAjoutIntervenant() // fxml -> "saisieIntervenant"
     {
-        this.setTitle("Ajout Intervenant");
+        this.setTitle("Ajout d'un intervenant");
         this.setMinWidth(700);
         this.setMinHeight(450);
     }

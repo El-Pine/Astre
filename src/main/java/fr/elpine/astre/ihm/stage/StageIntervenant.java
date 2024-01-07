@@ -100,7 +100,8 @@ public class StageIntervenant extends Stage implements Initializable
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
 
 		if (PopUp.confirmationR("Suppression d'un intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer l'intervenant : %s %s", inter.getNom(), inter.getPrenom())))
-			inter.supprimer(false);
+			if (!inter.supprimer(false))
+				PopUp.warning("Suppression impossible", null, "L'intervenant '%s %s' est lié à un module, il n'est donc pas possible de le supprimer.".formatted(inter.getNom(), inter.getPrenom())).showAndWait();
 
 		this.refresh();
 	}
@@ -137,27 +138,27 @@ public class StageIntervenant extends Stage implements Initializable
 		tcHMax     .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureMax().toString() ));
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTP  ().toString() ));
 
-		tcS1       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure().get(1), true)));
-		tcS2       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure().get(2), true)));
-		tcS3       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure().get(3), true)));
-		tcS4       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure().get(4), true)));
-		tcS5       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure().get(5), true)));
-		tcS6       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure().get(6), true)));
+		tcS1       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(1), true)));
+		tcS2       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(2), true)));
+		tcS3       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(3), true)));
+		tcS4       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(4), true)));
+		tcS5       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(5), true)));
+		tcS6       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(6), true)));
 
 		tcTotImpair.setCellValueFactory(cellData -> {
-			ArrayList<Double> h = cellData.getValue().getHeure();
+			ArrayList<Double> h = cellData.getValue().getHeure( true );
 			double s = h.get(1) + h.get(3) + h.get(5);
 			return new SimpleStringProperty(Fraction.simplifyDouble(s, true));
 		});
 
 		tcTotPair  .setCellValueFactory(cellData -> {
-			ArrayList<Double> h = cellData.getValue().getHeure();
+			ArrayList<Double> h = cellData.getValue().getHeure( true );
 			double s = h.get(2) + h.get(4) + h.get(6);
 			return new SimpleStringProperty(Fraction.simplifyDouble(s, true));
 		});
 
 		tcTot      .setCellValueFactory(cellData -> {
-			ArrayList<Double> h = cellData.getValue().getHeure();
+			ArrayList<Double> h = cellData.getValue().getHeure( true );
 			double s = h.get(1) + h.get(2) + h.get(3) + h.get(4) + h.get(5) + h.get(6);
 			return new SimpleStringProperty(Fraction.simplifyDouble(s, true));
 		});
