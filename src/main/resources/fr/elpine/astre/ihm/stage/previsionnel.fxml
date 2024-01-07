@@ -16,7 +16,7 @@
                         <columns>
                            <TableColumn fx:id="s1code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s1liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
-                           <TableColumn fx:id="s1hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heure Affectés / Heure PN" />
+                           <TableColumn fx:id="s1hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
                         </columns>
                         <opaqueInsets>
                            <Insets />
@@ -27,7 +27,7 @@
                      </TableView>
                   </center>
                   <top>
-                     <Label alignment="CENTER" text="Liste des Modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
+                     <Label alignment="CENTER" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
                         <BorderPane.margin>
                            <Insets top="10.0" />
                         </BorderPane.margin>

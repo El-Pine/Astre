@@ -2,7 +2,6 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
-import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.outil.Fraction;

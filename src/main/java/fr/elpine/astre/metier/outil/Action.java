@@ -69,8 +69,6 @@ public class Action implements Comparable<Action>
 
 				aff.getModule().supprimerAffectation(aff);
 				aff.getIntervenant().supprimerAffectation(aff);
-
-				metier.getAffectations().remove(aff);
 			}
 			if (action == 1) { if (this.affecteDB) db.ajouterAffectation(   aff ); }
 			if (action == 2) { if (this.affecteDB) db.majAffectation(       aff ); }
@@ -85,8 +83,6 @@ public class Action implements Comparable<Action>
 
 				att.getModule().supprimerAttribution( att );
 				att.getCatHr ().supprimerAttribution( att );
-
-				metier.getAttributions().remove( att );
 			}
 			if (action == 1) { if (this.affecteDB) db.ajouterAttribution(   att ); }
 			if (action == 2) { if (this.affecteDB) db.majAttribution(       att ); }
@@ -103,8 +99,6 @@ public class Action implements Comparable<Action>
 					if (this.affecteDB) db.supprimerModule( m);
 
 					m.getSemestre().supprimerModule( m );
-
-					metier.getModules().remove( m );
 				}
 				if (action == 1) { if (this.affecteDB) db.ajouterModule(   m); }
 				if (action == 2) { if (this.affecteDB) db.majModule(       m); }
@@ -119,8 +113,6 @@ public class Action implements Comparable<Action>
 				if (this.affecteDB) db.supprimerSemestre( s );
 
 				s.getAnnee().supprimerSemestre( s );
-
-				metier.getSemestres().remove( s );
 			}
 			if (action == 1) { if (this.affecteDB) db.ajouterSemestre(   s ); }
 			if (action == 2) { if (this.affecteDB) db.majSemestre(       s ); }
@@ -190,8 +182,6 @@ public class Action implements Comparable<Action>
 			if (action == 0) {
 				aff.getModule().supprimerAffectation(aff);
 				aff.getIntervenant().supprimerAffectation(aff);
-
-				metier.getAffectations().remove(aff);
 			}
 			if (action == 1) { aff.rollback(); aff.reset(); }
 			if (action == 2) { aff.reset(); }
@@ -202,8 +192,6 @@ public class Action implements Comparable<Action>
 			if (action == 0) {
 				att.getModule().supprimerAttribution( att );
 				att.getCatHr ().supprimerAttribution( att );
-
-				metier.getAttributions().remove( att );
 			}
 			if (action == 1) { att.rollback(); att.reset(); }
 			if (action == 2) { att.reset(); }
@@ -213,8 +201,6 @@ public class Action implements Comparable<Action>
 		{
 			if (action == 0) {
 				m.getSemestre().supprimerModule( m );
-
-				metier.getModules().remove( m );
 			}
 			if (action == 1) { m.rollback(); m.reset(); }
 			if (action == 2) { m.reset(); }
@@ -224,8 +210,6 @@ public class Action implements Comparable<Action>
 		{
 			if (action == 0) {
 				s.getAnnee().supprimerSemestre( s );
-
-				metier.getSemestres().remove( s );
 			}
 			if (action == 1) { s.rollback(); s.reset(); }
 			if (action == 2) { s.reset(); }

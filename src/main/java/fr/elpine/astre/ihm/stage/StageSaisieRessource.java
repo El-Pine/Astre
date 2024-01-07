@@ -201,7 +201,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initializeModuleAndAffectations() {
         this.module = new Module(txtLibelleLong.getText(), txtCode.getText(), txtLibelleCourt.getText(),
                 txtTypeModule.getText(), Color.rgb(255, 255, 255), cbValidation.isSelected(),
-                Controleur.get().getMetier().getSemestres().get(Integer.parseInt(txtSemestre.getText())));
+                Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(Integer.parseInt(txtSemestre.getText())));
 
         this.ensAff = FXCollections.observableArrayList(this.module.getAffectations());
     }

@@ -1,7 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.Controleur;
@@ -26,6 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 
@@ -111,7 +111,11 @@ public class StageGeneration extends Stage implements Initializable
         }
         else if(vue.equals("module"))
         {
-            this.ens = FXCollections.observableArrayList(Controleur.get().getMetier().getModules());
+            ArrayList<Module> lst = new ArrayList<>();
+
+            Controleur.get().getMetier().getAnneeActuelle().getSemestres().forEach(s -> lst.addAll(s.getModules()));
+
+            this.ens = FXCollections.observableArrayList(lst);
             this.vue = "module";
         }
 

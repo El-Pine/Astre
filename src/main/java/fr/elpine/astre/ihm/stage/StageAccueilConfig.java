@@ -3,7 +3,6 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
-import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -177,46 +176,26 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     public void onBtnSupprimer(ActionEvent e) throws IOException
     {
-        boolean peutSupprimer          = false;
         CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
 
-        if(catInter != null)
+        if (catInter != null)
         {
-            peutSupprimer = Astre.estCatInter(Controleur.get().getMetier().getAffectations(), catInter.getCode());
-            if(peutSupprimer)
-            {
-                if (PopUp.confirmationR("Suppression d'une catégorie d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'intervenant : %s", catInter.getNom())))
-                {
-                    StageAccueilConfig.ensCatInter.remove(catInter);
-                    StageAccueilConfig.catInterASuppr.add(catInter);
-                }
-            }
+            if (catInter.supprimer( false ))
+                PopUp.confirmationR("Suppression d'une catégorie d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'intervenant : %s", catInter.getNom()));
             else
-            {
-                PopUp.error("Categorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ");
-            }
+                PopUp.error("Catégorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ");
         }
-        if(catHr != null)
-        {
-            peutSupprimer = Astre.estCatHr(Controleur.get().getMetier().getAffectations(), catHr.getNom());
-            System.out.println(peutSupprimer);
-            if(peutSupprimer)
-            {
-                if (PopUp.confirmationR("Suppression d'une catégorie d'heure", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'heure : %s", catHr.getNom())))
-                {
-                    StageAccueilConfig.ensCatHeure.remove(catHr);
-                    StageAccueilConfig.catHrASupp .add   (catHr);
-                }
-            }
+        else if (catHr != null) {
+            if(catHr.supprimer( false ))
+                PopUp.confirmationR("Suppression d'une catégorie d'heure", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'heure : %s", catHr.getNom()));
             else
-            {
-                PopUp.error("Categorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ").showAndWait();
-            }
+                PopUp.error("Catégorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ").showAndWait();
         }
 
         tabCatHeures.getSelectionModel().clearSelection();
         tabCatInter.getSelectionModel().clearSelection();
+
         this.refresh();
     }
 

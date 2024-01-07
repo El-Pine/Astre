@@ -87,18 +87,32 @@ public class CategorieHeure
         if (!this.ensAttribution.isEmpty()) if (!recursive) return false;
 
         // Suppression des affectations
-        for (Affectation affectation : Controleur.get().getMetier().getAffectations())
+        for (Affectation affectation : this.getAffectations())
             if (affectation.getTypeHeure() == this)
-                affectation.supprimer();
+                if (!recursive) return false;
+                else affectation.supprimer();
 
         // Suppression des attributions
         for (Attribution attribution : this.ensAttribution)
-            if (!recursive) return false;
-            else attribution.supprimer();
+            attribution.supprimer();
 
         // supprimer l'élement
         return this.supprime = true;
     }
+
+    private ArrayList<Affectation> getAffectations()
+    {
+        ArrayList<Affectation> lst = new ArrayList<>();
+
+        for (Annee a : Controleur.get().getMetier().getAnnees())
+            for (Semestre s : a.getSemestres())
+                for (Module m : s.getModules())
+                    for (Affectation aff : m.getAffectations())
+                        if (aff.getTypeHeure() == this) lst.add(aff);
+
+        return lst;
+    }
+
 
     public void rollback()
     {

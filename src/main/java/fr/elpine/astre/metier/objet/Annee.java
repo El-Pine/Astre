@@ -91,18 +91,18 @@ public class Annee
 
         for ( Semestre semestre : this.ensSemestre)
         {
-            Semestre s = astre.ajouterSemestre( new Semestre(
+            Semestre s = new Semestre(
                     semestre.getNumero(),
                     semestre.getNbGrpTD(),
                     semestre.getNbGrpTP(),
                     semestre.getNbEtd(),
                     semestre.getNbSemaine(),
                     a
-            ));
+            );
 
             for (Module module : semestre.getModules())
             {
-                Module m = astre.ajouterModule( new Module(
+                Module m = new Module(
                         module.getNom(),
                         module.getCode(),
                         module.getAbreviation(),
@@ -110,47 +110,47 @@ public class Annee
                         module.getCouleur(),
                         module.estValide(),
                         s
-                ));
+                );
 
                 for (Attribution attribution : module.getAttributions())
                 {
                     if (attribution.hasNbSemaine()) {
-                        astre.ajouterAttribution(new Attribution(
+                        new Attribution(
                                 attribution.getNbHeurePN(),
                                 attribution.getNbHeure(),
                                 attribution.getNbSemaine(),
                                 m,
                                 attribution.getCatHr()
-                        ));
+                        );
                     } else {
-                        astre.ajouterAttribution(new Attribution(
+                        new Attribution(
                                 attribution.getNbHeurePN(),
                                 attribution.getNbHeure(),
                                 m,
                                 attribution.getCatHr()
-                        ));
+                        );
                     }
                 }
 
                 for (Affectation affectation : module.getAffectations())
                 {
                     if (affectation.hasGrpAndNbSemaine()) {
-                        astre.ajouterAffectation(new Affectation(
+                        new Affectation(
                                 m,
                                 affectation.getIntervenant(),
                                 affectation.getTypeHeure(),
                                 affectation.getNbGroupe(),
                                 affectation.getNbSemaine(),
                                 affectation.getCommentaire()
-                        ));
+                        );
                     } else {
-                        astre.ajouterAffectation(new Affectation(
+                        new Affectation(
                                 m,
                                 affectation.getIntervenant(),
                                 affectation.getTypeHeure(),
                                 affectation.getNbHeure(),
                                 affectation.getCommentaire()
-                        ));
+                        );
                     }
                 }
             }

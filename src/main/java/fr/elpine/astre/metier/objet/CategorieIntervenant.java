@@ -56,20 +56,6 @@ public class CategorieIntervenant
     public boolean isModifie() { return this.modifie; }
     public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; this.setRollback(); }
 
-    // TODO : ajouter les toString()
-
-
-    public boolean supprimer()
-    {
-        for (Intervenant intervenant : Controleur.get().getMetier().getIntervenants())
-            if (intervenant.getCategorie() == this) return false;
-
-        Controleur.get().getMetier().getCategorieIntervenants().remove(this);
-
-        return true;
-    }
-
-
     public boolean supprimer( boolean recursive )
     {
         for (Intervenant intervenant : Controleur.get().getMetier().getIntervenants())

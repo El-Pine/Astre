@@ -22,33 +22,27 @@ public class Astre
 {
     private static Logger     logger = LoggerFactory.getLogger(Astre.class);
 
-    private        Controleur ctrl;
     private Annee anneeActuelle;
 
     private ArrayList<Annee>    ensAnnee;
-    private ArrayList<Semestre>    ensSemestre;
-    private ArrayList<Module> ensModule;
     private ArrayList<Intervenant> ensIntervenant;
     private ArrayList<CategorieHeure> ensCategorieHeure;
     private ArrayList<CategorieIntervenant> ensCategorieIntervenant;
-    private ArrayList<Attribution> ensAttribution;
-    private ArrayList<Affectation> ensAffectation;
 
 
     public Astre ( Controleur ctrl )
     {
-        this.ctrl = ctrl;
-
         DB db = ctrl.getDb();
 
-        this.ensAnnee                = db.getAllAnnee();
-        this.ensSemestre             = db.getAllSemestre( this.ensAnnee );
-        this.ensModule               = db.getAllModule( this.ensSemestre );
-        this.ensCategorieIntervenant = db.getAllCategorieIntervenant();
-        this.ensIntervenant          = db.getAllIntervenant( this.ensCategorieIntervenant );
-        this.ensCategorieHeure       = db.getAllCategorieHeure();
-        this.ensAffectation          = db.getAllAffectation( this.ensIntervenant, this.ensModule, this.ensCategorieHeure );
-        this.ensAttribution          = db.getAllAttribution( this.ensModule, this.ensCategorieHeure );
+        this.ensAnnee                   = db.getAllAnnee();
+        ArrayList<Semestre> ensSemestre = db.getAllSemestre( this.ensAnnee );
+        ArrayList<Module> ensModule     = db.getAllModule( ensSemestre );
+        this.ensCategorieIntervenant    = db.getAllCategorieIntervenant();
+        this.ensIntervenant             = db.getAllIntervenant( this.ensCategorieIntervenant );
+        this.ensCategorieHeure          = db.getAllCategorieHeure();
+
+        db.getAllAffectation( this.ensIntervenant, ensModule, this.ensCategorieHeure );
+        db.getAllAttribution( ensModule, this.ensCategorieHeure );
 
         this.anneeActuelle = this.ensAnnee.isEmpty() ? null : this.ensAnnee.get(0);
     }
@@ -160,13 +154,9 @@ public class Astre
     /*--------------*/
 
     public ArrayList<Annee> getAnnees() { return this.ensAnnee; }
-    public ArrayList<Semestre> getSemestres() { return this.ensSemestre; } // todo : à refaire en private et sans attribut d'instance
-    public ArrayList<Module> getModules() { return this.ensModule; } // todo : à refaire en private et sans attribut d'instance
     public ArrayList<CategorieIntervenant> getCategorieIntervenants() { return this.ensCategorieIntervenant; }
     public ArrayList<Intervenant> getIntervenants() { return this.ensIntervenant; }
     public ArrayList<CategorieHeure> getCategorieHeures() { return this.ensCategorieHeure; }
-    public ArrayList<Affectation> getAffectations() { return this.ensAffectation; } // todo : à refaire en private et sans attribut d'instance
-    public ArrayList<Attribution> getAttributions() { return this.ensAttribution; } // todo : à refaire en private et sans attribut d'instance
 
     /*------------------*/
     /* Méthodes Ajouter */
@@ -186,7 +176,7 @@ public class Astre
     }
 
     // todo : à supprimer (les objets lors de leur création sont auto ajouté)
-    public Semestre ajouterSemestre(Semestre s)
+    /*public Semestre ajouterSemestre(Semestre s)
     {
         if (s == null) return null;
         if (!this.ensSemestre.contains(s)) this.ensSemestre.add(s);
@@ -201,7 +191,7 @@ public class Astre
         if (!this.ensModule.contains(m)) this.ensModule.add(m);
 
         return m;
-    }
+    }*/
 
     // todo : à supprimer (les objets lors de leur création sont auto ajouté) & transformer en ajout interne à l'objet
     public Intervenant ajouterIntervenant(Intervenant i)
@@ -231,7 +221,7 @@ public class Astre
     }
 
     // todo : à supprimer (les objets lors de leur création sont auto ajouté)
-    public Affectation ajouterAffectation(Affectation affectation)
+    /*public Affectation ajouterAffectation(Affectation affectation)
     {
         if (affectation == null) return null;
         if (!this.ensAffectation.contains(affectation)) this.ensAffectation.add(affectation);
@@ -246,7 +236,7 @@ public class Astre
         if (!this.ensAttribution.contains(attribution)) this.ensAttribution.add(attribution);
 
         return attribution;
-    }
+    }*/
 
     /*--------------------*/
     /* Méthodes Supprimer */

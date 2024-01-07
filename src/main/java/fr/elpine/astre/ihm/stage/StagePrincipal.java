@@ -2,7 +2,6 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.ihm.stage.PopUp.StagePopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -111,15 +110,19 @@ public class StagePrincipal extends Stage implements Initializable
 
 	public void refresh()
 	{
-		if (Controleur.get().getMetier().getAnneeActuelle() == null)
+		Annee a = Controleur.get().getMetier().getAnneeActuelle();
+
+		if (a == null)
 		{
 			this.btnPrev.setDisable( true );
 			this.btnEtat.setDisable( true );
+			this.btnAnnee.setText("Année");
 		}
 		else
 		{
 			this.btnPrev.setDisable( false );
 			this.btnEtat.setDisable( false );
+			this.btnAnnee.setText("Année (%s)".formatted(a.getNom()));
 		}
 	}
 
@@ -127,14 +130,6 @@ public class StagePrincipal extends Stage implements Initializable
 	public void initialize(URL location, ResourceBundle resources) {
 		this.setWidth( this.getMinWidth() );
 		this.setHeight( this.getMinHeight() );
-
-		try {
-			String nom = Controleur.get().getMetier().getAnneeActuelle().getNom();
-			this.btnAnnee.setText("Annee (" + nom + ")");
-		}
-		catch ( Exception e ) {
-			System.out.println(e);
-		}
 
 		image.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
 

@@ -94,9 +94,9 @@ public class StageAjoutRessource extends Stage implements Initializable {
     @FXML
     public void onBtnAjouter() {
         if(rbAutre.isSelected())
-            Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbGp.getText()), Integer.parseInt(this.txtNbSemaine.getText()), this.txtCommentaire.getText()));
+            new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Integer.parseInt(this.txtNbGp.getText()), Integer.parseInt(this.txtNbSemaine.getText()), this.txtCommentaire.getText());
         if(rbAutre.isSelected())
-            Controleur.get().getMetier().ajouterAffectation(new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Fraction.valueOf(this.txtNbHeure.getText()), this.txtCommentaire.getText()));
+            new Affectation(module, cbbInter.getValue(), cbbCatHeure.getValue(), Fraction.valueOf(this.txtNbHeure.getText()), this.txtCommentaire.getText());
 
         this.close();
     }

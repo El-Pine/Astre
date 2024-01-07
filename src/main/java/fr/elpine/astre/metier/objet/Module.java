@@ -147,16 +147,13 @@ public class Module
     public boolean supprimer( boolean recursive )
     {
         // Verification avant suppression
-        if (!this.ensAttribution.isEmpty()) if (!recursive) return false;
+        if (!this.ensAttribution.isEmpty() || !this.ensAffectation.isEmpty()) if (!recursive) return false;
 
         // Suppression des affectations
-        for (Affectation affectation : this.ensAffectation)
-            if (!recursive) return false;
-            else affectation.supprimer();
+        for (Affectation affectation : this.ensAffectation) affectation.supprimer();
 
         // Suppression des attributions
-        for (Attribution attribution : this.ensAttribution)
-	        attribution.supprimer();
+        for (Attribution attribution : this.ensAttribution) attribution.supprimer();
 
         // supprimer l'élement
         return this.supprime = true;
