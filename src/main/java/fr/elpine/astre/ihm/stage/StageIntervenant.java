@@ -166,10 +166,10 @@ public class StageIntervenant extends Stage implements Initializable
 	}
 
 	private String getCellValue(Intervenant intervenant) {
-		if (intervenant.isAjoute()) {
-			return "➕";
-		} else if (intervenant.isSupprime()) {
+		if (intervenant.isSupprime()) {
 			return "❌";
+		} else if (intervenant.isAjoute()) {
+			return "➕";
 		} else {
 			return "";
 		}
