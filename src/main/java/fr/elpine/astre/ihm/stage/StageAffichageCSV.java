@@ -92,7 +92,7 @@ public class StageAffichageCSV extends Stage implements Initializable {
             File[] files = repertoire.listFiles( new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
-                    return name.contains(".csv");
+                    return name.endsWith(".csv");
                 }
             });
 
