@@ -91,7 +91,7 @@ public class Intervenant
 
                 for (Module m : s.getModules())
                     for (Affectation aff : m.getAffectations())
-                        if (aff.getIntervenant() == this) d += aff.getTotalEqtd() * (aff.getTypeHeure().getNom().equals("TP") && avecRatio ? this.ratioTP.value() : 1);
+                        if (aff.getIntervenant() == this) d += aff.getTotalEqtd( avecRatio ) * (aff.getTypeHeure().getNom().equals("TP") && avecRatio ? this.ratioTP.value() : 1);
 
                 lst.add(s.getNumero(), d);
             }
