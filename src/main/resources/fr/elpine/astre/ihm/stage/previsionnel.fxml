@@ -17,6 +17,7 @@
                            <TableColumn fx:id="s1code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s1liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
                            <TableColumn fx:id="s1hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                           <TableColumn fx:id="s1validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
                         </columns>
                         <opaqueInsets>
                            <Insets />
@@ -46,6 +47,7 @@
                            <TableColumn fx:id="s2code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s2liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
                            <TableColumn fx:id="s2hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                           <TableColumn fx:id="s2validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
                         </columns>
                         <opaqueInsets>
                            <Insets />
@@ -75,6 +77,7 @@
                            <TableColumn fx:id="s3code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s3liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
                            <TableColumn fx:id="s3hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                           <TableColumn fx:id="s3validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
                         </columns>
                         <opaqueInsets>
                            <Insets />
@@ -104,6 +107,7 @@
                            <TableColumn fx:id="s4code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s4liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
                            <TableColumn fx:id="s4hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                           <TableColumn fx:id="s4validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
                         </columns>
                         <opaqueInsets>
                            <Insets />
@@ -133,6 +137,7 @@
                            <TableColumn fx:id="s5code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s5liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
                            <TableColumn fx:id="s5hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                           <TableColumn fx:id="s5validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
                         </columns>
                         <opaqueInsets>
                            <Insets />
@@ -162,6 +167,7 @@
                            <TableColumn fx:id="s6code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
                            <TableColumn fx:id="s6liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
                            <TableColumn fx:id="s6hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                           <TableColumn fx:id="s6validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
                         </columns>
                         <opaqueInsets>
                            <Insets />

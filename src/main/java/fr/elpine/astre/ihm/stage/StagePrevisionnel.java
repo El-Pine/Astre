@@ -189,9 +189,10 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		for (TableView<Module> view : this.lstViews)
 		{
-			TableColumn<Module,String> code    = (TableColumn<Module, String>) view.getColumns().get(0);
-			TableColumn<Module,String> liblong = (TableColumn<Module, String>) view.getColumns().get(1);
-			TableColumn<Module,String> hahpn   = (TableColumn<Module, String>) view.getColumns().get(2);
+			TableColumn<Module,String> code       = (TableColumn<Module, String>) view.getColumns().get(0);
+			TableColumn<Module,String> liblong    = (TableColumn<Module, String>) view.getColumns().get(1);
+			TableColumn<Module,String> hahpn      = (TableColumn<Module, String>) view.getColumns().get(2);
+			TableColumn<Module,String> validation = (TableColumn<Module, String>) view.getColumns().get(3);
 
 			code   .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 			liblong.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getNom ()));
@@ -201,6 +202,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 						Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 					)
 			));
+			validation.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().estValide() ? "✅" : "❌"));
 		}
 
 		this.refresh();
