@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class StageAjoutAffectation extends Stage implements Initializable
@@ -52,7 +53,26 @@ public class StageAjoutAffectation extends Stage implements Initializable
         ObservableList<Intervenant> ensIntervant = FXCollections.observableList(Controleur.get().getMetier().getIntervenants());
         cbIntervenant.setItems(ensIntervant);
 
-        ObservableList<CategorieHeure> ensCatHr  = FXCollections.observableList(Controleur.get().getMetier().getCategorieHeures());
+        ArrayList<CategorieHeure> lstCatH = Controleur.get().getMetier().getCategorieHeures();
+        ObservableList<CategorieHeure> ensCatHr  = FXCollections.observableList(lstCatH);
+        cbbCatHeure.setOnAction(event -> {
+            // Récupérer la valeur sélectionnée dans la ComboBox
+            CategorieHeure choix = cbbCatHeure.getSelectionModel().getSelectedItem();
+
+            // Appeler la méthode correspondant au choix
+            if (choix == lstCatH.get(0)) {
+                this.txtNbHeure.setDisable(false);
+                this.cbbCatHeure.setDisable(true);
+                this.txtNbSemaine.setDisable(true);
+                this.txtNbGp.setDisable(true);
+            } else {
+                this.txtNbHeure.setDisable(true);
+                this.cbbCatHeure.setDisable(false);
+                this.txtNbSemaine.setDisable(false);
+                this.txtNbGp.setDisable(false);
+                // Ajoutez d'autres cas pour chaque choix de la ComboBox
+            }
+        });
         cbbCatHeure  .setItems( ensCatHr   );
     }
 
@@ -84,6 +104,10 @@ public class StageAjoutAffectation extends Stage implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         init();
+        this.txtNbHeure.setDisable(true);
+        this.cbbCatHeure.setDisable(true);
+        this.txtNbSemaine.setDisable(true);
+        this.txtNbGp.setDisable(true);
     }
 
     public void setModule(Module mod) { this.module = mod; }
