@@ -6,6 +6,7 @@ module fr.elpine.astre {
 	requires org.slf4j;
 	requires org.postgresql.jdbc;
     requires com.opencsv;
+	requires ch.qos.logback.classic;
 
     exports fr.elpine.astre;
 	exports fr.elpine.astre.ihm;

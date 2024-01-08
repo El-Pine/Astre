@@ -28,4 +28,6 @@
         <appender-ref ref="FILE" />
     </root>
 
+    <logger name="fr.elpine.astre.Controleur" level="info" />
+
 </configuration>
