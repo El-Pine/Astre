@@ -2,6 +2,7 @@ package fr.elpine.astre.metier;
 
 import com.opencsv.CSVWriter;
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.outil.Action;
@@ -11,12 +12,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Astre
 {
@@ -336,20 +334,30 @@ public class Astre
         return lstAction;
     }
 
-    public Boolean getDonneesCSV(String annee) {
-        String nomDossier = "CSV";
-        String nomFichierCSV = nomDossier + "/résultat-" + annee + ".csv";
+    public String getDonneesCSV(String annee) {
+        String nomDossier    = "CSV";
+        String nomFichierCSV = "resultat-" + annee + ".csv";
+
+        boolean configPrete = false;
 
         // Vérifier si le répertoire existe, sinon le créer
-        File dossier = new File(nomDossier);
+        File dossier = new File(nomDossier   );
         if (!dossier.exists()) {
             boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
             if (!success) {
                 System.err.println("Impossible de créer le répertoire");
-                return false;
+                return "0";
             }
         }
-        try (FileWriter writer = new FileWriter(nomFichierCSV);
+
+        File fichier = new File(nomDossier + "/" + nomFichierCSV);
+        System.out.println(fichier.getPath());
+        while (fichier.exists() || fichier.getPath().endsWith(".csv")) {
+            nomFichierCSV =  demanderNouveauNom(nomFichierCSV);
+            fichier = new File(nomDossier + "/" + nomFichierCSV);
+        }
+
+        try (FileWriter writer = new FileWriter("CSV/" + nomFichierCSV);
              CSVWriter csvWriter = new CSVWriter(writer)) {
 
             String[] headerRecord = {"codeCategorie", "nom", "prenom", "heureService", "heureMax", "ratioTP", "S1 Théo", "S1 Réel", "S3 Théo", "S3 Réel", "S5 Théo", "S5 Réel", "TotImp Théo", "TotImp Réel", "S2 Théo", "S2 Réel", "S4 Théo", "S4 Réel", "S6 Théo", "S6 Réel", "TotPair Théo", "TotPair Réel", "Total Théo", "Total Réel"};
@@ -387,8 +395,17 @@ public class Astre
                     };
                     csvWriter.writeNext(data);
                 }
-            return true;
+            return nomFichierCSV;
         }
-        catch (IOException e) { logger.error("Erreur lors de la récupération des données pour le fichier csv", e); return false; }
+        catch (IOException e) { logger.error("Erreur lors de la récupération des données pour le fichier csv", e); return "0"; }
+    }
+
+    private String demanderNouveauNom(String nomFichierCSV) {
+        return PopUp.textInputDialog(
+                nomFichierCSV,
+                "Dupliquer",
+                String.format("Le fichier : %s existe déjà", nomFichierCSV),
+                "Nouveau nom :"
+        ).showAndWait().orElse(null);
     }
 }

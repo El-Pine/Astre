@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,9 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class StageAffichageCSV extends Stage implements Initializable {
+public class StageAffichageCSV extends Stage {
 
-    private String nomAnnee;
     public Button btnAnnuler;
     public TextField txtFieldRecherche;
 
@@ -66,35 +66,6 @@ public class StageAffichageCSV extends Stage implements Initializable {
         this.setMinWidth(1370);
         this.setMinHeight(450);
     }
-
-    public void setNomAnnee( String nomAnnee )
-    {
-        this.nomAnnee = nomAnnee;
-    }
-
-    /*public static Stage creer( String nomAnnee ) throws IOException{
-
-        Stage stage = new Stage();
-
-        AstreApplication.refreshIcon(stage);
-        StageAffichageCSV.nomAnnee = nomAnnee;
-
-        FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("affichageCSV.fxml"));
-
-        Scene scene = new Scene(fxmlLoader.load(), 786, 400);
-
-        StageAffichageCSV stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) { stageCtrl.setStage(stage); }
-
-        stage.setTitle("Affichage CSV");
-        stage.setScene(scene);
-
-        return stage;
-    }
-
-    private void setStage(Stage stage) {
-        this.stage = stage;
-    }*/
 
     public static ArrayList<String> listerFichiers() {
         ArrayList<String> fichiers = new ArrayList<String>();
@@ -160,48 +131,6 @@ public class StageAffichageCSV extends Stage implements Initializable {
         this.tabAffCsv.setItems(listeToObservable(ensTemp));
     }
 
-    public void initialize(URL location, ResourceBundle resources) {
-
-        this.setWidth( this.getMinWidth() );
-        this.setHeight( this.getMinHeight() );
-
-        this.cbNomAnnee.setItems(FXCollections.observableArrayList(listerFichiers()));
-        this.cbNomAnnee.setValue("resultat-" + this.nomAnnee + ".csv");
-        this.cbNomAnnee.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(this.cbNomAnnee.getValue());
-            this.tabAffCsv.setItems(this.listeToObservable(this.lireCSV(this.cbNomAnnee.getValue())));
-        });
-
-        this.alDonnees = this.lireCSV("résultat-" + this.nomAnnee + ".csv");
-
-        tcCategorie.setCellValueFactory     (cellData -> new SimpleStringProperty( cellData.getValue().get(0)) );
-        tcNom.setCellValueFactory           (cellData -> new SimpleStringProperty( cellData.getValue().get(1)) );
-        tcPrenom.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(2)) );
-        tcHServ.setCellValueFactory         (cellData -> new SimpleStringProperty( cellData.getValue().get(3)) );
-        tcHMax.setCellValueFactory          (cellData -> new SimpleStringProperty( cellData.getValue().get(4)) );
-        tcRatioTP.setCellValueFactory       (cellData -> new SimpleStringProperty( cellData.getValue().get(5)) );
-        tcTheoS1.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(6)) );
-        tcReelS1.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(7)) );
-        tcTheoS5.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(8)) );
-        tcReelS5.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(9)) );
-        tcTheoS5.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(10)));
-        tcReelS5.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(11)));
-        tcTheoTotImpair.setCellValueFactory (cellData -> new SimpleStringProperty( cellData.getValue().get(12)));
-        tcReelTotImpair.setCellValueFactory (cellData -> new SimpleStringProperty( cellData.getValue().get(13)));
-        tcTheoS2.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(14)));
-        tcReelS2.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(15)));
-        tcTheoS4.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(16)));
-        tcReelS4.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(17)));
-        tcTheoS6.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(18)));
-        tcReelS6.setCellValueFactory        (cellData -> new SimpleStringProperty( cellData.getValue().get(19)));
-        tcTheoTotPair.setCellValueFactory   (cellData -> new SimpleStringProperty( cellData.getValue().get(20)));
-        tcReelTotPair.setCellValueFactory   (cellData -> new SimpleStringProperty( cellData.getValue().get(21)));
-        tcTheoTot.setCellValueFactory       (cellData -> new SimpleStringProperty( cellData.getValue().get(22)));
-        tcReelTot.setCellValueFactory       (cellData -> new SimpleStringProperty( cellData.getValue().get(23)));
-
-        tabAffCsv.setItems(listeToObservable(this.alDonnees));
-    }
-
     public ObservableList<ObservableList<String>> listeToObservable(ArrayList<String[]> liste) {
         ObservableList<ObservableList<String>> rows = FXCollections.observableArrayList();
 
@@ -213,5 +142,34 @@ public class StageAffichageCSV extends Stage implements Initializable {
         }
 
         return rows;
+    }
+
+    public void setFichier(String fichier)
+    {
+        String nomAnnee = Controleur.get().getMetier().getAnneeActuelle().getNom();
+
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
+
+        this.cbNomAnnee.setItems(FXCollections.observableArrayList(listerFichiers()));
+        this.cbNomAnnee.setValue(fichier);
+        this.cbNomAnnee.valueProperty().addListener((observable, oldValue, newValue) -> {
+            this.tabAffCsv.setItems(this.listeToObservable(this.lireCSV(this.cbNomAnnee.getValue())));
+        });
+
+        this.alDonnees = this.lireCSV(fichier);
+
+        ArrayList<TableColumn<ObservableList<String>,String>> alCol = new ArrayList<>(Arrays.asList( tcCategorie, tcNom, tcPrenom, tcHServ, tcHMax, tcRatioTP, tcTheoS1, tcReelS1, tcTheoS3, tcReelS3,tcTheoS5, tcReelS5, tcTheoTotImpair, tcReelTotImpair,  tcTheoS2, tcReelS2, tcTheoS4, tcReelS4,tcTheoS6, tcReelS6, tcTheoTotPair, tcReelTotPair, tcTheoTot, tcReelTot ));
+
+        int cpt = 0;
+        for ( TableColumn<ObservableList<String>,String> col : alCol )
+        {
+            int cptTemp = cpt;
+            col.setCellValueFactory (cellData -> new SimpleStringProperty( cellData.getValue().get(cptTemp)) );
+            cpt++;
+        }
+
+        tabAffCsv.setItems(listeToObservable(this.alDonnees));
+        tabAffCsv.refresh();
     }
 }
