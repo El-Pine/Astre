@@ -14,7 +14,7 @@
                 <TableColumn fx:id="g_2" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Selectionner" />
               </columns>
             </TableView>
-            <Button mnemonicParsing="false" text="Générer " />
+            <Button mnemonicParsing="false" onAction="#onBtn" text="Générer " />
             <Button mnemonicParsing="false" text="Annuler" />
          </children></FlowPane>
    </children>
