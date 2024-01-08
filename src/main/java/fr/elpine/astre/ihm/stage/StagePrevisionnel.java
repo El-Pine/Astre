@@ -112,23 +112,25 @@ public class StagePrevisionnel extends Stage implements Initializable
 		stage.showAndWait();
 	}
 	@FXML
-	public void OnBtnEnregistrer(ActionEvent actionEvent) throws IOException {
+	public void onBtnEnregistrer(ActionEvent actionEvent) throws IOException {
 		Annee annee = Controleur.get().getMetier().getAnneeActuelle();
 
 		ArrayList<Semestre> semestres = annee.getSemestres();
 
 		if(semestres == null) {
-			semestres.add(new Semestre(1, Integer.parseInt(txtNbTD.getText()), Integer.parseInt(txtNbTP.getText()), Integer.parseInt(txtNbSemaine.getText()), Integer.parseInt(txtNbEtd.getText()), annee));
 			System.out.println("null");
+			semestres.add(new Semestre(1, Integer.parseInt(txtNbTD.getText()), Integer.parseInt(txtNbTP.getText()), Integer.parseInt(txtNbSemaine.getText()), Integer.parseInt(txtNbEtd.getText()), annee));
+
 		}
 		else {
+			System.out.println("non null");
 			Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
 
 			semestre.setNbEtd(Integer.parseInt(txtNbEtd.getText()));
 			semestre.setNbGrpTD(Integer.parseInt(txtNbTD.getText()));
 			semestre.setNbGrpTP(Integer.parseInt(txtNbTP.getText()));
 			semestre.setNbSemaine(Integer.parseInt(txtNbSemaine.getText()));
-			System.out.println("non null");
+
 		}
 
 		Controleur.get().getMetier().enregistrer();
@@ -200,6 +202,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 
 				stage.setSemestre(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
+				stage.setTypeModule(mod.getTypeModule());
 				stage.setModule(mod);
 				stage.showAndWait();
 				this.refresh();

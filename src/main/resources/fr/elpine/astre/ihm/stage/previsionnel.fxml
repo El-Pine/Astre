@@ -229,7 +229,7 @@
                </FlowPane.margin>
             </Label>
             <TextField fx:id="txtNbSemaine" prefHeight="20.0" prefWidth="50.0" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" text="Enregistrer">
+            <Button mnemonicParsing="false" onAction="#onBtnEnregistrer" prefHeight="26.0" prefWidth="102.0" text="Enregistrer">
                <FlowPane.margin>
                   <Insets left="45.0" />
                </FlowPane.margin>

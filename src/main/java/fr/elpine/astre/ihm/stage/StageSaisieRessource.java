@@ -83,15 +83,6 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     private TextField txtCode;
 
-    @FXML
-    private Button btnAjouter;
-    @FXML
-    private Button btnSupprimer;
-    @FXML
-    private Button btnEnregistrer;
-    @FXML
-    private Button btnAnnuler;
-
     private Module moduleModif;
 
     private Module futurModule;
@@ -124,45 +115,42 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         if(this.typeModule != null)
         {
-            if (this.typeModule.equals("ressource")) {
+            if (this.typeModule.equals("Ressource"))
                 initializeRessource();
-            }
-            if (this.typeModule.equals("stage")) {
-                System.out.println("je suis la");
+
+            if (this.typeModule.equals("Stage"))
                 initializeStage();
-            }
         }
+        this.setOnCloseRequest(e ->
+        {
+            this.futurModule.supprimer(false,true);
+        });
     }
 
     public void initializeStage()
     {
-        System.out.println("je rentre dans le stage ");
         initGridPn();
         this.tabPaneSemaine.getTabs().clear();
         initRepartitionColumns();
-
         initTableColumns();
+        setupListenersAndFormatters();
+        setupTableAndBindings();
 
         initializeAffectations();
-
-        setupTableAndBindings();
-        setupListenersAndFormatters();
         calculateAffecte();
 
     }
 
     public void initializeRessource()
     {
-        System.out.println("je rentre dans la ressource");
         initGridPn();
         initTabPan();
         initRepartitionColumns();
         initTableColumns();
+        setupListenersAndFormatters();
+        setupTableAndBindings();
 
         initializeAffectations();
-
-        setupTableAndBindings();
-        setupListenersAndFormatters();
         calculateAffecte();
     }
 
@@ -296,14 +284,8 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (TextField txt : alAffecte) {
             String typeHeure = txt.getId().substring(3, 5);
 
-            // Ajout de débogage
-            System.out.println("Type d'heure extrait : " + typeHeure);
-
             if (hmAffecte.containsKey(typeHeure)) {
                 // Ajout de débogage
-
-                System.out.println("Valeur dans la HashMap : " + hmAffecte.get(typeHeure));
-                System.out.println(String.valueOf(hmAffecte.get(typeHeure)));
                 Integer valeur =  (int) Math.round(hmAffecte.get(typeHeure));
                 System.out.println(valeur);
                 txt.setText(valeur.toString());
@@ -401,15 +383,28 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void init()
     {
-        if (this.moduleModif != null) {
-            // Initialisation pour la modification
-            txtTypeModule.setText(this.moduleModif.getTypeModule());
-            txtSemestre  .setText("" + this.semestre);
-            txtSemestre  .setEditable(false);
-            txtCode      .setText(this.moduleModif.getCode());
+        if(this.typeModule != null)
+            if(this.typeModule.equals("Ressource"))
+                initializeRessource();
+            else
+                initializeStage();
 
-            initPn(this.moduleModif);
+        if (this.moduleModif != null)
+        {
+            txtTypeModule  .setText(this.moduleModif.getTypeModule());
+            txtSemestre    .setText("" + this.semestre);
+            txtSemestre    .setEditable(false);
+            txtCode        .setText(this.moduleModif.getCode());
+            txtLibelleLong .setText(this.moduleModif.getNom());
+            txtLibelleCourt.setText(this.moduleModif.getAbreviation());
+            ObservableList<Affectation> a = FXCollections.observableArrayList(this.moduleModif.getAffectations());
+            tableau.setItems(a);
+            calculeAffecte();
+            initPn     (this.moduleModif);
             initSemaine(this.moduleModif);
+
+            calculeTotaux();
+
 
         } else
         {
@@ -419,7 +414,8 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtSemestre  .setText("" + this.semestre);
             txtSemestre  .setEditable(false);
 
-           this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));        }
+           this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+        }
 
         Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
 
@@ -428,17 +424,18 @@ public class StageSaisieRessource extends Stage implements Initializable
         txtNbGpTD.setText("" + sem.getNbGrpTD());
         txtnbGpTP.setText("" + sem.getNbGrpTP());
 
-        if(this.typeModule != null)
-            if(this.typeModule.equals("Ressource"))
-                initializeRessource();
-            else
-                initializeStage();
+
+
+
     }
 
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
-        {this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());}
+        {
+            if(!att.getCatHr().getNom().equals("HP"))
+                this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());
+        }
     }
 
     public void initSemaine(Module mod)
@@ -446,7 +443,22 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (Attribution att : mod.getAttributions())
         {
             this.hmTxtSemaine.get(att.getCatHr().getNom()).get(0).setText("" + att.getNbSemaine());
-            this.hmTxtSemaine.get(att.getCatHr().getNom()).get(1).setText("" + att.getNbHeure  ().toString());
+            if(!att.getCatHr().getNom().equals("HP"))
+                this.hmTxtSemaine.get(att.getCatHr().getNom()).get(1).setText("" + att.getNbHeure  ().toString());
+        }
+
+        majValeurSemaine(this.hmTxtSemaine);
+    }
+
+    public void majValeurSemaine(HashMap<String, ArrayList<TextField>> hm)
+    {
+        for(Map.Entry<String, ArrayList<TextField>> entry : hm.entrySet())
+        {
+            ArrayList<TextField> value = entry.getValue();
+            for (TextField txt : value)
+            {
+                valeurChangerSemaine(txt, txt.getText());
+            }
         }
     }
 
@@ -462,8 +474,8 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
 
         stage.showAndWait();
-        this.calculeAffecte();
         this.refresh();
+        this.calculeAffecte();
     }
 
     @FXML
@@ -471,6 +483,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         Affectation affectation = tableau.getSelectionModel().getSelectedItem();
         if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module Ressource ?")) {
             affectation.supprimer();
+            calculeAffecte();
         }
         tableau.refresh();
     }
@@ -486,8 +499,11 @@ public class StageSaisieRessource extends Stage implements Initializable
                 if (repartitionList != null && pnList != null) {
                     int index = repartitionList.indexOf(txtf);
 
-                    if (index > -1 && index < pnList.size()) { //source pb regex
-                        int pnValue = Integer.parseInt(pnList.get(index).getText());
+                    if (index > -1 && index < pnList.size())
+                    {
+                        int pnValue = 0;
+                        if(!pnList.get(index).getText().equals(""))
+                            pnValue = Integer.parseInt(pnList.get(index).getText());
 
                         if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue) {
                             txtf.setStyle("");
@@ -600,6 +616,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     protected void onBtnAnnuler() throws IOException {
         this.affAAjouter = this.affAEnlever = new ArrayList<>();
+        if(this.moduleModif == null) this.futurModule.supprimer(false,true);
         this.close();
         //StagePrincipal.creer().show();
     }
@@ -686,7 +703,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             TextField txt1 = new TextField();
             TextField txt2 = new TextField();
 
-            if (this.moduleModif != null && nom.equals("TO")) {
+            if (this.moduleModif != null && !nom.equals("TO")) {
                 CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
 
                 txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN().toString());
@@ -860,7 +877,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 !this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) {
 
             int a;
-            if (this.hmTxtSemaine.get(keyCatHrMAJ).size() > 1) {
+            if (this.hmTxtSemaine.get(keyCatHrMAJ).size() > 1 && !this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")) {
                 a = keyCatHrMAJ.equals("HP") ? 1 : Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
             } else {
                 // Si le HashMap contient seulement un élément, utilisez une valeur par défaut ou une autre logique selon vos besoins.
