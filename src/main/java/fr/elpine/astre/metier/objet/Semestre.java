@@ -88,7 +88,7 @@ public class Semestre
     {
         for (Module module : this.ensModule)
             if (!recursive) return false;
-            else module.supprimer(true);
+            else module.supprimer(true, false);
 
         // supprimer l'élement
         return this.supprime = true;

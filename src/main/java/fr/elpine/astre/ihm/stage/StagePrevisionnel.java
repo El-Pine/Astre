@@ -151,7 +151,11 @@ public class StagePrevisionnel extends Stage implements Initializable
 			{
 				Module mod = value.getSelectionModel().getSelectedItem();
 
-				if (PopUp.confirmationR("Suppression d'un module",null, "Etes-vous sûr de vouloir supprimer ce module : " + mod.getCode())) mod.supprimer(true);
+				if (PopUp.confirmationR("Suppression d'un module",null, "Etes-vous sûr de vouloir supprimer ce module : " + mod.getCode())) {
+					if (!mod.supprimer(false, true)) {
+						if (PopUp.confirmationR("Suppression d'un module",null, "Etes-vous sûr de vouloir supprimer le module '%s' ainsi que ces affectations".formatted(mod.getCode()))) mod.supprimer(true, false);
+					}
+				}
 
 				Controleur.get().getMetier().enregistrer();
 			}
