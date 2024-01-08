@@ -82,6 +82,16 @@ public class StageSaisieRessource extends Stage implements Initializable
     public ArrayList<Affectation> affAEnlever;
     @FXML
     private TextField txtCode;
+
+    @FXML
+    private Button btnAjouter;
+    @FXML
+    private Button btnSupprimer;
+    @FXML
+    private Button btnEnregistrer;
+    @FXML
+    private Button btnAnnuler;
+
     private Module moduleModif;
 
     private Module futurModule;
@@ -469,7 +479,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         stage.showAndWait();
         this.calculeAffecte();
         this.refresh();
-
     }
 
     @FXML

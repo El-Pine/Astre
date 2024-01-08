@@ -96,11 +96,20 @@ public class StageAjoutAffectation extends Stage implements Initializable
 
         this.close();
     }
+    @FXML
+    public void onAutreHeure() {
+        txtNbHeure.setDisable(true);
+    }
+
+    public void onHp() {
+        txtNbGp.setDisable(true);
+        txtNbSemaine.setDisable(true);
+        cbbCatHeure.setDisable(true);
+    }
 
     @FXML
-    private void onBtnAnnuler()
-    {
-        System.out.println("bite !");
+    private void onBtnAnnuler() {
+        this.close();
     }
 
 
