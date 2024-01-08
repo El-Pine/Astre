@@ -38,6 +38,8 @@ public class Affectation
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;
         this.supprime = false;
+
+        this.setRollback();
     }
 
     public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, Fraction nbHeure, String commentaire)
@@ -53,6 +55,8 @@ public class Affectation
         if (module      != null) module     .ajouterAffectation(this);
 
         this.ajoute = Controleur.get().getMetier() != null;
+        this.modifie = false;
+        this.supprime = false;
 
         this.setRollback();
     }
