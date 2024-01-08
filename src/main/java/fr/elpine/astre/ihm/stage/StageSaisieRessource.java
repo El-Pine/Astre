@@ -40,7 +40,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     public TableView<Affectation> tableau;
     @FXML
-    private TableColumn<Intervenant,String> tc;
+    private TableColumn<Affectation,String> tc;
     @FXML
     public TableColumn<Affectation, String> tcIntervenant;
     @FXML
@@ -116,39 +116,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.setMinHeight(700);
     }
 
-
-    //Méthode d'initialisation de la scène
-    /*public static Stage creer(int semestre, Module mod) throws IOException
-    {
-        FXMLLoader fxmlLoader = new FXMLLoader(StageSaisieRessource.class.getResource("saisieRessource.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1500, 700);
-
-        Stage stage = new Stage();
-        stage.setTitle("Affectation");
-        stage.setScene(scene);
-
-        AstreApplication.refreshIcon(stage);
-
-        if(mod != null) StageSaisieRessource.module = mod;
-
-        StageSaisieRessource stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) {
-            stageCtrl.setStage(stage);
-            stageCtrl.init(mod,"Ressource", semestre);
-        }
-
-        stage.setOnCloseRequest(e -> {
-            try {
-                StagePrevisionnel.creer().show();
-            } catch (IOException ignored) {
-            }
-        });
-
-        stage.show();
-
-        return stage;
-    }*/
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
@@ -209,6 +176,24 @@ public class StageSaisieRessource extends Stage implements Initializable
             }
         }
         ajouterColonne("TO");
+
+        tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
+        tc.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(item);
+
+                if (item != null && item.equals("❌")) {
+                    setTextFill(Color.RED);
+                } else if (item != null && item.equals("➕")) {
+                    setTextFill(Color.LIGHTGREEN);
+                } else {
+                    setTextFill(Color.BLACK);
+                    setText("");
+                }
+            }
+        });
 
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom()));
         tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure  ().getNom()));
@@ -484,28 +469,11 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     protected void onBtnSupprimer(ActionEvent e) throws IOException {
         Affectation affectation = tableau.getSelectionModel().getSelectedItem();
-
         if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module Ressource ?")) {
-            tableau.getItems().remove(affectation);
             affectation.supprimer();
-            this.refresh();
         }
+        refresh();
     }
-
-    /*public void desactiver()
-    {
-        this.stage.getScene().lookup("#btnEnregistrer").setDisable(true);
-        this.stage.getScene().lookup("#btnAnnuler").setDisable(true);
-        this.stage.getScene().lookup("#btnAjouter").setDisable(true);
-        this.stage.getScene().lookup("#btnSupprimer").setDisable(true);
-    }
-
-    public void activer() {
-        this.stage.getScene().lookup("#btnEnregistrer").setDisable(false);
-        this.stage.getScene().lookup("#btnAnnuler").setDisable(false);
-        this.stage.getScene().lookup("#btnAjouter").setDisable(false);
-        this.stage.getScene().lookup("#btnSupprimer").setDisable(false);
-    }*/
 
     private void creerFormatter(String nom, TextField txtf) {
         txtf.setTextFormatter(new TextFormatter<>(change -> {
@@ -541,15 +509,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                 return null;
             }
         }));
-    }
-    // Méthode utilitaire pour vérifier si une chaîne est un nombre
-    private boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     @FXML
@@ -874,10 +833,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                     }
                 }
             }
-            else
-            {
-
-            }
         }
         setValeurTxtTot2(this.txtTORepartion, total, this.txtTOPromo, totalPromo, this.txtTOAffecte, totalAffecte);
     }
@@ -999,7 +954,6 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
     private String calculeNvValeur(int valeurInitial, CategorieHeure catHr)
     {
-        //TODO: Ajouter le regex de mathys
        if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
        {
            int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
@@ -1033,18 +987,15 @@ public class StageSaisieRessource extends Stage implements Initializable
         return hmTemp;
     }
 
-    /*
-    private String getCellValue(Intervenant intervenant) {
-        if (StageIntervenant.interAAjouter.contains(intervenant)) {
-            return "➕";
-        } else if (StageIntervenant.interAEnlever.contains(intervenant)) {
+    private String getCellValue(Affectation affectation) {
+        if (affectation.isSupprime()) {
             return "❌";
+        } else if (affectation.isAjoute()) {
+            return "➕";
         } else {
             return "";
         }
     }
-    */
-
 
     public void refresh()
     {
