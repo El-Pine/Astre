@@ -4,6 +4,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.metier.objet.Annee;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import fr.elpine.astre.metier.outil.Fraction;
@@ -15,10 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -55,6 +53,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 	private TextField txtNbEtd;
 	@FXML
 	private TextField txtNbSemaine;
+
+	@FXML
+	private Button btnEnregistrer;
 
 	@FXML
 	private TabPane pnlControlSem;
@@ -109,6 +110,25 @@ public class StagePrevisionnel extends Stage implements Initializable
 		stage.setSemestre(num);
 		stage.setTypeModule("Stage");
 		stage.showAndWait();
+	}
+
+	public void OnBtnEnregistrer(ActionEvent actionEvent) throws IOException {
+		Annee annee = Controleur.get().getMetier().getAnneeActuelle();
+
+		ArrayList<Semestre> semestres = annee.getSemestres();
+
+		if(semestres == null)
+			semestres.add(new Semestre(1, Integer.parseInt(txtNbTD.getText()), Integer.parseInt(txtNbTP.getText()), Integer.parseInt(txtNbSemaine.getText()), Integer.parseInt(txtNbEtd.getText()), annee));
+		else {
+			Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
+
+			semestre.setNbEtd(Integer.parseInt(txtNbEtd.getText()));
+			semestre.setNbGrpTD(Integer.parseInt(txtNbTD.getText()));
+			semestre.setNbGrpTP(Integer.parseInt(txtNbTP.getText()));
+			semestre.setNbSemaine(Integer.parseInt(txtNbSemaine.getText()));
+		}
+
+		Controleur.get().getMetier().enregistrer();
 	}
 
 	@FXML
