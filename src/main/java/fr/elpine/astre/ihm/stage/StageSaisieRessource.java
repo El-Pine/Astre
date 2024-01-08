@@ -384,6 +384,13 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void init()
     {
+        Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
+
+        txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
+        txtNbEtd.setText("" + sem.getNbEtd());
+        txtNbGpTD.setText("" + sem.getNbGrpTD());
+        txtnbGpTP.setText("" + sem.getNbGrpTP());
+
         if(this.typeModule != null)
             if(this.typeModule.equals("Ressource"))
                 initializeRessource();
@@ -417,26 +424,24 @@ public class StageSaisieRessource extends Stage implements Initializable
 
            this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
         }
-
-        Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
-
-        txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
-        txtNbEtd.setText("" + sem.getNbEtd());
-        txtNbGpTD.setText("" + sem.getNbGrpTD());
-        txtnbGpTP.setText("" + sem.getNbGrpTP());
-
-
-
-
     }
 
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
         {
-            if(!att.getCatHr().getNom().equals("HP"))
+            if(!att.getCatHr().getNom().equals("HP")) {
                 this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());
+                String a = calculeNvValeur(Integer.parseInt(this.hmTxtPn.get(att.getCatHr().getNom()).get(0).getText()), att.getCatHr());
+                this.hmTxtPn.get(att.getCatHr().getNom()).get(1).setText(a);
+            }
         }
+
+    }
+
+    public void majValeurPn(HashMap<String, ArrayList<TextField>> hm)
+    {
+
     }
 
     public void initSemaine(Module mod)
@@ -915,18 +920,18 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void valeurChangerPn(TextField txt, String newValue)
     {
         String keyCatHr = txt.getId().substring(3,5).toUpperCase();
-        for (TextField txt1 : this.hmTxtPn.get(keyCatHr))
+        if(!keyCatHr.equals("TO"))
         {
-            if(!txt1.isEditable())
-            {
-                if(!txt.getText().isEmpty())
-                {
-                    int valeurInitial = Integer.parseInt(txt.getText());
-                    txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), keyCatHr)));
+            for (TextField txt1 : this.hmTxtPn.get(keyCatHr)) {
+                if (!txt1.isEditable()) {
+                    if (!txt.getText().isEmpty()) {
+                        int valeurInitial = Integer.parseInt(txt.getText());
+                        txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), keyCatHr)));
+                    }
                 }
             }
+            calculeTotaux();
         }
-        calculeTotaux();
     }
 
     private void calculeTotaux() {
@@ -972,16 +977,18 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
     private String calculeNvValeur(int valeurInitial, CategorieHeure catHr)
     {
+        System.out.println("valeurInitial : "+valeurInitial);
        if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
        {
            int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
            int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
+           System.out.println("TP ou TD"+ valeurFinal);
            return Integer.toString(valeurFinal);
        }
        else
        {
-           System.out.println();
            int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTD().value());
+           System.out.println(valeurFinal);
            return Integer.toString(valeurFinal);
        }
     }
