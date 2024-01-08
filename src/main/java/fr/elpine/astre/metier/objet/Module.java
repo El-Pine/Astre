@@ -51,6 +51,7 @@ public class Module
     public String  getNom         () { return nom                                ;}
     public String  getAbreviation () { return abreviation                        ;}
     public Color   getCouleur     () { return couleur                            ;}
+    public String  getCouleurF    () { return String.format("rgb(%d,%d,%d)", (int) (couleur.getRed()*255), (int) (couleur.getGreen()*255), (int) (couleur.getBlue()*255)); }
     public String  getTypeModule  () { return typeModule                         ;}
     public boolean estValide      () { return validation                         ;}
     public Semestre getSemestre   () { return semestre                           ;}
