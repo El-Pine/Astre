@@ -97,10 +97,8 @@ public class StageAjouterCategories extends Stage implements Initializable
         if (code.isEmpty() || nom.isEmpty() || ratioTD == null || nbHM == null || nbHServ == null) {
             PopUp.warning("Champ Vide", null, "Erreur dans la saisie.").showAndWait();
         } else {
-            StageAccueilConfig.categorieInterAAjouter.add(new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD));
+            new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD);
 
-            //parent.activer();
-            //parent.refresh();
             this.close();
         }
     }
@@ -126,10 +124,6 @@ public class StageAjouterCategories extends Stage implements Initializable
         else {
             CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage);
 
-            StageAccueilConfig.catHeurAAjouter.add(cat);
-
-            //parent.activer();
-            //parent.refresh();
             this.close();
         }
     }

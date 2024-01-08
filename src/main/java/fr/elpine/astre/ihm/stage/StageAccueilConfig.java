@@ -27,8 +27,6 @@ import java.util.ResourceBundle;
 
 public class StageAccueilConfig extends Stage implements Initializable
 {
-    //private Stage stage;
-
     @FXML
     private TableView<CategorieIntervenant> tabCatInter;
     @FXML
@@ -61,18 +59,6 @@ public class StageAccueilConfig extends Stage implements Initializable
     private TableColumn<CategorieHeure,Boolean> tcPppHeures;
     @FXML
     private TableColumn<CategorieHeure,Boolean> tcStageHeures;
-
-    @FXML
-    private Label lblErreur;
-
-    public static ObservableList<CategorieHeure> ensCatHeure;
-    public static ObservableList<CategorieIntervenant> ensCatInter;
-
-    public static ArrayList<CategorieHeure>       catHeurAAjouter;
-    public static ArrayList<CategorieIntervenant> categorieInterAAjouter;
-
-    public static ArrayList<CategorieHeure>       catHrASupp;
-    public static ArrayList<CategorieIntervenant> catInterASuppr;
 
 
     public StageAccueilConfig() // fxml -> "accueilConfig"
@@ -119,7 +105,7 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     private void setStage(Stage stage) { this.stage = stage; }*/
 
-    public void onBtnConfigBdd(ActionEvent actionEvent) throws IOException {
+    public void onBtnConfigBdd() {
         //desactiver();
         //StageInitBd.creer( this ).show();
         Stage stage = Manager.creer( "initDb", this );
@@ -127,40 +113,32 @@ public class StageAccueilConfig extends Stage implements Initializable
         stage.showAndWait();
     }
 
-    public void onBtnAjouter(ActionEvent actionEvent) throws IOException
+    public void onBtnAjouter()
     {
-        //desactiver();
-        //StageAjouterCategories.creer( this ).show();
-
         Stage stage = Manager.creer( "ajouterCategories", this );
 
         stage.showAndWait();
+
+        this.refresh();
     }
 
-    public void onBtnEnregistrer(ActionEvent actionEvent) throws IOException
+    public void onBtnEnregistrer()
     {
-        System.out.println("je rentre dans onBtnEnregistrer");
-
-        for (CategorieIntervenant catInter : StageAccueilConfig.catInterASuppr)
-        {
-            catInter.supprimer(false);
-        }
-
         Controleur.get().getMetier().enregistrer();
-        refresh();
+
+        this.refresh();
         this.close();
     }
 
-    public void onBtnAnnuler(ActionEvent actionEvent) throws IOException
+    public void onBtnAnnuler()
     {
-        System.out.println("Je rentre dans onBtnAnnuler");
-        StageAccueilConfig.catHeurAAjouter = StageAccueilConfig.catHrASupp = new ArrayList<>();
-        StageAccueilConfig.categorieInterAAjouter = StageAccueilConfig.catInterASuppr = new ArrayList<>();
+        Controleur.get().getMetier().rollback();
 
-        refresh();
+        this.refresh();
+        this.close();
     }
 
-    public void onBtnSupprimer(ActionEvent e) throws IOException
+    public void onBtnSupprimer() throws IOException
     {
         CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
@@ -185,33 +163,10 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.refresh();
     }
 
-    /*public void desactiver()
-    {
-        this.getScene().lookup("#btnConfigBd") .setDisable(true);
-        this.getScene().lookup("#btnAjouter")  .setDisable(true);
-        this.getScene().lookup("#btnSupprimer").setDisable(true);
-    }
-
-    public void activer() {
-        this.getScene().lookup("#btnConfigBd" ).setDisable(false);
-        this.getScene().lookup("#btnAjouter"  ).setDisable(false);
-        this.getScene().lookup("#btnSupprimer").setDisable(false);
-    }*/
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
-
-        StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
-        StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
-
-        StageAccueilConfig.catHeurAAjouter = new ArrayList<>();
-        StageAccueilConfig.categorieInterAAjouter = new ArrayList<>();
-
-        StageAccueilConfig.catHrASupp     = new ArrayList<>();
-        StageAccueilConfig.catInterASuppr = new ArrayList<>();
-
 
         tcInter.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
         tcInter.setCellFactory(column -> new TableCell<>() {
@@ -237,7 +192,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         tcHServInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureServiceDefault().toString()));
         tcRatioInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTPDefault().toString()));
 
-        tabCatInter.setItems(StageAccueilConfig.ensCatInter);
+        tabCatInter.setItems( FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants()) );
 
         tcHr.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
         tcHr.setCellFactory(column -> new TableCell<>() {
@@ -259,7 +214,6 @@ public class StageAccueilConfig extends Stage implements Initializable
 
         tcNomHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
         tcEqtdHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEquivalentTD().toString()));
-
         tcRessourcesHeures.setCellValueFactory(cellData -> {
             CategorieHeure categorieHeure = cellData.getValue();
             BooleanProperty ressourceProperty = new SimpleBooleanProperty(categorieHeure.estRessource());
@@ -269,9 +223,8 @@ public class StageAccueilConfig extends Stage implements Initializable
             });
             return ressourceProperty;
         });
+
         tcRessourcesHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcRessourcesHeures));
-
-
         tcStageHeures.setCellValueFactory(cellData -> {
             CategorieHeure categorieHeure = cellData.getValue();
             BooleanProperty stageProperty = new SimpleBooleanProperty(categorieHeure.estStage());
@@ -281,8 +234,8 @@ public class StageAccueilConfig extends Stage implements Initializable
             });
             return stageProperty;
         });
-        tcStageHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcStageHeures));
 
+        tcStageHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcStageHeures));
         tcPppHeures.setCellValueFactory(cellData -> {
             CategorieHeure categorieHeure = cellData.getValue();
             BooleanProperty PppProperty = new SimpleBooleanProperty(categorieHeure.estPpp());
@@ -292,8 +245,8 @@ public class StageAccueilConfig extends Stage implements Initializable
             });
             return PppProperty;
         });
-        tcPppHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcPppHeures));
 
+        tcPppHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcPppHeures));
         tcSaeHeures.setCellValueFactory(cellData -> {
             CategorieHeure categorieHeure = cellData.getValue();
             BooleanProperty saeProperty = new SimpleBooleanProperty(categorieHeure.estSae());
@@ -303,9 +256,10 @@ public class StageAccueilConfig extends Stage implements Initializable
             });
             return saeProperty;
         });
+
         tcSaeHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcSaeHeures));
 
-        tabCatHeures.setItems(StageAccueilConfig.ensCatHeure);
+        tabCatHeures.setItems( FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures()) );
         tabCatHeures.setEditable(true);
 
         tabCatInter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -334,10 +288,10 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     private String getCellValue(CategorieIntervenant categorieIntervenant)
     {
-        if (StageAccueilConfig.categorieInterAAjouter.contains(categorieIntervenant)) {
-            return "➕";
-        } else if (StageAccueilConfig.catInterASuppr.contains(categorieIntervenant)) {
+        if (categorieIntervenant.isSupprime()) {
             return "❌";
+        } else if (categorieIntervenant.isAjoute()) {
+            return "➕";
         } else {
             return "";
         }
@@ -345,42 +299,19 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     private String getCellValue(CategorieHeure catHr)
     {
-        if (StageAccueilConfig.catHeurAAjouter.contains(catHr) ) {
-            return "➕";
-        } else if (StageAccueilConfig.catHrASupp.contains(catHr)) {
+        if (catHr.isSupprime()) {
             return "❌";
+        } else if (catHr.isAjoute()) {
+            return "➕";
         } else {
             return "";
         }
     }
 
-    public void ajouterSansDoublon(ObservableList list, ArrayList al)
-    {
-        for (int i = 0; i < al.size(); i++)
-            if (!list.contains(al.get(i)))
-                list.add(al.get(i));
-    }
-
     public void refresh()
     {
-        System.out.println("Debut refresh " + StageAccueilConfig.ensCatInter );
-        ObservableList<CategorieIntervenant> list1 = StageAccueilConfig.ensCatInter;
-        ObservableList<CategorieHeure>       list2 = StageAccueilConfig.ensCatHeure;
-
-        ajouterSansDoublon(list1, StageAccueilConfig.categorieInterAAjouter);
-        ajouterSansDoublon(list1, StageAccueilConfig.catInterASuppr);
-
-        ajouterSansDoublon(list2, StageAccueilConfig.catHeurAAjouter);
-        ajouterSansDoublon(list2, StageAccueilConfig.catHrASupp);
-
-        System.out.println("Dans refresh : "+StageAccueilConfig.ensCatHeure);
-        System.out.println(StageAccueilConfig.catHrASupp);
-
-        System.out.println("list2 : " + list2 );
-
-
-        tabCatInter .setItems (list1);
-        tabCatHeures.setItems (list2);
+        tabCatInter .setItems( FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants()) );
+        tabCatHeures.setItems( FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures()) );
 
         tabCatInter .refresh();
         tabCatHeures.refresh();
