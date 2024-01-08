@@ -236,7 +236,10 @@ public class StagePrevisionnel extends Stage implements Initializable
 						Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 					)
 			));
-			validation.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().estValide() ? "✅" : "❌"));
+			validation.setCellValueFactory (cellData -> new SimpleStringProperty(
+					(cellData.getValue().estValide() ? "✔" : "❌") +
+					(cellData.getValue().getSommeAffecte() > cellData.getValue().getSommePNPromo() ? "⚠" : " ")
+			));
 		}
 
 		this.refresh();

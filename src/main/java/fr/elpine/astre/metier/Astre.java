@@ -156,6 +156,47 @@ public class Astre
     public ArrayList<Intervenant> getIntervenants() { return this.ensIntervenant; }
     public ArrayList<CategorieHeure> getCategorieHeures() { return this.ensCategorieHeure; }
 
+    /*--------------------------*/
+    /* Méthodes de Verification */
+    /*--------------------------*/
+
+    public boolean existeAnnee( String nom )
+    {
+        for (Annee a : this.ensAnnee) if (a.getNom().equals(nom)) return true;
+
+        return false;
+    }
+
+    public boolean existeSemestre( int numero )
+    {
+        if (this.anneeActuelle == null) return false;
+
+        for (Semestre s : this.anneeActuelle.getSemestres()) if (s.getNumero() == numero) return true;
+
+        return false;
+    }
+
+    public boolean existeModule( Semestre semestre, String code )
+    {
+        for (Module m : semestre.getModules()) if (m.getCode().equals(code)) return true;
+
+        return false;
+    }
+
+    public boolean existeCatInter( String code )
+    {
+        for (CategorieIntervenant c : this.ensCategorieIntervenant) if (c.getCode().equals(code)) return true;
+
+        return false;
+    }
+
+    public boolean existeCatHeure( String nom )
+    {
+        for (CategorieHeure c : this.ensCategorieHeure) if (c.getNom().equals(nom)) return true;
+
+        return false;
+    }
+
     /*------------------------------------*/
     /* Gestion enregistrement et rollback */
     /*------------------------------------*/
