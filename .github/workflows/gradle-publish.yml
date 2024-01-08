@@ -31,11 +31,10 @@ jobs:
         gradle-version: 8.2
 
     - name: Build distribution
-      run:
-        gradle -v
-        gradle build
-        gradle jlink
-        gradle jpackage
+    - run: gradle -v
+    - run: gradle build
+    - run: gradle jlink
+    - run: gradle jpackage
 
     - name: Upload DMG as an artifact
       uses: actions/upload-artifact@v3
