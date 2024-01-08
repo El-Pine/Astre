@@ -14,6 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Properties;
 
 public class DB
 {
@@ -46,7 +47,7 @@ public class DB
     {
         try {
             Class.forName("org.postgresql.Driver");
-            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s", ip, port, database), identifiant, password);
+            co = DriverManager.getConnection(String.format("jdbc:postgresql://%s:%d/%s?user=%s&password=%s&sslmode=disable", ip, port, database, identifiant, password));
 
             try {
                 if (!this.verify()) this.reset();
