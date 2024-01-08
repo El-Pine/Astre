@@ -111,7 +111,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		stage.setTypeModule("Stage");
 		stage.showAndWait();
 	}
-
+	@FXML
 	public void OnBtnEnregistrer(ActionEvent actionEvent) throws IOException {
 		Annee annee = Controleur.get().getMetier().getAnneeActuelle();
 
