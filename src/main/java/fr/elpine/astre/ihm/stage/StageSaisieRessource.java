@@ -472,7 +472,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module Ressource ?")) {
             affectation.supprimer();
         }
-        refresh();
+        tableau.refresh();
     }
 
     private void creerFormatter(String nom, TextField txtf) {
