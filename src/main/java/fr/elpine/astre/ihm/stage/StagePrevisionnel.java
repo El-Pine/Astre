@@ -117,8 +117,10 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		ArrayList<Semestre> semestres = annee.getSemestres();
 
-		if(semestres == null)
+		if(semestres == null) {
 			semestres.add(new Semestre(1, Integer.parseInt(txtNbTD.getText()), Integer.parseInt(txtNbTP.getText()), Integer.parseInt(txtNbSemaine.getText()), Integer.parseInt(txtNbEtd.getText()), annee));
+			System.out.println("null");
+		}
 		else {
 			Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
 
@@ -126,6 +128,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 			semestre.setNbGrpTD(Integer.parseInt(txtNbTD.getText()));
 			semestre.setNbGrpTP(Integer.parseInt(txtNbTP.getText()));
 			semestre.setNbSemaine(Integer.parseInt(txtNbSemaine.getText()));
+			System.out.println("non null");
 		}
 
 		Controleur.get().getMetier().enregistrer();
