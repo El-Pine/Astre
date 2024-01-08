@@ -28,6 +28,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: ${{ matrix.java }}
+        distribution: 'zulu'
     - name: Echo JAVA_HOME
       run: echo $JAVA_HOME
     - name: Verify Gradle Wrapper
