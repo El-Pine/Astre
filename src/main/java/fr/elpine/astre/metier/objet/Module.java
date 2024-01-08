@@ -142,10 +142,10 @@ public class Module
     public ArrayList<Affectation> getAffectations() { return this.ensAffectation; }
 
 
-    public boolean supprimer( boolean recursive )
+    public boolean supprimer( boolean recursive, boolean skipAttribution )
     {
         // Verification avant suppression
-        if (!this.ensAttribution.isEmpty() || !this.ensAffectation.isEmpty()) if (!recursive) return false;
+        if ((!this.ensAttribution.isEmpty() && !skipAttribution) || !this.ensAffectation.isEmpty()) if (!recursive) return false;
 
         // Suppression des affectations
         for (Affectation affectation : this.ensAffectation) affectation.supprimer();
