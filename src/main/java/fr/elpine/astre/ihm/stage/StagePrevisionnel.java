@@ -143,6 +143,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
 		stage.setTypeModule("Stage");
+		stage.init();
 		stage.showAndWait();
 	}
 
@@ -153,6 +154,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
 		stage.setTypeModule("Stage");
+		stage.init();
 		stage.showAndWait();
 	}
 
@@ -164,6 +166,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		stage.setSemestre(num);
 		stage.setTypeModule("Ressource");
+		stage.init();
 		stage.showAndWait();
 		this.refresh();
 	}
@@ -204,6 +207,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 				stage.setSemestre(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
 				stage.setTypeModule(mod.getTypeModule());
 				stage.setModule(mod);
+				stage.init();
 				stage.showAndWait();
 				this.refresh();
 			}

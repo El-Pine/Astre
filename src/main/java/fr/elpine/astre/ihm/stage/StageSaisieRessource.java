@@ -123,7 +123,8 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
         this.setOnCloseRequest(e ->
         {
-            this.futurModule.supprimer(false,true);
+            //this.futurModule.supprimer(false,true);
+            Controleur.get().getMetier().rollback();
         });
     }
 
@@ -1022,14 +1023,12 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void setSemestre(int semestre)
     {
         this.semestre = semestre;
-        init();
     }
 
     public Semestre getSemestre(){return Controleur.get().getMetier().rechercheSemestreByNumero(this.semestre);}
 
     public void setModule(Module mod) {
         this.moduleModif = mod;
-        init();
     }
 
     public void setTypeModule(String typeModule)
@@ -1037,6 +1036,5 @@ public class StageSaisieRessource extends Stage implements Initializable
         System.out.println("je rentre ici typeModule");
         this.typeModule = typeModule;
         txtTypeModule.setText(this.typeModule);
-        init();
     }
 }

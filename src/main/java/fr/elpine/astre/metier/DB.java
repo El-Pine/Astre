@@ -804,7 +804,7 @@ public class DB
     //Méthode insert
     public void ajouterAffectation(Affectation affs)
     {
-        String req = "INSERT INTO Affectation VALUES(?,?,?,?,?,?,?,?,?)";
+        String req = "INSERT INTO Affectation (codeModule, numeroSemestreModule, anneeModule, idInter, typeHeure, nbGroupe, nbSemaine, nbHeure, commentaire) VALUES(?,?,?,?,?,?,?,?,?)";
         try(PreparedStatement ps = co.prepareStatement(req, Statement.RETURN_GENERATED_KEYS))
         {
             ps.setString   (1,affs.getModule     ().getCode    ());

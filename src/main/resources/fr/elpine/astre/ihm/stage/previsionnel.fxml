@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
+<BorderPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StagePrevisionnel">
    <center>
       <TabPane fx:id="pnlControlSem" nodeOrientation="LEFT_TO_RIGHT" style="-fx-border-color: -color-border-default; -fx-border-radius: 3px;" tabClosingPolicy="UNAVAILABLE" tabMaxWidth="90.0" tabMinWidth="90.0" BorderPane.alignment="CENTER">
          <tabs>
