@@ -10,35 +10,35 @@ name: Gradle Package
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ${{ matrix.os }}
-
+  gradle:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
-        java: [ '17.0.6' ]
-      fail-fast: false
 
+    runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }}
+    
     steps:
-    - name: Git checkout
-      uses: actions/checkout@v4
-    - name: Set up JDK
-      uses: actions/setup-java@v4
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
       with:
-        java-version: ${{ matrix.java }}
+        java-version: '17.0.6'
         distribution: 'zulu'
     - name: Echo JAVA_HOME
       run: echo $JAVA_HOME
-    - name: Verify Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v1
-    - name: Execute build
+      
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        gradle-version: 8.2
+    - name: Execute Gradle build
       run: ./gradlew --info --stacktrace build
+
     - name: Execute jlink
       run: ./gradlew --info --stacktrace jlink
     - name: Execute jpackage
       run: ./gradlew --info --stacktrace jpackage
+
     - name: Upload DMG as an artifact
       uses: actions/upload-artifact@v2
       with:
