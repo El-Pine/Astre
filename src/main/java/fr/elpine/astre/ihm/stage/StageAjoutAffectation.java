@@ -50,14 +50,15 @@ public class StageAjoutAffectation extends Stage implements Initializable
     @FXML
     private void onBtnAjouter()
     {
+        Affectation aff = null;
         if(rbHP.isSelected() && cbIntervenant.getValue()!=null && !txtNbHeure.getText().isEmpty())
         {
-            Affectation aff = new Affectation(this.module, cbIntervenant.getValue(),this.catHp, Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
+            aff = new Affectation(this.module, cbIntervenant.getValue(),this.catHp, Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
             StageSaisieRessource.ensAff.add( aff );
         }
         else if (rbAutre.isSelected() && cbIntervenant.getValue()!=null && cbbCatHeure.getValue()!=null && !txtNbGp.getText().isEmpty() && !txtNbSemaine.getText().isEmpty())
         {
-            Affectation aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Integer.parseInt(txtNbGp.getText()),Integer.parseInt(txtNbSemaine.getText()),txtCommentaire.getText());
+            aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Integer.parseInt(txtNbGp.getText()),Integer.parseInt(txtNbSemaine.getText()),txtCommentaire.getText());
             StageSaisieRessource.ensAff.add( aff );
         }
 

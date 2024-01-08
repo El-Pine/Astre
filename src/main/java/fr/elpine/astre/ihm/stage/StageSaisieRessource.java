@@ -405,14 +405,15 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtCode        .setText(this.moduleModif.getCode());
             txtLibelleLong .setText(this.moduleModif.getNom());
             txtLibelleCourt.setText(this.moduleModif.getAbreviation());
-            ObservableList<Affectation> a = FXCollections.observableArrayList(this.moduleModif.getAffectations());
-            tableau.setItems(a);
-            calculeAffecte();
+
             initPn     (this.moduleModif);
             initSemaine(this.moduleModif);
 
             calculeTotaux();
 
+            ObservableList<Affectation> a = FXCollections.observableArrayList(this.moduleModif.getAffectations());
+            tableau.setItems(a);
+            calculeAffecte();
 
         } else
         {
@@ -436,11 +437,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                 this.hmTxtPn.get(att.getCatHr().getNom()).get(1).setText(a);
             }
         }
-
-    }
-
-    public void majValeurPn(HashMap<String, ArrayList<TextField>> hm)
-    {
 
     }
 
@@ -499,11 +495,13 @@ public class StageSaisieRessource extends Stage implements Initializable
             if (change.getControlNewText().matches("^\\d+$")) {
                 String newText = change.getControlNewText();
 
+                List<TextField> semaineList     = this.hmTxtSemaine  .get(nom);
+                List<TextField> pnList          = this.hmTxtPn       .get(nom);
                 List<TextField> repartitionList = this.hmTxtRepartion.get(nom);
-                List<TextField> pnList = this.hmTxtPn.get(nom);
 
-                if (repartitionList != null && pnList != null) {
-                    int index = repartitionList.indexOf(txtf);
+                if (semaineList != null && pnList != null)
+                {
+                    int index = indexTextFied(semaineList,pnList,repartitionList,txtf);
 
                     if (index > -1 && index < pnList.size())
                     {
@@ -511,46 +509,73 @@ public class StageSaisieRessource extends Stage implements Initializable
                         if(!pnList.get(index).getText().equals(""))
                             pnValue = Integer.parseInt(pnList.get(index).getText());
 
-                        if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue) {
+                        if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue)
+                        {
                             txtf.setStyle("");
-                        } else {
+                        }
+                        else
+                        {
+                            System.out.println("mais pourquoi je rentre la tout le temps enfin c'est pas possible !");
                             txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                         }
-                    } else {
+                    }
+                    else
+                    {
                         txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                     }
-                } else {
-                    // Handle the case when either repartitionList or pnList is null
+                }
+                else
+                {
                     txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                 }
                 return change;
-            } else if (change.getText().isEmpty()) {
+            }
+            else if (change.getText().isEmpty())
+            {
                 txtf.setStyle("");
                 return change;
-            } else {
+            }
+            else
+            {
                 return null;
             }
         }));
     }
 
+    public int indexTextFied(List<TextField> listTxt1, List<TextField> listTxt2, List<TextField> listTxt3, TextField txtf)
+    {
+        if(listTxt1.contains(txtf)) return listTxt1.indexOf(txtf);
+        if(listTxt2.contains(txtf)) return listTxt2.indexOf(txtf);
+        if(listTxt3.contains(txtf)) return listTxt3.indexOf(txtf);
+        return -1;
+    }
+
     @FXML
-    protected void onBtnEnregistrer() throws IOException, SQLException
+    protected void onBtnEnregistrer()
     {
         Module mod;
+        if(this.moduleModif != null)
+        {
+            mod = this.moduleModif;
+            majAttribution(mod);
+            majInformation(this.moduleModif, false);
+        }
+        else
+        {
+            majInformation(this.futurModule,true);
+            mod = this.futurModule;
+            creationAttribution(mod);
+        }
+        Controleur.get().getMetier().enregistrer();
+        this.close();
+    }
+
+    public void creationAttribution(Module mod)
+    {
         Fraction fractPn      = null;
         Fraction fractNbHeure = null;
         int nbSemaine         = 0;
 
-        if(this.moduleModif != null)
-        {
-            majInformation(this.moduleModif);
-            mod = this.moduleModif;
-        }
-        else
-        {
-            majInformation(this.futurModule);
-            mod = this.futurModule;
-        }
         for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
             if(catHr.estRessource())
@@ -563,14 +588,39 @@ public class StageSaisieRessource extends Stage implements Initializable
                 Attribution att = new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
             }
         }
-        Controleur.get().getMetier().enregistrer();
-        this.close();
     }
 
-    public void majInformation(Module mod)
+    public void majAttribution(Module mod)
+    {
+        Fraction fractPn      = null;
+        Fraction fractNbHeure = null;
+        int nbSemaine         = 0;
+
+        for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(catHr.estRessource())
+            {
+                //Recuperation des paramètres du module
+                fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
+                fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
+                nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+
+                for (Attribution att : mod.getAttributions())
+                {
+                    att.setNbHeurePN( fractPn      );
+                    att.setNbHeure  ( fractNbHeure );
+                    att.setNbSemaine( nbSemaine    );
+                }
+            }
+        }
+    }
+
+    public void majInformation(Module mod,boolean code)
     {
         mod.setNom(txtLibelleLong.getText());
-        mod.setCode(txtCode.getText());
+        if(code)
+            mod.setCode(txtCode.getText());
+
         mod.setAbreviation(txtLibelleCourt.getText());
     }
 
