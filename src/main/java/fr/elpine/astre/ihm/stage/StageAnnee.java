@@ -6,6 +6,7 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -30,7 +31,7 @@ public class StageAnnee extends Stage implements Initializable
     public StageAnnee() // fxml -> "saisieAnnee"
     {
         this.setTitle("Choix de l'annee");
-        this.setMinWidth(400);
+        this.setMinWidth(500);
         this.setMinHeight(150);
         this.setResizable(false);
     }
@@ -103,7 +104,7 @@ public class StageAnnee extends Stage implements Initializable
     }
 
     public void onBtnDupliquer() {
-        Annee an = this.cbbAnnee.getValue();//null;
+        Annee an = this.cbbAnnee.getValue();
 
         PopUp.textInputDialog(
                 this.cbbAnnee.getValue().toString(),
@@ -159,5 +160,10 @@ public class StageAnnee extends Stage implements Initializable
         this.setHeight( this.getMinHeight() );
 
         this.setCpbContrat();
+    }
+
+    public void onBtnFermer()
+    {
+        this.close();
     }
 }

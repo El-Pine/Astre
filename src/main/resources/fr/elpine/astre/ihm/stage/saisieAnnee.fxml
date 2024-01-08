@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAnnee">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAnnee">
   <columnConstraints>
     <ColumnConstraints />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -14,26 +14,6 @@
     <RowConstraints maxHeight="195.60001220703126" minHeight="10.0" prefHeight="84.99999999999999" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <FlowPane alignment="CENTER" prefHeight="123.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <children>
-            <Button mnemonicParsing="false" onAction="#onBtnAjouter" text="Ajouter">
-               <FlowPane.margin>
-                  <Insets right="10.0" />
-               </FlowPane.margin>
-            </Button>
-            <Button fx:id="btnConsulter" mnemonicParsing="false" onAction="#onBtnConsulter" text="Consulter" />
-            <Button fx:id="btnDupliquer" mnemonicParsing="false" onAction="#onBtnDupliquer" text="Dupliquer">
-               <FlowPane.margin>
-                  <Insets left="10.0" />
-               </FlowPane.margin>
-            </Button>
-            <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#onBtnSupprimer" text="Supprimer">
-               <FlowPane.margin>
-                  <Insets left="10.0" />
-               </FlowPane.margin>
-            </Button>
-         </children>
-      </FlowPane>
       <FlowPane alignment="CENTER" minWidth="350.0" prefHeight="84.0" prefWidth="350.0" GridPane.columnIndex="1">
          <children>
             <Label text="Année : ">
@@ -42,6 +22,34 @@
                </FlowPane.margin>
             </Label>
             <ComboBox fx:id="cbbAnnee" prefWidth="150.0" />
+         </children>
+      </FlowPane>
+      <FlowPane alignment="CENTER" prefHeight="123.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Button fx:id="btnConsulter" defaultButton="true" mnemonicParsing="false" onAction="#onBtnConsulter" prefWidth="75.0" text="Consulter">
+               <FlowPane.margin>
+                  <Insets />
+               </FlowPane.margin></Button>
+            <Button fx:id="btnSupprimer1" cancelButton="true" mnemonicParsing="false" onAction="#onBtnFermer" prefWidth="75.0" text="Fermer">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="80.0" text="Ajouter">
+               <FlowPane.margin>
+                  <Insets left="20.0" />
+               </FlowPane.margin>
+            </Button>
+            <Button fx:id="btnDupliquer" mnemonicParsing="false" onAction="#onBtnDupliquer" prefWidth="80.0" text="Dupliquer">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin>
+            </Button>
+            <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#onBtnSupprimer" prefWidth="80.0" text="Supprimer">
+               <FlowPane.margin>
+                  <Insets left="10.0" />
+               </FlowPane.margin>
+            </Button>
          </children>
       </FlowPane>
    </children>
