@@ -7,7 +7,6 @@ import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -42,6 +41,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
     private RadioButton           rbAutre;
 
     private Module module;
+    private CategorieHeure catHp;
 
     public StageAjoutAffectation() //fxml -> ajoutAffectation
     {
@@ -51,7 +51,15 @@ public class StageAjoutAffectation extends Stage implements Initializable
     public void init()
     {
         cbIntervenant.setItems(FXCollections.observableList(Controleur.get().getMetier().getIntervenants()));
-        cbbCatHeure.setItems(FXCollections.observableList(Controleur.get().getMetier().getCategorieHeures()));
+
+        ArrayList<CategorieHeure> alCatH = Controleur.get().getMetier().getCategorieHeures();
+        for (CategorieHeure catH : alCatH) {
+            if (catH.getNom().equals("HP")) {
+                this.catHp = catH;
+                alCatH.remove(catH);
+            }
+        }
+        cbbCatHeure.setItems(FXCollections.observableList(alCatH));
 
         ToggleGroup toggleGroup = new ToggleGroup();
 
@@ -86,7 +94,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
         Affectation aff = null;
         if(rbHP.isSelected())
         {
-            aff = new Affectation(null, cbIntervenant.getValue(),cbbCatHeure.getValue(), Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
+            aff = new Affectation(null, cbIntervenant.getValue(),this.catHp, Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
         }
         else
         {
@@ -117,7 +125,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         init();
-        this.txtNbHeure.setDisable(true);
+        rbHP.setSelected(true);
         this.cbbCatHeure.setDisable(true);
         this.txtNbSemaine.setDisable(true);
         this.txtNbGp.setDisable(true);
