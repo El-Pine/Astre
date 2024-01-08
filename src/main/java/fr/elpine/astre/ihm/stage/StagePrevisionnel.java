@@ -196,7 +196,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 			code   .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 			liblong.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getNom ()));
 			hahpn  .setCellValueFactory (cellData -> new SimpleStringProperty(
-					String.format("%s/%s",
+					String.format("%s / %s",
 						Fraction.simplifyDouble(cellData.getValue().getSommeAffecte(), true),
 						Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 					)

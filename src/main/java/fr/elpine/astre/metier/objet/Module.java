@@ -57,8 +57,6 @@ public class Module
 
     /*   SETTER   */
 
-    //TODO : verif le changement du code lors de l'enregistrement
-
     public void setCode       ( String code        )   { this.code        = code        ; this.modifie = true; }
     public void setNom         ( String nom        )   { this.nom         = nom         ; this.modifie = true; }
     public void setAbreviation ( String  abreviation ) { this.abreviation = abreviation ; this.modifie = true; }
