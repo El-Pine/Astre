@@ -107,7 +107,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
-		stage.setTypeModule("stage");
+		stage.setTypeModule("Stage");
 		stage.showAndWait();
 	}
 
@@ -117,7 +117,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
-		stage.setTypeModule("stage");
+		stage.setTypeModule("Stage");
 		stage.showAndWait();
 	}
 
@@ -127,7 +127,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
-		stage.setTypeModule("stage");
+		stage.setTypeModule("Stage");
 		stage.showAndWait();
 	}
 
@@ -138,8 +138,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 
 		stage.setSemestre(num);
-		stage.setTypeModule("ressource");
+		stage.setTypeModule("Ressource");
 		stage.showAndWait();
+		this.refresh();
 	}
 
 	@FXML

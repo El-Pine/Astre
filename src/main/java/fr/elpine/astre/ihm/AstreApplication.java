@@ -24,7 +24,7 @@ public class AstreApplication extends Application
 		* Variantes : dark & light
 		* */
 
-		Application.setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/cupertino-dark.css")).toExternalForm());
+		Application.setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/cupertino-light.css")).toExternalForm());
 
 
 		if ( !Controleur.get().getDb().reloadDB() ) {

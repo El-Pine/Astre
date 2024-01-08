@@ -145,8 +145,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.setWidth ( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
 
-
-
         if(this.typeModule != null)
         {
             if (this.typeModule.equals("ressource")) {
@@ -161,8 +159,9 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void initializeStage()
     {
-        System.out.println("mais euuuh ?");
+        System.out.println("je rentre dans le stage ");
         initGridPn();
+        this.tabPaneSemaine.getTabs().clear();
         initRepartitionColumns();
 
         initTableColumns();
@@ -177,6 +176,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void initializeRessource()
     {
+        System.out.println("je rentre dans la ressource");
         initGridPn();
         initTabPan();
         initRepartitionColumns();
@@ -215,7 +215,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 ajouterColonneRepartition(cat.getNom());
             }
         }
-        ajouterColonneRepartition("HP");
+        //ajouterColonneRepartition("HP");
     }
 
     private void initializeAffectations()
@@ -433,7 +433,11 @@ public class StageSaisieRessource extends Stage implements Initializable
         txtNbGpTD.setText("" + sem.getNbGrpTD());
         txtnbGpTP.setText("" + sem.getNbGrpTP());
 
-        initializeRessource();
+        if(this.typeModule != null)
+            if(this.typeModule.equals("Ressource"))
+                initializeRessource();
+            else
+                initializeStage();
     }
 
     public void initPn(Module mod)
@@ -589,10 +593,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             String key                 = entry.getKey  ();
             ArrayList<TextField> value = entry.getValue();
 
-            System.out.println(key);
-            System.out.println(value);
-
-            if(key.equals(nom))
+            if(key.equals(nom) && !key.equals("HP"))
             {
                 if(nbSemaine)
                 {
@@ -602,6 +603,10 @@ public class StageSaisieRessource extends Stage implements Initializable
                 {
                     return value.get(1).getText();
                 }
+            }
+            if (key.equals("HP"))
+            {
+                return value.get(0).getText();
             }
         }
         return "0";
@@ -652,16 +657,28 @@ public class StageSaisieRessource extends Stage implements Initializable
             flowPanes[i] = fp;
         }
 
-        // Ajouter du contenu aux FlowPane
-        flowPanes[0].getChildren().add(new Label("Nombre Semaine"));
+        if(nom.equals("HP"))
+        {
+            flowPanes[0].getChildren().add(new Label("Nombre d'heure"));
 
-        TextField txtNbSemaine = creerTextField("txt" + nom + "NbSemaine");
-        flowPanes[1].getChildren().add(txtNbSemaine);
+            TextField txtNbSemaine = creerTextField("txt" + nom + "NbSemaine");
+            flowPanes[1].getChildren().add(txtNbSemaine);
+        }
+        else
+        {
+            // Ajouter du contenu aux FlowPane
+            flowPanes[0].getChildren().add(new Label("Nombre Semaine"));
 
-        flowPanes[2].getChildren().add(new Label("Nombre heure / semaine"));
+            TextField txtNbSemaine = creerTextField("txt" + nom + "NbSemaine");
+            flowPanes[1].getChildren().add(txtNbSemaine);
 
-        TextField txtNbHrSem = creerTextField("txt" + nom + "NbHrSem");
-        flowPanes[3].getChildren().add(txtNbHrSem);
+            flowPanes[2].getChildren().add(new Label("Nombre heure / semaine"));
+
+            TextField txtNbHrSem = creerTextField("txt" + nom + "NbHrSem");
+            flowPanes[3].getChildren().add(txtNbHrSem);
+        }
+
+
 
         // Ajouter les FlowPane au GridPane
         grid.add(flowPanes[0], 0, 0);
@@ -686,48 +703,47 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void ajouterColonne(String nom)
     {
-        ArrayList<FlowPane> ensFp = new ArrayList<>();
-        for (int i = 0; i <= 2; i++)
-        {
-            FlowPane fp = new FlowPane();
-            fp.setAlignment(Pos.CENTER);
+        if(!nom.equals("HP")) {
 
-            ensFp.add(fp);
-        }
-        Label lbl = new Label(nom);
-        ensFp.get(0).getChildren().add(lbl);
+            ArrayList<FlowPane> ensFp = new ArrayList<>();
+            for (int i = 0; i <= 2; i++) {
+                FlowPane fp = new FlowPane();
+                fp.setAlignment(Pos.CENTER);
 
-        TextField txt1 = new TextField();
-        TextField txt2 = new TextField();
+                ensFp.add(fp);
+            }
+            Label lbl = new Label(nom);
+            ensFp.get(0).getChildren().add(lbl);
 
-        if(this.moduleModif != null &&  nom.equals("TO"))
-        {
-            CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
+            TextField txt1 = new TextField();
+            TextField txt2 = new TextField();
 
+            if (this.moduleModif != null && nom.equals("TO")) {
+                CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
 
-            txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN().toString());
-        }
+                txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN().toString());
+            }
 
-        txt1.setId("txt"+nom+"Pn");
+            txt1.setId("txt" + nom + "Pn");
 
-        if(nom.equals("TO"))
-            txt1.setEditable(false);
+            if (nom.equals("TO"))
+                txt1.setEditable(false);
 
-        txt2.setId("txt"+nom+"PromoPn");
-        txt2.setEditable(false);
+            txt2.setId("txt" + nom + "PromoPn");
+            txt2.setEditable(false);
 
-        txt1.setPrefSize(50,26);
-        txt2.setPrefSize(50,26);
+            txt1.setPrefSize(50, 26);
+            txt2.setPrefSize(50, 26);
 
-        ensFp.get(1).getChildren().add(txt1);
-        ensFp.get(2).getChildren().add(txt2);
+            ensFp.get(1).getChildren().add(txt1);
+            ensFp.get(2).getChildren().add(txt2);
 
-        gridPn.getColumnConstraints().add(new ColumnConstraints());
+            gridPn.getColumnConstraints().add(new ColumnConstraints());
 
-        int cpt = 0;
-        for (FlowPane fp : ensFp)
-        {
-            gridPn.add(fp,gridPn.getColumnConstraints().size() - 1, cpt++ );
+            int cpt = 0;
+            for (FlowPane fp : ensFp) {
+                gridPn.add(fp, gridPn.getColumnConstraints().size() - 1, cpt++);
+            }
         }
     }
 
@@ -756,6 +772,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             gridPaneRepartition.add(fp, gridPaneRepartition.getColumnConstraints().size() - 1, cpt++);
         }
     }
+
 
     private FlowPane creerFlowPane() {
         FlowPane fp = new FlowPane();
@@ -874,11 +891,20 @@ public class StageSaisieRessource extends Stage implements Initializable
         int valeurSemaine = 0;
         int valeurFinal   = 0;
 
-        System.out.println(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().isEmpty()));
-        if(!(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) && !(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().isEmpty()) )
-        {
-            valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText()) * Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
+        if (this.hmTxtSemaine.containsKey(keyCatHrMAJ) &&
+                !this.hmTxtSemaine.get(keyCatHrMAJ).isEmpty() &&
+                !this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) {
+
+            int a;
+            if (this.hmTxtSemaine.get(keyCatHrMAJ).size() > 1) {
+                a = keyCatHrMAJ.equals("HP") ? 1 : Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
+            } else {
+                // Si le HashMap contient seulement un élément, utilisez une valeur par défaut ou une autre logique selon vos besoins.
+                a = 1;  // Vous pouvez choisir une autre valeur par défaut si nécessaire.
+            }
+            valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText()) * a;
         }
+
         for (TextField txt1 : this.hmTxtRepartion.get(keyCatHrMAJ))
         {
             if(txt1.getId().equals("txt" + keyCatHr +"Repartition"))
@@ -1031,7 +1057,9 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void setTypeModule(String typeModule)
     {
+        System.out.println("je rentre ici typeModule");
         this.typeModule = typeModule;
         txtTypeModule.setText(this.typeModule);
+        init();
     }
 }
