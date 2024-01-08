@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -50,30 +50,34 @@ public class StageAjoutAffectation extends Stage implements Initializable
 
     public void init()
     {
-        ObservableList<Intervenant> ensIntervant = FXCollections.observableList(Controleur.get().getMetier().getIntervenants());
-        cbIntervenant.setItems(ensIntervant);
+        cbIntervenant.setItems(FXCollections.observableList(Controleur.get().getMetier().getIntervenants()));
+        cbbCatHeure.setItems(FXCollections.observableList(Controleur.get().getMetier().getCategorieHeures()));
 
-        ArrayList<CategorieHeure> lstCatH = Controleur.get().getMetier().getCategorieHeures();
-        ObservableList<CategorieHeure> ensCatHr  = FXCollections.observableList(lstCatH);
-        cbbCatHeure.setOnAction(event -> {
-            // Récupérer la valeur sélectionnée dans la ComboBox
-            CategorieHeure choix = cbbCatHeure.getSelectionModel().getSelectedItem();
+        ToggleGroup toggleGroup = new ToggleGroup();
 
-            // Appeler la méthode correspondant au choix
-            if (choix == lstCatH.get(0)) {
+        rbHP.setToggleGroup(toggleGroup);
+        rbAutre.setToggleGroup(toggleGroup);
+
+        // Ajouter des ChangeListeners pour chaque RadioButton
+        rbHP.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                rbAutre.setSelected(false); // Désélectionne l'autre bouton si celui-ci est sélectionné
                 this.txtNbHeure.setDisable(false);
                 this.cbbCatHeure.setDisable(true);
                 this.txtNbSemaine.setDisable(true);
                 this.txtNbGp.setDisable(true);
-            } else {
+            }
+        });
+
+        rbAutre.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                rbHP.setSelected(false); // Désélectionne l'autre bouton si celui-ci est sélectionné
                 this.txtNbHeure.setDisable(true);
                 this.cbbCatHeure.setDisable(false);
                 this.txtNbSemaine.setDisable(false);
                 this.txtNbGp.setDisable(false);
-                // Ajoutez d'autres cas pour chaque choix de la ComboBox
             }
         });
-        cbbCatHeure  .setItems( ensCatHr   );
     }
 
     @FXML
