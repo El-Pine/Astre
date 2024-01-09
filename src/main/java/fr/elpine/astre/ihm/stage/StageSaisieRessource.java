@@ -368,7 +368,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         for (Node node : gridPane.getChildren()) {
             if (node instanceof FlowPane flowPane) {
-	            textFields.addAll(getTextFieldsFromFlowPane(flowPane));
+                textFields.addAll(getTextFieldsFromFlowPane(flowPane));
             }
         }
 
@@ -396,16 +396,23 @@ public class StageSaisieRessource extends Stage implements Initializable
     {
         Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
 
-        txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
+
         txtNbEtd.setText("" + sem.getNbEtd());
         txtNbGpTD.setText("" + sem.getNbGrpTD());
         txtnbGpTP.setText("" + sem.getNbGrpTP());
 
         if(this.typeModule != null)
-            if(this.typeModule.equals("Ressource"))
+            if(this.typeModule.equals("Ressource")) {
                 initializeRessource();
-            else
+                txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
+            }
+            else {
                 initializeStage();
+                if(this.typeModule.equals("Stage"))
+                    txtCode.setText("ST" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
+                if(this.typeModule.equals("SAE"))
+                    txtCode.setText("S" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
+            }
 
         if (this.moduleModif != null)
         {
@@ -435,7 +442,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtSemestre  .setText("" + this.semestre);
             txtSemestre  .setEditable(false);
 
-           this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), couleur.getValue(), cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+            this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), couleur.getValue(), cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
         }
     }
 
@@ -1076,17 +1083,17 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
     private String calculeNvValeur(int valeurInitial, CategorieHeure catHr)
     {
-       if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
-       {
-           int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-           int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
-           return Integer.toString(valeurFinal);
-       }
-       else
-       {
-           int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTD().value());
-           return Integer.toString(valeurFinal);
-       }
+        if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
+        {
+            int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
+            int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
+            return Integer.toString(valeurFinal);
+        }
+        else
+        {
+            int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTD().value());
+            return Integer.toString(valeurFinal);
+        }
     }
 
     private HashMap<String, ArrayList<TextField>> initHmPn(ArrayList<TextField> ensTxt)
