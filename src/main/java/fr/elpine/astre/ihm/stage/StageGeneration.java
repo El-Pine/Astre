@@ -4,6 +4,7 @@ import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -159,13 +160,13 @@ public class StageGeneration extends Stage implements Initializable
             htmlContent.append("    <div class=\"box-semestres\"> <!--Boucle de semestres ici !!!!!!!!!!!!!!!!!!!!!!! -->\n");
             htmlContent.append("        <div>\n");
             htmlContent.append("            <h2>Semestre "+s.getNumero()+"</h2> <!--Numero semestre -->\n");
+            htmlContent.append("            <div class=\"box-md\"> \n");
             // boucle categories heures
             for(CategorieHeure ch : semestres.get(s).keySet())
             {
-                htmlContent.append("            <div class=\"box-md\"> \n");
-                htmlContent.append("                <p>"+ch.getNom()+" : "+semestres.get(s).get(ch)+" h</p>\n");
-                htmlContent.append("            </div>\n");
+                htmlContent.append("                <p>"+ch.getNom()+" : "+ Fraction.simplifyDouble(semestres.get(s).get(ch), true)+" h</p>\n");
             }
+            htmlContent.append("            </div>\n");
             htmlContent.append("        </div>\n");
             htmlContent.append("    </div> \n");
         }
@@ -181,8 +182,6 @@ public class StageGeneration extends Stage implements Initializable
         createHTMLFile(htmlContent.toString(), filePath);
 
         System.out.println("Fichier HTML créé avec succès !");
-
-
     }
 
     public static void genererModules(Annee annee,Module mod){
@@ -240,7 +239,7 @@ public class StageGeneration extends Stage implements Initializable
             htmlContent.append("                <br/>\n");
             for(CategorieHeure ch : intervenants.get(i).keySet())
             {
-                htmlContent.append("                <p>"+ch.getNom()+" : "+intervenants.get(i).get(ch)+" h</p>\n");
+                htmlContent.append("                <p>"+ch.getNom()+" : "+Fraction.simplifyDouble(intervenants.get(i).get(ch), true)+" h</p>\n");
             }
             htmlContent.append("            </div>\n");
             htmlContent.append("        </div>\n");
