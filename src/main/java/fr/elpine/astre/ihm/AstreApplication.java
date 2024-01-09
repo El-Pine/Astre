@@ -2,13 +2,13 @@ package fr.elpine.astre.ihm;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.stage.Manager;
-import fr.elpine.astre.ihm.stage.StageInitBd;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -45,5 +45,14 @@ public class AstreApplication extends Application
 	public static void refreshIcon(Stage stage)
 	{
 		stage.getIcons().add(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
+
+		if (Taskbar.isTaskbarSupported()) {
+			Taskbar taskbar = Taskbar.getTaskbar();
+
+			if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+				java.awt.Image dockIcon = Toolkit.getDefaultToolkit().getImage(AstreApplication.class.getResource("icon.png"));
+				taskbar.setIconImage(dockIcon);
+			}
+		}
 	}
 }
