@@ -211,9 +211,11 @@ public class Astre
 
 
         // débug
-        logger.debug("Listes des actions de sauvegarde :\n");
-        for (Action a : lstAction) logger.debug(String.valueOf(a));
-
+        if (lstAction.isEmpty()) logger.debug("Aucune actions à sauvegarder");
+        else {
+            logger.debug("Listes des actions de sauvegarde :\n");
+            for (Action a : lstAction) logger.debug(String.valueOf(a));
+        }
 
         // appliquer l'ordre d'exécution
         for (Action a : lstAction) a.executer( rollback );
