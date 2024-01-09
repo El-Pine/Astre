@@ -39,6 +39,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 {
     @FXML
     public TableView<Affectation> tableau;
+    public ColorPicker couleur;
     @FXML
     private TableColumn<Affectation,String> tc;
     @FXML
@@ -405,6 +406,8 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtCode        .setText(this.moduleModif.getCode());
             txtLibelleLong .setText(this.moduleModif.getNom());
             txtLibelleCourt.setText(this.moduleModif.getAbreviation());
+            couleur        .setValue(this.moduleModif.getCouleur());
+            cbValidation   .setSelected(this.moduleModif.estValide());
 
             initPn     (this.moduleModif);
             initSemaine(this.moduleModif);
@@ -423,7 +426,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtSemestre  .setText("" + this.semestre);
             txtSemestre  .setEditable(false);
 
-           this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), Color.BLACK, cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+           this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), couleur.getValue(), cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
         }
     }
 
@@ -622,6 +625,8 @@ public class StageSaisieRessource extends Stage implements Initializable
             mod.setCode(txtCode.getText());
 
         mod.setAbreviation(txtLibelleCourt.getText());
+        mod.setCouleur(couleur.getValue());
+        mod.setValidation(cbValidation.isSelected());
     }
 
 
