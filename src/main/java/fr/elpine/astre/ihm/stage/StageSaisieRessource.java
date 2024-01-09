@@ -752,8 +752,8 @@ public class StageSaisieRessource extends Stage implements Initializable
 
             calculeTotaux();
 
-            ObservableList<Affectation> a = FXCollections.observableArrayList(this.moduleModif.getAffectations());
-            tableau.setItems(a);
+            ensAff = FXCollections.observableArrayList(this.moduleModif.getAffectations());
+            tableau.setItems(ensAff);
             tableau.requestFocus();
             calculeAffecte();
 
@@ -773,179 +773,14 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void initTableColumns() {
 
-        ArrayList<CategorieHeure> ensCatH = Controleur.get().getMetier().getCategorieHeures();
-        ArrayList<String> ensNomCatH = new ArrayList<>();
+        ArrayList<CategorieHeure> ensCatH = this.ensCatHrPresent;
+        ArrayList<String>      ensNomCatH = new ArrayList<>();
+
         for (CategorieHeure catHr : ensCatH)
-            if ( catHr.estRessource() && !catHr.getNom().equals("HP"))
+            if ( estTypeModule(catHr) && !catHr.getNom().equals("HP"))
                 ensNomCatH.add(catHr.getNom());
 
-        ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList( ensNomCatH ));
-
-        tcType.setCellFactory(column -> {
-
-            final int MAX_CLICKS = 3;
-            final int[] clickCounter = {0};
-            ComboBoxTableCell<Affectation, String> cell = new ComboBoxTableCell<>(new StringConverter<>() {
-                @Override
-                public String toString(String object) {
-                    return (String) object;
-                }
-
-                @Override
-                public String fromString(String string) {
-                    return string;
-                }
-            }, comboBox.getItems());
-
-            cell.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (clickCounter[0] >= MAX_CLICKS) {
-                        cell.setEditable(true);
-                        cell.startEdit();
-                    } else {
-                        clickCounter[0]++;
-                    }
-                }
-            });
-
-            cell.itemProperty().addListener((observable, oldValue, newValue) -> {
-                if (oldValue != null && newValue != null && !oldValue.equals("HP") && !newValue.equals(oldValue)) {
-                    tableau.getSelectionModel().getSelectedItem().setTypeHeure(Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), newValue));
-                    tableau.refresh();
-                } else if (oldValue != null && oldValue.equals("HP")) {
-                    tableau.refresh(); // Assurez-vous que cela fonctionne pour votre cas d'utilisation spécifique
-                }
-                cell.setEditable(false);
-            });
-
-            return cell;
-        });
-
-        tcNbH.setCellFactory(column -> {
-            TextFieldTableCell<Affectation, String> cell = new TextFieldTableCell<>(new DefaultStringConverter());
-            Affectation afc = tableau.getSelectionModel().getSelectedItem();
-
-            final int MAX_CLICKS = 3;
-            final int[] clickCounter = {0};
-
-            cell.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (clickCounter[0] >= MAX_CLICKS) {
-                        cell.setEditable(true);
-                        cell.startEdit();
-                    } else {
-                        clickCounter[0]++;
-                    }
-                }
-            });
-
-            cell.itemProperty().addListener((obs, oldText, newText) -> {
-                System.out.println("Groupe : " + oldText + "->" + newText);
-                if (afc != null && tcType.getText().equals("HP") && newText != null && !newText.equals(oldText)) {
-                    tableau.getSelectionModel().getSelectedItem().setNbHeure(Fraction.valueOf(newText));
-                    cell.setEditable(false);
-                    tableau.refresh();
-                }
-            });
-
-            return cell;
-        });
-
-        tcGrp.setCellFactory(column -> {
-
-            final int MAX_CLICKS = 3;
-            final int[] clickCounter = {0};
-
-            TextFieldTableCell<Affectation, Integer> cell = new TextFieldTableCell<>(new IntegerStringConverter());
-
-            cell.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (clickCounter[0] >= MAX_CLICKS) {
-                        cell.setEditable(true);
-                        cell.startEdit();
-                    } else {
-                        clickCounter[0]++;
-                    }
-                }
-            });
-
-            cell.itemProperty().addListener((obs, oldValue, newValue) -> {
-                System.out.println("Groupe : " + oldValue + "->" + newValue);
-                Affectation afc = tableau.getSelectionModel().getSelectedItem();
-                if (afc != null && !tcType.getText().equals("HP") && !tcType.getText().equals("CM") && newValue != null && !newValue.equals(oldValue)) {
-                    afc.setNbGroupe(newValue);
-                    cell.setEditable(false);
-                    tableau.refresh();
-                }
-            });
-
-            return cell;
-        });
-
-        tcSemaine.setCellFactory(column -> {
-            int MAX_CLICKS = 3;
-            final int[] clickCounter = {0};
-
-            TextFieldTableCell<Affectation, Integer> cell = new TextFieldTableCell<>(new IntegerStringConverter());
-
-            cell.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (clickCounter[0] >= MAX_CLICKS) {
-                        cell.setEditable(true);
-                        cell.startEdit();
-                    } else {
-                        clickCounter[0]++;
-                    }
-                }
-            });
-
-            cell.itemProperty().addListener((obs, oldValue, newValue) -> {
-                Affectation afc = tableau.getSelectionModel().getSelectedItem();
-                System.out.println("Semaine : " + oldValue + "->" + newValue);
-                if (afc != null && !afc.getTypeHeure().getNom().equals("HP") && newValue != null && !newValue.equals(oldValue)) {
-                    afc.setNbSemaine(newValue);
-                    cell.setEditable(false);
-                    tableau.refresh();
-                }
-            });
-
-            return cell;
-        });
-
-
-        tcCommentaire.setCellFactory(column -> {
-
-            int MAX_CLICKS = 3;
-            final int[] clickCounter = {0};
-
-
-            TextFieldTableCell<Affectation, String> cell = new TextFieldTableCell<>(new DefaultStringConverter());
-
-            cell.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (clickCounter[0] >= MAX_CLICKS) {
-                        cell.setEditable(true);
-                        cell.startEdit();
-                    } else {
-                        clickCounter[0]++;
-                    }
-                }
-            });
-
-            cell.itemProperty().addListener((obs, oldText, newText) -> {
-                System.out.println("Commentaire : " + oldText + "->" + newText);
-                Affectation afc = tableau.getSelectionModel().getSelectedItem();
-                if (newText != null && !newText.equals(oldText) && afc != null) {
-                    afc.setCommentaire(newText);
-                    cell.setEditable(false);
-                    tableau.refresh();
-                }
-            });
-
-            return cell;
-        });
-
-        for (CategorieHeure cat : this.ensCatHrPresent)
+        for (CategorieHeure cat : ensCatH)
         {
             ajouterColonne(cat.getNom());
         }
@@ -973,11 +808,159 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom()));
         tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure  ().getNom()));
+        tcType.setCellFactory(column -> {
+            return new TableCell<>() {
+                ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(ensNomCatH));
+
+                {
+                    comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+                        if ("HP".equals(newValue)) {
+                            comboBox.getItems().clear(); // Vide la liste si "HP" est sélectionné
+                        } else {
+                            comboBox.setItems(FXCollections.observableArrayList(ensNomCatH)); // Réinitialise la liste sinon
+                        }
+                    });
+
+                    comboBox.setOnAction(event -> {
+                        String newValue = comboBox.getValue();
+                        String oldValue = getItem();
+
+                        if ("HP".equals(oldValue)) {
+                            event.consume(); // Annule l'édition si la valeur initiale est "HP"
+                            return;
+                        }
+
+                        Affectation afc = getTableView().getItems().get(getIndex());
+                        if(newValue != null)
+                        {
+                            if (!newValue.equals("CM")) {
+                                afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                            } else {
+                                afc.setNbGroupe(1);
+                                afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                            }
+                        }
+
+                        tableau.refresh();
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        comboBox.setValue(item);
+                        setGraphic(comboBox);
+                    }
+                }
+            };
+        });
+
+
         tcSemaine    .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject()  : null);
+        tcSemaine.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        tcSemaine.setOnEditCommit(event -> {
+            // Mettez à jour les données avec la nouvelle valeur
+            event.getTableView().getItems().get(event.getTablePosition().getRow()).setNbSemaine(event.getNewValue());
+            // Vous pouvez ajouter ici le code pour sauvegarder les modifications
+        });
+
         tcGrp        .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe ()).asObject()  : null);
+        tcGrp.setCellFactory(column -> {
+            return new TableCell<>() {
+                TextField textField = new TextField();
+                {
+                    creerFormatter(textField);
+
+                    textField.setOnAction(event -> {
+                        String newValue = textField.getText();
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            Affectation afc = getTableView().getItems().get(index);
+                            afc.setNbGroupe(Integer.parseInt(newValue)); // Mettre à jour votre donnée
+                            tableau.refresh();
+                        }
+                    });
+
+                    textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                        Affectation afc = getTableView().getItems().get(getIndex());
+                        boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
+                        setEditable(isHP);
+                    });
+                }
+
+                @Override
+                protected void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                        textField.setText("" + item); // Définit le texte dans le TextField
+                        setGraphic(textField);
+                        Affectation afc = getTableView().getItems().get(getIndex());
+                        boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
+                        setEditable(isHP);
+                    }
+                }
+            };
+        });
+
         tcNbH        .setCellValueFactory(cellData -> cellData.getValue().hasNbHeure        () ? new SimpleStringProperty (cellData.getValue().getNbHeure  () .toString()) : null);
+        tcNbH.setCellFactory(column -> {
+            return new TableCell<>() {
+                TextField textField = new TextField();
+                {
+                    creerFormatter(textField);
+
+                    textField.setOnAction(event -> {
+                        String newValue = textField.getText();
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            Affectation afc = getTableView().getItems().get(index);
+                            afc.setNbHeure(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                            tableau.refresh();
+                        }
+                    });
+
+                    textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                        boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
+                        setEditable(isHP);
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                        textField.setText(item); // Définit le texte dans le TextField
+                        setGraphic(textField);
+                        boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
+                        setEditable(isHP);
+                    }
+                }
+            };
+        });
+
+
         tcTotalEqtd  .setCellValueFactory(cellData -> new SimpleStringProperty (Fraction.simplifyDouble(cellData.getValue().getTotalEqtd(true),true)));
         tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
+        tcCommentaire.setCellFactory(TextFieldTableCell.forTableColumn());
+        tcCommentaire.setOnEditCommit(event -> {
+            // Mettez à jour les données avec la nouvelle valeur
+            if ( !event.getOldValue().equals(event.getNewValue() ))
+                event.getTableView().getItems().get(event.getTablePosition().getRow()).setCommentaire(event.getNewValue());
+            tableau.refresh();
+            // Vous pouvez ajouter ici le code pour sauvegarder les modifications
+        });
     }
 
     public void initPn(Module mod)
@@ -1113,6 +1096,20 @@ public class StageSaisieRessource extends Stage implements Initializable
             }
             else
             {
+                return null;
+            }
+        }));
+    }
+
+    private void creerFormatter(TextField txtf) {
+        txtf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("^\\d+$")) {
+                txtf.setStyle("");
+                return change;
+            } else if (change.getText().isEmpty()) {
+                txtf.setStyle("");
+                return change;
+            } else {
                 return null;
             }
         }));
