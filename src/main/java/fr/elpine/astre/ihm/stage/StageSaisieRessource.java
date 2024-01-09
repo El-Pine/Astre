@@ -118,8 +118,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         {
             if (this.typeModule.equals("Ressource"))
                 initializeRessource();
-
-            if (this.typeModule.equals("Stage"))
+            else
                 initializeStage();
         }
         this.setOnCloseRequest(e ->

@@ -135,6 +135,15 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		Controleur.get().getMetier().enregistrer();
 	}
+	public void onBtnCreerPpp()
+	{
+		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
+		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
+		stage.setSemestre(num);
+		stage.setTypeModule("PPP");
+		stage.init();
+		stage.showAndWait();
+	}
 
 	@FXML
 	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException
@@ -142,7 +151,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
-		stage.setTypeModule("Stage");
+		stage.setTypeModule("Sae");
 		stage.init();
 		stage.showAndWait();
 	}
@@ -193,8 +202,6 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 	@FXML
 	public void onBtnModifier(ActionEvent actionEvent) {
-		System.out.println(tabs1.getSelectionModel().getSelectedIndex());
-
 		this.lstViews.forEach(value -> {
 			if(value.getSelectionModel().getSelectedIndex() != -1)
 			{
@@ -244,13 +251,23 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		this.refresh();
 
-		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
+		{
+			resetSelection();
 			if (newTab != null) {
 				initializeTextFields();
 			}
 		});
 
 		initializeTextFields();
+	}
+
+	public void resetSelection()
+	{
+		for (TableView tableView : this.lstViews)
+		{
+			tableView.getSelectionModel().clearSelection();
+		}
 	}
 
 	public void refresh()
