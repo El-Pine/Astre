@@ -42,38 +42,46 @@ jobs:
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-zip
         path: build/distributions/*.zip
+        retention-days: 5
     - name: Upload JAR as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-jar
         path: build/libs/*.jar
+        retention-days: 5
     - name: Upload DMG as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-dmg
         path: build/jpackage/*.dmg
+        retention-days: 5
     - name: Upload EXE as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-exe
         path: build/jpackage/*.exe
+        retention-days: 5
     - name: Upload MSI as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-msi
         path: build/jpackage/*.msi
+        retention-days: 5
     - name: Upload DEB as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-deb
         path: build/jpackage/*.deb
+        retention-days: 5
     - name: Upload RPM as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-rpm
         path: build/jpackage/*.rpm
+        retention-days: 5
     - name: Upload PKG as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-pkg
         path: build/jpackage/*.pkg
+        retention-days: 5
