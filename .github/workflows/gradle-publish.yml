@@ -72,3 +72,8 @@ jobs:
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-rpm
         path: build/jpackage/*.rpm
+    - name: Upload PKG as an artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-pkg
+        path: build/jpackage/*.pkg
