@@ -57,6 +57,7 @@ public class CategorieHeure
     public boolean estStage    () { return stage;    }
 
 
+
     /*  SETTER   */
 
     public void setEquivalentTD ( Fraction equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = true; }

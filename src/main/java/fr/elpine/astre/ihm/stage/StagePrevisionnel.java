@@ -166,7 +166,6 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@FXML
 	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException
 	{
-		System.out.println("bah ? je susi dans creer ressource ?");
 		StageSaisieRessource stage = Manager.creer("saisieRessource", this);
 
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
