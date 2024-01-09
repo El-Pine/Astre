@@ -214,6 +214,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 } else if (oldValue != null && oldValue.equals("HP")) {
                     tableau.refresh(); // Assurez-vous que cela fonctionne pour votre cas d'utilisation spécifique
                 }
+                cell.setEditable(false);
             });
 
             return cell;
@@ -241,6 +242,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 System.out.println("Groupe : " + oldText + "->" + newText);
                 if (afc != null && tcType.getText().equals("HP") && newText != null && !newText.equals(oldText)) {
                     tableau.getSelectionModel().getSelectedItem().setNbHeure(Fraction.valueOf(newText));
+                    cell.setEditable(false);
                     tableau.refresh();
                 }
             });
@@ -271,6 +273,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 Affectation afc = tableau.getSelectionModel().getSelectedItem();
                 if (afc != null && !tcType.getText().equals("HP") && !tcType.getText().equals("CM") && newValue != null && !newValue.equals(oldValue)) {
                     afc.setNbGroupe(newValue);
+                    cell.setEditable(false);
                     tableau.refresh();
                 }
             });
@@ -300,6 +303,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 System.out.println("Semaine : " + oldValue + "->" + newValue);
                 if (afc != null && !afc.getTypeHeure().getNom().equals("HP") && newValue != null && !newValue.equals(oldValue)) {
                     afc.setNbSemaine(newValue);
+                    cell.setEditable(false);
                     tableau.refresh();
                 }
             });
@@ -332,6 +336,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 Affectation afc = tableau.getSelectionModel().getSelectedItem();
                 if (newText != null && !newText.equals(oldText) && afc != null) {
                     afc.setCommentaire(newText);
+                    cell.setEditable(false);
                     tableau.refresh();
                 }
             });
