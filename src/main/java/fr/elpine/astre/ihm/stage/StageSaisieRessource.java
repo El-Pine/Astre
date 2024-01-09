@@ -1,37 +1,37 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.outil.Fraction;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.DefaultStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
-
-import static java.lang.Integer.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //TODO:Faire les heures affectées (dans tableau Affectation nbHeuure * nbSemaine * eqtd)
 
@@ -54,7 +54,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     public TableColumn<Affectation, String> tcCommentaire;
     @FXML
-    public TableColumn<Affectation, Integer> tcTotalEqtd;
+    public TableColumn<Affectation, String> tcTotalEqtd;
     @FXML
     public static ObservableList<Affectation> ensAff;
 
@@ -116,6 +116,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     {
         this.setWidth ( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
+        tableau.setEditable(true);
 
         this.ensCatHrPresent = new ArrayList<>();
 
@@ -170,6 +171,174 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
 
     private void initTableColumns() {
+
+        ArrayList<CategorieHeure> ensCatH = Controleur.get().getMetier().getCategorieHeures();
+        ArrayList<String> ensNomCatH = new ArrayList<>();
+        for (CategorieHeure catHr : ensCatH)
+            if ( catHr.estRessource() && !catHr.getNom().equals("HP"))
+                ensNomCatH.add(catHr.getNom());
+
+        ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList( ensNomCatH ));
+
+        tcType.setCellFactory(column -> {
+
+            final int MAX_CLICKS = 3;
+            final int[] clickCounter = {0};
+            ComboBoxTableCell<Affectation, String> cell = new ComboBoxTableCell<>(new StringConverter<>() {
+                @Override
+                public String toString(String object) {
+                    return (String) object;
+                }
+
+                @Override
+                public String fromString(String string) {
+                    return string;
+                }
+            }, comboBox.getItems());
+
+            cell.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (clickCounter[0] >= MAX_CLICKS) {
+                        cell.setEditable(true);
+                        cell.startEdit();
+                    } else {
+                        clickCounter[0]++;
+                    }
+                }
+            });
+
+            cell.itemProperty().addListener((observable, oldValue, newValue) -> {
+                if (oldValue != null && newValue != null && !oldValue.equals("HP") && !newValue.equals(oldValue)) {
+                    tableau.getSelectionModel().getSelectedItem().setTypeHeure(Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), newValue));
+                    tableau.refresh();
+                } else if (oldValue != null && oldValue.equals("HP")) {
+                    tableau.refresh(); // Assurez-vous que cela fonctionne pour votre cas d'utilisation spécifique
+                }
+            });
+
+            return cell;
+        });
+
+        tcNbH.setCellFactory(column -> {
+            TextFieldTableCell<Affectation, String> cell = new TextFieldTableCell<>(new DefaultStringConverter());
+            Affectation afc = tableau.getSelectionModel().getSelectedItem();
+
+            final int MAX_CLICKS = 3;
+            final int[] clickCounter = {0};
+
+            cell.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (clickCounter[0] >= MAX_CLICKS) {
+                        cell.setEditable(true);
+                        cell.startEdit();
+                    } else {
+                        clickCounter[0]++;
+                    }
+                }
+            });
+
+            cell.itemProperty().addListener((obs, oldText, newText) -> {
+                System.out.println("Groupe : " + oldText + "->" + newText);
+                if (afc != null && tcType.getText().equals("HP") && newText != null && !newText.equals(oldText)) {
+                    tableau.getSelectionModel().getSelectedItem().setNbHeure(Fraction.valueOf(newText));
+                    tableau.refresh();
+                }
+            });
+
+            return cell;
+        });
+
+        tcGrp.setCellFactory(column -> {
+
+            final int MAX_CLICKS = 3;
+            final int[] clickCounter = {0};
+
+            TextFieldTableCell<Affectation, Integer> cell = new TextFieldTableCell<>(new IntegerStringConverter());
+
+            cell.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (clickCounter[0] >= MAX_CLICKS) {
+                        cell.setEditable(true);
+                        cell.startEdit();
+                    } else {
+                        clickCounter[0]++;
+                    }
+                }
+            });
+
+            cell.itemProperty().addListener((obs, oldValue, newValue) -> {
+                System.out.println("Groupe : " + oldValue + "->" + newValue);
+                Affectation afc = tableau.getSelectionModel().getSelectedItem();
+                if (afc != null && !tcType.getText().equals("HP") && !tcType.getText().equals("CM") && newValue != null && !newValue.equals(oldValue)) {
+                    afc.setNbGroupe(newValue);
+                    tableau.refresh();
+                }
+            });
+
+            return cell;
+        });
+
+        tcSemaine.setCellFactory(column -> {
+            int MAX_CLICKS = 3;
+            final int[] clickCounter = {0};
+
+            TextFieldTableCell<Affectation, Integer> cell = new TextFieldTableCell<>(new IntegerStringConverter());
+
+            cell.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (clickCounter[0] >= MAX_CLICKS) {
+                        cell.setEditable(true);
+                        cell.startEdit();
+                    } else {
+                        clickCounter[0]++;
+                    }
+                }
+            });
+
+            cell.itemProperty().addListener((obs, oldValue, newValue) -> {
+                Affectation afc = tableau.getSelectionModel().getSelectedItem();
+                System.out.println("Semaine : " + oldValue + "->" + newValue);
+                if (afc != null && !afc.getTypeHeure().getNom().equals("HP") && newValue != null && !newValue.equals(oldValue)) {
+                    afc.setNbSemaine(newValue);
+                    tableau.refresh();
+                }
+            });
+
+            return cell;
+        });
+
+
+        tcCommentaire.setCellFactory(column -> {
+
+            int MAX_CLICKS = 3;
+            final int[] clickCounter = {0};
+
+
+            TextFieldTableCell<Affectation, String> cell = new TextFieldTableCell<>(new DefaultStringConverter());
+
+            cell.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (clickCounter[0] >= MAX_CLICKS) {
+                        cell.setEditable(true);
+                        cell.startEdit();
+                    } else {
+                        clickCounter[0]++;
+                    }
+                }
+            });
+
+            cell.itemProperty().addListener((obs, oldText, newText) -> {
+                System.out.println("Commentaire : " + oldText + "->" + newText);
+                Affectation afc = tableau.getSelectionModel().getSelectedItem();
+                if (newText != null && !newText.equals(oldText) && afc != null) {
+                    afc.setCommentaire(newText);
+                    tableau.refresh();
+                }
+            });
+
+            return cell;
+        });
+
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
         {
             boolean typeModule = this.typeModule.equals("Ressource") ? cat.estRessource() : cat.estStage();
@@ -191,6 +360,8 @@ public class StageSaisieRessource extends Stage implements Initializable
                     setTextFill(Color.RED);
                 } else if (item != null && item.equals("➕")) {
                     setTextFill(Color.LIGHTGREEN);
+                } else if (item != null && item.equals("🖉")) {
+                    setTextFill(Color.BLUE);
                 } else {
                     setTextFill(Color.BLACK);
                     setText("");
@@ -203,6 +374,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         tcSemaine    .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject()  : null);
         tcGrp        .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe ()).asObject()  : null);
         tcNbH        .setCellValueFactory(cellData -> cellData.getValue().hasNbHeure        () ? new SimpleStringProperty (cellData.getValue().getNbHeure  () .toString()) : null);
+        tcTotalEqtd  .setCellValueFactory(cellData -> new SimpleStringProperty (Fraction.simplifyDouble(cellData.getValue().getTotalEqtd(true),true)));
         tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
     }
 
@@ -212,11 +384,9 @@ public class StageSaisieRessource extends Stage implements Initializable
         {
             boolean typeModule = this.typeModule.equals("Ressource") ? cat.estRessource() : cat.estStage();
             if (typeModule) {
-                System.out.println(cat.getNom());
                 ajouterColonneRepartition(cat.getNom());
             }
         }
-        //ajouterColonneRepartition("HP");
     }
 
     private void initializeAffectations()
@@ -278,7 +448,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private HashMap<String, Double> calculerValeursAffecte()
     {
-        System.out.println("jusque ici tous va bien ");
         HashMap<String, Double> hmAffecte = new HashMap<>();
 
         if(tableau.getItems() != null)
@@ -296,13 +465,11 @@ public class StageSaisieRessource extends Stage implements Initializable
             }
         }
 
-        System.out.println("aaa " + hmAffecte);
         return hmAffecte;
     }
 
     private void mettreAJourChamps(ArrayList<TextField> alAffecte, HashMap<String, Double> hmAffecte)
     {
-        System.out.println("bbb : " + alAffecte);
         for (TextField txt : alAffecte)
         {
             String typeHeure = "";
@@ -432,8 +599,11 @@ public class StageSaisieRessource extends Stage implements Initializable
         if (this.moduleModif != null)
         {
             txtTypeModule  .setText(this.moduleModif.getTypeModule());
+            txtTypeModule  .setEditable(false);
+            txtTypeModule.setDisable(true);
             txtSemestre    .setText("" + this.semestre);
             txtSemestre    .setEditable(false);
+
             txtCode        .setText(this.moduleModif.getCode());
             txtLibelleLong .setText(this.moduleModif.getNom());
             txtLibelleCourt.setText(this.moduleModif.getAbreviation());
@@ -447,6 +617,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
             ObservableList<Affectation> a = FXCollections.observableArrayList(this.moduleModif.getAffectations());
             tableau.setItems(a);
+            tableau.requestFocus();
             calculeAffecte();
 
         } else
@@ -757,7 +928,6 @@ public class StageSaisieRessource extends Stage implements Initializable
             fp.setAlignment(Pos.CENTER);
             flowPanes[i] = fp;
         }
-        System.out.println("nom " + nom);
 
         if(nom.equals("HP") || nom.equals("H tut") || nom.equals("H Saé"))
         {
@@ -999,7 +1169,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         int valeurSemaine = 0;
         int valeurFinal   = 0;
 
-        System.out.println(catHrTxtF.getNom().toUpperCase());
         if (this.hmTxtSemaine.containsKey(catHrTxtF.getNom().toUpperCase()) &&
                 !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).isEmpty() &&
                 !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).get(0).getText().isEmpty()) {
@@ -1016,7 +1185,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         for (TextField txt1 : this.hmTxtRepartion.get(catHrTxtF.getNom().toUpperCase()))
         {
-            System.out.println(this.hmTxtRepartion);
             if(txt1.getId().equals("txt" + catHrTxtF.getNom() +"Repartition"))
             {
                 txt1.setText(Integer.toString(valeurSemaine));
@@ -1146,7 +1314,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                 hmTemp.get(key).add(txt);
             }
         }
-        //System.out.println(hmTemp);
         return hmTemp;
     }
 
@@ -1155,6 +1322,8 @@ public class StageSaisieRessource extends Stage implements Initializable
             return "❌";
         } else if (affectation.isAjoute()) {
             return "➕";
+        } else if (affectation.isModifie()) {
+            return "🖉";
         } else {
             return "";
         }
@@ -1178,7 +1347,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void setTypeModule(String typeModule)
     {
-        System.out.println("je rentre ici typeModule");
         this.typeModule = typeModule;
         txtTypeModule.setText(this.typeModule);
     }
