@@ -865,6 +865,7 @@ public class DB
             ps.setString (8,aff.getModule().getSemestre().getAnnee().getNom());
             ps.setInt    (9,aff.getIntervenant().getId());
             ps.setInt    (10,aff.getId());
+            ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une affectation", e); }
     }
@@ -880,6 +881,7 @@ public class DB
             ps.setString (3,aff.getModule().getSemestre().getAnnee().getNom());
             ps.setInt    (4,aff.getIntervenant().getId());
             ps.setInt    (5,aff.getId());
+            ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la suppression d'une affectation", e); }
     }
