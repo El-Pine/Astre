@@ -57,6 +57,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     public TableColumn<Affectation, Integer> tcTotalEqtd;
     @FXML
     public static ObservableList<Affectation> ensAff;
+
+    public ArrayList<CategorieHeure> ensCatHrPresent;
+
     @FXML
     public TextField txtTypeModule;
     @FXML
@@ -114,6 +117,8 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.setWidth ( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
 
+        this.ensCatHrPresent = new ArrayList<>();
+
         if(this.typeModule != null)
         {
             if (this.typeModule.equals("Ressource"))
@@ -130,6 +135,10 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void initializeStage()
     {
+        for (CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
+            if(catHr.estStage())
+                this.ensCatHrPresent.add(catHr);
+
         initGridPn();
         initTabPan();
         initRepartitionColumns();
@@ -144,6 +153,11 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void initializeRessource()
     {
+        for (CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
+            if(catHr.estRessource())
+                this.ensCatHrPresent.add(catHr);
+
+
         initGridPn();
         initTabPan();
         initRepartitionColumns();
@@ -402,16 +416,17 @@ public class StageSaisieRessource extends Stage implements Initializable
         txtnbGpTP.setText("" + sem.getNbGrpTP());
 
         if(this.typeModule != null)
-            if(this.typeModule.equals("Ressource")) {
+            if(this.typeModule.equals("Ressource"))
+            {
+                txtCode.setText(definirCode(sem));
+                txtCode.setEditable(false);
                 initializeRessource();
-                txtCode.setText("R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
             }
-            else {
+            else
+            {
+                txtCode.setText(definirCode(sem));
+                txtCode.setEditable(false);
                 initializeStage();
-                if(this.typeModule.equals("Stage"))
-                    txtCode.setText("ST" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
-                if(this.typeModule.equals("SAE"))
-                    txtCode.setText("S" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1));
             }
 
         if (this.moduleModif != null)
@@ -446,17 +461,34 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
     }
 
+    public String definirCode(Semestre sem)
+    {
+        if(this.typeModule.equals("Stage"))
+            return "ST" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1);
+        if(this.typeModule.equals("Sae"))
+            return "S" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1);
+        if(this.typeModule.equals("Ressource"))
+            return "R" + this.semestre + "." + String.format("%02d", sem.getModules().size() + 1);
+
+        return null;
+    }
+
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
         {
             if(!att.getCatHr().getNom().equals("HP")) {
                 this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());
-                String a = calculeNvValeur(Integer.parseInt(this.hmTxtPn.get(att.getCatHr().getNom()).get(0).getText()), att.getCatHr());
+                String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom()).get(0).getText())), att.getCatHr());
                 this.hmTxtPn.get(att.getCatHr().getNom()).get(1).setText(a);
             }
         }
+    }
 
+    public String textOrDefault(String s)
+    {
+        if(s.equals("")) return "0";
+        return s;
     }
 
     public void initSemaine(Module mod)
@@ -515,29 +547,23 @@ public class StageSaisieRessource extends Stage implements Initializable
             {
                 String newText = change.getControlNewText();
 
-                System.out.println("aaaaaaaaaaaaa" + nom);
                 List<TextField> semaineList     = this.hmTxtSemaine  .get(nom);
                 List<TextField> pnList          = this.hmTxtPn       .get(nom);
                 List<TextField> repartitionList = this.hmTxtRepartion.get(nom);
 
-
-
                 if (semaineList != null && pnList != null)
                 {
-                    System.out.println("cccccccccccccc");
                     int index = indexTextFied(semaineList,pnList,repartitionList,txtf);
                     System.out.println(index);
                     System.out.println(pnList.size());
                     if (index > -1 && index < pnList.size())
                     {
-                        System.out.println("dddddddddddddddd");
                         int pnValue = 0;
                         if(!pnList.get(index).getText().equals(""))
                             pnValue = Integer.parseInt(pnList.get(index).getText());
 
                         if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue)
                         {
-                            System.out.println("eeeeeeeeeeeeeeeeee");
                             txtf.setStyle("");
                         }
                         else
@@ -547,7 +573,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                     }
                     else
                     {
-                        System.out.println("je suis la aaaaaaa");
                         if(index == 2) txtf.setStyle("");
                         else
                             txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
@@ -798,8 +823,9 @@ public class StageSaisieRessource extends Stage implements Initializable
             if (this.moduleModif != null && !nom.equals("TO"))
             {
                 System.out.println(nom);
-                CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
-
+                System.out.println(this.ensCatHrPresent);
+                CategorieHeure catHr = Astre.rechercherCatHr(this.ensCatHrPresent, nom);
+                System.out.println("----" + catHr);
                 txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN() != null ? this.moduleModif.getAttribution(catHr).getNbHeurePN().toString() : "0");
             }
 
