@@ -18,6 +18,7 @@
              <Button mnemonicParsing="false" onAction="#onCheckAll" text="Tout sélectionner " />
              <Button mnemonicParsing="false" onAction="#onUnCheckAll" text="Tout déselectionner " />
             <Button mnemonicParsing="false" onAction="#onAnnuler" text="Annuler" />
+            <TextField fx:id="txtFieldRecherche" onAction="#onRecherche" prefWidth="130.0" promptText="Rechercher" />
          </children></FlowPane>
    </children>
 </AnchorPane>
