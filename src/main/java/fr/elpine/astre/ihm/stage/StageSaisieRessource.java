@@ -788,10 +788,12 @@ public class StageSaisieRessource extends Stage implements Initializable
             TextField txt1 = new TextField();
             TextField txt2 = new TextField();
 
-            if (this.moduleModif != null && !nom.equals("TO")) {
+            if (this.moduleModif != null && !nom.equals("TO"))
+            {
+                System.out.println(nom);
                 CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom);
 
-                txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN().toString());
+                txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN() != null ? this.moduleModif.getAttribution(catHr).getNbHeurePN().toString() : "0");
             }
 
             txt1.setId("txt" + nom + "Pn");
