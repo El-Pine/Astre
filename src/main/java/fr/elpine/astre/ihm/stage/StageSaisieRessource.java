@@ -201,7 +201,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         setupListenersAndFormatters();
         tableau.setItems(ensAff);
 
-        initializeAffectations();
         calculeAffecte();
     }
 
@@ -221,7 +220,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         return b;
     }
 
-    private void initializeAffectations() { FXCollections.observableArrayList(this.moduleModif != null ? this.moduleModif : new ArrayList<>()); }
+    //private void initializeAffectations() { ensAff = FXCollections.observableArrayList(this.moduleModif != null ? this.moduleModif.getAffectations() : new ArrayList<>()); }
 
     private void setupListenersAndFormatters()
     {
@@ -559,27 +558,37 @@ public class StageSaisieRessource extends Stage implements Initializable
     /* Méthode de maj */
     /*----------------*/
 
-    public void majAttribution(Module mod)
-    {
-        Fraction fractPn      = null;
-        Fraction fractNbHeure = null;
-        int nbSemaine         = 0;
-
-        for( CategorieHeure catHr : this.ensCatHrPresent)
+    public void majAttribution(Module mod) {
+        for (CategorieHeure catHr : this.ensCatHrPresent)
         {
-            //Recuperation des paramètres du module
-            fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
-            fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
-            nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+            System.out.println(catHr.getNom());
+            System.out.println("a " + textOrDefault(getHeurePnByCatHr(catHr.getNom().toUpperCase())));
+            // Récupération des paramètres du module
+            Fraction fractPn      = Fraction.valueOf(textOrDefault(getHeurePnByCatHr(catHr.getNom().toUpperCase())));
+            Fraction fractNbHeure = Fraction.valueOf(textOrDefault(getNbHeureByCatHr(catHr.getNom(), false)));
+            int nbSemaine         = Integer.parseInt(textOrDefault(getNbHeureByCatHr(catHr.getNom(), true)));
 
+            // Vérifie si une attribution existe déjà pour la catégorie d'heure
+            boolean attributionExistante = false;
             for (Attribution att : mod.getAttributions())
             {
-                att.setNbHeurePN( fractPn      );
-                att.setNbHeure  ( fractNbHeure );
-                att.setNbSemaine( nbSemaine    );
+                if (att.getCatHr().equals(catHr))
+                {
+                    att.setNbHeurePN(fractPn);
+                    att.setNbHeure(fractNbHeure);
+                    att.setNbSemaine(nbSemaine);
+                    attributionExistante = true;
+                }
+            }
+
+            // Si aucune attribution n'a été trouvée, crée une nouvelle attribution
+            if (!attributionExistante)
+            {
+                Attribution nouvelleAttribution = new Attribution(fractPn,fractNbHeure,nbSemaine,mod,catHr);
             }
         }
     }
+
 
     public void majInformation(Module mod)
     {
@@ -664,7 +673,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             if (this.moduleModif != null && !nom.equals("TO"))
             {
                 CategorieHeure catHr = Astre.rechercherCatHr(this.ensCatHrPresent, nom);
-                txt1.setText(this.moduleModif.getAttribution(catHr).getNbHeurePN() != null ? this.moduleModif.getAttribution(catHr).getNbHeurePN().toString() : "0");
+                txt1.setText(this.moduleModif.getAttribution(catHr) != null ? this.moduleModif.getAttribution(catHr).getNbHeurePN().toString() : "0");
             }
 
             txt1.setId("txt" + nom + "Pn");
@@ -687,6 +696,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             for (FlowPane fp : ensFp) gridPn.add(fp, gridPn.getColumnConstraints().size() - 1, cpt++);
         }
     }
+
 
     private void ajouterColonneRepartition(String nom) {
         ArrayList<FlowPane> ensFp = new ArrayList<>();
@@ -968,10 +978,10 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (Attribution att : mod.getAttributions())
             if(!att.getCatHr().getNom().equals("HP"))
             {
-                this.hmTxtPn.get(att.getCatHr().getNom()).get(0).setText(att.getNbHeurePN().toString());
+                this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeurePN().toString());
 
-                String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom()).get(0).getText())), att.getCatHr());
-                this.hmTxtPn.get(att.getCatHr().getNom()).get(1).setText(a);
+                String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).getText())), att.getCatHr());
+                this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(1).setText(a);
             }
     }
 
@@ -987,9 +997,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     {
         for (Attribution att : mod.getAttributions())
         {
-            this.hmTxtSemaine.get(att.getCatHr().getNom()).get(0).setText("" + att.getNbSemaine());
+            this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbSemaine());
 
-            if(!att.getCatHr().getNom().equals("HP")) this.hmTxtSemaine.get(att.getCatHr().getNom()).get(1).setText("" + att.getNbHeure  ().toString());
+            if(!att.getCatHr().getNom().equals("HP") && !att.getCatHr().getNom().toUpperCase().equals("H TUT")) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(1).setText("" + att.getNbHeure  ().toString());
         }
         majValeurSemaine(this.hmTxtSemaine);
     }
@@ -1115,8 +1125,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         }));
     }
 
-
-
     public void creationAttribution(Module mod)
     {
         Fraction fractPn      = null;
@@ -1146,7 +1154,16 @@ public class StageSaisieRessource extends Stage implements Initializable
         return null;
     }
 
-    public String textOrDefault(String s) { if(s.equals("")) return "0"; return s; }
+    public String textOrDefault(String s)
+    {
+        if(s != null)
+            if(s.equals(""))
+                return "0";
+            else
+                return s;
+        else
+            return "0";
+    }
 
     public void refresh()
     {
