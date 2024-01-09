@@ -673,6 +673,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
             txt2.setId("txt" + nom + "PromoPn");
             txt2.setEditable(false);
+            txt2.setFocusTraversable(false);
 
             txt1.setPrefSize(50, 26);
             txt2.setPrefSize(50, 26);
