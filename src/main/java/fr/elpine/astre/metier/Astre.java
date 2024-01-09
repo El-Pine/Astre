@@ -376,15 +376,23 @@ public class Astre
     }
 
     public String getDonneesCSV(String annee) {
+        String nomDossierSrc = "Export";
         String nomDossier    = "CSV";
         String nomFichierCSV = "resultat-" + annee + ".csv";
 
-        boolean configPrete = false;
-
         // Vérifier si le répertoire existe, sinon le créer
-        File dossier = new File(nomDossier   );
-        if (!dossier.exists()) {
-            boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
+        File dossierSrc = new File(nomDossierSrc );
+        File dossier    = new File(nomDossier    );
+        if (dossierSrc.exists()) {
+            if (!dossier.exists()) {
+                boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
+                if (!success) {
+                    System.err.println("Impossible de créer le répertoire");
+                    return "0";
+                }
+            }
+        } else {
+            boolean success = dossierSrc.mkdirs() && dossier.mkdirs(); // Créer le répertoire si besoin
             if (!success) {
                 System.err.println("Impossible de créer le répertoire");
                 return "0";

@@ -21,7 +21,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,8 +29,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -61,7 +59,6 @@ public class StageGeneration extends Stage implements Initializable
 
         this.checkedObjects = new ArrayList<>();
 
-
     }
 
     @Override
@@ -69,6 +66,20 @@ public class StageGeneration extends Stage implements Initializable
     {
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
+
+        // Vérifier si le répertoire existe, sinon le créer
+        File dossierSrc    = new File("Export"      );
+        File dossierInter  = new File("intervenant" );
+        File dossierMod    = new File("module"      );
+        if (dossierSrc.exists()) {
+            if (!dossierInter.exists() || !dossierMod.exists()) {
+                if (!(dossierInter.mkdirs() && dossierMod.mkdirs()))
+                    System.err.println("Impossible de créer le répertoire");
+            }
+        } else {
+            if (!(dossierSrc.mkdirs() && dossierInter.mkdirs() && dossierMod.mkdirs()))
+                System.err.println("Impossible de créer le répertoire");
+        }
     }
 
     public void setVue(String vue) {
@@ -175,8 +186,9 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("</body>\n");
         htmlContent.append("</html>");
 
+
         // Chemin vers le fichier HTML que vous souhaitez créer
-        String filePath = "./CSV/intervenant/"+i.getNom()+".html";
+        String filePath = "./Export/intervenant/"+i.getNom()+".html";
 
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
@@ -251,7 +263,7 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("</html>");
 
         // Chemin vers le fichier HTML que vous souhaitez créer
-        String filePath = "./CSV/module/"+mod.getCode()+".html";
+        String filePath = "./Export/module/"+mod.getCode()+".html";
 
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
