@@ -48,14 +48,12 @@ public class AstreApplication extends Application
 		stage.getIcons().add(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
 
 		if (Taskbar.isTaskbarSupported()) {
-			var taskbar = Taskbar.getTaskbar();
+			Taskbar taskbar = Taskbar.getTaskbar();
 
-			if (taskbar.isSupported(Feature.ICON_IMAGE)) {
-				final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
-				var dockIcon = defaultToolkit.getImage(AstreApplication.class.getResource("icon.png"));
+			if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+				java.awt.Image dockIcon = Toolkit.getDefaultToolkit().getImage(AstreApplication.class.getResource("icon.png"));
 				taskbar.setIconImage(dockIcon);
 			}
-
 		}
 	}
 }
