@@ -57,7 +57,7 @@ public class StageGeneration extends Stage implements Initializable
     public StageGeneration() // fxml -> "generation"
     {
         this.setTitle("Generation");
-        this.setMinWidth(1400);
+        this.setMinWidth(500);
         this.setMinHeight(600);
 
         this.checkedObjects = new ArrayList<>();
@@ -221,7 +221,7 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("            padding: 15px;\n");
         htmlContent.append("        }\n");
         htmlContent.append("    </style>\n");
-        htmlContent.append("    <title>Intervenant </title>\n");
+        htmlContent.append("    <title>"+ i.getPrenom() +" - " + i.getNom() +" </title>\n");
         htmlContent.append("</head>\n");
         htmlContent.append("<body>\n");
         htmlContent.append("    <nav>\n");
@@ -353,7 +353,7 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("            padding: 15px;\n");
         htmlContent.append("        }\n");
         htmlContent.append("    </style>\n");
-        htmlContent.append("    <title>Modules </title>\n");
+        htmlContent.append("    <title>"+mod.getCode()+ " - " +mod.getNom()+"</title>\n");
         htmlContent.append("</head>\n");
         htmlContent.append("<body>\n");
         htmlContent.append("    <nav>\n");

@@ -83,6 +83,7 @@ public class StageEtats extends Stage implements Initializable {
             stage.setFichier(fichier);
             stage.showAndWait();
         }
+
     }
 
     public void onBtnClickEtatAnnuler(ActionEvent actionEvent) throws IOException{

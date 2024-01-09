@@ -105,11 +105,6 @@ public class StageAffichageCSV extends Stage {
 
     public void onBtnClickAnnuler(ActionEvent actionEvent)
     {
-        /*this.setOnCloseRequest(e -> {
-            try {
-                StageEtats.creer().show();
-            } catch (IOException ignored) { }
-        });*/
         this.close();
     }
 

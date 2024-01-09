@@ -419,7 +419,9 @@ public class Astre
         System.out.println(fichier.getPath());
         while (fichier.exists() || !fichier.getPath().endsWith(".csv")) {
             nomFichierCSV =  demanderNouveauNom(nomFichierCSV);
+            if (nomFichierCSV.equals("")) return "0"; // Si l'utilisateur annule
             fichier = new File(nomDossier + "/" + nomFichierCSV);
+
         }
 
         try (FileWriter writer = new FileWriter(nomDossier + "/" + nomFichierCSV);
@@ -471,6 +473,6 @@ public class Astre
                 "Dupliquer",
                 String.format("Le fichier : %s existe déjà", nomFichierCSV),
                 "Nouveau nom :"
-        ).showAndWait().orElse(null);
+        ).showAndWait().orElse("");
     }
 }
