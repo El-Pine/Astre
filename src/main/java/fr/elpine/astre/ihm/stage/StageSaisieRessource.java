@@ -159,8 +159,8 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initTableColumns() {
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
         {
-            System.out.println(cat);
-            if (cat.estRessource())
+            boolean typeModule = this.typeModule.equals("Ressource") ? cat.estRessource() : cat.estStage();
+            if (typeModule)
             {
                 ajouterColonne(cat.getNom());
             }
@@ -195,8 +195,10 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void initRepartitionColumns() {
         this.gridPaneRepartition.getChildren().clear();
-        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures()) {
-            if (cat.estRessource()) {
+        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        {
+            boolean typeModule = this.typeModule.equals("Ressource") ? cat.estRessource() : cat.estStage();
+            if (typeModule) {
                 ajouterColonneRepartition(cat.getNom());
             }
         }
@@ -289,7 +291,6 @@ public class StageSaisieRessource extends Stage implements Initializable
             if (hmAffecte.containsKey(typeHeure)) {
                 // Ajout de débogage
                 Integer valeur =  (int) Math.round(hmAffecte.get(typeHeure));
-                System.out.println(valeur);
                 txt.setText(valeur.toString());
             } else {
                 txt.setText("Valeur non trouvée dans la HashMap");
@@ -580,7 +581,8 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
-            if(catHr.estRessource())
+            boolean typeModule = this.typeModule.equals("Ressource") ? catHr.estRessource() : catHr.estStage();
+            if(typeModule)
             {
                 //Recuperation des paramètres du module
                 fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
@@ -600,7 +602,8 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         for( CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
-            if(catHr.estRessource())
+            boolean typeModule = this.typeModule.equals("Ressource") ? catHr.estRessource() : catHr.estStage();
+            if(typeModule)
             {
                 //Recuperation des paramètres du module
                 fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
@@ -634,7 +637,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         {
             String key                 = entry.getKey  ();
             ArrayList<TextField> value = entry.getValue();
-
             if(key.equals(nom) && !key.equals("HP"))
             {
                 if(nbSemaine)
@@ -829,7 +831,8 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.tabPaneSemaine.getTabs().clear();
         for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
         {
-            if(cat.estRessource())
+            boolean typeModule = this.typeModule.equals("Ressource") ? cat.estRessource() : cat.estStage();
+            if(typeModule)
             {
                 ajouterOnglet(cat.getNom());
             }
@@ -876,6 +879,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void valeurChangerRepart(TextField txt, String newValue)
     {
         String txtTypeHeure = txt.getId().substring(3, 5);
+
         String txtNiveauCase = txt.getId().substring(6);
 
         int total = 0;
@@ -971,14 +975,25 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void valeurChangerPn(TextField txt, String newValue)
     {
-        String keyCatHr = txt.getId().substring(3,5).toUpperCase();
+        String keyCatHr;
+        String nom = "";
+        if (txt.getId().charAt(4) == ' ') {
+            // Si le caractère à l'indice 5 est un espace, prendre le caractère à l'indice 6
+            keyCatHr = txt.getId().substring(5, 7).toUpperCase();
+            nom = txt.getId().substring(3,8);
+        } else {
+            // Sinon, prendre le caractère à l'indice 5
+            keyCatHr = txt.getId().substring(3, 5).toUpperCase();
+            nom = keyCatHr;
+        }
+
         if(!keyCatHr.equals("TO"))
         {
             for (TextField txt1 : this.hmTxtPn.get(keyCatHr)) {
                 if (!txt1.isEditable()) {
                     if (!txt.getText().isEmpty()) {
                         int valeurInitial = Integer.parseInt(txt.getText());
-                        txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), keyCatHr)));
+                        txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom)));
                     }
                 }
             }
@@ -987,9 +1002,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
 
     private void calculeTotaux() {
-        int total = 0;
-        int totalPromo = 0;
-        TextField txtTotPn = null;
+        int total               = 0;
+        int totalPromo          = 0;
+        TextField txtTotPn      = null;
         TextField txtTotPromoPn = null;
 
         for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtPn.entrySet())
@@ -1050,7 +1065,18 @@ public class StageSaisieRessource extends Stage implements Initializable
         HashMap<String, ArrayList<TextField>> hmTemp = new HashMap<>();
         for (TextField txt: ensTxt)
         {
-            String key = txt.getId().substring(3,5).toUpperCase();
+            String key;
+            System.out.println("txt.getId().charAt(4) " + txt.getId().charAt(4));
+            if (txt.getId().charAt(4) == ' ') {
+                key = txt.getId().substring(5, 7).toUpperCase();
+            } else
+            {
+                System.out.println("je suis la ");
+                key = txt.getId().substring(3, 5).toUpperCase();
+            }
+
+            System.out.println( " key  "+key);
+
             if(hmTemp.containsKey(key))
             {
                 hmTemp.get(key).add(txt);
@@ -1061,6 +1087,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 hmTemp.get(key).add(txt);
             }
         }
+        System.out.println(hmTemp);
         return hmTemp;
     }
 
