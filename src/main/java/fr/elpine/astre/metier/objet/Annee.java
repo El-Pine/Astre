@@ -5,6 +5,7 @@ import fr.elpine.astre.metier.Astre;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -70,6 +71,8 @@ public class Annee
     {
         if (semestre != null && !this.ensSemestre.contains(semestre))
             this.ensSemestre.add(semestre);
+
+        this.ensSemestre.sort(Comparator.comparingInt(Semestre::getNumero));
 
         return this;
     }
