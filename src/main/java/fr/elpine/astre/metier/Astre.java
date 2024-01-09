@@ -249,7 +249,7 @@ public class Astre
 
                 for (Module m : s.getModules())
                 {
-                    if (m.isModifie() && !m.isAjoute()) lstAction.add( new Action(-1, m, true) );
+                    if (m.isModifie() && !m.isAjoute() && m.isCodeModifie()) lstAction.add( new Action(-1, m, true) );
 
                     if (m.isSupprime())     lstAction.add( new Action(0, m, !m.isAjoute()) );
                     else if (m.isAjoute())  lstAction.add( new Action(1, m, true) );

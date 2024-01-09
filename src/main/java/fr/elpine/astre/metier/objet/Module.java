@@ -102,6 +102,7 @@ public class Module
     public boolean isAjoute() { return this.ajoute; }
     public boolean isSupprime() { return this.supprime; }
     public boolean isModifie() { return this.modifie; }
+    public boolean isCodeModifie() { return !this.code.equals(this.rollbackDatas.get("code")); }
     public void reset() { this.ajoute = false; this.supprime = false; this.modifie = false; this.setRollback(); }
 
 
