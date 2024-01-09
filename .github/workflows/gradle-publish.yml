@@ -37,12 +37,6 @@ jobs:
     - run: gradle jpackage
     - run: gradle shadowJar
 
-    - name: Upload ZIP as an artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-zip
-        path: build/distributions/*.zip
-        retention-days: 5
     - name: Upload JAR as an artifact
       uses: actions/upload-artifact@v3
       with:
