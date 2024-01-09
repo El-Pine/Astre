@@ -378,23 +378,13 @@ public class Astre
     }
 
     public String getDonneesCSV(String annee) {
-        String nomDossierSrc = "Export";
-        String nomDossier    = "CSV";
+        String nomDossier    = "Export/CSV";
         String nomFichierCSV = "resultat-" + annee + ".csv";
 
         // Vérifier si le répertoire existe, sinon le créer
-        File dossierSrc = new File(nomDossierSrc );
-        File dossier    = new File(nomDossierSrc + "/" + nomDossier    );
-        if (dossierSrc.exists()) {
-            if (!dossier.exists()) {
-                boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
-                if (!success) {
-                    System.err.println("Impossible de créer le répertoire");
-                    return "0";
-                }
-            }
-        } else {
-            boolean success = dossierSrc.mkdirs() && dossier.mkdirs(); // Créer le répertoire si besoin
+        File dossier    = new File( nomDossier );
+        if (!dossier.exists()) {
+            boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
             if (!success) {
                 System.err.println("Impossible de créer le répertoire");
                 return "0";
@@ -403,12 +393,12 @@ public class Astre
 
         File fichier = new File(nomDossier + "/" + nomFichierCSV);
         System.out.println(fichier.getPath());
-        while (fichier.exists() || fichier.getPath().endsWith(".csv")) {
+        while (fichier.exists() || !fichier.getPath().endsWith(".csv")) {
             nomFichierCSV =  demanderNouveauNom(nomFichierCSV);
             fichier = new File(nomDossier + "/" + nomFichierCSV);
         }
 
-        try (FileWriter writer = new FileWriter("CSV/" + nomFichierCSV);
+        try (FileWriter writer = new FileWriter(nomDossier + "/" + nomFichierCSV);
              CSVWriter csvWriter = new CSVWriter(writer)) {
 
             String[] headerRecord = {"codeCategorie", "nom", "prenom", "heureService", "heureMax", "ratioTP", "S1 Théo", "S1 Réel", "S3 Théo", "S3 Réel", "S5 Théo", "S5 Réel", "TotImp Théo", "TotImp Réel", "S2 Théo", "S2 Réel", "S4 Théo", "S4 Réel", "S6 Théo", "S6 Réel", "TotPair Théo", "TotPair Réel", "Total Théo", "Total Réel"};

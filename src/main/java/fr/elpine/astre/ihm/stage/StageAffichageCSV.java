@@ -56,7 +56,6 @@ public class StageAffichageCSV extends Stage {
     public TableColumn<ObservableList<String>,String> tcTheoS6;
     public TableColumn<ObservableList<String>,String> tcReelS6;
     public ChoiceBox<String> cbNomAnnee;
-    //private Stage stage;
 
     private ArrayList<String[]> alDonnees;
 
@@ -69,7 +68,7 @@ public class StageAffichageCSV extends Stage {
 
     public static ArrayList<String> listerFichiers() {
         ArrayList<String> fichiers = new ArrayList<String>();
-        File repertoire = new File("CSV");
+        File repertoire = new File("Export/CSV");
 
         if (repertoire.isDirectory()) {
             File[] files = repertoire.listFiles( new FilenameFilter() {
@@ -92,7 +91,7 @@ public class StageAffichageCSV extends Stage {
     }
 
     public ArrayList<String[]> lireCSV(String cheminFichierCSV ) {
-        try (CSVReader reader = new CSVReader(new FileReader("CSV/" + cheminFichierCSV))) {
+        try (CSVReader reader = new CSVReader(new FileReader("Export/CSV/" + cheminFichierCSV))) {
             ArrayList<String[]> alLigne = new ArrayList<String[]>();
             String[] ligne;
             reader.readNext();
