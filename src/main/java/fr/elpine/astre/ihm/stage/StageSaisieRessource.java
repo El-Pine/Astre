@@ -556,20 +556,19 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     protected void onBtnEnregistrer()
     {
-        Module mod;
         if(this.moduleModif != null)
         {
-            mod = this.moduleModif;
-            majAttribution(mod);
-            majInformation(this.moduleModif, false);
+            majAttribution(this.moduleModif);
+            majInformation(this.moduleModif);
         }
         else
         {
-            majInformation(this.futurModule,true);
-            mod = this.futurModule;
-            creationAttribution(mod);
+            majInformation(this.futurModule);
+            creationAttribution(this.futurModule);
         }
+
         Controleur.get().getMetier().enregistrer();
+
         this.close();
     }
 
@@ -618,12 +617,10 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
     }
 
-    public void majInformation(Module mod,boolean code)
+    public void majInformation(Module mod)
     {
         mod.setNom(txtLibelleLong.getText());
-        if(code)
-            mod.setCode(txtCode.getText());
-
+        mod.setCode(txtCode.getText());
         mod.setAbreviation(txtLibelleCourt.getText());
         mod.setCouleur(couleur.getValue());
         mod.setValidation(cbValidation.isSelected());

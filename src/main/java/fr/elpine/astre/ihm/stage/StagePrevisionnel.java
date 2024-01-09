@@ -259,7 +259,10 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		Controleur.get().getMetier().getAnneeActuelle().getSemestres().forEach(s -> this.lstModule.put(s.getNumero(), FXCollections.observableArrayList(s.getModules())));
 
-		this.lstViews.forEach(view -> view.setItems( this.lstModule.get( this.lstViews.indexOf(view) + 1 ) ));
+		this.lstViews.forEach(view -> {
+			view.setItems(this.lstModule.get(this.lstViews.indexOf(view) + 1));
+			view.refresh();
+		});
 
 	}
 
