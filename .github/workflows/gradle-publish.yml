@@ -30,9 +30,6 @@ jobs:
       with:
         gradle-version: 8.2
 
-    - run: gradle -v
-    - run: gradle clean
-    - run: gradle build
     - run: gradle jlinkZip
     - run: gradle jpackage
     - run: gradle shadowJar
