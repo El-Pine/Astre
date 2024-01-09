@@ -31,15 +31,22 @@ jobs:
         gradle-version: 8.2
 
     - run: gradle -v
+    - run: gradle clean
     - run: gradle build
     - run: gradle jlinkZip
     - run: gradle jpackage
+    - run: gradle shadowJar
 
     - name: Upload ZIP as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-zip
         path: build/distributions/*.zip
+    - name: Upload JAR as an artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-jar
+        path: build/libs/*.jar
     - name: Upload DMG as an artifact
       uses: actions/upload-artifact@v3
       with:
