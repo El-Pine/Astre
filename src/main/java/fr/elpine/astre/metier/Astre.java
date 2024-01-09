@@ -384,7 +384,7 @@ public class Astre
 
         // Vérifier si le répertoire existe, sinon le créer
         File dossierSrc = new File(nomDossierSrc );
-        File dossier    = new File(nomDossier    );
+        File dossier    = new File(nomDossierSrc + "/" + nomDossier    );
         if (dossierSrc.exists()) {
             if (!dossier.exists()) {
                 boolean success = dossier.mkdirs(); // Créer le répertoire si besoin

@@ -69,8 +69,8 @@ public class StageGeneration extends Stage implements Initializable
 
         // Vérifier si le répertoire existe, sinon le créer
         File dossierSrc    = new File("Export"      );
-        File dossierInter  = new File("intervenant" );
-        File dossierMod    = new File("module"      );
+        File dossierInter  = new File("Export/intervenant" );
+        File dossierMod    = new File("Export/module"      );
         if (dossierSrc.exists()) {
             if (!dossierInter.exists() || !dossierMod.exists()) {
                 if (!(dossierInter.mkdirs() && dossierMod.mkdirs()))
