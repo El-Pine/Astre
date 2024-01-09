@@ -1064,13 +1064,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initTabPan()
     {
         this.tabPaneSemaine.getTabs().clear();
-        for (CategorieHeure cat : Controleur.get().getMetier().getCategorieHeures())
+        for (CategorieHeure cat : this.ensCatHrPresent)
         {
-            boolean typeModule = this.typeModule.equals("Ressource") ? cat.estRessource() : cat.estStage();
-            if(typeModule)
-            {
-                ajouterOnglet(cat.getNom());
-            }
+            ajouterOnglet(cat.getNom());
         }
     }
 
@@ -1163,7 +1159,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     {
 
         CategorieHeure catHrTxtF = null;
-        for (CategorieHeure catHr: Controleur.get().getMetier().getCategorieHeures())
+        for (CategorieHeure catHr: this.ensCatHrPresent)
         {
             if(txt.getId().contains(catHr.getNom()))
             {
@@ -1216,7 +1212,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void valeurChangerPn(TextField txt, String newValue)
     {
         CategorieHeure catHrTxtF = null;
-        for (CategorieHeure catHr: Controleur.get().getMetier().getCategorieHeures())
+        for (CategorieHeure catHr: this.ensCatHrPresent)
         {
             if(txt.getId().contains(catHr.getNom()))
             {
@@ -1301,7 +1297,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (TextField txt: ensTxt)
         {
             String key = "TO";
-            for (CategorieHeure catHr: Controleur.get().getMetier().getCategorieHeures())
+            for (CategorieHeure catHr: this.ensCatHrPresent)
             {
                 if(txt.getId().contains(catHr.getNom()))
                 {
@@ -1352,6 +1348,8 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void setTypeModule(String typeModule)
     {
+        System.out.println("je rentre ici typeModule");
+        System.out.println(typeModule);
         this.typeModule = typeModule;
         txtTypeModule.setText(this.typeModule);
     }

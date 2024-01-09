@@ -103,12 +103,14 @@ public class StagePrevisionnel extends Stage implements Initializable
 	}*/
 
 	@FXML
-	public void onBtnCreerPpp(ActionEvent actionEvent) throws IOException
+	public void onBtnCreerPpp()
 	{
+		System.out.println("jeeeeeee suiiisss daaaaaaaansss PPPPPP");
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
-		stage.setTypeModule("Stage");
+		stage.setTypeModule("PPP");
+		stage.init();
 		stage.showAndWait();
 	}
 	@FXML
@@ -135,19 +137,12 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		Controleur.get().getMetier().enregistrer();
 	}
-	public void onBtnCreerPpp()
-	{
-		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
-		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
-		stage.setSemestre(num);
-		stage.setTypeModule("PPP");
-		stage.init();
-		stage.showAndWait();
-	}
+
 
 	@FXML
 	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException
 	{
+		System.out.println("bah ? je suis dans creer SAE ?");
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
@@ -159,6 +154,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@FXML
 	public void onBtnCreerStage(ActionEvent actionEvent) throws IOException
 	{
+		System.out.println("je suis dans le stage mais je ne sais pas pk");
 		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
 		stage.setSemestre(num);
@@ -168,7 +164,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 	}
 
 	@FXML
-	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException {
+	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException
+	{
+		System.out.println("bah ? je susi dans creer ressource ?");
 		StageSaisieRessource stage = Manager.creer("saisieRessource", this);
 
 		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
@@ -201,7 +199,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 	}
 
 	@FXML
-	public void onBtnModifier(ActionEvent actionEvent) {
+	public void onBtnModifier(ActionEvent actionEvent)
+	{
+		System.out.println("bah ? je suis dans modifier bizarre ?");
 		this.lstViews.forEach(value -> {
 			if(value.getSelectionModel().getSelectedIndex() != -1)
 			{
