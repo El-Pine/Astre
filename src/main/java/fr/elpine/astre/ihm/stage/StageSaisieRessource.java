@@ -505,25 +505,33 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void creerFormatter(String nom, TextField txtf) {
         txtf.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches("^\\d+$")) {
+            if (change.getControlNewText().matches("^\\d+$"))
+            {
                 String newText = change.getControlNewText();
 
+                System.out.println("aaaaaaaaaaaaa" + nom);
                 List<TextField> semaineList     = this.hmTxtSemaine  .get(nom);
                 List<TextField> pnList          = this.hmTxtPn       .get(nom);
                 List<TextField> repartitionList = this.hmTxtRepartion.get(nom);
 
+
+
                 if (semaineList != null && pnList != null)
                 {
+                    System.out.println("cccccccccccccc");
                     int index = indexTextFied(semaineList,pnList,repartitionList,txtf);
-
+                    System.out.println(index);
+                    System.out.println(pnList.size());
                     if (index > -1 && index < pnList.size())
                     {
+                        System.out.println("dddddddddddddddd");
                         int pnValue = 0;
                         if(!pnList.get(index).getText().equals(""))
                             pnValue = Integer.parseInt(pnList.get(index).getText());
 
                         if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue)
                         {
+                            System.out.println("eeeeeeeeeeeeeeeeee");
                             txtf.setStyle("");
                         }
                         else
@@ -533,12 +541,19 @@ public class StageSaisieRessource extends Stage implements Initializable
                     }
                     else
                     {
-                        txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                        System.out.println("je suis la aaaaaaa");
+                        if(index == 2) txtf.setStyle("");
+                        else
+                            txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                     }
                 }
                 else
                 {
-                    txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                    System.out.println("nom " + nom);
+
+                    if(nom.equals("HP")) txtf.setStyle("");
+                    else
+                        txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                 }
                 return change;
             }
@@ -683,8 +698,10 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     @FXML
     protected void onBtnAnnuler() throws IOException {
-        this.affAAjouter = this.affAEnlever = new ArrayList<>();
+        ensAff.clear();
+
         if(this.moduleModif == null) this.futurModule.supprimer(false,true);
+        Controleur.get().getMetier().rollback();
         this.close();
         //StagePrincipal.creer().show();
     }
