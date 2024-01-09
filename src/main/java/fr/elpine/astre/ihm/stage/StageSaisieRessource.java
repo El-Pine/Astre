@@ -132,7 +132,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void initializeStage()
     {
         initGridPn();
-        this.tabPaneSemaine.getTabs().clear();
+        initTabPan();
         initRepartitionColumns();
         initTableColumns();
         setupListenersAndFormatters();
@@ -199,6 +199,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         {
             boolean typeModule = this.typeModule.equals("Ressource") ? cat.estRessource() : cat.estStage();
             if (typeModule) {
+                System.out.println(cat.getNom());
                 ajouterColonneRepartition(cat.getNom());
             }
         }
@@ -253,7 +254,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
     private void calculeAffecte() {
         // Générer la liste de champs texte
-        ArrayList<TextField> alAffecte = genererArrayList();
+        ArrayList<TextField> alAffecte = genererArrayListAffecte();
 
         // Calculer les valeurs en fonction des données du modèle
         HashMap<String, Double> hmAffecte = calculerValeursAffecte();
@@ -262,15 +263,16 @@ public class StageSaisieRessource extends Stage implements Initializable
         mettreAJourChamps(alAffecte, hmAffecte);
     }
 
-    private HashMap<String, Double> calculerValeursAffecte() {
+    private HashMap<String, Double> calculerValeursAffecte()
+    {
+        System.out.println("jusque ici tous va bien ");
         HashMap<String, Double> hmAffecte = new HashMap<>();
 
-        if(tableau.getItems() != null) {
+        if(tableau.getItems() != null)
+        {
             for (Affectation aff : tableau.getItems()) {
-                String typeHeure = aff.getTypeHeure().getNom();
+                String typeHeure = aff.getTypeHeure().getNom().toUpperCase();
                 double valeur;
-
-                // TODO : pas bon, il faut aussi mettre les attributions
                 if (aff.hasGrpAndNbSemaine())
                     valeur = aff.getNbSemaine() * aff.getNbGroupe() * aff.getTypeHeure().getEquivalentTD().value();
                 else
@@ -281,12 +283,23 @@ public class StageSaisieRessource extends Stage implements Initializable
             }
         }
 
+        System.out.println("aaa " + hmAffecte);
         return hmAffecte;
     }
 
-    private void mettreAJourChamps(ArrayList<TextField> alAffecte, HashMap<String, Double> hmAffecte) {
-        for (TextField txt : alAffecte) {
-            String typeHeure = txt.getId().substring(3, 5);
+    private void mettreAJourChamps(ArrayList<TextField> alAffecte, HashMap<String, Double> hmAffecte)
+    {
+        System.out.println("bbb : " + alAffecte);
+        for (TextField txt : alAffecte)
+        {
+            String typeHeure = "";
+            for (CategorieHeure catHr: Controleur.get().getMetier().getCategorieHeures())
+            {
+                if(txt.getId().contains(catHr.getNom()))
+                {
+                    typeHeure = catHr.getNom().toUpperCase();
+                }
+            }
 
             if (hmAffecte.containsKey(typeHeure)) {
                 // Ajout de débogage
@@ -298,7 +311,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
     }
 
-    private ArrayList<TextField> genererArrayList()
+    private ArrayList<TextField> genererArrayListAffecte()
     {
         ArrayList<TextField> alAffecte = new ArrayList<>();
         for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtRepartion.entrySet())
@@ -307,13 +320,9 @@ public class StageSaisieRessource extends Stage implements Initializable
             ArrayList<TextField> value = entry.getValue();
 
             for (TextField txt: value)
-            {
-                String jesaispascommentappelercettevariable = txt.getId().substring(5);
-                if(jesaispascommentappelercettevariable.equals("Affecte"))
+                if(txt.getId().contains("Affecte"))
                     alAffecte.add(txt);
-            }
         }
-
         return alAffecte;
     }
 
@@ -519,7 +528,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                         }
                         else
                         {
-                            System.out.println("mais pourquoi je rentre la tout le temps enfin c'est pas possible !");
                             txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                         }
                     }
@@ -701,8 +709,9 @@ public class StageSaisieRessource extends Stage implements Initializable
             fp.setAlignment(Pos.CENTER);
             flowPanes[i] = fp;
         }
+        System.out.println("nom " + nom);
 
-        if(nom.equals("HP"))
+        if(nom.equals("HP") || nom.equals("H tut") || nom.equals("H Saé"))
         {
             flowPanes[0].getChildren().add(new Label("Nombre d'heure"));
 
@@ -926,45 +935,52 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void valeurChangerSemaine(TextField txt, String newValue)
     {
-        String keyCatHr = txt.getId().substring(3,5);
-        String keyCatHrMAJ = txt.getId().substring(3,5).toUpperCase();
 
-        CategorieHeure catHr = Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), keyCatHrMAJ);
+        CategorieHeure catHrTxtF = null;
+        for (CategorieHeure catHr: Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(txt.getId().contains(catHr.getNom()))
+            {
+                catHrTxtF = catHr;
+            }
+        }
 
         int valeurSemaine = 0;
         int valeurFinal   = 0;
 
-        if (this.hmTxtSemaine.containsKey(keyCatHrMAJ) &&
-                !this.hmTxtSemaine.get(keyCatHrMAJ).isEmpty() &&
-                !this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText().isEmpty()) {
+        System.out.println(catHrTxtF.getNom().toUpperCase());
+        if (this.hmTxtSemaine.containsKey(catHrTxtF.getNom().toUpperCase()) &&
+                !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).isEmpty() &&
+                !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).get(0).getText().isEmpty()) {
 
             int a;
-            if (this.hmTxtSemaine.get(keyCatHrMAJ).size() > 1 && !this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText().equals("")) {
-                a = keyCatHrMAJ.equals("HP") ? 1 : Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(1).getText());
+            if (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1 && !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().equals("")) {
+                a = catHrTxtF.getNom().toUpperCase().equals("HP") ? 1 : Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText());
             } else {
                 // Si le HashMap contient seulement un élément, utilisez une valeur par défaut ou une autre logique selon vos besoins.
                 a = 1;  // Vous pouvez choisir une autre valeur par défaut si nécessaire.
             }
-            valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(keyCatHrMAJ).get(0).getText()) * a;
+            valeurSemaine = Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).get(0).getText()) * a;
         }
 
-        for (TextField txt1 : this.hmTxtRepartion.get(keyCatHrMAJ))
+        for (TextField txt1 : this.hmTxtRepartion.get(catHrTxtF.getNom().toUpperCase()))
         {
-            if(txt1.getId().equals("txt" + keyCatHr +"Repartition"))
+            System.out.println(this.hmTxtRepartion);
+            if(txt1.getId().equals("txt" + catHrTxtF.getNom() +"Repartition"))
             {
                 txt1.setText(Integer.toString(valeurSemaine));
             }
 
-            if(txt1.getId().equals("txt" + keyCatHr + "Promo"))
+            if(txt1.getId().equals("txt" + catHrTxtF.getNom() + "Promo"))
             {
-                if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
+                if(catHrTxtF.getNom().equals("TP") || catHrTxtF.getNom().equals("TD"))
                 {
-                    int valeurXgroupe = valeurSemaine * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
-                    valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
+                    int valeurXgroupe = valeurSemaine * (catHrTxtF.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
+                    valeurFinal   = (int) (valeurXgroupe * catHrTxtF.getEquivalentTD().value());
                 }
                 else
                 {
-                    valeurFinal = (int) (valeurSemaine * catHr.getEquivalentTD().value());
+                    valeurFinal = (int) (valeurSemaine * catHrTxtF.getEquivalentTD().value());
                 }
 
                 txt1.setText(Integer.toString(valeurFinal));
@@ -975,25 +991,23 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void valeurChangerPn(TextField txt, String newValue)
     {
-        String keyCatHr;
-        String nom = "";
-        if (txt.getId().charAt(4) == ' ') {
-            // Si le caractère à l'indice 5 est un espace, prendre le caractère à l'indice 6
-            keyCatHr = txt.getId().substring(5, 7).toUpperCase();
-            nom = txt.getId().substring(3,8);
-        } else {
-            // Sinon, prendre le caractère à l'indice 5
-            keyCatHr = txt.getId().substring(3, 5).toUpperCase();
-            nom = keyCatHr;
+        CategorieHeure catHrTxtF = null;
+        for (CategorieHeure catHr: Controleur.get().getMetier().getCategorieHeures())
+        {
+            if(txt.getId().contains(catHr.getNom()))
+            {
+                catHrTxtF = catHr;
+            }
         }
 
-        if(!keyCatHr.equals("TO"))
+
+        if(!catHrTxtF.getNom().equals("TO"))
         {
-            for (TextField txt1 : this.hmTxtPn.get(keyCatHr)) {
+            for (TextField txt1 : this.hmTxtPn.get(catHrTxtF.getNom().toUpperCase())) {
                 if (!txt1.isEditable()) {
                     if (!txt.getText().isEmpty()) {
                         int valeurInitial = Integer.parseInt(txt.getText());
-                        txt1.setText(calculeNvValeur(valeurInitial, Astre.rechercherCatHr(Controleur.get().getMetier().getCategorieHeures(), nom)));
+                        txt1.setText(calculeNvValeur(valeurInitial, catHrTxtF));
                     }
                 }
             }
@@ -1044,18 +1058,15 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
     private String calculeNvValeur(int valeurInitial, CategorieHeure catHr)
     {
-        System.out.println("valeurInitial : "+valeurInitial);
        if(catHr.getNom().equals("TP") || catHr.getNom().equals("TD"))
        {
            int valeurXgroupe = valeurInitial * (catHr.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
            int valeurFinal   = (int) (valeurXgroupe * catHr.getEquivalentTD().value());
-           System.out.println("TP ou TD"+ valeurFinal);
            return Integer.toString(valeurFinal);
        }
        else
        {
            int valeurFinal = (int) (valeurInitial * catHr.getEquivalentTD().value());
-           System.out.println(valeurFinal);
            return Integer.toString(valeurFinal);
        }
     }
@@ -1065,17 +1076,14 @@ public class StageSaisieRessource extends Stage implements Initializable
         HashMap<String, ArrayList<TextField>> hmTemp = new HashMap<>();
         for (TextField txt: ensTxt)
         {
-            String key;
-            System.out.println("txt.getId().charAt(4) " + txt.getId().charAt(4));
-            if (txt.getId().charAt(4) == ' ') {
-                key = txt.getId().substring(5, 7).toUpperCase();
-            } else
+            String key = "TO";
+            for (CategorieHeure catHr: Controleur.get().getMetier().getCategorieHeures())
             {
-                System.out.println("je suis la ");
-                key = txt.getId().substring(3, 5).toUpperCase();
+                if(txt.getId().contains(catHr.getNom()))
+                {
+                    key = catHr.getNom().toUpperCase();
+                }
             }
-
-            System.out.println( " key  "+key);
 
             if(hmTemp.containsKey(key))
             {
@@ -1087,7 +1095,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 hmTemp.get(key).add(txt);
             }
         }
-        System.out.println(hmTemp);
+        //System.out.println(hmTemp);
         return hmTemp;
     }
 

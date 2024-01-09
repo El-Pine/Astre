@@ -48,6 +48,8 @@ public class StageGeneration extends Stage implements Initializable
     private TableColumn<Object,String> g_1;
     @FXML
     private TableColumn<Object,Boolean>g_2;
+    @FXML
+    private TextField txtFieldRecherche;
 
     private String vue;
 
@@ -445,6 +447,28 @@ public class StageGeneration extends Stage implements Initializable
     public void onAnnuler(ActionEvent actionEvent) {
         this.close();
     }
+
+    public void onRecherche(ActionEvent actionEvent) {
+        if(this.vue.equals("module"))
+        {
+            // creer une recherche de modules
+            String recherche = txtFieldRecherche.getText();
+            ArrayList<Module> ensMod = Controleur.get().getMetier().rechercheModuleByText(recherche);
+            ObservableList<Object> ensResult =FXCollections.observableArrayList(ensMod);
+            tabGeneration.setItems(ensResult);
+
+        }
+        else if(this.vue.equals("intervenant"))
+        {
+            String recherche = txtFieldRecherche.getText();
+            ArrayList<Intervenant> ensInter = Controleur.get().getMetier().rechercheIntervenantByText(recherche);
+            ObservableList<Object> ensResult =FXCollections.observableArrayList(ensInter);
+            tabGeneration.setItems(ensResult);
+        }
+
+    }
+
+
 }
 
 
