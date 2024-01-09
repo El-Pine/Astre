@@ -5,7 +5,7 @@
 # This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
 
-name: Gradle Package
+name: All Package
 
 on: [push]
 
@@ -34,45 +34,57 @@ jobs:
     - run: gradle jpackage
     - run: gradle shadowJar
 
+    - name: Upload ZIP as an artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-zip
+        path: build/distributions/astre-image.zip
+        retention-days: 4
     - name: Upload JAR as an artifact
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-jar
         path: build/libs/*.jar
-        retention-days: 5
+        retention-days: 4
     - name: Upload DMG as an artifact
+      if: matrix.os == 'macOS-latest'
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-dmg
         path: build/jpackage/*.dmg
-        retention-days: 5
+        retention-days: 4
     - name: Upload EXE as an artifact
+      if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-exe
         path: build/jpackage/*.exe
-        retention-days: 5
+        retention-days: 4
     - name: Upload MSI as an artifact
+      if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-msi
         path: build/jpackage/*.msi
-        retention-days: 5
+        retention-days: 4
     - name: Upload DEB as an artifact
+      if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-deb
         path: build/jpackage/*.deb
-        retention-days: 5
+        retention-days: 4
     - name: Upload RPM as an artifact
+      if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-rpm
         path: build/jpackage/*.rpm
-        retention-days: 5
+        retention-days: 4
     - name: Upload PKG as an artifact
+      if: matrix.os == 'macOS-latest'
       uses: actions/upload-artifact@v3
       with:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-pkg
         path: build/jpackage/*.pkg
-        retention-days: 5
+        retention-days: 4
