@@ -391,7 +391,14 @@ public class StageGeneration extends Stage implements Initializable
         if(this.vue.equals("module"))
         {
             this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
+            try {
+                File folder = new File("./Export/module");
+                Desktop desktop = Desktop.getDesktop();
+                desktop.open(folder);
 
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
         else if(this.vue.equals("intervenant"))
