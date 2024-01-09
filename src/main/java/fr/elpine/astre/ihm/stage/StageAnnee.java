@@ -1,23 +1,23 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StageAnnee extends Stage implements Initializable
 {
@@ -112,12 +112,18 @@ public class StageAnnee extends Stage implements Initializable
                 String.format("Copie de l'année : %s", this.cbbAnnee.getValue().toString()),
                 "Nouveau nom :"
         ).showAndWait().ifPresent(nom -> {
-            boolean nomLibre = true;
+            Pattern pattern = Pattern.compile("^(\\d{4})-(\\d{4}).*$");
+            Matcher matcher = pattern.matcher(nom);
 
-            for (Annee a : Controleur.get().getMetier().getAnnees()) if (a.getNom().equals(nom)) nomLibre = false;
+            Date debut = Date.valueOf(String.format("%s-12-31", matcher.group(1)));
+            Date fin   = Date.valueOf(String.format("%s-12-31", matcher.group(2)));
 
-            if (nomLibre && nom.matches("^(\\d{4})-(\\d{4}).*$") && nom.startsWith(String.format("%s-%s", an.getDateDeb().toLocalDate().getYear(), an.getDateFin().toLocalDate().getYear())))
-                an.dupliquer(nom);
+            if (
+                    !Controleur.get().getMetier().existeAnnee(nom) &&
+                    matcher.find() &&
+                    Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1
+            )
+                an.dupliquer(nom, debut, fin);
             else
                 PopUp.warning("Nom incorrect", null, "Le nom '%s' n'est pas valide.".formatted(nom)).showAndWait();
         });

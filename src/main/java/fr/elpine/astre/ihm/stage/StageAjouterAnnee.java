@@ -1,19 +1,15 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -71,15 +67,13 @@ public class StageAjouterAnnee extends Stage implements Initializable
     public void onBtnValider(ActionEvent actionEvent)
     {
         String  nom      = txtfNonAnnee.getText();
-        boolean nomLibre = true;
 
-        for (Annee a : Controleur.get().getMetier().getAnnees()) if (a.getNom().equals(nom)) nomLibre = false;
+        if (!Controleur.get().getMetier().existeAnnee(nom))
+        {
+            new Annee(nom, dateDebut.getValue().toString(), dateFin.getValue().toString());
 
-        if (nomLibre) {
-            Annee a = new Annee(nom, dateDebut.getValue().toString(), dateFin.getValue().toString());
             Controleur.get().getMetier().enregistrer();
 
-            //parent.setCpbContrat();
             this.close();
         } else {
             PopUp.warning("Nom déjà pris", null, "Une année portant le nom '%s' existe déjà, essayer d'ajouter un suffix.".formatted(nom)).showAndWait();
