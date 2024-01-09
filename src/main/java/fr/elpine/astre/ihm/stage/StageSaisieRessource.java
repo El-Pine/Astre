@@ -807,7 +807,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             }
         });
 
-        tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom()));
+        tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom() + " " + cellData.getValue().getIntervenant().getPrenom()));
         tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure  ().getNom()));
         tcType.setCellFactory(column -> {
             return new TableCell<>() {
@@ -859,7 +859,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                 }
             };
         });
-
 
         tcSemaine    .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject()  : null);
         tcSemaine.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
