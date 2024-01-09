@@ -34,10 +34,6 @@ public class StageAjouterCategories extends Stage implements Initializable
     @FXML
     private TextField txtfNbHServCatInter;
 
-    //private Label lblErreur;
-
-    //private static StageAccueilConfig parent;
-
     @FXML
     private TextField txtfNomCatH;
     @FXML
@@ -60,31 +56,6 @@ public class StageAjouterCategories extends Stage implements Initializable
         this.setResizable(false);
     }
 
-    /*public static Stage creer( StageAccueilConfig parent ) throws IOException
-    {
-        Stage stage = new Stage();
-
-        AstreApplication.refreshIcon(stage);
-
-        StageAjouterCategories.parent = parent;
-
-        FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("ajouterCategories.fxml"));
-
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-
-        StageAjouterCategories stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) stageCtrl.setStage(stage);
-
-        stage.setTitle("Accueil Config");
-        stage.setScene(scene);
-
-        stage.setOnCloseRequest(e -> parent.activer());
-
-        return stage;
-    }
-
-    private void setStage(Stage stage) { this.stage = stage; }*/
-
     public void onBtnEnregistrerCatInter(ActionEvent actionEvent)
     {
         String code    =                     txtfCodeCatInter   .getText();
@@ -104,8 +75,6 @@ public class StageAjouterCategories extends Stage implements Initializable
     }
 
     public void onBtnAnnulerCatInter(ActionEvent actionEvent) {
-        //parent.activer();
-        //parent.refresh();
         this.close();
     }
 
@@ -130,7 +99,6 @@ public class StageAjouterCategories extends Stage implements Initializable
 
 
     public void onBtnAnnulerCatH(ActionEvent actionEvent) {
-        //parent.activer();
         this.close();
     }
 

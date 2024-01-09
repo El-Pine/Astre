@@ -4,8 +4,10 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.Astre;
+import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -67,43 +70,6 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.setMinWidth(850);
         this.setMinHeight(450);
     }
-
-
-    /*public static Stage creer() throws IOException
-    {
-        Stage stage = new Stage();
-
-        AstreApplication.refreshIcon(stage);
-
-        FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueilConfig.fxml"));
-        StageAccueilConfig.ensCatHeure = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures());
-        StageAccueilConfig.ensCatInter = FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants());
-
-        StageAccueilConfig.catHeurAAjouter = new ArrayList<>();
-        StageAccueilConfig.categorieInterAAjouter = new ArrayList<>();
-
-        StageAccueilConfig.catHrASupp     = new ArrayList<>();
-        StageAccueilConfig.catInterASuppr = new ArrayList<>();
-
-        Scene scene = new Scene(fxmlLoader.load(), 850, 450);
-
-        StageAccueilConfig stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) stageCtrl.setStage(stage);
-
-        stage.setTitle("Accueil Config");
-        stage.setScene(scene);
-        //stageCtrl.majTableauCatInter();
-
-
-        stage.setOnCloseRequest(e -> {
-            // perform actions before closing
-            try { StagePrincipal.creer().show(); } catch (IOException ignored) {}
-        });
-
-        return stage;
-    }
-
-    private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void onBtnConfigBdd() {
         //desactiver();
@@ -179,6 +145,8 @@ public class StageAccueilConfig extends Stage implements Initializable
                     setTextFill(Color.RED);
                 } else if (item != null && item.equals("➕")) {
                     setTextFill(Color.LIGHTGREEN);
+                } else if (item != null && item.equals("🖉")) {
+                    setTextFill(Color.BLUE);
                 } else {
                     setTextFill(Color.BLACK);
                     setText("");
@@ -186,11 +154,138 @@ public class StageAccueilConfig extends Stage implements Initializable
             }
         });
 
-        tcCodeInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
+        tcCodeInter.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
+
         tcNomInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
-        tcHMaxInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureMaxDefault().toString()));
+        tcNomInter.setCellFactory(column -> {
+            return new TableCell<>() {
+                TextField textField = new TextField();
+                {
+                    creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
+
+                    textField.setOnAction(event -> {
+                        String newValue = textField.getText();
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            CategorieIntervenant afc = getTableView().getItems().get(index);
+                            afc.setNom(newValue); // Mettre à jour votre donnée
+                            tabCatInter.refresh();
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                        textField.setText(item); // Définit le texte dans le TextField
+                        setGraphic(textField);
+                    }
+                }
+            };
+        });
+
+        tcHMaxInter.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureMaxDefault().toString()));
+        tcHMaxInter.setCellFactory(column -> {
+            return new TableCell<>() {
+                final TextField textField = new TextField();
+                {
+                    creerFormatter(textField,"^\\d+$");
+
+                    textField.setOnAction(event -> {
+                        String newValue = textField.getText();
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            CategorieIntervenant afc = getTableView().getItems().get(index);
+                            afc.setNbHeureMaxDefault(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                            tabCatInter.refresh();
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                        textField.setText(item); // Définit le texte dans le TextField
+                        setGraphic(textField);
+                    }
+                }
+            };
+        });
+
+
         tcHServInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureServiceDefault().toString()));
+        tcHServInter.setCellFactory(column -> {
+            return new TableCell<>() {
+                final TextField textField = new TextField();
+                {
+                    creerFormatter(textField,"^\\d+$");
+
+                    textField.setOnAction(event -> {
+                        String newValue = textField.getText();
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            CategorieIntervenant afc = getTableView().getItems().get(index);
+                            afc.setNbHeureServiceDefault(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                            tabCatInter.refresh();
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                        textField.setText(item); // Définit le texte dans le TextField
+                        setGraphic(textField);
+                    }
+                }
+            };
+        });
+
         tcRatioInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTPDefault().toString()));
+        tcRatioInter.setCellFactory(column -> {
+            return new TableCell<>() {
+                final TextField textField = new TextField();
+                {
+                    textField.setOnAction(event -> {
+                        String newValue = textField.getText();
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            CategorieIntervenant afc = getTableView().getItems().get(index);
+                            afc.setRatioTPDefault(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                            tabCatInter.refresh();
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                        textField.setText(item); // Définit le texte dans le TextField
+                        setGraphic(textField);
+                    }
+                }
+            };
+        });
 
         tabCatInter.setItems( FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants()) );
 
@@ -205,6 +300,8 @@ public class StageAccueilConfig extends Stage implements Initializable
                     setTextFill(Color.RED);
                 } else if (item != null && item.equals("➕")) {
                     setTextFill(Color.LIGHTGREEN);
+                } else if (item != null && item.equals("🖉")) {
+                    setTextFill(Color.BLUE);
                 } else {
                     setTextFill(Color.BLACK);
                     setText("");
@@ -292,20 +389,35 @@ public class StageAccueilConfig extends Stage implements Initializable
             return "❌";
         } else if (categorieIntervenant.isAjoute()) {
             return "➕";
+        } else if (categorieIntervenant.isModifie()) {
+            return "🖉";
         } else {
             return "";
         }
     }
 
-    private String getCellValue(CategorieHeure catHr)
-    {
+    private String getCellValue(CategorieHeure catHr) {
         if (catHr.isSupprime()) {
             return "❌";
         } else if (catHr.isAjoute()) {
             return "➕";
+        } else if (catHr.isModifie()) {
+            return "🖉";
         } else {
             return "";
         }
+    }
+
+    private void creerFormatter(TextField txtf, String regex) {
+        txtf.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches(regex)) {
+                return change;
+            } else if (change.getText().isEmpty()) {
+                return change;
+            } else {
+                return null;
+            }
+        }));
     }
 
     public void refresh()
