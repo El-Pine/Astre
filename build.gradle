@@ -40,12 +40,12 @@ jar {
 
 jlink {
     imageZip = project.file("${buildDir}/distributions/astre-${javafx.platform.classifier}.zip")
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    options  = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
 
     launcher{
-        name = 'Astre'
+        name      = 'Astre'
         noConsole = true
-        jvmArgs = ['-Dlogback.configurationFile=./logback.xml']
+        jvmArgs   = ['-Dlogback.configurationFile=./logback.xml']
     }
     jpackage {
         skipInstaller = false
