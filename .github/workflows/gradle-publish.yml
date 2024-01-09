@@ -32,9 +32,14 @@ jobs:
 
     - run: gradle -v
     - run: gradle build
-    - run: gradle jlink
+    - run: gradle jlinkZip
     - run: gradle jpackage
 
+    - name: Upload ZIP as an artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-zip
+        path: build/distributions/*.zip
     - name: Upload DMG as an artifact
       uses: actions/upload-artifact@v3
       with:
