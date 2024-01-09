@@ -82,12 +82,7 @@ public class StageAnnee extends Stage implements Initializable
             Pattern pattern = Pattern.compile("^(\\d{4})-(\\d{4}).*$");
             Matcher matcher = pattern.matcher(nom);
 
-            if (
-                    matcher.find() &&
-                    !Controleur.get().getMetier().existeAnnee(nom) &&
-                    Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1
-            ) {
-
+            if ( matcher.find() && !Controleur.get().getMetier().existeAnnee(nom) && Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1 ) {
                 Date debut = Date.valueOf(String.format("%s-12-31", matcher.group(1)));
                 Date fin   = Date.valueOf(String.format("%s-12-31", matcher.group(2)));
 
