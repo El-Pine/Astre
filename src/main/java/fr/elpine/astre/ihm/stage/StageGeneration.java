@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import java.io.IOException;
+import java.awt.Desktop;
 
 
 
@@ -100,6 +101,13 @@ public class StageGeneration extends Stage implements Initializable
 
         g_2.setCellFactory(CheckBoxTableCell.forTableColumn(g_2));
 
+        if(checked){
+            this.checkedObjects.addAll(this.ens);
+        }
+        else
+        {
+            this.checkedObjects.clear();
+        }
     }
 
     public void setVue(String vue) {
@@ -244,6 +252,7 @@ public class StageGeneration extends Stage implements Initializable
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
 
+
         System.out.println("Fichier HTML créé avec succès !");
     }
 
@@ -383,10 +392,19 @@ public class StageGeneration extends Stage implements Initializable
         {
             this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
 
+
         }
         else if(this.vue.equals("intervenant"))
         {
             this.checkedObjects.forEach(i -> genrerIntervenant(Controleur.get().getMetier().getAnneeActuelle(), (Intervenant) i));
+            try {
+                File folder = new File("./Export/intervenant");
+                Desktop desktop = Desktop.getDesktop();
+                desktop.open(folder);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 
