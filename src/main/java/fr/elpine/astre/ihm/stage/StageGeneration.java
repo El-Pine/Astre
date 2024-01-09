@@ -82,6 +82,26 @@ public class StageGeneration extends Stage implements Initializable
         }
     }
 
+    private void setCheckbox(boolean checked)
+    {
+        this.g_2.setCellValueFactory(cellData -> {
+            Object modCheck = cellData.getValue();
+            BooleanProperty stageProperty = new SimpleBooleanProperty(checked);
+
+            stageProperty.addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    this.checkedObjects.add(modCheck);
+                } else {
+                    this.checkedObjects.remove(modCheck);
+                }
+            });
+            return stageProperty;
+        });
+
+        g_2.setCellFactory(CheckBoxTableCell.forTableColumn(g_2));
+
+    }
+
     public void setVue(String vue) {
         if(vue.equals("intervenant"))
         {
@@ -98,20 +118,7 @@ public class StageGeneration extends Stage implements Initializable
             this.vue = "module";
         }
 
-        this.g_2.setCellValueFactory(cellData -> {
-            Object modCheck = cellData.getValue();
-            BooleanProperty stageProperty = new SimpleBooleanProperty(false);
-
-            stageProperty.addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    this.checkedObjects.add(modCheck);
-                } else {
-                    this.checkedObjects.remove(modCheck);
-                }
-            });
-            return stageProperty;
-        });
-        g_2.setCellFactory(CheckBoxTableCell.forTableColumn(g_2));
+        setCheckbox(false);
 
         if (this.vue.equals("intervenant"))
         {
@@ -369,6 +376,9 @@ public class StageGeneration extends Stage implements Initializable
     }
 
     public void onBtn(ActionEvent actionEvent) {
+
+
+
         if(this.vue.equals("module"))
         {
             this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
@@ -378,6 +388,23 @@ public class StageGeneration extends Stage implements Initializable
         {
             this.checkedObjects.forEach(i -> genrerIntervenant(Controleur.get().getMetier().getAnneeActuelle(), (Intervenant) i));
         }
+
+
+
+
+
+
+    }
+
+    public void onCheckAll(ActionEvent actionEvent) {
+        setCheckbox(true);
+    }
+    public void onUnCheckAll(ActionEvent actionEvent) {
+        setCheckbox(false);
+    }
+
+    public void onAnnuler(ActionEvent actionEvent) {
+        this.close();
     }
 }
 

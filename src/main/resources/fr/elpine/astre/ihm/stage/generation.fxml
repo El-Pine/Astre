@@ -15,7 +15,9 @@
               </columns>
             </TableView>
             <Button mnemonicParsing="false" onAction="#onBtn" text="Générer " />
-            <Button mnemonicParsing="false" text="Annuler" />
+             <Button mnemonicParsing="false" onAction="#onCheckAll" text="Tout sélectionner " />
+             <Button mnemonicParsing="false" onAction="#onUnCheckAll" text="Tout déselectionner " />
+            <Button mnemonicParsing="false" onAction="#onAnnuler" text="Annuler" />
          </children></FlowPane>
    </children>
 </AnchorPane>
