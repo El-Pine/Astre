@@ -311,12 +311,43 @@ public class StageAccueilConfig extends Stage implements Initializable
 
         tcNomHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
         tcEqtdHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEquivalentTD().toString()));
+        tcEqtdHeures.setCellFactory(column -> {
+            return new TableCell<>() {
+                final TextField textField = new TextField();
+                {
+                    textField.setOnAction(event -> {
+                        String newValue = textField.getText();
+                        int index = getIndex();
+                        if (index >= 0 && index < getTableView().getItems().size()) {
+                            CategorieHeure afc = getTableView().getItems().get(index);
+                            afc.setEquivalentTD(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                            tabCatHeures.refresh();
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                        textField.setText(item); // Définit le texte dans le TextField
+                        setGraphic(textField);
+                    }
+                }
+            };
+        });
+
         tcRessourcesHeures.setCellValueFactory(cellData -> {
             CategorieHeure categorieHeure = cellData.getValue();
             BooleanProperty ressourceProperty = new SimpleBooleanProperty(categorieHeure.estRessource());
             // Ajoute un ChangeListener à la propriété ressource
             ressourceProperty.addListener((observable, oldValue, newValue) -> {
                 enregistrerModification(categorieHeure, newValue, "Ressource");
+                tabCatHeures.refresh();
             });
             return ressourceProperty;
         });
@@ -328,6 +359,7 @@ public class StageAccueilConfig extends Stage implements Initializable
             // Ajoute un ChangeListener à la propriété ressource
             stageProperty.addListener((observable, oldValue, newValue) -> {
                 enregistrerModification(categorieHeure, newValue, "Stage");
+                tabCatHeures.refresh();
             });
             return stageProperty;
         });
@@ -339,6 +371,7 @@ public class StageAccueilConfig extends Stage implements Initializable
             // Ajoute un ChangeListener à la propriété ressource
             PppProperty.addListener((observable, oldValue, newValue) -> {
                 enregistrerModification(categorieHeure, newValue, "Ppp");
+                tabCatHeures.refresh();
             });
             return PppProperty;
         });
@@ -350,6 +383,7 @@ public class StageAccueilConfig extends Stage implements Initializable
             // Ajoute un ChangeListener à la propriété ressource
             saeProperty.addListener((observable, oldValue, newValue) -> {
                 enregistrerModification(categorieHeure, newValue, "Sae");
+                tabCatHeures.refresh();
             });
             return saeProperty;
         });
