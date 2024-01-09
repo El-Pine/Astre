@@ -5,6 +5,10 @@ import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
 import javafx.application.Application;
 
+import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
+
 // TODO : mettre des couleurs par modules
 
 public class Controleur

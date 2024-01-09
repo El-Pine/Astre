@@ -25,7 +25,6 @@ public class StageAnnee extends Stage implements Initializable
     public Button btnConsulter;
     public Button btnDupliquer;
     public Button btnSupprimer;
-    //private Stage stage;
 
 
     public StageAnnee() // fxml -> "saisieAnnee"
@@ -35,36 +34,6 @@ public class StageAnnee extends Stage implements Initializable
         this.setMinHeight(150);
         this.setResizable(false);
     }
-
-    /*public static Stage creer() throws IOException
-    {
-        Stage stage = new Stage();
-
-        AstreApplication.refreshIcon(stage);
-
-        FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("saisieAnnee.fxml"));
-
-        Scene scene = new Scene(fxmlLoader.load(), 400, 150);
-
-        StageAnnee stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) {
-            stageCtrl.setStage(stage);
-            stageCtrl.setCpbContrat();
-        }
-
-        stage.setTitle("Choix de l'annee");
-        stage.setScene(scene);
-
-        stage.setOnCloseRequest(e -> {
-            try {
-                StagePrincipal.creer().show();
-            } catch (IOException ignored) { }
-        });
-
-        return stage;
-    }
-
-    private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void setCpbContrat()
     {
@@ -99,8 +68,6 @@ public class StageAnnee extends Stage implements Initializable
         Controleur.get().getMetier().changerAnneeActuelle(an);
 
         this.close();
-
-        //StagePrincipal.creer().show();
     }
 
     public void onBtnDupliquer() {
@@ -115,15 +82,17 @@ public class StageAnnee extends Stage implements Initializable
             Pattern pattern = Pattern.compile("^(\\d{4})-(\\d{4}).*$");
             Matcher matcher = pattern.matcher(nom);
 
-            Date debut = Date.valueOf(String.format("%s-12-31", matcher.group(1)));
-            Date fin   = Date.valueOf(String.format("%s-12-31", matcher.group(2)));
-
             if (
-                    !Controleur.get().getMetier().existeAnnee(nom) &&
                     matcher.find() &&
+                    !Controleur.get().getMetier().existeAnnee(nom) &&
                     Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1
-            )
+            ) {
+
+                Date debut = Date.valueOf(String.format("%s-12-31", matcher.group(1)));
+                Date fin   = Date.valueOf(String.format("%s-12-31", matcher.group(2)));
+
                 an.dupliquer(nom, debut, fin);
+            }
             else
                 PopUp.warning("Nom incorrect", null, "Le nom '%s' n'est pas valide.".formatted(nom)).showAndWait();
         });
