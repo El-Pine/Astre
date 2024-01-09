@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.awt.Taskbar.Feature;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -47,12 +48,14 @@ public class AstreApplication extends Application
 		stage.getIcons().add(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
 
 		if (Taskbar.isTaskbarSupported()) {
-			Taskbar taskbar = Taskbar.getTaskbar();
+			var taskbar = Taskbar.getTaskbar();
 
-			if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
-				java.awt.Image dockIcon = Toolkit.getDefaultToolkit().getImage(AstreApplication.class.getResource("icon.png"));
+			if (taskbar.isSupported(Feature.ICON_IMAGE)) {
+				final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+				var dockIcon = defaultToolkit.getImage(AstreApplication.class.getResource("icon.png"));
 				taskbar.setIconImage(dockIcon);
 			}
+
 		}
 	}
 }
