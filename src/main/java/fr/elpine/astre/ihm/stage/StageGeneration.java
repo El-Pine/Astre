@@ -143,23 +143,28 @@ public class StageGeneration extends Stage implements Initializable
 
     public static void genrerIntervenant(Annee annee,Intervenant i)
     {
-        HashMap<Semestre,HashMap<CategorieHeure,Double>> semestres = new HashMap<>();
+        HashMap<Semestre,HashMap<Module,HashMap<CategorieHeure,Double>>> semestres = new HashMap<>();
+
 
         for(Affectation a : i.getAffectations()) {
             // si la hashmap de la categorie heure est double dans semestres existe pas pour le semestre de l'affectation alors on l'a créer
             if (!semestres.containsKey(a.getModule().getSemestre())) {
-                semestres.put(a.getModule().getSemestre(), new HashMap<CategorieHeure, Double>());
+                semestres.put(a.getModule().getSemestre(), new HashMap<>());
             }
             // si la categorie heure de l'affectation n'existe pas dans la hashmap du semestre alors on l'a créer
-            if (!semestres.get(a.getModule().getSemestre()).containsKey(a.getTypeHeure())) {
-                semestres.get(a.getModule().getSemestre()).put(a.getTypeHeure(), 0.0);
+            if (!semestres.get(a.getModule().getSemestre()).containsKey(a.getModule())) {
+                semestres.get(a.getModule().getSemestre()).put(a.getModule(), new HashMap<>());
+            }
+            // si la categorie heure de l'affectation n'existe pas dans la hashmap du semestre alors on l'a créer
+            if (!semestres.get(a.getModule().getSemestre()).get(a.getModule()).containsKey(a.getTypeHeure())) {
+                semestres.get(a.getModule().getSemestre()).get(a.getModule()).put(a.getTypeHeure(), 0.0);
             }
 
-            Double d = semestres.get(a.getModule().getSemestre()).get(a.getTypeHeure());
+            Double d = semestres.get(a.getModule().getSemestre()).get(a.getModule()).get(a.getTypeHeure());
 
             d += a.getTotalEqtd(true);
 
-            semestres.get(a.getModule().getSemestre()).put(a.getTypeHeure(), d);
+            semestres.get(a.getModule().getSemestre()).get(a.getModule()).put(a.getTypeHeure(), d);
 
         }
 
@@ -225,22 +230,30 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("        <h1>"+annee.getNom()+"</h1> <!-- Années -->\n");
         htmlContent.append("    </nav>\n");
         // boucle semestres
+        htmlContent.append("    <div class=\"box-semestres\"> <!--Boucle de semestres ici !!!!!!!!!!!!!!!!!!!!!!! -->\n");
         for (Semestre s : semestres.keySet())
         {
-            htmlContent.append("    <div class=\"box-semestres\"> <!--Boucle de semestres ici !!!!!!!!!!!!!!!!!!!!!!! -->\n");
             htmlContent.append("        <div>\n");
             htmlContent.append("            <h2>Semestre "+s.getNumero()+"</h2> <!--Numero semestre -->\n");
-            htmlContent.append("            <div class=\"box-md\"> \n");
             // boucle categories heures
-            for(CategorieHeure ch : semestres.get(s).keySet())
+            for(Module m : semestres.get(s).keySet())
             {
-                htmlContent.append("                <p>"+ch.getNom()+" : "+ Fraction.simplifyDouble(semestres.get(s).get(ch), true)+" h</p>\n");
+                // nom du module
+                htmlContent.append("            <div class=\"box-md\"> \n");
+                htmlContent.append("               <p style=\"color:"+m.getCouleurF()+";\">"+ m.getNom()+"</p><br/>");
+                // boucle categories heures
+                for(CategorieHeure ch : semestres.get(s).get(m).keySet())
+                {
+                    // nom de la categorie heure
+                    htmlContent.append("                <p>"+ch.getNom()+" : "+ Fraction.simplifyDouble(semestres.get(s).get(m).get(ch), true)+" h</p>\n");
+                }
+                htmlContent.append("            </div>\n");
             }
-            htmlContent.append("            </div>\n");
-            htmlContent.append("        </div>\n");
-            htmlContent.append("    </div> \n");
-        }
 
+            htmlContent.append("        </div>\n");
+
+        }
+        htmlContent.append("    </div> \n");
         htmlContent.append("    </div>\n");
         htmlContent.append("</body>\n");
         htmlContent.append("</html>");
