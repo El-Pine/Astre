@@ -247,7 +247,7 @@ public class StageGeneration extends Stage implements Initializable
 
 
         // Chemin vers le fichier HTML que vous souhaitez créer
-        String filePath = "./Export/intervenant/"+i.getNom()+".html";
+        String filePath = "./Export/intervenant/"+i.getPrenom()+"-"+i.getNom()+".html";
 
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
