@@ -285,9 +285,10 @@ public class StageSaisieRessource extends Stage implements Initializable
         return alAffecte;
     }
 
-
     private void valeurChangerSemaine(TextField txt, String newValue)
     {
+        int valeurSemaine = 0;
+        int valeurFinal   = 0;
 
         CategorieHeure catHrTxtF = null;
         for (CategorieHeure catHr: this.ensCatHrPresent)
@@ -297,9 +298,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                 catHrTxtF = catHr;
             }
         }
-
-        int valeurSemaine = 0;
-        int valeurFinal   = 0;
 
         if (this.hmTxtSemaine.containsKey(catHrTxtF.getNom().toUpperCase()) &&
                 !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).isEmpty() &&
