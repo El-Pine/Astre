@@ -253,6 +253,7 @@ public class StageGeneration extends Stage implements Initializable
             htmlContent.append("        </div>\n");
 
         }
+
         htmlContent.append("    </div> \n");
         htmlContent.append("    </div>\n");
         htmlContent.append("</body>\n");
