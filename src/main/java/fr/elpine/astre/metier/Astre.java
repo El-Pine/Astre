@@ -136,6 +136,30 @@ public class Astre
         return ensTemp;
     }
 
+    public ArrayList<Module> rechercheModuleByText( String text )
+    {
+        ArrayList<Module> ensTemp = new ArrayList<>();
+
+        if (this.anneeActuelle == null) return ensTemp;
+
+        for (Semestre s : this.anneeActuelle.getSemestres())
+            for (Module m : s.getModules())
+            {
+                String r = String.format(
+                        "%s %s %s %s %s",
+                        m.getCode(),
+                        m.getNom(),
+                        m.getAbreviation(),
+                        m.getCouleur(),
+                        m.getTypeModule()
+                ).toLowerCase();
+
+                if (r.contains(text.toLowerCase())) ensTemp.add( m );
+            }
+
+        return ensTemp;
+    }
+
     /*-----------------------------*/
     /* Gestion de l'année actuelle */
     /*-----------------------------*/
