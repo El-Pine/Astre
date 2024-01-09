@@ -16,9 +16,20 @@ import java.util.Objects;
 public class AstreApplication extends Application
 {
 	@Override
-	public void start(Stage primaryStage) throws IOException
+	public void start(Stage primaryStage)
 	{
 		Logger logger = LoggerFactory.getLogger(getClass());
+
+		// Icon
+
+		if (Taskbar.isTaskbarSupported()) {
+			Taskbar taskbar = Taskbar.getTaskbar();
+
+			if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
+				java.awt.Image dockIcon = Toolkit.getDefaultToolkit().getImage(AstreApplication.class.getResource("icon.png"));
+				taskbar.setIconImage(dockIcon);
+			}
+		}
 
 		/* STYLE
 		* Thèmes    : cupertino & dracula
@@ -46,14 +57,5 @@ public class AstreApplication extends Application
 	public static void refreshIcon(Stage stage)
 	{
 		stage.getIcons().add(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("icon.png"))));
-
-		if (Taskbar.isTaskbarSupported()) {
-			Taskbar taskbar = Taskbar.getTaskbar();
-
-			if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
-				java.awt.Image dockIcon = Toolkit.getDefaultToolkit().getImage(AstreApplication.class.getResource("icon.png"));
-				taskbar.setIconImage(dockIcon);
-			}
-		}
 	}
 }
