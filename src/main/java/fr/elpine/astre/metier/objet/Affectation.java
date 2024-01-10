@@ -13,8 +13,8 @@ public class Affectation
     private String   commentaire; // optionnel mais tjrs la au moins vide
 
     private CategorieHeure typeHeure; // ya tjrs
-    private Intervenant intervenant;
-    private Module module;
+    private final Intervenant intervenant;
+    private final Module module;
     private Integer id;
 
     private boolean ajoute;

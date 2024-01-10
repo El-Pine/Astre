@@ -69,7 +69,7 @@ public class StageAjoutIntervenant extends Stage implements Initializable
 	        if (!e.getValue()) { test = false; break; }
 
         if (test) {
-            Intervenant i = new Intervenant(
+            new Intervenant(
                     this.txtNom.getText(),
                     this.txtPrenom.getText(),
                     this.txtEmail.getText(),

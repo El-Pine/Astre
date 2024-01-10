@@ -10,11 +10,11 @@ import java.util.HashMap;
 
 public class Annee
 {
-    private String nom;
+    private final String nom;
     private Date dateDeb;
     private Date dateFin;
 
-    private ArrayList<Semestre> ensSemestre;
+    private final ArrayList<Semestre> ensSemestre;
 
     private boolean                 ajoute;
     private boolean                 supprime;

@@ -13,7 +13,7 @@ import java.net.URL;
 
 public class Manager
 {
-	private static Logger logger = LoggerFactory.getLogger(Manager.class);
+	private static final Logger logger = LoggerFactory.getLogger(Manager.class);
 
 	public static <T> T creer( String fxml ) {
 		return Manager.creer( fxml, null );

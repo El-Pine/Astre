@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class StageAjoutAffectation extends Stage implements Initializable
@@ -50,7 +49,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
     @FXML
     private void onBtnAjouter()
     {
-        Affectation aff = null;
+        Affectation aff;
         if(rbHP.isSelected() && cbIntervenant.getValue()!=null && !txtNbHeure.getText().isEmpty())
         {
             aff = new Affectation(this.module, cbIntervenant.getValue(),this.catHp, Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );

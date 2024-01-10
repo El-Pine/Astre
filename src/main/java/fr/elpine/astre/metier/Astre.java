@@ -14,18 +14,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Astre
 {
-    private static Logger     logger = LoggerFactory.getLogger(Astre.class);
+    private static final Logger     logger = LoggerFactory.getLogger(Astre.class);
 
     private Annee anneeActuelle;
 
-    private ArrayList<Annee>    ensAnnee;
-    private ArrayList<Intervenant> ensIntervenant;
-    private ArrayList<CategorieHeure> ensCategorieHeure;
-    private ArrayList<CategorieIntervenant> ensCategorieIntervenant;
+    private final ArrayList<Annee>    ensAnnee;
+    private final ArrayList<Intervenant> ensIntervenant;
+    private final ArrayList<CategorieHeure> ensCategorieHeure;
+    private final ArrayList<CategorieIntervenant> ensCategorieIntervenant;
 
 
     public Astre ( Controleur ctrl )
@@ -419,7 +418,7 @@ public class Astre
         System.out.println(fichier.getPath());
         while (fichier.exists() || !fichier.getPath().endsWith(".csv")) {
             nomFichierCSV =  demanderNouveauNom(nomFichierCSV);
-            if (nomFichierCSV.equals("")) return "0"; // Si l'utilisateur annule
+            if (nomFichierCSV.isEmpty()) return "0"; // Si l'utilisateur annule
             fichier = new File(nomDossier + "/" + nomFichierCSV);
 
         }

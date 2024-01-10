@@ -2,27 +2,18 @@ package fr.elpine.astre.ihm.stage;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.AstreApplication;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 
 public class StageAffichageCSV extends Stage {
 
@@ -67,16 +58,11 @@ public class StageAffichageCSV extends Stage {
     }
 
     public static ArrayList<String> listerFichiers() {
-        ArrayList<String> fichiers = new ArrayList<String>();
+        ArrayList<String> fichiers = new ArrayList<>();
         File repertoire = new File("Export/CSV");
 
         if (repertoire.isDirectory()) {
-            File[] files = repertoire.listFiles( new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.endsWith(".csv");
-                }
-            });
+            File[] files = repertoire.listFiles((dir, name) -> name.endsWith(".csv"));
 
             if (files != null) {
                 for (File file : files) {
@@ -92,23 +78,23 @@ public class StageAffichageCSV extends Stage {
 
     public ArrayList<String[]> lireCSV(String cheminFichierCSV ) {
         try (CSVReader reader = new CSVReader(new FileReader("Export/CSV/" + cheminFichierCSV))) {
-            ArrayList<String[]> alLigne = new ArrayList<String[]>();
+            ArrayList<String[]> alLigne = new ArrayList<>();
             String[] ligne;
             reader.readNext();
             while ((ligne = reader.readNext()) != null) {
                 alLigne.add(ligne);
             }
             return alLigne;
-        } catch (IOException | CsvValidationException e) { return new ArrayList<String[]>(); }
+        } catch (IOException | CsvValidationException e) { return new ArrayList<>(); }
 
     }
 
-    public void onBtnClickAnnuler(ActionEvent actionEvent)
+    public void onBtnClickAnnuler()
     {
         this.close();
     }
 
-    public void onBtnRechercher(ActionEvent actionEvent) {
+    public void onBtnRechercher() {
         String recherche = txtFieldRecherche.getText();
 
         ArrayList<String[]> ensTemp = new ArrayList<>();
@@ -140,16 +126,12 @@ public class StageAffichageCSV extends Stage {
 
     public void setFichier(String fichier)
     {
-        String nomAnnee = Controleur.get().getMetier().getAnneeActuelle().getNom();
-
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
 
         this.cbNomAnnee.setItems(FXCollections.observableArrayList(listerFichiers()));
         this.cbNomAnnee.setValue(fichier);
-        this.cbNomAnnee.valueProperty().addListener((observable, oldValue, newValue) -> {
-            this.tabAffCsv.setItems(this.listeToObservable(this.lireCSV(this.cbNomAnnee.getValue())));
-        });
+        this.cbNomAnnee.valueProperty().addListener((observable, oldValue, newValue) -> this.tabAffCsv.setItems(this.listeToObservable(this.lireCSV(this.cbNomAnnee.getValue()))));
 
         this.alDonnees = this.lireCSV(fichier);
 

@@ -3,7 +3,6 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -32,7 +31,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
         this.setResizable(false);
     }
 
-    public void onBtnValider(ActionEvent actionEvent)
+    public void onBtnValider()
     {
         if ( !this.estValide ) { return; }
         String  nom      = txtfNonAnnee.getText();
@@ -54,9 +53,9 @@ public class StageAjouterAnnee extends Stage implements Initializable
         this.close();
     }
 
-    private void creerFormatter(String regex, TextField txtf) {
+    private void creerFormatter(TextField txtf) {
         txtf.setTextFormatter(new TextFormatter<>(change -> {
-            Pattern pattern = Pattern.compile(regex);
+            Pattern pattern = Pattern.compile("^(\\d{4})-(\\d{4}).*$");
             Matcher matcher = pattern.matcher(change.getControlNewText());
 
             if (matcher.find() && Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1) {
@@ -86,7 +85,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
         this.setHeight( this.getMinHeight() );
         this.estValide = false;
 
-        this.creerFormatter("^(\\d{4})-(\\d{4}).*$", this.txtfNonAnnee);
+        this.creerFormatter(this.txtfNonAnnee);
 
         dateDebut.setShowWeekNumbers(true);
         dateFin  .setShowWeekNumbers(true);

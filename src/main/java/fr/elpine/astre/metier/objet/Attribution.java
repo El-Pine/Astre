@@ -11,8 +11,8 @@ public class Attribution
     private Fraction nbHeure;
     private Integer  nbSemaine;
 
-    private Module module;
-    private CategorieHeure catHr;
+    private final Module module;
+    private final CategorieHeure catHr;
 
     private boolean                 ajoute;
     private boolean                 supprime;
@@ -29,7 +29,7 @@ public class Attribution
         this.catHr     = catHr;
 
         if (module != null) module.ajouterAttribution(this);
-        if (catHr  != null) catHr .ajouterAttribution(this);
+        catHr .ajouterAttribution(this);
 
         this.ajoute = Controleur.get().getMetier() != null;
         this.modifie = false;

@@ -1,21 +1,14 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StageEtats extends Stage implements Initializable {
-    //private Stage stage;
-
     public StageEtats() // fxml -> "etats"
     {
         this.setTitle("Etats");
@@ -54,31 +47,30 @@ public class StageEtats extends Stage implements Initializable {
     }*/
 
     @FXML
-    protected void onBtnClickEtatIntervenant() throws IOException
-    {
+    protected void onBtnClickEtatIntervenant() {
         StageGeneration stage = Manager.creer("generation", this);
 
+        assert stage != null;
         stage.setVue("intervenant");
         stage.showAndWait();
-        //StageGeneration.creer("intervenant").show();
     }
 
-    public void onBtnClickEtatModule(ActionEvent actionEvent) throws IOException {
+    public void onBtnClickEtatModule() {
         StageGeneration stage = Manager.creer("generation", this);
 
+        assert stage != null;
         stage.setVue("module");
         stage.showAndWait();
         //StageGeneration.creer("module").show();
     }
 
-    public void onBtnClickEtatCSV(ActionEvent actionEvent) throws IOException {
+    public void onBtnClickEtatCSV() {
         String nomAnnee = Controleur.get().getMetier().getAnneeActuelle().getNom();
         String fichier = Controleur.get().getMetier().getDonneesCSV( nomAnnee );
         if ( fichier.equals("0") ) {
             PopUp.warning("Erreur de génération","Erreur de génération","Les données n'ont pas pus être récupéré");
         }
         else if ( PopUp.confirmationR("Fichier CSV","Fichier CSV généré","Le fichier CSV a bien été généré voulez vous l'ouvrir ?") ) {
-            //StageAffichageCSV.creer(nomAnnee).show();
             StageAffichageCSV stage = Manager.creer("affichageCSV");
             stage.setFichier(fichier);
             stage.showAndWait();
@@ -86,7 +78,7 @@ public class StageEtats extends Stage implements Initializable {
 
     }
 
-    public void onBtnClickEtatAnnuler(ActionEvent actionEvent) throws IOException{
+    public void onBtnClickEtatAnnuler() {
         this.close();
         //StagePrincipal.creer().show();
     }

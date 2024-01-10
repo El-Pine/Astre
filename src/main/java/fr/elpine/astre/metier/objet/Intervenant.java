@@ -18,7 +18,7 @@ public class Intervenant
     private Fraction ratioTP;
 
     private CategorieIntervenant   categorie;
-    private ArrayList<Affectation> ensAffectation;
+    private final ArrayList<Affectation> ensAffectation;
 
     private boolean ajoute;
     private boolean supprime;

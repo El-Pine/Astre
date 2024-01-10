@@ -82,7 +82,7 @@ public class StageInitBd extends Stage implements Initializable
         this.textFields.add(this.txtfBdd);
     }
 
-    public void onBtnValider(ActionEvent actionEvent)
+    public void onBtnValider()
     {
         String ip          = txtfIp   .getText();
         String port        = txtfPort .getText();

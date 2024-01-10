@@ -5,15 +5,11 @@ import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
 import javafx.application.Application;
 
-import javax.swing.*;
-import java.awt.*;
-import java.net.URL;
-
 public class Controleur
 {
     private static Controleur ctrl;
 
-    private DB    db;
+    private final DB    db;
     private Astre astre;
 
     private Controleur()

@@ -3,18 +3,13 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.metier.objet.Annee;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -60,48 +55,42 @@ public class StagePrincipal extends Stage implements Initializable
 	private void setStage(Stage stage) { this.stage = stage; }*/
 
 	@FXML
-	protected void onBtnClickParametre() throws IOException {
-		//stage.close();
-		//StageAccueilConfig.creer().show();
+	protected void onBtnClickParametre() {
 		Stage stage = Manager.creer("accueilConfig", this);
 
-		stage.showAndWait();
+        assert stage != null;
+        stage.showAndWait();
 	}
 
 	@FXML
-	protected void onBtnClickPrevisionnel() throws IOException {
-		//stage.close();
-		//StagePrevisionnel.creer().show();
+	protected void onBtnClickPrevisionnel() {
 		Stage stage = Manager.creer("previsionnel", this);
 
-		stage.showAndWait();
+        assert stage != null;
+        stage.showAndWait();
 	}
 
 	@FXML
-	protected void onBtnClickIntervenant() throws IOException {
-		//stage.close();
-		//StageIntervenant.creer().show();
+	protected void onBtnClickIntervenant() {
 		Stage stage = Manager.creer("intervenant", this);
 
-		stage.showAndWait();
+        assert stage != null;
+        stage.showAndWait();
 	}
 
 	@FXML
-	protected void onBtnClickEtat() throws IOException
-	{
-		//this.stage.close();
-		//StageEtats.creer().show();
+	protected void onBtnClickEtat() {
 		Stage stage = Manager.creer("etats", this);
 
-		stage.showAndWait();
+        assert stage != null;
+        stage.showAndWait();
 	}
 
-	public void onBtnClickAnnee(ActionEvent actionEvent) throws IOException {
-		//this.stage.close();
-		//StageAnnee.creer().show();
+	public void onBtnClickAnnee() {
 		Stage stage = Manager.creer("saisieAnnee", this);
 
-		stage.showAndWait();
+        assert stage != null;
+        stage.showAndWait();
 
 		this.refresh();
 	}

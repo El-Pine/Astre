@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -30,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class StageGeneration extends Stage implements Initializable
 {
-    private ArrayList<Object> checkedObjects;
+    private final ArrayList<Object> checkedObjects;
 
     private ObservableList<Object> ens;
 
@@ -214,33 +213,33 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("            padding: 15px;\n");
         htmlContent.append("        }\n");
         htmlContent.append("    </style>\n");
-        htmlContent.append("    <title>"+ i.getPrenom() +" - " + i.getNom() +" </title>\n");
+        htmlContent.append("    <title>").append(i.getPrenom()).append(" - ").append(i.getNom()).append(" </title>\n");
         htmlContent.append("</head>\n");
         htmlContent.append("<body>\n");
         htmlContent.append("    <nav>\n");
         htmlContent.append("        <div>\n");
-        htmlContent.append("            <h1>"+ i.getPrenom() +" " + i.getNom() +"</h1> <!--Nom prenom prof-->\n");
-        htmlContent.append("            <h2>"+i.getCategorie().getNom()+"</h2> <!--Statut -->\n");
+        htmlContent.append("            <h1>").append(i.getPrenom()).append(" ").append(i.getNom()).append("</h1> <!--Nom prenom prof-->\n");
+        htmlContent.append("            <h2>").append(i.getCategorie().getNom()).append("</h2> <!--Statut -->\n");
         htmlContent.append("        </div>\n");
-        htmlContent.append("        <h1>"+annee.getNom()+"</h1> <!-- Années -->\n");
+        htmlContent.append("        <h1>").append(annee.getNom()).append("</h1> <!-- Années -->\n");
         htmlContent.append("    </nav>\n");
         // boucle semestres
         htmlContent.append("    <div class=\"box-semestres\"> <!--Boucle de semestres ici !!!!!!!!!!!!!!!!!!!!!!! -->\n");
         for (Semestre s : semestres.keySet())
         {
             htmlContent.append("        <div>\n");
-            htmlContent.append("            <h2>Semestre "+s.getNumero()+"</h2> <!--Numero semestre -->\n");
+            htmlContent.append("            <h2>Semestre ").append(s.getNumero()).append("</h2> <!--Numero semestre -->\n");
             // boucle categories heures
             for(Module m : semestres.get(s).keySet())
             {
                 // nom du module
                 htmlContent.append("            <div class=\"box-md\"> \n");
-                htmlContent.append("               <p style=\"color:"+m.getCouleurF()+";\">"+ m.getNom()+"</p>");
+                htmlContent.append("               <p style=\"color:").append(m.getCouleurF()).append(";\">").append(m.getNom()).append("</p>");
                 // boucle categories heures
                 for(CategorieHeure ch : semestres.get(s).get(m).keySet())
                 {
                     // nom de la categorie heure
-                    htmlContent.append("                <p>"+ch.getNom()+" : "+ Fraction.simplifyDouble(semestres.get(s).get(m).get(ch), true)+" h</p>\n");
+                    htmlContent.append("                <p>").append(ch.getNom()).append(" : ").append(Fraction.simplifyDouble(semestres.get(s).get(m).get(ch), true)).append(" h</p>\n");
                 }
                 htmlContent.append("            </div>\n");
             }
@@ -281,7 +280,7 @@ public class StageGeneration extends Stage implements Initializable
             // si  la hashmap de la categorie heure est double dans intervenants existe pas pour l'intervenant de l'affectation alors on l'a créer
             if(!intervenants.containsKey(a.getIntervenant()))
             {
-                intervenants.put(a.getIntervenant(),new HashMap<CategorieHeure,Double>());
+                intervenants.put(a.getIntervenant(), new HashMap<>());
             }
             // si la categorie heure de l'affectation n'existe pas dans la hashmap de l'intervenant alors on l'a créer
             if(!intervenants.get(a.getIntervenant()).containsKey(a.getTypeHeure()))
@@ -351,24 +350,24 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("            padding: 15px;\n");
         htmlContent.append("        }\n");
         htmlContent.append("    </style>\n");
-        htmlContent.append("    <title>"+mod.getCode()+ " - " +mod.getNom()+"</title>\n");
+        htmlContent.append("    <title>").append(mod.getCode()).append(" - ").append(mod.getNom()).append("</title>\n");
         htmlContent.append("</head>\n");
         htmlContent.append("<body>\n");
         htmlContent.append("    <nav>\n");
         htmlContent.append("        <div>\n");
-        htmlContent.append("            <h1>"+mod.getCode()+ " - " +mod.getNom()+"</h1> \n");
+        htmlContent.append("            <h1>").append(mod.getCode()).append(" - ").append(mod.getNom()).append("</h1> \n");
         htmlContent.append("        </div>\n");
-        htmlContent.append("        <h1>"+ annee.getNom()+ "</h1> <!-- Années -->\n");
+        htmlContent.append("        <h1>").append(annee.getNom()).append("</h1> <!-- Années -->\n");
         htmlContent.append("    </nav>\n");
         htmlContent.append("    <div class=\"box-semestres\"> <!--Boucle de semestres ici !!!!!!!!!!!!!!!!!!!!!!! -->\n");
         for(Intervenant i: intervenants.keySet())
         {
             htmlContent.append("        <div><!--Boucle profs iciiiiiiiiii !!!!!!!!!!!!!!!!!!!!! -->\n");
             htmlContent.append("            <div class=\"box-md\"> \n");
-            htmlContent.append("                <p style=\"color:"+mod.getCouleurF()+";\">"+ i.getNom()+ " " + i.getPrenom()+"</p> <!--On change la couleur ici-->\n");
+            htmlContent.append("                <p style=\"color:").append(mod.getCouleurF()).append(";\">").append(i.getNom()).append(" ").append(i.getPrenom()).append("</p> <!--On change la couleur ici-->\n");
             for(CategorieHeure ch : intervenants.get(i).keySet())
             {
-                htmlContent.append("                <p>"+ch.getNom()+" : "+Fraction.simplifyDouble(intervenants.get(i).get(ch), true)+" h</p>\n");
+                htmlContent.append("                <p>").append(ch.getNom()).append(" : ").append(Fraction.simplifyDouble(intervenants.get(i).get(ch), true)).append(" h</p>\n");
             }
             htmlContent.append("            </div>\n");
             htmlContent.append("        </div>\n");
@@ -399,12 +398,10 @@ public class StageGeneration extends Stage implements Initializable
             // Écriture de la chaîne HTML dans le fichier
             writer.flush();
             writer.write(htmlContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException ignored) { }
     }
 
-    public void onBtn(ActionEvent actionEvent) {
+    public void onBtn() {
         if (this.vue.equals("module"))
         {
             this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
@@ -413,9 +410,7 @@ public class StageGeneration extends Stage implements Initializable
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(folder);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) { }
 
         }
         else if(this.vue.equals("intervenant"))
@@ -426,24 +421,22 @@ public class StageGeneration extends Stage implements Initializable
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(folder);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) { }
         }
     }
 
-    public void onCheckAll(ActionEvent actionEvent) {
+    public void onCheckAll() {
         setCheckbox(true);
     }
-    public void onUnCheckAll(ActionEvent actionEvent) {
+    public void onUnCheckAll() {
         setCheckbox(false);
     }
 
-    public void onAnnuler(ActionEvent actionEvent) {
+    public void onAnnuler() {
         this.close();
     }
 
-    public void onRecherche(ActionEvent actionEvent) {
+    public void onRecherche() {
         if (this.vue.equals("module"))
         {
             // creer une recherche de modules

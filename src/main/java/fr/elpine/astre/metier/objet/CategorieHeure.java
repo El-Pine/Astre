@@ -15,10 +15,10 @@ public class CategorieHeure
     private boolean  sae;
     private boolean  ppp;
     private boolean  stage;
-    private boolean  hebdo;
+    private final boolean  hebdo;
     private String typeGroupe;
 
-    private ArrayList<Attribution> ensAttribution;
+    private final ArrayList<Attribution> ensAttribution;
 
     private boolean ajoute;
     private boolean supprime;

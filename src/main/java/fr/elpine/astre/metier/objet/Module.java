@@ -15,9 +15,9 @@ public class Module
     private Color couleur;
     private boolean validation;
 
-    private Semestre semestre;
-    private ArrayList<Attribution> ensAttribution;
-    private ArrayList<Affectation> ensAffectation;
+    private final Semestre semestre;
+    private final ArrayList<Attribution> ensAttribution;
+    private final ArrayList<Affectation> ensAffectation;
 
     private boolean ajoute;
     private boolean supprime;

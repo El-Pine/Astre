@@ -3,7 +3,6 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
-import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.Annee;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
@@ -18,7 +17,6 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StagePrevisionnel extends Stage implements Initializable
@@ -185,7 +183,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
 		{
-			for (TableView tableView : this.lstViews) tableView.getSelectionModel().clearSelection();
+			for (TableView<Module> tableView : this.lstViews) tableView.getSelectionModel().clearSelection();
 
 			initSemestre();
 		});

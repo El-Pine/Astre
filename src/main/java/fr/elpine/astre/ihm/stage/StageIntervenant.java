@@ -3,8 +3,6 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.Astre;
-import fr.elpine.astre.metier.objet.Affectation;
-import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.metier.outil.Fraction;
@@ -18,11 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StageIntervenant extends Stage implements Initializable
 {
@@ -95,7 +90,8 @@ public class StageIntervenant extends Stage implements Initializable
 	{
 		Stage stage = Manager.creer("saisieIntervenant", this);
 
-		stage.showAndWait();
+        assert stage != null;
+        stage.showAndWait();
 		this.refresh();
 	}
 
@@ -143,236 +139,222 @@ public class StageIntervenant extends Stage implements Initializable
 		for ( CategorieIntervenant catInter : ensCatInter)
 			ensNomCatInter.add(catInter.getCode());
 
-		tcCategorie.setCellFactory(column -> {
-			return new TableCell<>() {
-				final ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(ensNomCatInter));
-				{
-					comboBox.setOnAction(event -> {
-						String newValue = comboBox.getValue();
-						String oldValue = getItem();
+		tcCategorie.setCellFactory(column -> new TableCell<>() {
+            final ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(ensNomCatInter));
+            {
+                comboBox.setOnAction(event -> {
+                    String newValue = comboBox.getValue();
+                    String oldValue = getItem();
 
-						Intervenant afc = getTableView().getItems().get(getIndex());
-						if(newValue != null && !newValue.equals(oldValue))
-						{
-							afc.setCategorie(Astre.rechercherCatInter(ensCatInter, newValue));
-						}
+                    Intervenant afc = getTableView().getItems().get(getIndex());
+                    if(newValue != null && !newValue.equals(oldValue))
+                    {
+                        afc.setCategorie(Astre.rechercherCatInter(ensCatInter, newValue));
+                    }
 
-						tabAffInter.refresh();
-					});
-				}
+                    tabAffInter.refresh();
+                });
+            }
 
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						comboBox.setValue(item);
-						setGraphic(comboBox);
-					}
-				}
-			};
-		});
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    comboBox.setValue(item);
+                    setGraphic(comboBox);
+                }
+            }
+        });
 
 		tcNom      .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getNom     ()));
-		tcNom.setCellFactory(column -> {
-			return new TableCell<>() {
-				final TextField textField = new TextField();
-				{
-					creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
+		tcNom.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
 
-					textField.setOnAction(event -> {
-						String newValue = textField.getText();
-						int index = getIndex();
-						if (index >= 0 && index < getTableView().getItems().size()) {
-							Intervenant afc = getTableView().getItems().get(index);
-							afc.setNom(newValue); // Mettre à jour votre donnée
-							tabAffInter.refresh();
-						}
-					});
-				}
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Intervenant afc = getTableView().getItems().get(index);
+                        afc.setNom(newValue); // Mettre à jour votre donnée
+                        tabAffInter.refresh();
+                    }
+                });
+            }
 
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-						textField.setText(item); // Définit le texte dans le TextField
-						setGraphic(textField);
-					}
-				}
-			};
-		});
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText(item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                }
+            }
+        });
 
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
-		tcPrenom.setCellFactory(column -> {
-			return new TableCell<>() {
-				final TextField textField = new TextField();
-				{
-					creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
+		tcPrenom.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
 
-					textField.setOnAction(event -> {
-						String newValue = textField.getText();
-						int index = getIndex();
-						if (index >= 0 && index < getTableView().getItems().size()) {
-							Intervenant afc = getTableView().getItems().get(index);
-							afc.setPrenom(newValue); // Mettre à jour votre donnée
-							tabAffInter.refresh();
-						}
-					});
-				}
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Intervenant afc = getTableView().getItems().get(index);
+                        afc.setPrenom(newValue); // Mettre à jour votre donnée
+                        tabAffInter.refresh();
+                    }
+                });
+            }
 
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-						textField.setText(item); // Définit le texte dans le TextField
-						setGraphic(textField);
-					}
-				}
-			};
-		});
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText(item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                }
+            }
+        });
 
 		tcMail     .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getMail     ()));
-		tcMail.setCellFactory(column -> {
-			return new TableCell<>() {
-				final TextField textField = new TextField();
+		tcMail.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
 
-				{
-					textField.setOnAction(event -> {
-						String newValue = textField.getText();
-						int index = getIndex();
-						if (index >= 0 && index < getTableView().getItems().size()) {
-							Intervenant afc = getTableView().getItems().get(index);
-							boolean updateSuccess = afc.setMail(newValue); // Mettre à jour votre donnée
-							if (updateSuccess) {
-								tabAffInter.refresh();
-							} else {
-								textField.setText(getItem()); // Réinitialise le texte avec la valeur précédente
-							}
-						}
-					});
-				}
+            {
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Intervenant afc = getTableView().getItems().get(index);
+                        boolean updateSuccess = afc.setMail(newValue); // Mettre à jour votre donnée
+                        if (updateSuccess) {
+                            tabAffInter.refresh();
+                        } else {
+                            textField.setText(getItem()); // Réinitialise le texte avec la valeur précédente
+                        }
+                    }
+                });
+            }
 
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-						textField.setText(item); // Définit le texte dans le TextField
-						setGraphic(textField);
-					}
-				}
-			};
-		});
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText(item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                }
+            }
+        });
 
 		tcHServ    .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureService().toString() ));
-		tcHServ.setCellFactory(column -> {
-			return new TableCell<>() {
-				final TextField textField = new TextField();
-				{
-					creerFormatter(textField,"^\\d+$");
+		tcHServ.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                creerFormatter(textField,"^\\d+$");
 
-					textField.setOnAction(event -> {
-						String newValue = textField.getText();
-						int index = getIndex();
-						if (index >= 0 && index < getTableView().getItems().size()) {
-							Intervenant afc = getTableView().getItems().get(index);
-							afc.setHeureService(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
-							tabAffInter.refresh();
-						}
-					});
-				}
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Intervenant afc = getTableView().getItems().get(index);
+                        afc.setHeureService(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                        tabAffInter.refresh();
+                    }
+                });
+            }
 
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-						textField.setText(item); // Définit le texte dans le TextField
-						setGraphic(textField);
-					}
-				}
-			};
-		});
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText(item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                }
+            }
+        });
 
 		tcHMax     .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureMax().toString() ));
-		tcHMax.setCellFactory(column -> {
-			return new TableCell<>() {
-				final TextField textField = new TextField();
-				{
-					creerFormatter(textField,"^\\d+$");
+		tcHMax.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                creerFormatter(textField,"^\\d+$");
 
-					textField.setOnAction(event -> {
-						String newValue = textField.getText();
-						int index = getIndex();
-						if (index >= 0 && index < getTableView().getItems().size()) {
-							Intervenant afc = getTableView().getItems().get(index);
-							afc.setHeureMax(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
-							tabAffInter.refresh();
-						}
-					});
-				}
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Intervenant afc = getTableView().getItems().get(index);
+                        afc.setHeureMax(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                        tabAffInter.refresh();
+                    }
+                });
+            }
 
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-						textField.setText(item); // Définit le texte dans le TextField
-						setGraphic(textField);
-					}
-				}
-			};
-		});
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText(item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                }
+            }
+        });
 
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTP  ().toString() ));
-		tcRatioTP.setCellFactory(column -> {
-			return new TableCell<>() {
-				final TextField textField = new TextField();
-				{
-					textField.setOnAction(event -> {
-						String newValue = textField.getText();
-						int index = getIndex();
-						if (index >= 0 && index < getTableView().getItems().size()) {
-							Intervenant afc = getTableView().getItems().get(index);
-							afc.setRatioTP(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
-							tabAffInter.refresh();
-						}
-					});
-				}
+		tcRatioTP.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Intervenant afc = getTableView().getItems().get(index);
+                        afc.setRatioTP(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                        tabAffInter.refresh();
+                    }
+                });
+            }
 
-				@Override
-				protected void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
-					if (empty || item == null) {
-						setGraphic(null);
-						setText(null);
-					} else {
-						setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-						textField.setText(item); // Définit le texte dans le TextField
-						setGraphic(textField);
-					}
-				}
-			};
-		});
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText(item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                }
+            }
+        });
 
 		tcS1       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(1), true)));
 		tcS2       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(2), true)));

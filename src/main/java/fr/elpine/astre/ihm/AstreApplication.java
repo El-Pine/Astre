@@ -8,9 +8,6 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
-import java.awt.Taskbar.Feature;
-import java.io.IOException;
 import java.util.Objects;
 
 public class AstreApplication extends Application

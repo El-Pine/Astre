@@ -59,6 +59,7 @@ public class StageAnnee extends Stage implements Initializable
         //StageAjouterAnnee.creer( this ).show();
         Stage stage = Manager.creer("ajouterAnnee", this);
 
+        assert stage != null;
         stage.showAndWait();
         this.setCpbContrat();
     }

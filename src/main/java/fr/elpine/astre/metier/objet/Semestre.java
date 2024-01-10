@@ -1,21 +1,20 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Semestre
 {
-    private int numero   ;
+    private final int numero   ;
     private int nbGrpTD  ;
     private int nbGrpTP  ;
     private int nbEtd    ;
     private int nbSemaine;
 
-    private Annee annee;
-    private ArrayList<Module> ensModule;
+    private final Annee annee;
+    private final ArrayList<Module> ensModule;
 
     private boolean ajoute;
     private boolean supprime;
