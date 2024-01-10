@@ -10,7 +10,7 @@
             <Label text="Génération " />
             <TableView fx:id="tabGeneration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="497.0">
               <columns>
-                <TableColumn fx:id="g_1" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Nom" />
+                <TableColumn fx:id="g_1" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Nom" />
                 <TableColumn fx:id="g_2" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Selectionner" />
               </columns>
             </TableView>
