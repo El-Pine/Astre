@@ -22,6 +22,8 @@ public class StageAjouterAnnee extends Stage implements Initializable
     public DatePicker dateDebut;
     public DatePicker dateFin;
 
+    private boolean estValide;
+
     public StageAjouterAnnee() // fxml -> "ajouterAnnee"
     {
         this.setTitle("Ajouter une année");
@@ -32,6 +34,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
 
     public void onBtnValider(ActionEvent actionEvent)
     {
+        if ( !this.estValide ) { return; }
         String  nom      = txtfNonAnnee.getText();
 
         if (!Controleur.get().getMetier().existeAnnee(nom))
@@ -62,12 +65,15 @@ public class StageAjouterAnnee extends Stage implements Initializable
                 LocalDate deb = dateDebut.getValue();
                 LocalDate fin = dateFin  .getValue();
 
-                dateDebut.setValue( LocalDate.of(Integer.parseInt(matcher.group(1)), deb == null ? 1 : deb.getMonthValue(), deb == null ? 1 : deb.getDayOfMonth()) );
-                dateFin  .setValue( LocalDate.of(Integer.parseInt(matcher.group(2)), fin == null ? 1 : fin.getMonthValue(), fin == null ? 1 : fin.getDayOfMonth()) );
+                dateDebut.setValue( LocalDate.of(Integer.parseInt(matcher.group(1)), deb == null ? 9 : deb.getMonthValue(), deb == null ? 1 : deb.getDayOfMonth()) );
+                dateFin  .setValue( LocalDate.of(Integer.parseInt(matcher.group(2)), fin == null ? 7 : fin.getMonthValue(), fin == null ? 1 : fin.getDayOfMonth()) );
+                this.estValide = true;
             } else if (change.getControlNewText().isEmpty()) {
                 txtf.setStyle("");
+                this.estValide = false;
             } else {
                 txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                this.estValide = false;
             }
 
             return change;
@@ -78,6 +84,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
+        this.estValide = false;
 
         this.creerFormatter("^(\\d{4})-(\\d{4}).*$", this.txtfNonAnnee);
 
