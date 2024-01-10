@@ -7,6 +7,7 @@ module fr.elpine.astre {
 	requires org.postgresql.jdbc;
     requires com.opencsv;
 	requires ch.qos.logback.classic;
+	requires com.github.librepdf.openpdf;
 
     exports fr.elpine.astre;
 	exports fr.elpine.astre.ihm;

@@ -18,6 +18,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'ch.qos.logback:logback-classic:1.4.14'
     implementation 'com.opencsv:opencsv:5.9'
+    implementation 'com.github.librepdf:openpdf:1.3.35'
 }
 
 compileJava.options.encoding = 'UTF-8'
@@ -53,9 +54,9 @@ jlink {
         installerOptions += [
                 '--description', 'Astre Project',
                 '--app-version', '1.0',
-                '--copyright', 'Copyrigtht 2024 El Pine',
+                '--copyright', 'Copyrigtht 2024 El-Pine',
                 '--license-file', 'LICENSE',
-                '--vendor', 'El Pine'
+                '--vendor', 'El-Pine'
         ]
 
         if (org.gradle.internal.os.OperatingSystem.current().windows) {

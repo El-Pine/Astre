@@ -5,7 +5,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageGeneration">
    <children>
-      <FlowPane prefHeight="200.0" prefWidth="200.0">
+      <FlowPane prefHeight="577.0" prefWidth="584.0">
          <children>
             <Label text="Génération " />
             <TableView fx:id="tabGeneration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="497.0">
@@ -19,6 +19,7 @@
              <Button mnemonicParsing="false" onAction="#onUnCheckAll" text="Tout déselectionner " />
             <Button mnemonicParsing="false" onAction="#onAnnuler" text="Annuler" />
             <TextField fx:id="txtFieldRecherche" onAction="#onRecherche" prefWidth="130.0" promptText="Rechercher" />
+            <CheckBox fx:id="dbPdf" mnemonicParsing="false" text="PDF" />
          </children></FlowPane>
    </children>
 </AnchorPane>

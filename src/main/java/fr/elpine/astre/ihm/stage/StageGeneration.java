@@ -1,44 +1,40 @@
 package fr.elpine.astre.ihm.stage;
 
-import fr.elpine.astre.ihm.AstreApplication;
-import fr.elpine.astre.metier.objet.*;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.html.simpleparser.HTMLWorker;
+import com.lowagie.text.pdf.PdfWriter;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
-
-import java.io.IOException;
-import java.awt.Desktop;
-
-
 
 
 public class StageGeneration extends Stage implements Initializable
 {
-    //private Stage stage;
     private ArrayList<Object> checkedObjects;
 
     private ObservableList<Object> ens;
@@ -51,6 +47,7 @@ public class StageGeneration extends Stage implements Initializable
     private TableColumn<Object,Boolean>g_2;
     @FXML
     private TextField txtFieldRecherche;
+    public CheckBox dbPdf;
 
     private String vue;
 
@@ -269,8 +266,13 @@ public class StageGeneration extends Stage implements Initializable
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
 
+	    try {
+		    genererPdf( htmlContent.toString(), filePath.replace(".html", ".pdf") );
+	    } catch (IOException e) {
+		    throw new RuntimeException(e);
+	    }
 
-        System.out.println("Fichier HTML créé avec succès !");
+	    System.out.println("Fichier HTML créé avec succès !");
     }
 
     public static void genererModules(Annee annee,Module mod){
@@ -389,12 +391,19 @@ public class StageGeneration extends Stage implements Initializable
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
 
-        System.out.println("Fichier HTML créé avec succès !");
+	    try {
+		    genererPdf( htmlContent.toString(), filePath.replace(".html", ".pdf") );
+	    } catch (IOException e) {
+		    throw new RuntimeException(e);
+	    }
+
+	    System.out.println("Fichier HTML créé avec succès !");
     }
 
     public static void createHTMLFile(String htmlContent, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, StandardCharsets.UTF_8))) {
             // Écriture de la chaîne HTML dans le fichier
+            writer.flush();
             writer.write(htmlContent);
         } catch (IOException e) {
             e.printStackTrace();
@@ -456,6 +465,26 @@ public class StageGeneration extends Stage implements Initializable
             ArrayList<Intervenant> ensInter = Controleur.get().getMetier().rechercheIntervenantByText(recherche);
             ObservableList<Object> ensResult =FXCollections.observableArrayList(ensInter);
             tabGeneration.setItems(ensResult);
+        }
+    }
+
+    private static void genererPdf(String htmlCode, String pdfFilePath) throws IOException
+    {
+        try {
+            Document document = new Document(PageSize.A4);
+
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFilePath));
+
+            document.open();
+
+            HTMLWorker htmlWorker = new HTMLWorker(document);
+            htmlWorker.parse(new StringReader(htmlCode));
+
+            document.close();
+
+            System.out.println("Conversion réussie. Le fichier PDF a été créé avec succès.");
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
         }
     }
 }
