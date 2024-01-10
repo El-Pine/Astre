@@ -188,7 +188,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         this.setOnCloseRequest(e ->
         {
-            //this.futurModule.supprimer(false,true);
             Controleur.get().getMetier().rollback();
         });
     }
@@ -617,9 +616,6 @@ public class StageSaisieRessource extends Stage implements Initializable
             PopUp.error("Champ Vide", null, "Attention le champ " + champVide + " est vide.").showAndWait();
             return false;
         }
-
-        System.out.println("getText " +  txtCode.getText());
-        System.out.println("Semestre " + this.getSemestre());
         if(Controleur.get().getMetier().existeModule(this.getSemestre(), txtCode.getText()))
         {
             PopUp.error("Code déja pris", null,"Le code doit être unique").showAndWait();
@@ -876,11 +872,9 @@ public class StageSaisieRessource extends Stage implements Initializable
                     {
                         if (!newValue.equals("CM")) {
                             afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
-                            System.out.println("ça change psk pas CM");
                         } else {
                             afc.setNbGroupe(1);
                             afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
-                            System.out.println("ça change psk CM");
                         }
                     }
 
@@ -906,8 +900,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         tcSemaine.setOnEditCommit(event -> {
             // Mettez à jour les données avec la nouvelle valeur
             event.getTableView().getItems().get(event.getTablePosition().getRow()).setNbSemaine(event.getNewValue());
-            System.out.println("ça change semaine");
-            // Vous pouvez ajouter ici le code pour sauvegarder les modifications
         });
 
         tcGrp        .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe ()).asObject()  : null);
@@ -1016,7 +1008,6 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initRepartitionColumns()
     {
         this.gridPaneRepartition.getChildren().clear();
-        System.out.println(ensCatHrPresent);
         for (CategorieHeure cat : ensCatHrPresent)
         {
             ajouterColonneRepartition(cat.getNom());
@@ -1028,8 +1019,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         {
             this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbSemaine());
 
-
-            System.out.println(this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()));
             if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeure().toString());
         }
         majValeurSemaine(this.hmTxtSemaine);
@@ -1126,7 +1115,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                 }
                 else
                 {
-                    System.out.println("je suis dans ce if la ");
                     if(nom.equals("HP")) txtf.setStyle("");
                     else
                         txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");

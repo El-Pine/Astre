@@ -28,13 +28,9 @@ public class AstreApplication extends Application
 		if ( !Controleur.get().getDb().reloadDB() ) {
 			logger.warn("Informations de connexion à la base de données erronées, nouvelle saisie demandé !");
 
-			//StageInitBd.creer(null).show();
-
 			Stage stage = Manager.creer( "initDb" );
 			stage.show();
 		} else {
-			//StagePrincipal.creer().show();
-
 			Stage stage = Manager.creer( "accueil" );
 			stage.show();
 		}

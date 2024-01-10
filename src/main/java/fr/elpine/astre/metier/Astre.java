@@ -415,7 +415,6 @@ public class Astre
         }
 
         File fichier = new File(nomDossier + "/" + nomFichierCSV);
-        System.out.println(fichier.getPath());
         while (fichier.exists() || !fichier.getPath().endsWith(".csv")) {
             nomFichierCSV =  demanderNouveauNom(nomFichierCSV);
             if (nomFichierCSV.isEmpty()) return "0"; // Si l'utilisateur annule

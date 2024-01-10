@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.outil.Fraction;
@@ -265,8 +266,7 @@ public class StageGeneration extends Stage implements Initializable
 	    } catch (IOException e) {
 		    throw new RuntimeException(e);
 	    }
-
-	    System.out.println("Fichier HTML créé avec succès !");
+        PopUp.information("Création fichier HTML", null , "Le fichier HTML a été crée avec succés");
     }
 
     public static void genererModules(Annee annee,Module mod){
@@ -389,8 +389,7 @@ public class StageGeneration extends Stage implements Initializable
 	    } catch (IOException e) {
 		    throw new RuntimeException(e);
 	    }
-
-	    System.out.println("Fichier HTML créé avec succès !");
+        PopUp.information("Création fichier HTML", null , "Le fichier HTML a été crée avec succés");
     }
 
     public static void createHTMLFile(String htmlContent, String filePath) {

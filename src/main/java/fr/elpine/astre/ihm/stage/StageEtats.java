@@ -61,7 +61,6 @@ public class StageEtats extends Stage implements Initializable {
         assert stage != null;
         stage.setVue("module");
         stage.showAndWait();
-        //StageGeneration.creer("module").show();
     }
 
     public void onBtnClickEtatCSV() {
