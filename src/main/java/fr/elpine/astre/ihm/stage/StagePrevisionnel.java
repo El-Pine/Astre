@@ -123,7 +123,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		this.setChamps();
 
 		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
-
+		System.out.println("mod previsionnel : " + mod);
 		if ( mod != null )
 		{
 			StageSaisieRessource stage = Manager.creer("saisieRessource", this);
@@ -131,7 +131,6 @@ public class StagePrevisionnel extends Stage implements Initializable
 			if (stage != null)
 			{
 				stage.setSemestre(this.semestreActuel.getNumero());
-				stage.setTypeModule(mod.getTypeModule());
 				stage.setModule(mod);
 				stage.init();
 				stage.showAndWait();

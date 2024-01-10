@@ -156,7 +156,15 @@ public class StageSaisieRessource extends Stage implements Initializable
     /*-----------*/
 
     public void setSemestre( int    semestre ) { this.semestre    = semestre ;}
-    public void setModule  ( Module mod      ) { this.moduleModif = mod      ;}
+    public void setModule  ( Module mod      )
+    {
+        this.moduleModif = mod;
+        if(mod != null) {
+            this.typeModule = mod.getTypeModule();
+            txtTypeModule.setText(this.typeModule);
+        }
+
+    }
 
     public void setTypeModule(String typeModule)
     {
@@ -189,8 +197,11 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void initializeDetail()
     {
         for (CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
+        {
             if(estTypeModule(catHr))
                 this.ensCatHrPresent.add(catHr);
+        }
+
 
         initGridPn();
         initTabPan();
@@ -207,11 +218,11 @@ public class StageSaisieRessource extends Stage implements Initializable
         boolean b = false;
         if(this.typeModule != null)
         {
-            switch (this.typeModule)
+            switch (this.typeModule.toUpperCase())
             {
-                case "Ressource" -> b = catHr.estRessource();
-                case "Stage"     -> b = catHr.estStage    ();
-                case "Sae"       -> b = catHr.estSae      ();
+                case "RESSOURCE" -> b = catHr.estRessource();
+                case "STAGE"     -> b = catHr.estStage    ();
+                case "SAE"       -> b = catHr.estSae      ();
                 case "PPP"       -> b = catHr.estPpp      ();
             }
         }
@@ -557,8 +568,6 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void majAttribution(Module mod) {
         for (CategorieHeure catHr : this.ensCatHrPresent)
         {
-            System.out.println(catHr.getNom());
-            System.out.println("a " + textOrDefault(getHeurePnByCatHr(catHr.getNom().toUpperCase())));
             // Récupération des paramètres du module
             Fraction fractPn      = Fraction.valueOf(textOrDefault(getHeurePnByCatHr(catHr.getNom().toUpperCase())));
             Fraction fractNbHeure = Fraction.valueOf(textOrDefault(getNbHeureByCatHr(catHr.getNom(), false)));
@@ -737,7 +746,6 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtCode.setText(definirCode(sem));
             txtCode.setEditable(false);
         }
-
         initializeDetail();
 
         if (this.moduleModif != null)
@@ -1028,7 +1036,9 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (TextField txt: ensTxt)
         {
             String key = "TO";
-            for (CategorieHeure catHr: this.ensCatHrPresent) if(txt.getId().contains(catHr.getNom())) key = catHr.getNom().toUpperCase();
+            for (CategorieHeure catHr: this.ensCatHrPresent)
+                if(txt.getId().contains(catHr.getNom()))
+                    key = catHr.getNom().toUpperCase();
 
             if(hmTemp.containsKey(key)) hmTemp.get(key).add(txt);
             else
