@@ -1139,11 +1139,12 @@ public class StageSaisieRessource extends Stage implements Initializable
                 if (semaineList != null && pnList != null)
                 {
                     int index = Creation.indexTextFied(semaineList,pnList,repartitionList,txtf);
-                    if (index > -1 && index < pnList.size())
+
+                    if (index > -1 && (index < pnList.size() || txtf.getId().contains("Affecte")) )
                     {
                         int pnValue = 0;
-                        if(!pnList.get(index).getText().isEmpty())
-                            pnValue = Integer.parseInt(pnList.get(index).getText());
+                        if(!pnList.get(1).getText().isEmpty())
+                            pnValue = Integer.parseInt(pnList.get(1).getText());
 
                         if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue)
                         {
@@ -1156,9 +1157,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     }
                     else
                     {
-                        if(index == 2) txtf.setStyle("");
-                        else
-                            txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+                        txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                     }
                 }
                 else

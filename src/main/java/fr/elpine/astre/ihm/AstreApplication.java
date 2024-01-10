@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
+//TODO: Verifiez l'orthographe de l'application
 public class AstreApplication extends Application
 {
 	private static String theme = "cupertino-light";
