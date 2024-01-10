@@ -432,7 +432,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             if (!key.equals("TO")) {
                 for (TextField textField : value)
                 {
-                    String niveau = textField.getId().substring(5); //TODO:remplacer par la nouvelle méthode
+                    String niveau = textField.getId().substring(5);
                     if (!textField.getText().isEmpty()) {
                         switch (niveau)
                         {
@@ -636,16 +636,16 @@ public class StageSaisieRessource extends Stage implements Initializable
             flowPanes[i] = fp;
         }
 
-        flowPanes[0].getChildren().add(new Label("Nombre Semaine"));
-        TextField txtNbSemaine = Creation.creerTextField("txt" + nom + "NbSemaine");
-        flowPanes[1].getChildren().add(txtNbSemaine);
-
-        if (!(nom.equals("HP") || nom.equals("H tut") || nom.equals("H Saé")))
+        if (Astre.rechercherCatHr(this.ensCatHrPresent,nom).estHebdo())
         {
-            flowPanes[2].getChildren().add(new Label("Nombre heure / semaine"));
-            TextField txtNbHrSem = Creation.creerTextField("txt" + nom + "NbHrSem");
-            flowPanes[3].getChildren().add(txtNbHrSem);
+            flowPanes[0].getChildren().add(new Label("Nombre Semaine"));
+            TextField txtNbSemaine = Creation.creerTextField("txt" + nom + "NbSemaine");
+            flowPanes[1].getChildren().add(txtNbSemaine);
         }
+
+        flowPanes[2].getChildren().add(new Label("Nb Heure"));
+        TextField txtNbHrSem = Creation.creerTextField("txt" + nom + "NbHrSem");
+        flowPanes[3].getChildren().add(txtNbHrSem);
 
         grid.add(flowPanes[0], 0, 0);
         grid.add(flowPanes[1], 0, 1);
@@ -724,8 +724,10 @@ public class StageSaisieRessource extends Stage implements Initializable
         gridPaneRepartition.getColumnConstraints().add(new ColumnConstraints());
 
         int cpt = 0;
-        for (FlowPane fp : ensFp) {
-            gridPaneRepartition.add(fp, gridPaneRepartition.getColumnConstraints().size() - 1, cpt++);
+        int columnIndex = gridPaneRepartition.getColumnConstraints().size();
+        for (FlowPane fp : ensFp)
+        {
+            gridPaneRepartition.add(fp, columnIndex - 1, cpt++);
         }
     }
 
@@ -992,6 +994,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initRepartitionColumns()
     {
         this.gridPaneRepartition.getChildren().clear();
+        System.out.println(this.ensCatHrPresent);
         for (CategorieHeure cat : this.ensCatHrPresent)
         {
             ajouterColonneRepartition(cat.getNom());
@@ -1003,7 +1006,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         {
             this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbSemaine());
 
-            if(!att.getCatHr().getNom().equals("HP") && !att.getCatHr().getNom().toUpperCase().equals("H TUT")) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(1).setText("" + att.getNbHeure  ().toString());
+            //if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(1).setText("" + att.getNbHeure  ().toString()); //FIXME:TOut de suite
         }
         majValeurSemaine(this.hmTxtSemaine);
     }
