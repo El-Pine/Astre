@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
-// TODO : mettre des couleurs par modules
-
 public class Controleur
 {
     private static Controleur ctrl;

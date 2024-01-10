@@ -76,7 +76,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
         cbIntervenant.setItems(FXCollections.observableList(Controleur.get().getMetier().getIntervenants()));
 
         ObservableList<CategorieHeure> lst = FXCollections.observableList( new ArrayList<>() );
-        for (CategorieHeure catH : Controleur.get().getMetier().getCategorieHeures()) {
+        for (CategorieHeure catH : StageSaisieRessource.getLstCatH() ) {
             if (catH.getNom().equals("HP")) {
                 this.catHp = catH;
             } else {

@@ -56,7 +56,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     public static ObservableList<Affectation> ensAff;
 
-    public ArrayList<CategorieHeure> ensCatHrPresent;
+    public static ArrayList<CategorieHeure> ensCatHrPresent;
 
     @FXML
     public TextField txtTypeModule;
@@ -151,6 +151,8 @@ public class StageSaisieRessource extends Stage implements Initializable
             return "";
         }
     }
+
+    public static ArrayList<CategorieHeure> getLstCatH() { return StageSaisieRessource.ensCatHrPresent; }
 
     /*-----------*/
     /*   SETTER  */
