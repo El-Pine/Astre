@@ -625,7 +625,7 @@ public class DB
     //Méthode insert
     public void ajouterCategorieHeure(CategorieHeure categorieHeure)
     {
-        String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?)";
+        String req = "INSERT INTO CategorieHeure VALUES (?,?,?,?,?,?,?,?)";
         try(PreparedStatement  ps = co.prepareStatement( req ))
         {
 
@@ -645,7 +645,7 @@ public class DB
     //Méthode update
     public void majCategorieHeure(CategorieHeure catHr)
     {
-        String req = "UPDATE CategorieHeure SET eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ?, hebdo=? WHERE nom = ?";
+        String req = "UPDATE CategorieHeure SET eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ?, hebdo=?,typeGroupe=?  WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString  (1,catHr.getEquivalentTD().toString());
@@ -653,9 +653,9 @@ public class DB
             ps.setBoolean (3,catHr.estSae         ());
             ps.setBoolean (4,catHr.estStage       ());
             ps.setBoolean (5,catHr.estPpp         ());
-            ps.setString  (6,catHr.getNom         ());
-            ps.setBoolean (7,catHr.estHebdo       ());
-            ps.setString  (8, catHr.getTypeGroupe ());
+            ps.setBoolean (6,catHr.estHebdo       ());
+            ps.setString  (7,catHr.getTypeGroupe  ());
+            ps.setString  (8,catHr.getNom         ());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une catégorie d'heure", e); }

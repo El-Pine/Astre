@@ -138,6 +138,7 @@
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -155,7 +156,7 @@
                               </TextField>
                            </center>
                         </BorderPane>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
                            <left>
                               <Label BorderPane.alignment="CENTER" />
                            </left>
@@ -198,7 +199,7 @@
                               </CheckBox>
                            </children>
                         </GridPane>
-                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
                            <children>
                               <Button mnemonicParsing="false" onAction="#onBtnEnregistrerCatH" prefWidth="100.0" text="Enregistrer">
                                  <FlowPane.margin>
@@ -208,10 +209,16 @@
                               <Button mnemonicParsing="false" onAction="#onBtnAnnulerCatH" prefWidth="100.0" text="Annuler" />
                            </children>
                         </FlowPane>
-                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
                            <children>
                               <Label text="Type de Groupe : " />
                               <ComboBox fx:id="cbbTypeGroupe" prefWidth="150.0" />
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                           <children>
+                              <Label text="Equivalent TD : " />
+                              <TextField fx:id="txtfEqtdCatH" />
                            </children>
                         </FlowPane>
                      </children>

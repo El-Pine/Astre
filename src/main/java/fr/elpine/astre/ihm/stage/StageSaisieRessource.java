@@ -1003,7 +1003,9 @@ public class StageSaisieRessource extends Stage implements Initializable
         {
             this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbSemaine());
 
-            //if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(1).setText("" + att.getNbHeure  ().toString()); //FIXME:TOut de suite
+
+            System.out.println(this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()));
+            if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbHeure  ().toString());
         }
         majValeurSemaine(this.hmTxtSemaine);
     }
@@ -1099,6 +1101,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 }
                 else
                 {
+                    System.out.println("je suis dans ce if la ");
                     if(nom.equals("HP")) txtf.setStyle("");
                     else
                         txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
@@ -1140,9 +1143,9 @@ public class StageSaisieRessource extends Stage implements Initializable
         for( CategorieHeure catHr : this.ensCatHrPresent)
         {
             //Recuperation des paramètres du module
-            fractPn      = Fraction.valueOf(getHeurePnByCatHr(catHr.getNom()));
-            fractNbHeure = Fraction.valueOf(getNbHeureByCatHr(catHr.getNom(),false));
-            nbSemaine    = Integer.parseInt(getNbHeureByCatHr(catHr.getNom(),true ));
+            fractPn      = Fraction.valueOf(textOrDefault(getHeurePnByCatHr(catHr.getNom())));
+            fractNbHeure = Fraction.valueOf(textOrDefault(getNbHeureByCatHr(catHr.getNom(),false)));
+            nbSemaine    = Integer.parseInt(textOrDefault(getNbHeureByCatHr(catHr.getNom(),true )));
 
             Attribution att = new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
         }

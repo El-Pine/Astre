@@ -91,7 +91,6 @@ public class StageAccueilConfig extends Stage implements Initializable
     public void onBtnEnregistrer()
     {
         Controleur.get().getMetier().enregistrer();
-
         this.refresh();
         this.close();
     }
@@ -408,12 +407,12 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     public void enregistrerModification(CategorieHeure categorieHeure, boolean b,String s)
     {
-        switch (s)
+        switch (s.toUpperCase())
         {
-            case "Ressource" -> categorieHeure.setRessource(b);
-            case "Sae"       -> categorieHeure.setSae      (b);
-            case "Ppp"       -> categorieHeure.setPpp      (b);
-            case "Stage"     -> categorieHeure.setStage    (b);
+            case "RESSOURCE" -> categorieHeure.setRessource(b);
+            case "SAE"       -> categorieHeure.setSae      (b);
+            case "PPP"       -> categorieHeure.setPpp      (b);
+            case "STAGE"     -> categorieHeure.setStage    (b);
         }
     }
 
