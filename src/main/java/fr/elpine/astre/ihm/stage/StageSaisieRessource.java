@@ -24,6 +24,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -830,31 +831,26 @@ public class StageSaisieRessource extends Stage implements Initializable
                 ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(ensNomCatH));
 
                 {
-                    comboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-                        if ("HP".equals(newValue)) {
-                            comboBox.getItems().clear(); // Vide la liste si "HP" est sélectionné
-                        } else {
-                            comboBox.setItems(FXCollections.observableArrayList(ensNomCatH)); // Réinitialise la liste sinon
-                        }
-                    });
-
                     comboBox.setOnAction(event -> {
                         String newValue = comboBox.getValue();
                         String oldValue = getItem();
 
                         if ("HP".equals(oldValue)) {
                             event.consume(); // Annule l'édition si la valeur initiale est "HP"
+                            tableau.refresh();
                             return;
                         }
 
                         Affectation afc = getTableView().getItems().get(getIndex());
-                        if(newValue != null)
+                        if(newValue != null && !oldValue.equals(newValue))
                         {
                             if (!newValue.equals("CM")) {
                                 afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                                System.out.println("ça change psk pas CM");
                             } else {
                                 afc.setNbGroupe(1);
                                 afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                                System.out.println("ça change psk CM");
                             }
                         }
 
@@ -881,6 +877,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         tcSemaine.setOnEditCommit(event -> {
             // Mettez à jour les données avec la nouvelle valeur
             event.getTableView().getItems().get(event.getTablePosition().getRow()).setNbSemaine(event.getNewValue());
+            System.out.println("ça change semaine");
             // Vous pouvez ajouter ici le code pour sauvegarder les modifications
         });
 
@@ -896,7 +893,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                         int index = getIndex();
                         if (index >= 0 && index < getTableView().getItems().size()) {
                             Affectation afc = getTableView().getItems().get(index);
-                            afc.setNbGroupe(Integer.parseInt(newValue)); // Mettre à jour votre donnée
+                            afc.setNbGroupe(Integer.parseInt(newValue));
                             tableau.refresh();
                         }
                     });
