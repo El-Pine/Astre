@@ -2,7 +2,6 @@ package fr.elpine.astre.ihm.stage;
 
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import fr.elpine.astre.metier.objet.Module;
@@ -10,21 +9,14 @@ import fr.elpine.astre.metier.objet.Semestre;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class StagePrevisionnel extends Stage implements Initializable
@@ -69,51 +61,20 @@ public class StagePrevisionnel extends Stage implements Initializable
 		this.setMinWidth(800);
 	}
 
-	/*@FXML
-	public void onBtnCreerPpp()
-	{
-		System.out.println("jeeeeeee suiiisss daaaaaaaansss PPPPPP");
-		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
-		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
-		stage.setSemestre(num);
-		stage.setTypeModule("PPP");
-		stage.init();
-		stage.showAndWait();
-	}*/
 	@FXML
-	public void onBtnEnregistrer(ActionEvent actionEvent) throws IOException {
-		/*Annee annee = Controleur.get().getMetier().getAnneeActuelle();
-
-		ArrayList<Semestre> semestres = annee.getSemestres();
-
-		if(semestres == null) {
-			System.out.println("null");
-			semestres.add(new Semestre(1, Integer.parseInt(txtNbTD.getText()), Integer.parseInt(txtNbTP.getText()), Integer.parseInt(txtNbSemaine.getText()), Integer.parseInt(txtNbEtd.getText()), annee));
-
-		}
-		else {
-			System.out.println("non null");
-			Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
-
-			semestre.setNbEtd(Integer.parseInt(txtNbEtd.getText()));
-			semestre.setNbGrpTD(Integer.parseInt(txtNbTD.getText()));
-			semestre.setNbGrpTP(Integer.parseInt(txtNbTP.getText()));
-			semestre.setNbSemaine(Integer.parseInt(txtNbSemaine.getText()));
-
-		}*/
-
+	public void onBtnEnregistrer() {
 		this.setChamps();
 
 		Controleur.get().getMetier().enregistrer();
 		this.close();
 	}
 
-	public void onBtnFermer(ActionEvent actionEvent) {
+	public void onBtnFermer() {
 		Controleur.get().getMetier().rollback();
 		this.close();
 	}
 
-	public void onBtnCreer(ActionEvent actionEvent) {
+	public void onBtnCreer() {
 		this.setChamps();
 
 		String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
@@ -132,47 +93,8 @@ public class StagePrevisionnel extends Stage implements Initializable
 		}
 	}
 
-
-	/*@FXML
-	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException
-	{
-		System.out.println("bah ? je suis dans creer SAE ?");
-		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
-		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
-		stage.setSemestre(num);
-		stage.setTypeModule("Sae");
-		stage.init();
-		stage.showAndWait();
-	}
-
 	@FXML
-	public void onBtnCreerStage(ActionEvent actionEvent) throws IOException
-	{
-		System.out.println("je suis dans le stage mais je ne sais pas pk");
-		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
-		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
-		stage.setSemestre(num);
-		stage.setTypeModule("Stage");
-		stage.init();
-		stage.showAndWait();
-	}
-
-	@FXML
-	public void onBtnCreerRessource(ActionEvent actionEvent) throws IOException
-	{
-		StageSaisieRessource stage = Manager.creer("saisieRessource", this);
-
-		int num = pnlControlSem.getSelectionModel().getSelectedIndex() + 1;
-
-		stage.setSemestre(num);
-		stage.setTypeModule("Ressource");
-		stage.init();
-		stage.showAndWait();
-		this.refresh();
-	}*/
-
-	@FXML
-	public void onBtnSupprimer(ActionEvent actionEvent)
+	public void onBtnSupprimer()
 	{
 		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
 
@@ -190,7 +112,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 	}
 
 	@FXML
-	public void onBtnModifier(ActionEvent actionEvent)
+	public void onBtnModifier()
 	{
 		this.setChamps();
 
@@ -248,10 +170,8 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
 		{
-			/*for (TableView tableView : this.lstViews) tableView.getSelectionModel().clearSelection();
-			if (newTab != null) {
-				initSemestre();
-			}*/
+			for (TableView tableView : this.lstViews) tableView.getSelectionModel().clearSelection();
+
 			initSemestre();
 		});
 
