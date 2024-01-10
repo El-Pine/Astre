@@ -166,7 +166,11 @@ public class Astre
     public Annee getAnneeActuelle() { return this.anneeActuelle; }
     public void changerAnneeActuelle( Annee a )
     {
-        if (a == null) this.anneeActuelle = null;
+        if (a == null) {
+            this.anneeActuelle = null;
+
+            this.ensAnnee.forEach(an -> { if (!an.isSupprime()) this.anneeActuelle = an; });
+        }
         if (this.ensAnnee.contains(a)) this.anneeActuelle = a;
     }
 

@@ -38,9 +38,7 @@ public class StageAnnee extends Stage implements Initializable
 
     public void setCpbContrat()
     {
-        ArrayList<Annee>      lstAnnee     = Controleur.get().getMetier().getAnnees();
-        ObservableList<Annee> oLstNonAnnee = FXCollections.observableList( new ArrayList<>() );
-        for (Annee a : lstAnnee) if (!a.isSupprime()) oLstNonAnnee.add(a);
+        ObservableList<Annee> oLstNonAnnee = FXCollections.observableList( Controleur.get().getMetier().getAnnees() );
 
         this.cbbAnnee.setItems(oLstNonAnnee);
 
@@ -128,6 +126,7 @@ public class StageAnnee extends Stage implements Initializable
                     Controleur.get().getMetier().enregistrer();
                 }
             }
+            else Controleur.get().getMetier().enregistrer();
         }
 
         this.setCpbContrat();
