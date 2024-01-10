@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -392,7 +393,7 @@ public class StageGeneration extends Stage implements Initializable
     }
 
     public static void createHTMLFile(String htmlContent, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, StandardCharsets.UTF_8))) {
             // Écriture de la chaîne HTML dans le fichier
             writer.write(htmlContent);
         } catch (IOException e) {
@@ -401,10 +402,7 @@ public class StageGeneration extends Stage implements Initializable
     }
 
     public void onBtn(ActionEvent actionEvent) {
-
-
-
-        if(this.vue.equals("module"))
+        if (this.vue.equals("module"))
         {
             this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
             try {
@@ -429,12 +427,6 @@ public class StageGeneration extends Stage implements Initializable
                 e.printStackTrace();
             }
         }
-
-
-
-
-
-
     }
 
     public void onCheckAll(ActionEvent actionEvent) {
@@ -449,7 +441,7 @@ public class StageGeneration extends Stage implements Initializable
     }
 
     public void onRecherche(ActionEvent actionEvent) {
-        if(this.vue.equals("module"))
+        if (this.vue.equals("module"))
         {
             // creer une recherche de modules
             String recherche = txtFieldRecherche.getText();
@@ -465,10 +457,7 @@ public class StageGeneration extends Stage implements Initializable
             ObservableList<Object> ensResult =FXCollections.observableArrayList(ensInter);
             tabGeneration.setItems(ensResult);
         }
-
     }
-
-
 }
 
 
