@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -173,7 +174,7 @@ public class StageIntervenant extends Stage implements Initializable
 		tcNom.setCellFactory(column -> new TableCell<>() {
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
+                creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]+(\\(\\d+\\))?$");
 
                 textField.setOnAction(event -> {
                     String newValue = textField.getText();
@@ -380,6 +381,50 @@ public class StageIntervenant extends Stage implements Initializable
 			double s = h.get(1) + h.get(2) + h.get(3) + h.get(4) + h.get(5) + h.get(6);
 			return new SimpleStringProperty(Fraction.simplifyDouble(s, true));
 		});
+
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem duplicateItem = new MenuItem("Dupliquer");
+
+        duplicateItem.setOnAction(event -> {
+            Intervenant sltItem = tabAffInter.getSelectionModel().getSelectedItem();
+            if (sltItem != null) {
+                boolean nomCorrect;
+                String nomTemp;
+                int cpt = 1;
+                do {
+                    nomCorrect = true;
+                    nomTemp = sltItem.getNom() + " (" + cpt + ")";
+                    for (Intervenant inter : Controleur.get().getMetier().getIntervenants())
+                        if ( inter.getNom().equals(nomTemp) ) {
+                            nomCorrect = false;
+                            break;
+                        }
+                    cpt++;
+                }while(!nomCorrect);
+                System.out.println(nomTemp);
+                Intervenant duplicatedItem = new Intervenant(nomTemp,sltItem.getPrenom(),sltItem.getMail(),sltItem.getCategorie(),sltItem.getHeureService(),sltItem.getHeureMax(),sltItem.getRatioTP()); // Cloner l'élément sélectionné
+                // Ajouter l'élément cloné à la liste des données de votre TableView
+                System.out.println(duplicatedItem.getNom());
+                tabAffInter.getItems().add(duplicatedItem);
+                tabAffInter.refresh();
+            } else {
+                PopUp.error("Duplication de duplication",null,"Vous ne pouvez pas dupliquer une ligne qui n'as pas été modifié depuis sa duplication");
+            }
+        });
+
+        contextMenu.getItems().add(duplicateItem);
+
+        tabAffInter.setOnContextMenuRequested(event -> {
+            Intervenant sltItem = tabAffInter.getSelectionModel().getSelectedItem();
+            if  (!sltItem.getNom().contains("("))
+            	contextMenu.show(tabAffInter, event.getScreenX(), event.getScreenY());
+        });
+
+        tabAffInter.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                contextMenu.hide();
+            }
+        });
 
 		this.refresh();
 	}
