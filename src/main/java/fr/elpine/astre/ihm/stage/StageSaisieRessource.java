@@ -522,13 +522,14 @@ public class StageSaisieRessource extends Stage implements Initializable
     {
         Module mod = this.moduleModif != null ? this.moduleModif : this.futurModule;
 
-        majInformation(mod);
+        if(majInformation(mod))
+        {
+            if (this.moduleModif != null) majAttribution(mod);
+            else creationAttribution(mod);
 
-        if (this.moduleModif != null) majAttribution     (mod);
-        else                          creationAttribution(mod);
-
-        Controleur.get().getMetier().enregistrer();
-        this.close();
+            Controleur.get().getMetier().enregistrer();
+            this.close();
+        }
     }
 
     /*-------------------*/
@@ -588,13 +589,53 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
 
 
-    public void majInformation(Module mod)
+    public boolean majInformation(Module mod)
     {
+        txtLibelleCourt.setStyle("");
+        txtLibelleLong .setStyle("");
+        txtCode        .setStyle("");
+        if (txtLibelleLong.getText().equals("") || txtLibelleCourt.getText().equals("") || txtCode.getText().equals("")) {
+            String champVide = "";
+            TextField txt = null;
+
+            if (txtLibelleLong.getText().equals(""))
+            {
+                champVide = "Libellé Long";
+                txt = txtLibelleLong;
+
+            } else if (txtLibelleCourt.getText().equals(""))
+            {
+                champVide = "Libellé Court";
+                txt = txtLibelleCourt;
+            } else if (txtCode.getText().equals(""))
+            {
+                champVide = "Code";
+                txt = txtCode;
+            }
+            txt.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+
+            PopUp.error("Champ Vide", null, "Attention le champ " + champVide + " est vide.").showAndWait();
+            return false;
+        }
+
+        System.out.println("getText " +  txtCode.getText());
+        System.out.println("Semestre " + this.getSemestre());
+        if(Controleur.get().getMetier().existeModule(this.getSemestre(), txtCode.getText()))
+        {
+            PopUp.error("Code déja pris", null,"Le code doit être unique").showAndWait();
+            txtCode.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
+            return false;
+        }
+
         mod.setNom        ( txtLibelleLong .getText   ());
+
+
         mod.setCode       ( txtCode        .getText   ());
         mod.setAbreviation( txtLibelleCourt.getText   ());
         mod.setCouleur    ( couleur        .getValue  ());
         mod.setValidation ( cbValidation   .isSelected());
+
+        return true;
     }
 
 
@@ -739,7 +780,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         if(this.typeModule != null)
         {
             txtCode.setText(definirCode(sem));
-            txtCode.setEditable(false);
         }
         initializeDetail();
 
@@ -777,7 +817,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
             ensAff = FXCollections.observableArrayList(new ArrayList<>());
 
-            this.futurModule = new Module(txtLibelleLong.getText(),txtCode.getText(),txtLibelleCourt.getText(),txtTypeModule.getText(), couleur.getValue(), cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
+            this.futurModule = new Module(txtLibelleLong.getText(),"",txtLibelleCourt.getText(),txtTypeModule.getText(), couleur.getValue(), cbValidation.isSelected(), Controleur.get().getMetier().rechercheSemestreByNumero(Integer.parseInt(txtSemestre.getText())));
         }
     }
 

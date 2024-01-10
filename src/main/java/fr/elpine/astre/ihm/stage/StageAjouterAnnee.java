@@ -27,7 +27,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
     public StageAjouterAnnee() // fxml -> "ajouterAnnee"
     {
         this.setTitle("Ajouter une année");
-        this.setMinWidth(600);
+        this.setMinWidth(610);
         this.setMinHeight(150);
         this.setResizable(false);
     }
