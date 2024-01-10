@@ -1,5 +1,6 @@
 package fr.elpine.astre.ihm.stage;
 
+import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -44,14 +46,14 @@ public class StageAjouterCategories extends Stage implements Initializable
     @FXML
     private CheckBox cbStageCatH;
     @FXML
-    private CheckBox cbHebdo;
+    private CheckBox          cbHebdo;
     @FXML
-    private ComboBox<String> cbbTypeGroupe;
+    private ChoiceBox<String> cbbTypeGroupe;
 
 
     public StageAjouterCategories() // fxml -> "ajouterCategories"
     {
-        this.setTitle("Accueil Config");
+        this.setTitle("Ajout d'une catégorie");
         this.setMinWidth(600);
         this.setMinHeight(400);
         this.setResizable(false);
@@ -67,8 +69,10 @@ public class StageAjouterCategories extends Stage implements Initializable
         Fraction nbHServ = Fraction.valueOf( txtfNbHServCatInter.getText() );
 
         if (code.isEmpty() || nom.isEmpty() || ratioTD == null || nbHM == null || nbHServ == null) {
-            PopUp.warning("Champ Vide", null, "Erreur dans la saisie.").showAndWait();
-        } else {
+            PopUp.warning("Champ invalide", null, "Erreur dans la saisie, certains champs ne sont pas valide !").showAndWait();
+        } else if (Controleur.get().getMetier().existeCatInter(code))
+            PopUp.warning("Code indisponible", null, "Une catégorie d'intervenant portant le code '%s' existe déjà !".formatted(code)).showAndWait();
+        else {
             new CategorieIntervenant(code, nom, nbHM, nbHServ, ratioTD);
 
             this.close();
@@ -88,14 +92,16 @@ public class StageAjouterCategories extends Stage implements Initializable
         boolean c_stage    = cbStageCatH.isSelected();
         boolean c_hebdo    = cbHebdo.isSelected();
         String  c_typeGroupe = cbbTypeGroupe.getSelectionModel().getSelectedItem();
-
-
         Fraction eqtd      = Fraction.valueOf( txtfEqtdCatH.getText() );
 
         if (eqtd == null)
-            PopUp.warning("Champ Vide", null, "Erreur dans la saisie.").showAndWait();
+            PopUp.warning("Champ incorrect", null, "Le champ Equivalent TD doit être renseigné correctement !").showAndWait();
+        else if (nom.isEmpty())
+            PopUp.warning("Champ vide", null, "Vous devez préciser un nom !").showAndWait();
+        else if (Controleur.get().getMetier().existeCatHeure(nom))
+            PopUp.warning("Non indisponible", null, "Une catégorie d'heure portant le nom '%s' existe déjà !".formatted(nom)).showAndWait();
         else {
-            new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage,c_hebdo, c_typeGroupe);
+            new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage, c_hebdo, c_typeGroupe);
 
             this.close();
         }
@@ -107,14 +113,12 @@ public class StageAjouterCategories extends Stage implements Initializable
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
 
-
-        ObservableList<String> ensTypeGrp = FXCollections.observableList(new ArrayList<>(Arrays.asList("TD", "TP", "CM")));
-        cbbTypeGroupe.setItems(ensTypeGrp);
-
+        cbbTypeGroupe.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList("TD", "TP", "CM"))));
+        cbbTypeGroupe.setValue("TD");
     }
 }

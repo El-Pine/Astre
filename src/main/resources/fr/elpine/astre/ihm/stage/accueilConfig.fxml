@@ -2,9 +2,9 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 
 <TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAccueilConfig">
   <tabs>
@@ -56,7 +56,7 @@
                         <TableColumn fx:id="tcHr" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" reorderable="false" resizable="false" sortable="false" />
                       <TableColumn fx:id="tcNomHeures" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" reorderable="false" resizable="false" text="Nom" />
                       <TableColumn fx:id="tcEqtdHeures" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Eqtd" />
-                        <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" sortable="false" text="Attribution des type aux modules">
+                        <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" sortable="false" text="Attribution aux modules">
                            <columns>
                               <TableColumn fx:id="tcRessourcesHeures" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" reorderable="false" resizable="false" text="Ressource" />
                               <TableColumn fx:id="tcSaeHeures" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" reorderable="false" resizable="false" text="SAÉ" />
@@ -96,8 +96,89 @@
       <Tab text="Base de données">
           <content>
               <BorderPane>
+               <bottom>
+                <Button mnemonicParsing="false" onAction="#onBtnConfigBdd" text="Changer la configuration de la base de données" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                     </BorderPane.margin></Button>
+               </bottom>
                <center>
-                <Button mnemonicParsing="false" onAction="#onBtnConfigBdd" text="Configurer la base de données" BorderPane.alignment="CENTER" />
+                  <VBox alignment="CENTER">
+                     <children>
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefWidth="150.0" text="État :">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblState" alignment="CENTER" prefWidth="200.0" text="-">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="25.0" />
+                           </VBox.margin>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" layoutX="10.0" layoutY="116.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefWidth="150.0" text="Adresse IP :">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblIp" alignment="CENTER" prefWidth="200.0" text="-">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" layoutX="10.0" layoutY="216.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefWidth="150.0" text="Port :">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                              <Label fx:id="lblPort" alignment="CENTER" prefWidth="200.0" text="-">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" layoutX="10.0" layoutY="410.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefWidth="150.0" text="Identifiant :">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                              <Label fx:id="lblIdentifiant" alignment="CENTER" prefWidth="200.0" text="-">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" layoutX="10.0" layoutY="233.0">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefWidth="150.0" text="Base de données :">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                              <Label fx:id="lblBase" alignment="CENTER" prefWidth="200.0" text="-">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </VBox>
                </center>
             </BorderPane>
           </content>
@@ -106,14 +187,51 @@
           <content>
               <BorderPane>
                <top>
-                  <Label text="Thèmes" BorderPane.alignment="CENTER">
+                  <Label text="Thèmes de l'application" BorderPane.alignment="CENTER">
                      <font>
-                        <Font name="System Bold Italic" size="56.0" />
+                        <Font name="System Bold Italic" size="12.0" />
                      </font>
+                     <BorderPane.margin>
+                        <Insets top="15.0" />
+                     </BorderPane.margin>
                   </Label>
                </top>
                <center>
-                  <ComboBox fx:id="cbbThemes" prefWidth="150.0" BorderPane.alignment="CENTER" />
+                  <HBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <ImageView fx:id="imgSombre" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <RadioButton mnemonicParsing="false" onAction="#onThemeChange" text="Sombre">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="theme" />
+                                 </toggleGroup>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </RadioButton>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0">
+                           <children>
+                              <ImageView fx:id="imgClair" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <RadioButton mnemonicParsing="false" onAction="#onThemeChange" selected="true" text="Clair" toggleGroup="$theme">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></RadioButton>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="130.0" layoutY="10.0">
+                           <children>
+                              <ImageView fx:id="imgViolet" fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                              <RadioButton mnemonicParsing="false" onAction="#onThemeChange" text="Violet" toggleGroup="$theme">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></RadioButton>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
                </center>
             </BorderPane>
           </content>

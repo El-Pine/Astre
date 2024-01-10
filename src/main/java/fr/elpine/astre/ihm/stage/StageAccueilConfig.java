@@ -1,29 +1,43 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.Astre;
+import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StageAccueilConfig extends Stage implements Initializable
 {
-    public ComboBox<String> cbbThemes;
+    public Label lblState;
+    public Label lblIp;
+    public Label lblPort;
+    public Label lblIdentifiant;
+    public Label lblBase;
+    public ToggleGroup theme;
+    public ImageView imgSombre;
+    public ImageView imgClair;
+    public ImageView imgViolet;
 
     @FXML
     private TableView<CategorieIntervenant> tabCatInter;
@@ -435,7 +449,26 @@ public class StageAccueilConfig extends Stage implements Initializable
             }
         });
 
-        cbbThemes.setItems(FXCollections.observableArrayList(Arrays.asList("cupertino-light", "cupertino-dark", "dracula")));
+        if (Controleur.get().getDb().getStatus()) {
+            lblState.setText("Connecté");
+            lblState.setTextFill(Color.LIGHTGREEN);
+        } else {
+            lblState.setText("Déconnecté");
+            lblState.setTextFill(Color.RED);
+        }
+
+        String[] infos = DB.getInformations();
+
+        if (infos != null) {
+            this.lblIp.setText(infos[0]);
+            this.lblPort.setText(infos[1]);
+            this.lblBase.setText(infos[2]);
+            this.lblIdentifiant.setText(infos[3]);
+        }
+
+        this.imgClair.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/cupertino-light.png"))));
+        this.imgSombre.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/cupertino-dark.png"))));
+        this.imgViolet.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/dracula.png"))));
     }
 
     public void enregistrerModification(CategorieHeure categorieHeure, boolean b,String s)
@@ -493,5 +526,15 @@ public class StageAccueilConfig extends Stage implements Initializable
 
         tabCatInter .refresh();
         tabCatHeures.refresh();
+    }
+
+    public void onThemeChange(ActionEvent actionEvent) {
+        int selected = this.theme.getToggles().indexOf(this.theme.getSelectedToggle());
+
+        switch (selected) {
+            case 0  -> AstreApplication.setTheme("cupertino-dark");
+            case 2  -> AstreApplication.setTheme("dracula");
+            default -> AstreApplication.setTheme("cupertino-light");
+        }
     }
 }

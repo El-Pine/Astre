@@ -4,6 +4,7 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.outil.Fraction;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -944,5 +945,13 @@ public class DB
         catch (SQLException e) { logger.error("Erreur lors de la récupération des affectations", e); }
 
         return ensaff;
+    }
+
+    public boolean getStatus() {
+	    try {
+		    return this.co.isValid(0);
+	    } catch (SQLException e) {
+		    throw new RuntimeException(e);
+	    }
     }
 }

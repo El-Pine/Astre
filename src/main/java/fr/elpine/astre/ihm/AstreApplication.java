@@ -12,6 +12,8 @@ import java.util.Objects;
 
 public class AstreApplication extends Application
 {
+	private static String theme = "cupertino-light";
+
 	@Override
 	public void start(Stage primaryStage)
 	{
@@ -22,7 +24,7 @@ public class AstreApplication extends Application
 		* Variantes : dark & light
 		* */
 
-		Application.setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/cupertino-light.css")).toExternalForm());
+		setTheme("cupertino-light");
 
 
 		if ( !Controleur.get().getDb().reloadDB() ) {
@@ -35,6 +37,15 @@ public class AstreApplication extends Application
 			stage.show();
 		}
 	}
+
+	public static void setTheme(String t)
+	{
+		theme = t;
+
+		setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/%s.css".formatted(theme))).toExternalForm());
+	}
+
+	public static String getTheme() { return theme; }
 
 	public static void refreshIcon(Stage stage)
 	{
