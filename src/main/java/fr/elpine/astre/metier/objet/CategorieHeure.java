@@ -16,6 +16,7 @@ public class CategorieHeure
     private boolean  ppp;
     private boolean  stage;
     private boolean  hebdo;
+    private String typeGroupe;
 
     private ArrayList<Attribution> ensAttribution;
 
@@ -24,7 +25,7 @@ public class CategorieHeure
     private boolean                 modifie;
     private HashMap<String, Object> rollbackDatas;
 
-    public CategorieHeure(String nom, Fraction equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage, boolean hebdo)
+    public CategorieHeure(String nom, Fraction equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage, boolean hebdo,String typeGroupe)
     {
         this.nom           = nom;
         this.equivalentTD  = equivalentTD;
@@ -33,6 +34,7 @@ public class CategorieHeure
         this.ppp           = ppp;
         this.stage         = stage;
         this.hebdo         = hebdo;
+        this.typeGroupe    = typeGroupe;
 
         this.ensAttribution = new ArrayList<>();
 
@@ -58,6 +60,7 @@ public class CategorieHeure
     public boolean estPpp      () { return ppp;   }
     public boolean estStage    () { return stage; }
     public boolean estHebdo    () { return hebdo; }
+    public String getTypeGroupe() { return this.typeGroupe;}
 
 
 
@@ -68,6 +71,7 @@ public class CategorieHeure
     public void setSae          ( boolean estSae       ) { this.sae          = estSae       ; this.modifie = true; }
     public void setPpp          ( boolean estPpp       ) { this.ppp          = estPpp       ; this.modifie = true; }
     public void setStage        ( boolean estStage     ) { this.stage        = estStage     ; this.modifie = true; }
+    public void setTypeGroupe   (String typeGroupe)      { this.typeGroupe   = typeGroupe; this.modifie = true;}
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }

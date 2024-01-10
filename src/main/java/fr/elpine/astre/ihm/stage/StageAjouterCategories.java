@@ -5,17 +5,23 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.outil.Fraction;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class StageAjouterCategories extends Stage implements Initializable
@@ -46,6 +52,10 @@ public class StageAjouterCategories extends Stage implements Initializable
     private CheckBox cbPppCatH;
     @FXML
     private CheckBox cbStageCatH;
+    @FXML
+    private CheckBox cbHebdo;
+    @FXML
+    private ComboBox<String> cbbTypeGroupe;
 
 
     public StageAjouterCategories() // fxml -> "ajouterCategories"
@@ -85,13 +95,16 @@ public class StageAjouterCategories extends Stage implements Initializable
         boolean c_sae      = cbSaeCatH.isSelected();
         boolean c_ppp      = cbPppCatH.isSelected();
         boolean c_stage    = cbStageCatH.isSelected();
+        boolean c_hebdo    = cbHebdo.isSelected();
+        String  c_typeGroupe = cbbTypeGroupe.getSelectionModel().getSelectedItem();
+
 
         Fraction eqtd      = Fraction.valueOf( txtfEqtdCatH.getText() );
 
         if (eqtd == null)
             PopUp.warning("Champ Vide", null, "Erreur dans la saisie.").showAndWait();
         else {
-            CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage);
+            CategorieHeure cat = new CategorieHeure(nom, eqtd, ressources, c_sae, c_ppp, c_stage,c_hebdo, c_typeGroupe);
 
             this.close();
         }
@@ -107,6 +120,10 @@ public class StageAjouterCategories extends Stage implements Initializable
 
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
+
+
+        ObservableList<String> ensTypeGrp = FXCollections.observableList(new ArrayList<String>(Arrays.asList("TD","TP","CM")));
+        cbbTypeGroupe.setItems(ensTypeGrp);
 
     }
 }

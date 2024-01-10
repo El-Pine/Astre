@@ -636,6 +636,7 @@ public class DB
             ps.setBoolean(5, categorieHeure.estPpp          () );
             ps.setBoolean(6, categorieHeure.estStage        () );
             ps.setBoolean(7, categorieHeure.estHebdo        () );
+            ps.setString(8,  categorieHeure.getTypeGroupe   ());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une catégorie d'heure", e); }
@@ -654,6 +655,7 @@ public class DB
             ps.setBoolean (5,catHr.estPpp         ());
             ps.setString  (6,catHr.getNom         ());
             ps.setBoolean (7,catHr.estHebdo       ());
+            ps.setString  (8, catHr.getTypeGroupe ());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une catégorie d'heure", e); }
@@ -690,7 +692,8 @@ public class DB
                             rs.getBoolean (4 ),
                             rs.getBoolean (5 ),
                             rs.getBoolean (6 ),
-                            rs.getBoolean (7 )
+                            rs.getBoolean (7 ),
+                            rs.getString  (8)
                     ));
                 }
             }

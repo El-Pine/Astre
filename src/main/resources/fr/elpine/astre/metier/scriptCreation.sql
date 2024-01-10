@@ -50,11 +50,12 @@ CREATE TABLE CategorieHeure (
 	eqtd TEXT,
 
 	ressource BOOLEAN,
-	sae BOOLEAN,
-	ppp BOOLEAN,
-	stage BOOLEAN,
+	sae       BOOLEAN,
+	ppp       BOOLEAN,
+	stage     BOOLEAN,
 
-	hebdo BOOLEAN,
+	hebdo     BOOLEAN,
+	typeGroupe VARCHAR(2)
 );
 
 CREATE TABLE CategorieIntervenant (
