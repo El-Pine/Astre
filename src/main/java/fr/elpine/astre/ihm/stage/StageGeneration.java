@@ -133,11 +133,11 @@ public class StageGeneration extends Stage implements Initializable
 
         if (this.vue.equals("intervenant"))
         {
-            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( ((Intervenant)cellData.getValue()).getNom() ) );
+            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( String.format("%s %s", ((Intervenant)cellData.getValue()).getPrenom(), ((Intervenant)cellData.getValue()).getNom()) ) );
         }
         else if (this.vue.equals("module"))
         {
-            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( ((Module)cellData.getValue()).getCode() ) );
+            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( String.format("%s -%s", ((Module)cellData.getValue()).getCode(), ((Module)cellData.getValue()).getNom()) ) );
         }
 
         this.tabGeneration.setItems(this.ens);
