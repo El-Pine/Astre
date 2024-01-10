@@ -906,7 +906,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     int index = getIndex();
                     if (index >= 0 && index < getTableView().getItems().size()) {
                         Affectation afc = getTableView().getItems().get(index);
-                        afc.setNbGroupe(Integer.parseInt(newValue));
+                        afc.setNbSemaine(Integer.parseInt(newValue));
                         calculeAffecte();
                         tableau.refresh();
                     }
