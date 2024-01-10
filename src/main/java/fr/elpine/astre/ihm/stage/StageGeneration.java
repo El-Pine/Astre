@@ -1,10 +1,5 @@
 package fr.elpine.astre.ihm.stage;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.html.simpleparser.HTMLWorker;
-import com.lowagie.text.pdf.PdfWriter;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
@@ -208,7 +203,7 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("            display: grid;\n");
         htmlContent.append("            grid-template-columns: 1fr 1fr 1fr;\n");
         htmlContent.append("            grid-template-rows: 1fr 1fr 1fr;\n");
-        htmlContent.append("            gap: 25px 25px 25px;\n");
+        htmlContent.append("            gap: 25px 25px;\n");
         htmlContent.append("            grid-template-areas: \". . .\" \". . .\";\n");
         htmlContent.append("        }\n");
         htmlContent.append("        .box-md {\n");
@@ -240,7 +235,7 @@ public class StageGeneration extends Stage implements Initializable
             {
                 // nom du module
                 htmlContent.append("            <div class=\"box-md\"> \n");
-                htmlContent.append("               <p style=\"color:"+m.getCouleurF()+";\">"+ m.getNom()+"</p><br/>");
+                htmlContent.append("               <p style=\"color:"+m.getCouleurF()+";\">"+ m.getNom()+"</p>");
                 // boucle categories heures
                 for(CategorieHeure ch : semestres.get(s).get(m).keySet())
                 {
@@ -267,7 +262,7 @@ public class StageGeneration extends Stage implements Initializable
         createHTMLFile(htmlContent.toString(), filePath);
 
 	    try {
-		    genererPdf( htmlContent.toString(), filePath.replace(".html", ".pdf") );
+		    genererPdf( filePath, filePath.replace(".html", ".pdf") );
 	    } catch (IOException e) {
 		    throw new RuntimeException(e);
 	    }
@@ -345,7 +340,7 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("            display: grid;\n");
         htmlContent.append("            grid-template-columns: 1fr 1fr 1fr;\n");
         htmlContent.append("            grid-template-rows: 1fr 1fr 1fr;\n");
-        htmlContent.append("            gap: 25px 25px 25px;\n");
+        htmlContent.append("            gap: 25px 25px;\n");
         htmlContent.append("            grid-template-areas: \". . .\" \". . .\";\n");
         htmlContent.append("        }\n");
         htmlContent.append("        .box-md {\n");
@@ -371,7 +366,6 @@ public class StageGeneration extends Stage implements Initializable
             htmlContent.append("        <div><!--Boucle profs iciiiiiiiiii !!!!!!!!!!!!!!!!!!!!! -->\n");
             htmlContent.append("            <div class=\"box-md\"> \n");
             htmlContent.append("                <p style=\"color:"+mod.getCouleurF()+";\">"+ i.getNom()+ " " + i.getPrenom()+"</p> <!--On change la couleur ici-->\n");
-            htmlContent.append("                <br/>\n");
             for(CategorieHeure ch : intervenants.get(i).keySet())
             {
                 htmlContent.append("                <p>"+ch.getNom()+" : "+Fraction.simplifyDouble(intervenants.get(i).get(ch), true)+" h</p>\n");
@@ -392,7 +386,7 @@ public class StageGeneration extends Stage implements Initializable
         createHTMLFile(htmlContent.toString(), filePath);
 
 	    try {
-		    genererPdf( htmlContent.toString(), filePath.replace(".html", ".pdf") );
+		    genererPdf( filePath, filePath.replace(".html", ".pdf") );
 	    } catch (IOException e) {
 		    throw new RuntimeException(e);
 	    }
@@ -468,9 +462,36 @@ public class StageGeneration extends Stage implements Initializable
         }
     }
 
-    private static void genererPdf(String htmlCode, String pdfFilePath) throws IOException
+    // TODO : le loup
+    //  finir le pdf
+
+    private static void genererPdf(String htmlFilePath, String pdfFilePath) throws IOException
     {
+        // step 1: creation of a document-object
+        /*Document document = new Document();
         try {
+            // step 2:
+            // we create a writer that listens to the document
+            // and directs a PDF-stream to a file
+            PdfWriter.getInstance(document,
+                    new FileOutputStream(pdfFilePath));
+
+            // step 3: we open the document
+            document.open();
+            // step 4: we add a paragraph to the document
+            document.add(new Paragraph("Hello World"));
+
+            HtmlParser.parse(document, new FileInputStream(htmlFilePath) );
+        } catch (DocumentException de) {
+            System.err.println(de.getMessage());
+        } catch (IOException ioe) {
+            System.err.println(ioe.getMessage());
+        }*/
+
+        // step 5: we close the document
+        //document.close();
+
+        /*try {
             Document document = new Document(PageSize.A4);
 
 	        PdfWriter.getInstance(document, new FileOutputStream(pdfFilePath));
@@ -485,7 +506,7 @@ public class StageGeneration extends Stage implements Initializable
             System.out.println("Conversion réussie. Le fichier PDF a été créé avec succès.");
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
 
