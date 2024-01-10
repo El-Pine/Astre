@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 
 <BorderPane prefHeight="700.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageSaisieRessource">
    <top>
@@ -60,7 +61,10 @@
                   <TextField fx:id="txtCode" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <TextField fx:id="txtLibelleLong" prefHeight="26.0" prefWidth="300.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                   <TextField fx:id="txtLibelleCourt" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                  <ColorPicker fx:id="couleur" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <ColorPicker fx:id="couleur" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                     <value>
+                        <Color />
+                     </value></ColorPicker>
                </children>
                <GridPane.margin>
                   <Insets />
