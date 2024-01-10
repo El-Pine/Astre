@@ -365,9 +365,9 @@ public class StageGeneration extends Stage implements Initializable
         htmlContent.append("        </div>\n");
         htmlContent.append("        <h1>"+ annee.getNom()+ "</h1> <!-- Années -->\n");
         htmlContent.append("    </nav>\n");
+        htmlContent.append("    <div class=\"box-semestres\"> <!--Boucle de semestres ici !!!!!!!!!!!!!!!!!!!!!!! -->\n");
         for(Intervenant i: intervenants.keySet())
         {
-            htmlContent.append("    <div class=\"box-semestres\"> <!--Boucle de semestres ici !!!!!!!!!!!!!!!!!!!!!!! -->\n");
             htmlContent.append("        <div><!--Boucle profs iciiiiiiiiii !!!!!!!!!!!!!!!!!!!!! -->\n");
             htmlContent.append("            <div class=\"box-md\"> \n");
             htmlContent.append("                <p style=\"color:"+mod.getCouleurF()+";\">"+ i.getNom()+ " " + i.getPrenom()+"</p> <!--On change la couleur ici-->\n");
@@ -378,10 +378,10 @@ public class StageGeneration extends Stage implements Initializable
             }
             htmlContent.append("            </div>\n");
             htmlContent.append("        </div>\n");
-            htmlContent.append("    </div> \n");
 
         }
 
+        htmlContent.append("    </div> \n");
         htmlContent.append("</body>\n");
         htmlContent.append("</html>");
 
@@ -473,9 +473,9 @@ public class StageGeneration extends Stage implements Initializable
         try {
             Document document = new Document(PageSize.A4);
 
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(pdfFilePath));
+	        PdfWriter.getInstance(document, new FileOutputStream(pdfFilePath));
 
-            document.open();
+	        document.open();
 
             HTMLWorker htmlWorker = new HTMLWorker(document);
             htmlWorker.parse(new StringReader(htmlCode));
