@@ -187,9 +187,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         initializeDetail();
 
         this.setOnCloseRequest(e ->
-        {
-            Controleur.get().getMetier().rollback();
-        });
+                Controleur.get().getMetier().rollback());
     }
 
     public void initializeDetail()
@@ -593,24 +591,25 @@ public class StageSaisieRessource extends Stage implements Initializable
         txtLibelleCourt.setStyle("");
         txtLibelleLong .setStyle("");
         txtCode        .setStyle("");
-        if (txtLibelleLong.getText().equals("") || txtLibelleCourt.getText().equals("") || txtCode.getText().equals("")) {
+        if (txtLibelleLong.getText().isEmpty() || txtLibelleCourt.getText().isEmpty() || txtCode.getText().isEmpty()) {
             String champVide = "";
             TextField txt = null;
 
-            if (txtLibelleLong.getText().equals(""))
+            if (txtLibelleLong.getText().isEmpty())
             {
                 champVide = "Libellé Long";
                 txt = txtLibelleLong;
 
-            } else if (txtLibelleCourt.getText().equals(""))
+            } else if (txtLibelleCourt.getText().isEmpty())
             {
                 champVide = "Libellé Court";
                 txt = txtLibelleCourt;
-            } else if (txtCode.getText().equals(""))
+            } else if (txtCode.getText().isEmpty())
             {
                 champVide = "Code";
                 txt = txtCode;
             }
+            assert txt != null;
             txt.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
 
             PopUp.error("Champ Vide", null, "Attention le champ " + champVide + " est vide.").showAndWait();
@@ -897,9 +896,43 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         tcSemaine    .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject()  : null);
         tcSemaine.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        tcSemaine.setOnEditCommit(event -> {
-            // Mettez à jour les données avec la nouvelle valeur
-            event.getTableView().getItems().get(event.getTablePosition().getRow()).setNbSemaine(event.getNewValue());
+        tcSemaine.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                creerFormatter(textField);
+
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Affectation afc = getTableView().getItems().get(index);
+                        afc.setNbGroupe(Integer.parseInt(newValue));
+                        tableau.refresh();
+                    }
+                });
+
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    Affectation afc = getTableView().getItems().get(getIndex());
+                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP");
+                    setEditable(isHP);
+                });
+            }
+
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText("" + item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                    Affectation afc = getTableView().getItems().get(getIndex());
+                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP");
+                    setEditable(isHP);
+                }
+            }
         });
 
         tcGrp        .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe ()).asObject()  : null);
