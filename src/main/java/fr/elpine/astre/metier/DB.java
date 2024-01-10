@@ -1,6 +1,5 @@
 package fr.elpine.astre.metier;
 
-import com.opencsv.CSVWriter;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
@@ -14,11 +13,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Properties;
 
 public class DB
 {
-    private static Logger logger = LoggerFactory.getLogger(DB.class);
+    private static final Logger logger = LoggerFactory.getLogger(DB.class);
 
     private Connection co;
 
@@ -787,6 +785,7 @@ public class DB
                                 catHr
                         ));
                     } else {
+                        assert catHr != null;
                         ensAttribution.add( new Attribution(
                                 fPN,
                                 f,
