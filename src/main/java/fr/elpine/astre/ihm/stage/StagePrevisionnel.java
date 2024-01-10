@@ -29,7 +29,6 @@ import java.util.ResourceBundle;
 
 public class StagePrevisionnel extends Stage implements Initializable
 {
-	private HashMap< Integer, ObservableList<Module> > lstModule;
 	private ArrayList< TableView<Module> > lstViews;
 
 	@FXML
@@ -54,55 +53,23 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@FXML
 	private TextField txtNbSemaine;
 
-	@FXML
-	private Button btnEnregistrer;
+	public ChoiceBox<String> selectedModuleType;
 
 	@FXML
 	private TabPane pnlControlSem;
 
-	//private Stage stage;
+	private Semestre semestreActuel;
+	private TableView<Module> viewActuel;
 
 
 	public StagePrevisionnel() // fxml -> "previsionnel"
 	{
-		this.setTitle("Previsions");
+		this.setTitle("Prévisionnel");
 		this.setMinHeight(450);
 		this.setMinWidth(800);
 	}
 
-	/*public static Stage creer() throws IOException
-	{
-		Stage stage = new Stage();
-
-		AstreApplication.refreshIcon(stage);
-
-		FXMLLoader fxmlLoader = new FXMLLoader(StagePrevisionnel.class.getResource("previsionnel.fxml"));
-
-		Scene scene = new Scene(fxmlLoader.load());
-		stage.setMinHeight(400);
-		stage.setMinWidth(800);
-		stage.setTitle("Previsions");
-		stage.setScene(scene);
-
-		StagePrevisionnel stageCtrl = fxmlLoader.getController();
-		if (stageCtrl != null) stageCtrl.setStage(stage);
-
-		stage.setOnCloseRequest(e -> {
-			try {
-				Controleur.get().getMetier().rollback();
-				StagePrincipal.creer().show();
-			} catch (IOException ignored) {
-			}
-		});
-
-		return stage;
-	}
-
-	private void setStage(Stage stage) {
-		this.stage = stage;
-	}*/
-
-	@FXML
+	/*@FXML
 	public void onBtnCreerPpp()
 	{
 		System.out.println("jeeeeeee suiiisss daaaaaaaansss PPPPPP");
@@ -112,10 +79,10 @@ public class StagePrevisionnel extends Stage implements Initializable
 		stage.setTypeModule("PPP");
 		stage.init();
 		stage.showAndWait();
-	}
+	}*/
 	@FXML
 	public void onBtnEnregistrer(ActionEvent actionEvent) throws IOException {
-		Annee annee = Controleur.get().getMetier().getAnneeActuelle();
+		/*Annee annee = Controleur.get().getMetier().getAnneeActuelle();
 
 		ArrayList<Semestre> semestres = annee.getSemestres();
 
@@ -133,13 +100,40 @@ public class StagePrevisionnel extends Stage implements Initializable
 			semestre.setNbGrpTP(Integer.parseInt(txtNbTP.getText()));
 			semestre.setNbSemaine(Integer.parseInt(txtNbSemaine.getText()));
 
-		}
+		}*/
+
+		this.setChamps();
 
 		Controleur.get().getMetier().enregistrer();
+		this.close();
+	}
+
+	public void onBtnFermer(ActionEvent actionEvent) {
+		Controleur.get().getMetier().rollback();
+		this.close();
+	}
+
+	public void onBtnCreer(ActionEvent actionEvent) {
+		this.setChamps();
+
+		String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
+
+		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
+
+		if (stage != null)
+		{
+			stage.setSemestre(this.semestreActuel.getNumero());
+			stage.setTypeModule(type);
+			stage.init();
+
+			stage.showAndWait();
+
+			this.refresh();
+		}
 	}
 
 
-	@FXML
+	/*@FXML
 	public void onBtnCreerSae(ActionEvent actionEvent) throws IOException
 	{
 		System.out.println("bah ? je suis dans creer SAE ?");
@@ -175,23 +169,21 @@ public class StagePrevisionnel extends Stage implements Initializable
 		stage.init();
 		stage.showAndWait();
 		this.refresh();
-	}
+	}*/
 
 	@FXML
 	public void onBtnSupprimer(ActionEvent actionEvent)
 	{
-		this.lstViews.forEach(value -> {
-			if (value.getSelectionModel().getSelectedItem() != null)
-			{
-				Module mod = value.getSelectionModel().getSelectedItem();
+		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
 
-				if (PopUp.confirmationR("Suppression d'un module",null, "Etes-vous sûr de vouloir supprimer ce module : " + mod.getCode())) {
-					if (!mod.supprimer(false, true)) {
-						if (PopUp.confirmationR("Suppression d'un module",null, "Etes-vous sûr de vouloir supprimer le module '%s' ainsi que ces affectations".formatted(mod.getCode()))) mod.supprimer(true, false);
-					}
+		if ( mod != null )
+		{
+			if (PopUp.confirmationR("Suppression d'un module",null, "Êtes-vous sûr de vouloir supprimer ce module : " + mod.getCode())) {
+				if (!mod.supprimer(false, true)) {
+					if (PopUp.confirmationR("Suppression d'un module",null, "Êtes-vous sûr de vouloir supprimer le module '%s' ainsi que ces affectations".formatted(mod.getCode()))) mod.supprimer(true, false);
 				}
 			}
-		});
+		}
 
 		Controleur.get().getMetier().enregistrer();
 		this.refresh();
@@ -200,23 +192,24 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@FXML
 	public void onBtnModifier(ActionEvent actionEvent)
 	{
-		System.out.println("bah ? je suis dans modifier bizarre ?");
-		this.lstViews.forEach(value -> {
-			if(value.getSelectionModel().getSelectedIndex() != -1)
+		this.setChamps();
+
+		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
+
+		if ( mod != null )
+		{
+			StageSaisieRessource stage = Manager.creer("saisieRessource", this);
+
+			if (stage != null)
 			{
-				Module mod = value.getSelectionModel().getSelectedItem();
-				//StageSaisieRessource.creer(pnlControlSem.getSelectionModel().getSelectedIndex() + 1, mod).show();
-				StageSaisieRessource stage = Manager.creer("saisieRessource", this);
-
-
-				stage.setSemestre(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
+				stage.setSemestre(this.semestreActuel.getNumero());
 				stage.setTypeModule(mod.getTypeModule());
 				stage.setModule(mod);
 				stage.init();
 				stage.showAndWait();
 				this.refresh();
 			}
-		});
+		}
 	}
 
 	@Override
@@ -227,12 +220,14 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		this.lstViews  = new ArrayList<>(Arrays.asList(tabs1, tabs2, tabs3, tabs4, tabs5, tabs6));
 
+		initSemestre();
+
 		for (TableView<Module> view : this.lstViews)
 		{
-			TableColumn<Module,String> code       = (TableColumn<Module, String>) view.getColumns().get(0);
-			TableColumn<Module,String> liblong    = (TableColumn<Module, String>) view.getColumns().get(1);
-			TableColumn<Module,String> hahpn      = (TableColumn<Module, String>) view.getColumns().get(2);
-			TableColumn<Module,String> validation = (TableColumn<Module, String>) view.getColumns().get(3);
+			@SuppressWarnings("unchecked") TableColumn<Module,String> code       = (TableColumn<Module, String>) view.getColumns().get(0);
+			@SuppressWarnings("unchecked") TableColumn<Module,String> liblong    = (TableColumn<Module, String>) view.getColumns().get(1);
+			@SuppressWarnings("unchecked") TableColumn<Module,String> hahpn      = (TableColumn<Module, String>) view.getColumns().get(2);
+			@SuppressWarnings("unchecked") TableColumn<Module,String> validation = (TableColumn<Module, String>) view.getColumns().get(3);
 
 			code   .setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 			liblong.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getNom ()));
@@ -244,54 +239,74 @@ public class StagePrevisionnel extends Stage implements Initializable
 			));
 			validation.setCellValueFactory (cellData -> new SimpleStringProperty(
 					(cellData.getValue().estValide() ? "✔" : "❌") +
-					(cellData.getValue().getSommeAffecte() > cellData.getValue().getSommePNPromo() ? "⚠" : " ")
+					(cellData.getValue().getSommeAffecte() > cellData.getValue().getSommePNPromo() ? " ⚠" : "")
 			));
 		}
 
-		this.refresh();
+		selectedModuleType.setItems(FXCollections.observableArrayList(Arrays.asList("Ressource", "SAÉ", "Stage/Suivi", "PPP")));
+		selectedModuleType.setValue("Ressource");
 
 		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
 		{
-			resetSelection();
+			/*for (TableView tableView : this.lstViews) tableView.getSelectionModel().clearSelection();
 			if (newTab != null) {
-				initializeTextFields();
-			}
+				initSemestre();
+			}*/
+			initSemestre();
 		});
 
-		initializeTextFields();
-	}
-
-	public void resetSelection()
-	{
-		for (TableView tableView : this.lstViews)
-		{
-			tableView.getSelectionModel().clearSelection();
-		}
+		this.refresh();
 	}
 
 	public void refresh()
 	{
-		this.lstModule = new HashMap<>();
+		Annee a = Controleur.get().getMetier().getAnneeActuelle();
 
-		Controleur.get().getMetier().getAnneeActuelle().getSemestres().forEach(s -> this.lstModule.put(s.getNumero(), FXCollections.observableArrayList(s.getModules())));
+		if ( a != null )
+			a.getSemestres().forEach(s -> {
+				TableView<Module> view = this.lstViews.get(s.getNumero() - 1);
 
-		this.lstViews.forEach(view -> {
-			view.setItems(this.lstModule.get(this.lstViews.indexOf(view) + 1));
-			view.refresh();
-		});
-
+				if ( view != null ) {
+					view.setItems(FXCollections.observableArrayList(s.getModules()));
+					view.refresh();
+				}
+			});
+		else this.close();
 	}
 
-	private void initializeTextFields()
+	private void initSemestre()
 	{
-		Semestre semestre = Controleur.get().getMetier().rechercheSemestreByNumero(pnlControlSem.getSelectionModel().getSelectedIndex() + 1);
+		Annee a = Controleur.get().getMetier().getAnneeActuelle();
 
-		if (semestre != null) {
-			txtNbTD.setText("" + semestre.getNbGrpTD());
-			txtNbTP.setText("" + semestre.getNbGrpTP());
-			txtNbEtd.setText("" + semestre.getNbEtd());
-			txtNbSemaine.setText("" + semestre.getNbSemaine());
+		if ( a != null ) {
+			int numView = pnlControlSem.getSelectionModel().getSelectedIndex();
+
+			this.viewActuel     = this.lstViews.get(numView);
+			this.semestreActuel = null;
+
+			a.getSemestres().forEach(s -> {
+				if (s.getNumero() == numView + 1) this.semestreActuel = s;
+			});
+
+			if ( this.semestreActuel == null )
+				this.semestreActuel = new Semestre(numView + 1, 0, 0, 0, 0, a);
 		}
+		else this.close();
 
+		if ( this.semestreActuel != null ) {
+			Semestre s = this.semestreActuel;
+
+			txtNbTD     .setText(s.getNbGrpTD()   > 0 ? String.valueOf(s.getNbGrpTD())   : "");
+			txtNbTP     .setText(s.getNbGrpTP()   > 0 ? String.valueOf(s.getNbGrpTP())   : "");
+			txtNbEtd    .setText(s.getNbEtd()     > 0 ? String.valueOf(s.getNbEtd())     : "");
+			txtNbSemaine.setText(s.getNbSemaine() > 0 ? String.valueOf(s.getNbSemaine()) : "");
+		}
+	}
+
+	private void setChamps() {
+		if ( txtNbEtd    .getText().matches("\\d+") ) semestreActuel.setNbEtd    (Integer.parseInt(txtNbEtd    .getText()));
+		if ( txtNbTD     .getText().matches("\\d+") ) semestreActuel.setNbGrpTD  (Integer.parseInt(txtNbTD     .getText()));
+		if ( txtNbTP     .getText().matches("\\d+") ) semestreActuel.setNbGrpTP  (Integer.parseInt(txtNbTP     .getText()));
+		if ( txtNbSemaine.getText().matches("\\d+") ) semestreActuel.setNbSemaine(Integer.parseInt(txtNbSemaine.getText()));
 	}
 }

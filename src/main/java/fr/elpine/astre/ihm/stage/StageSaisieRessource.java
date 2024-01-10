@@ -730,7 +730,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void init()
     {
-        Semestre sem = Controleur.get().getMetier().getAnneeActuelle().getSemestres().get(this.semestre); // .rechercheSemestreByNumero(this.semestre);
+        Semestre sem = this.getSemestre();
 
         txtNbEtd .setText("" + sem.getNbEtd  ());
         txtNbGpTD.setText("" + sem.getNbGrpTD());
