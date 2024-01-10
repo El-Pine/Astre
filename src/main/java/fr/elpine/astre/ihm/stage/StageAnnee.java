@@ -87,10 +87,10 @@ public class StageAnnee extends Stage implements Initializable
             Matcher matcher = pattern.matcher(nom);
 
             if ( matcher.find() && !Controleur.get().getMetier().existeAnnee(nom) && Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1 ) {
-                Date debut = Date.valueOf(String.format("%s-%s-%s", matcher.group(1), dateDebDef.getDayOfMonth(), dateDebDef.getMonthValue()));
-                Date fin   = Date.valueOf(String.format("%s-%s-%s", matcher.group(2), dateFinDef.getDayOfMonth(), dateFinDef.getMonthValue()));
+                LocalDate debut = LocalDate.of(Integer.parseInt(matcher.group(1)), dateDebDef.getDayOfMonth(), dateDebDef.getMonthValue());
+                LocalDate fin   = LocalDate.of(Integer.parseInt(matcher.group(2)), dateFinDef.getDayOfMonth(), dateFinDef.getMonthValue());
 
-                an.dupliquer(nom, debut, fin);
+                an.dupliquer(nom, Date.valueOf(debut), Date.valueOf(fin));
             }
             else
                 PopUp.warning("Nom incorrect", null, "Le nom '%s' n'est pas valide.".formatted(nom)).showAndWait();
