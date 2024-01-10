@@ -50,8 +50,8 @@ public class StageGeneration extends Stage implements Initializable
     public StageGeneration() // fxml -> "generation"
     {
         this.setTitle("Generation");
-        this.setMinWidth(500);
-        this.setMinHeight(600);
+        this.setMinWidth(650);
+        this.setMinHeight(700);
 
         this.checkedObjects = new ArrayList<>();
 
