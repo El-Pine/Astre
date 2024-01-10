@@ -324,9 +324,9 @@ public class StageSaisieRessource extends Stage implements Initializable
 
             if(txt1.getId().equals("txt" + catHrTxtF.getNom() + "Promo"))
             {
-                if(catHrTxtF.getNom().equals("TP") || catHrTxtF.getNom().equals("TD"))
+                if(catHrTxtF.getTypeGroupe().equals("TD") || catHrTxtF.getTypeGroupe().equals("TP"))
                 {
-                    int valeurXgroupe = valeurSemaine * (catHrTxtF.getNom().equals("TP") ? Integer.parseInt(this.txtnbGpTP.getText()) : Integer.parseInt(this.txtNbGpTD.getText()));
+                    int valeurXgroupe = valeurSemaine * (catHrTxtF.getTypeGroupe().equals("TD") ? Integer.parseInt(this.txtNbGpTD.getText()) : Integer.parseInt(this.txtnbGpTP.getText()));
                     valeurFinal   = (int) (valeurXgroupe * catHrTxtF.getEquivalentTD().value());
                 }
                 else
@@ -591,6 +591,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         txtLibelleCourt.setStyle("");
         txtLibelleLong .setStyle("");
         txtCode        .setStyle("");
+
         if (txtLibelleLong.getText().isEmpty() || txtLibelleCourt.getText().isEmpty() || txtCode.getText().isEmpty()) {
             String champVide = "";
             TextField txt = null;
@@ -615,7 +616,12 @@ public class StageSaisieRessource extends Stage implements Initializable
             PopUp.error("Champ Vide", null, "Attention le champ " + champVide + " est vide.").showAndWait();
             return false;
         }
-        if(Controleur.get().getMetier().existeModule(this.getSemestre(), txtCode.getText()))
+
+        String s = this.moduleModif != null ? this.moduleModif.getCode() : "";
+
+        boolean b = !txtCode.getText().equals(s);
+
+        if(Controleur.get().getMetier().existeModule(this.getSemestre(), txtCode.getText()) && b)
         {
             PopUp.error("Code déja pris", null,"Le code doit être unique").showAndWait();
             txtCode.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
@@ -1032,13 +1038,23 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
-            if(!att.getCatHr().getNom().equals("HP"))
+            if(!att.getCatHr().getNom().equals("HP") && estTjrsPresent(att.getCatHr()))
             {
+                System.out.println("att.getCatHr().getNom().toUpperCase() : " + att.getCatHr().getNom().toUpperCase());
+
                 this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeurePN().toString());
 
                 String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).getText())), att.getCatHr());
                 this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(1).setText(a);
             }
+    }
+
+    public boolean estTjrsPresent(CategorieHeure catHr2)
+    {
+        for (CategorieHeure catHr: StageSaisieRessource.ensCatHrPresent)
+            if(catHr.equals(catHr2)) return true;
+        return false;
+        
     }
 
     private void initRepartitionColumns()
@@ -1053,9 +1069,12 @@ public class StageSaisieRessource extends Stage implements Initializable
     {
         for (Attribution att : mod.getAttributions())
         {
-            this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbSemaine());
+            if(estTjrsPresent(att.getCatHr()))
+            {
+                this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbSemaine());
 
-            if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeure().toString());
+                if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeure().toString());
+            }
         }
         majValeurSemaine(this.hmTxtSemaine);
     }
