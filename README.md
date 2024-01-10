@@ -1,3 +1,4 @@
 # Astre
 Administration et Suivi des Temps des Ressources d’Enseignement
-# ici ça pine
+# Installation
+Pour installé l'application executer l'installateur correspondant à votre système d'exploitation et suivez les instruction
