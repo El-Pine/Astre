@@ -22,10 +22,6 @@ public class StageAjouterAnnee extends Stage implements Initializable
     public DatePicker dateDebut;
     public DatePicker dateFin;
 
-    //private static StageAnnee parent;
-
-    //private Stage stage;
-
     public StageAjouterAnnee() // fxml -> "ajouterAnnee"
     {
         this.setTitle("Ajouter une année");
@@ -33,36 +29,6 @@ public class StageAjouterAnnee extends Stage implements Initializable
         this.setMinHeight(150);
         this.setResizable(false);
     }
-
-    /*public static Stage creer( StageAnnee parent ) throws IOException
-    {
-        Stage stage = new Stage();
-
-        AstreApplication.refreshIcon(stage);
-
-        StageAjouterAnnee.parent = parent;
-
-        FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("ajouterAnnee.fxml"));
-
-        Scene scene = new Scene(fxmlLoader.load(), 600, 100);
-
-        StageAjouterAnnee stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) {
-            stageCtrl.setStage(stage);
-            stageCtrl.creerFormatter("^(\\d{4})-(\\d{4}).*$",stageCtrl.txtfNonAnnee);
-        }
-
-        stage.setTitle("Ajouter une annee");
-        stage.setScene(scene);
-
-        stage.setOnCloseRequest(e -> {
-
-        });
-
-        return stage;
-    }
-
-    private void setStage(Stage stage) { this.stage = stage; }*/
 
     public void onBtnValider(ActionEvent actionEvent)
     {
@@ -80,7 +46,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
         }
     }
 
-    public void onBtnAnnuler(ActionEvent actionEvent)
+    public void onBtnAnnuler()
     {
         this.close();
     }
@@ -92,8 +58,12 @@ public class StageAjouterAnnee extends Stage implements Initializable
 
             if (matcher.find() && Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1) {
                 txtf.setStyle("");
-                dateDebut.setValue(LocalDate.of(Integer.parseInt(matcher.group(1)), 1, 1));
-                dateFin.setValue(LocalDate.of(Integer.parseInt(matcher.group(2)), 1, 1));
+
+                LocalDate deb = dateDebut.getValue();
+                LocalDate fin = dateFin  .getValue();
+
+                dateDebut.setValue( LocalDate.of(Integer.parseInt(matcher.group(1)), deb == null ? 1 : deb.getMonthValue(), deb == null ? 1 : deb.getDayOfMonth()) );
+                dateFin  .setValue( LocalDate.of(Integer.parseInt(matcher.group(2)), fin == null ? 1 : fin.getMonthValue(), fin == null ? 1 : fin.getDayOfMonth()) );
             } else if (change.getControlNewText().isEmpty()) {
                 txtf.setStyle("");
             } else {
@@ -110,5 +80,8 @@ public class StageAjouterAnnee extends Stage implements Initializable
         this.setHeight( this.getMinHeight() );
 
         this.creerFormatter("^(\\d{4})-(\\d{4}).*$", this.txtfNonAnnee);
+
+        dateDebut.setShowWeekNumbers(true);
+        dateFin  .setShowWeekNumbers(true);
     }
 }

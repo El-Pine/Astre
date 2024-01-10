@@ -24,7 +24,7 @@
             </Label>
          </left>
          <center>
-            <TextField fx:id="txtfNonAnnee" BorderPane.alignment="CENTER" />
+            <TextField fx:id="txtfNonAnnee" promptText="2022-2023" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
       <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">

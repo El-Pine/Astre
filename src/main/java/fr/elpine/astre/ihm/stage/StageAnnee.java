@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -73,6 +74,9 @@ public class StageAnnee extends Stage implements Initializable
     public void onBtnDupliquer() {
         Annee an = this.cbbAnnee.getValue();
 
+        LocalDate dateDebDef = an.getDateDeb().toLocalDate();
+        LocalDate dateFinDef = an.getDateFin().toLocalDate();
+
         PopUp.textInputDialog(
                 this.cbbAnnee.getValue().toString(),
                 "Dupliquer",
@@ -83,8 +87,8 @@ public class StageAnnee extends Stage implements Initializable
             Matcher matcher = pattern.matcher(nom);
 
             if ( matcher.find() && !Controleur.get().getMetier().existeAnnee(nom) && Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1 ) {
-                Date debut = Date.valueOf(String.format("%s-12-31", matcher.group(1)));
-                Date fin   = Date.valueOf(String.format("%s-12-31", matcher.group(2)));
+                Date debut = Date.valueOf(String.format("%s-%s-%s", matcher.group(1), dateDebDef.getDayOfMonth(), dateDebDef.getMonthValue()));
+                Date fin   = Date.valueOf(String.format("%s-%s-%s", matcher.group(2), dateFinDef.getDayOfMonth(), dateFinDef.getMonthValue()));
 
                 an.dupliquer(nom, debut, fin);
             }
