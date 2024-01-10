@@ -2,6 +2,8 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.metier.Astre;
+import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.outil.Fraction;
@@ -16,10 +18,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class StageAccueilConfig extends Stage implements Initializable
 {
+    public ComboBox<String> cbbThemes;
+
     @FXML
     private TableView<CategorieIntervenant> tabCatInter;
     @FXML
@@ -39,7 +44,6 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     @FXML
     private TableView<CategorieHeure>       tabCatHeures;
-
     @FXML
     private TableColumn<CategorieHeure,String >  tcNomHeures;
     @FXML
@@ -52,13 +56,15 @@ public class StageAccueilConfig extends Stage implements Initializable
     private TableColumn<CategorieHeure,Boolean> tcPppHeures;
     @FXML
     private TableColumn<CategorieHeure,Boolean> tcStageHeures;
+    public TableColumn<CategorieHeure,Boolean> tcHebdo;
+    public TableColumn<CategorieHeure,String> tcTypeGroupe;
 
 
     public StageAccueilConfig() // fxml -> "accueilConfig"
     {
-        this.setTitle("Accueil Config");
-        this.setMinWidth(850);
-        this.setMinHeight(450);
+        this.setTitle("Paramètres");
+        this.setMinWidth(900);
+        this.setMinHeight(500);
     }
 
     public void onBtnConfigBdd() {
@@ -370,6 +376,49 @@ public class StageAccueilConfig extends Stage implements Initializable
         });
 
         tcSaeHeures.setCellFactory(CheckBoxTableCell.forTableColumn(tcSaeHeures));
+        tcHebdo.setCellValueFactory(cellData -> {
+            CategorieHeure categorieHeure = cellData.getValue();
+            BooleanProperty hebdoProperty = new SimpleBooleanProperty(categorieHeure.estHebdo());
+            // Ajoute un ChangeListener à la propriété ressource
+            hebdoProperty.addListener((observable, oldValue, newValue) -> {
+                categorieHeure.setHebdo(newValue);
+                tabCatHeures.refresh();
+            });
+            return hebdoProperty;
+        });
+
+        tcHebdo.setCellFactory(CheckBoxTableCell.forTableColumn(tcHebdo));
+
+        tcTypeGroupe.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeGroupe().toUpperCase()));
+        tcTypeGroupe.setCellFactory(column -> new TableCell<>() {
+            final ChoiceBox<String> comboBox = new ChoiceBox<>(FXCollections.observableArrayList(Arrays.asList("TP", "TD", "CM")));
+            {
+                comboBox.setOnAction(event -> {
+                    String newValue = comboBox.getValue();
+                    String oldValue = getItem();
+
+                    CategorieHeure cat = getTableView().getItems().get(getIndex());
+                    if(newValue != null && !oldValue.equals(newValue))
+                    {
+                        cat.setTypeGroupe(newValue.toLowerCase());
+                    }
+
+                    tabCatHeures.refresh();
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    comboBox.setValue(item);
+                    setGraphic(comboBox);
+                }
+            }
+        });
 
         tabCatHeures.setItems( FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieHeures()) );
         tabCatHeures.setEditable(true);
@@ -385,6 +434,8 @@ public class StageAccueilConfig extends Stage implements Initializable
                 tabCatInter.getSelectionModel().clearSelection();
             }
         });
+
+        cbbThemes.setItems(FXCollections.observableArrayList(Arrays.asList("cupertino-light", "cupertino-dark", "dracula")));
     }
 
     public void enregistrerModification(CategorieHeure categorieHeure, boolean b,String s)

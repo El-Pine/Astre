@@ -15,7 +15,7 @@ public class CategorieHeure
     private boolean  sae;
     private boolean  ppp;
     private boolean  stage;
-    private final boolean  hebdo;
+    private boolean  hebdo;
     private String typeGroupe;
 
     private final ArrayList<Attribution> ensAttribution;
@@ -67,11 +67,12 @@ public class CategorieHeure
     /*  SETTER   */
 
     public void setEquivalentTD ( Fraction equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = true; }
-    public void setRessource    ( boolean estRessource ) { this.ressource    = estRessource ; this.modifie = true; }
-    public void setSae          ( boolean estSae       ) { this.sae          = estSae       ; this.modifie = true; }
-    public void setPpp          ( boolean estPpp       ) { this.ppp          = estPpp       ; this.modifie = true; }
-    public void setStage        ( boolean estStage     ) { this.stage        = estStage     ; this.modifie = true; }
-    public void setTypeGroupe   (String typeGroupe)      { this.typeGroupe   = typeGroupe; this.modifie = true;}
+    public void setRessource    ( boolean estRessource   ) { this.ressource    = estRessource ; this.modifie = true; }
+    public void setSae          ( boolean estSae         ) { this.sae          = estSae       ; this.modifie = true; }
+    public void setPpp          ( boolean estPpp         ) { this.ppp          = estPpp       ; this.modifie = true; }
+    public void setStage        ( boolean estStage       ) { this.stage        = estStage     ; this.modifie = true; }
+    public void setTypeGroupe   ( String  typeGroupe     ) { this.typeGroupe   = typeGroupe   ; this.modifie = true; }
+    public void setHebdo        ( boolean hebdo          ) { this.hebdo        = hebdo        ; this.modifie = true; }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
