@@ -112,10 +112,13 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblState" alignment="CENTER" prefWidth="200.0" text="-">
+                              <Label fx:id="lblState" prefWidth="200.0" text="-">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
                               </Label>
                            </children>
                            <VBox.margin>
@@ -129,10 +132,13 @@
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblIp" alignment="CENTER" prefWidth="200.0" text="-">
+                              <Label fx:id="lblIp" prefWidth="200.0" text="-">
                                  <font>
                                     <Font size="16.0" />
-                                 </font></Label>
+                                 </font>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding></Label>
                            </children>
                         </FlowPane>
                         <FlowPane alignment="CENTER" columnHalignment="CENTER" layoutX="10.0" layoutY="216.0">
@@ -141,10 +147,13 @@
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
-                              <Label fx:id="lblPort" alignment="CENTER" prefWidth="200.0" text="-">
+                              <Label fx:id="lblPort" prefWidth="200.0" text="-">
                                  <font>
                                     <Font size="16.0" />
-                                 </font></Label>
+                                 </font>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding></Label>
                            </children>
                            <VBox.margin>
                               <Insets bottom="15.0" />
@@ -156,10 +165,13 @@
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
-                              <Label fx:id="lblIdentifiant" alignment="CENTER" prefWidth="200.0" text="-">
+                              <Label fx:id="lblIdentifiant" prefWidth="200.0" text="-">
                                  <font>
                                     <Font size="16.0" />
-                                 </font></Label>
+                                 </font>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding></Label>
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" />
@@ -171,10 +183,13 @@
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
-                              <Label fx:id="lblBase" alignment="CENTER" prefWidth="200.0" text="-">
+                              <Label fx:id="lblBase" prefWidth="200.0" text="-">
                                  <font>
                                     <Font size="16.0" />
-                                 </font></Label>
+                                 </font>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding></Label>
                            </children>
                         </FlowPane>
                      </children>
