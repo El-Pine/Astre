@@ -12,19 +12,15 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
@@ -186,7 +182,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.setHeight( this.getMinHeight() );
         tableau.setEditable(true);
 
-        this.ensCatHrPresent = new ArrayList<>();
+        ensCatHrPresent = new ArrayList<>();
 
         initializeDetail();
 
@@ -202,7 +198,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
         {
             if(estTypeModule(catHr))
-                this.ensCatHrPresent.add(catHr);
+                ensCatHrPresent.add(catHr);
         }
 
 
@@ -284,7 +280,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         ArrayList<TextField> alAffecte = new ArrayList<>();
         for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtRepartion.entrySet())
         {
-            String key = entry.getKey();
             ArrayList<TextField> value = entry.getValue();
 
             for (TextField txt: value)
@@ -294,13 +289,13 @@ public class StageSaisieRessource extends Stage implements Initializable
         return alAffecte;
     }
 
-    private void valeurChangerSemaine(TextField txt, String newValue)
+    private void valeurChangerSemaine(TextField txt)
     {
         int valeurSemaine = 0;
-        int valeurFinal   = 0;
+        int valeurFinal;
 
         CategorieHeure catHrTxtF = null;
-        for (CategorieHeure catHr: this.ensCatHrPresent)
+        for (CategorieHeure catHr: ensCatHrPresent)
         {
             if(txt.getId().contains(catHr.getNom()))
             {
@@ -308,13 +303,14 @@ public class StageSaisieRessource extends Stage implements Initializable
             }
         }
 
+        assert catHrTxtF != null;
         if (this.hmTxtSemaine.containsKey(catHrTxtF.getNom().toUpperCase()) &&
                 !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).isEmpty() &&
                 !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).get(0).getText().isEmpty()) {
 
             int a;
-            if (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1 && !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().equals("")) {
-                a = catHrTxtF.getNom().toUpperCase().equals("HP") ? 1 : Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText());
+            if (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1 && !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty()) {
+                a = catHrTxtF.getNom().equalsIgnoreCase("HP") ? 1 : Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText());
             } else {
                 // Si le HashMap contient seulement un élément, utilisez une valeur par défaut ou une autre logique selon vos besoins.
                 a = 1;  // Vous pouvez choisir une autre valeur par défaut si nécessaire.
@@ -347,13 +343,14 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     }
 
-    private void valeurChangerPn(TextField txt, String newValue)
+    private void valeurChangerPn(TextField txt)
     {
         CategorieHeure catHrTxtF = null;
-        for (CategorieHeure catHr: this.ensCatHrPresent)
+        for (CategorieHeure catHr: ensCatHrPresent)
             if(txt.getId().contains(catHr.getNom())) catHrTxtF = catHr;
 
 
+        assert catHrTxtF != null;
         if(!catHrTxtF.getNom().equals("TO"))
         {
             for (TextField txt1 : this.hmTxtPn.get(catHrTxtF.getNom().toUpperCase())) {
@@ -408,25 +405,18 @@ public class StageSaisieRessource extends Stage implements Initializable
             ArrayList<TextField> value = entry.getValue();
             for (TextField txt : value)
             {
-                valeurChangerSemaine(txt, txt.getText());
+                valeurChangerSemaine(txt);
             }
         }
     }
 
 
 
-    private void valeurChangerRepart(TextField txt, String newValue)
+    private void valeurChangerRepart()
     {
-        String txtTypeHeure = txt.getId().substring(3, 5);
-
-        String txtNiveauCase = txt.getId().substring(6);
-
         int total = 0;
         int totalPromo = 0;
         int totalAffecte = 0;
-
-        // Liste pour simplifier l'itération
-        List<String> niveaux = Arrays.asList("Repartition", "Promo", "Affecte");
 
         for (Map.Entry<String, ArrayList<TextField>> entry : hmTxtRepartion.entrySet()) {
             String key = entry.getKey();
@@ -502,7 +492,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
 
     @FXML
-    protected void onBtnAjouter(ActionEvent e) throws IOException
+    protected void onBtnAjouter() throws IOException
     {
         StageAjoutAffectation stage = Manager.creer("ajoutAffectation", this);
 
@@ -517,7 +507,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     }
 
     @FXML
-    protected void onBtnSupprimer(ActionEvent e)
+    protected void onBtnSupprimer()
     {
         Affectation affectation = tableau.getSelectionModel().getSelectedItem();
         if(affectation != null && PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de supprimer ce module Ressource ?")) {
@@ -569,7 +559,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     /*----------------*/
 
     public void majAttribution(Module mod) {
-        for (CategorieHeure catHr : this.ensCatHrPresent)
+        for (CategorieHeure catHr : ensCatHrPresent)
         {
             // Récupération des paramètres du module
             Fraction fractPn      = Fraction.valueOf(textOrDefault(getHeurePnByCatHr(catHr.getNom().toUpperCase())));
@@ -592,7 +582,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             // Si aucune attribution n'a été trouvée, crée une nouvelle attribution
             if (!attributionExistante)
             {
-                Attribution nouvelleAttribution = new Attribution(fractPn,fractNbHeure,nbSemaine,mod,catHr);
+                new Attribution(fractPn,fractNbHeure,nbSemaine,mod,catHr);
             }
         }
     }
@@ -613,7 +603,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (TextField txt : alAffecte)
         {
             String typeHeure = "";
-            for (CategorieHeure catHr: this.ensCatHrPresent)
+            for (CategorieHeure catHr: ensCatHrPresent)
                 if(txt.getId().contains(catHr.getNom())) typeHeure = catHr.getNom().toUpperCase();
 
             if (hmAffecte.containsKey(typeHeure)) txt.setText( ""+(int) Math.round(hmAffecte.get(typeHeure)) );
@@ -639,7 +629,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             flowPanes[i] = fp;
         }
 
-        if (Astre.rechercherCatHr(this.ensCatHrPresent,nom).estHebdo())
+        if (Objects.requireNonNull(Astre.rechercherCatHr(ensCatHrPresent, nom)).estHebdo())
         {
             flowPanes[0].getChildren().add(new Label("Nombre Semaine"));
             TextField txtNbSemaine = Creation.creerTextField("txt" + nom + "NbSemaine");
@@ -680,7 +670,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
             if (this.moduleModif != null && !nom.equals("TO"))
             {
-                CategorieHeure catHr = Astre.rechercherCatHr(this.ensCatHrPresent, nom);
+                CategorieHeure catHr = Astre.rechercherCatHr(ensCatHrPresent, nom);
                 txt1.setText(this.moduleModif.getAttribution(catHr) != null ? this.moduleModif.getAttribution(catHr).getNbHeurePN().toString() : "0");
             }
 
@@ -793,7 +783,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void initTableColumns() {
 
-        ArrayList<CategorieHeure> ensCatH = this.ensCatHrPresent;
+        ArrayList<CategorieHeure> ensCatH = ensCatHrPresent;
         ArrayList<String>      ensNomCatH = new ArrayList<>();
 
         for (CategorieHeure catHr : ensCatH)
@@ -828,50 +818,47 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom() + " " + cellData.getValue().getIntervenant().getPrenom()));
         tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure  ().getNom()));
-        tcType.setCellFactory(column -> {
-            return new TableCell<>() {
-                ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(ensNomCatH));
+        tcType.setCellFactory(column -> new TableCell<>() {
+            final ComboBox<String> comboBox = new ComboBox<>(FXCollections.observableArrayList(ensNomCatH));
+            {
+                comboBox.setOnAction(event -> {
+                    String newValue = comboBox.getValue();
+                    String oldValue = getItem();
 
-                {
-                    comboBox.setOnAction(event -> {
-                        String newValue = comboBox.getValue();
-                        String oldValue = getItem();
-
-                        if ("HP".equals(oldValue)) {
-                            event.consume(); // Annule l'édition si la valeur initiale est "HP"
-                            tableau.refresh();
-                            return;
-                        }
-
-                        Affectation afc = getTableView().getItems().get(getIndex());
-                        if(newValue != null && !oldValue.equals(newValue))
-                        {
-                            if (!newValue.equals("CM")) {
-                                afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
-                                System.out.println("ça change psk pas CM");
-                            } else {
-                                afc.setNbGroupe(1);
-                                afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
-                                System.out.println("ça change psk CM");
-                            }
-                        }
-
+                    if ("HP".equals(oldValue)) {
+                        event.consume(); // Annule l'édition si la valeur initiale est "HP"
                         tableau.refresh();
-                    });
-                }
-
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        comboBox.setValue(item);
-                        setGraphic(comboBox);
+                        return;
                     }
+
+                    Affectation afc = getTableView().getItems().get(getIndex());
+                    if(newValue != null && !oldValue.equals(newValue))
+                    {
+                        if (!newValue.equals("CM")) {
+                            afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                            System.out.println("ça change psk pas CM");
+                        } else {
+                            afc.setNbGroupe(1);
+                            afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                            System.out.println("ça change psk CM");
+                        }
+                    }
+
+                    tableau.refresh();
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    comboBox.setValue(item);
+                    setGraphic(comboBox);
                 }
-            };
+            }
         });
 
         tcSemaine    .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbSemaine()).asObject()  : null);
@@ -884,85 +871,81 @@ public class StageSaisieRessource extends Stage implements Initializable
         });
 
         tcGrp        .setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleIntegerProperty(cellData.getValue().getNbGroupe ()).asObject()  : null);
-        tcGrp.setCellFactory(column -> {
-            return new TableCell<>() {
-                TextField textField = new TextField();
-                {
-                    creerFormatter(textField);
+        tcGrp.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                creerFormatter(textField);
 
-                    textField.setOnAction(event -> {
-                        String newValue = textField.getText();
-                        int index = getIndex();
-                        if (index >= 0 && index < getTableView().getItems().size()) {
-                            Affectation afc = getTableView().getItems().get(index);
-                            afc.setNbGroupe(Integer.parseInt(newValue));
-                            tableau.refresh();
-                        }
-                    });
-
-                    textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                        Affectation afc = getTableView().getItems().get(getIndex());
-                        boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
-                        setEditable(isHP);
-                    });
-                }
-
-                @Override
-                protected void updateItem(Integer item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-                        textField.setText("" + item); // Définit le texte dans le TextField
-                        setGraphic(textField);
-                        Affectation afc = getTableView().getItems().get(getIndex());
-                        boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
-                        setEditable(isHP);
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Affectation afc = getTableView().getItems().get(index);
+                        afc.setNbGroupe(Integer.parseInt(newValue));
+                        tableau.refresh();
                     }
+                });
+
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    Affectation afc = getTableView().getItems().get(getIndex());
+                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
+                    setEditable(isHP);
+                });
+            }
+
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText("" + item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                    Affectation afc = getTableView().getItems().get(getIndex());
+                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
+                    setEditable(isHP);
                 }
-            };
+            }
         });
 
         tcNbH        .setCellValueFactory(cellData -> cellData.getValue().hasNbHeure        () ? new SimpleStringProperty (cellData.getValue().getNbHeure  () .toString()) : null);
-        tcNbH.setCellFactory(column -> {
-            return new TableCell<>() {
-                TextField textField = new TextField();
-                {
-                    creerFormatter(textField);
+        tcNbH.setCellFactory(column -> new TableCell<>() {
+            final TextField textField = new TextField();
+            {
+                creerFormatter(textField);
 
-                    textField.setOnAction(event -> {
-                        String newValue = textField.getText();
-                        int index = getIndex();
-                        if (index >= 0 && index < getTableView().getItems().size()) {
-                            Affectation afc = getTableView().getItems().get(index);
-                            afc.setNbHeure(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
-                            tableau.refresh();
-                        }
-                    });
-
-                    textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                        boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
-                        setEditable(isHP);
-                    });
-                }
-
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
-                        textField.setText(item); // Définit le texte dans le TextField
-                        setGraphic(textField);
-                        boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
-                        setEditable(isHP);
+                textField.setOnAction(event -> {
+                    String newValue = textField.getText();
+                    int index = getIndex();
+                    if (index >= 0 && index < getTableView().getItems().size()) {
+                        Affectation afc = getTableView().getItems().get(index);
+                        afc.setNbHeure(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                        tableau.refresh();
                     }
+                });
+
+                textField.textProperty().addListener((observable, oldValue, newValue) -> {
+                    boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
+                    setEditable(isHP);
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
+                    textField.setText(item); // Définit le texte dans le TextField
+                    setGraphic(textField);
+                    boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
+                    setEditable(isHP);
                 }
-            };
+            }
         });
 
 
@@ -993,8 +976,8 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initRepartitionColumns()
     {
         this.gridPaneRepartition.getChildren().clear();
-        System.out.println(this.ensCatHrPresent);
-        for (CategorieHeure cat : this.ensCatHrPresent)
+        System.out.println(ensCatHrPresent);
+        for (CategorieHeure cat : ensCatHrPresent)
         {
             ajouterColonneRepartition(cat.getNom());
         }
@@ -1007,7 +990,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
 
             System.out.println(this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()));
-            if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbHeure  ().toString());
+            if(!att.getCatHr().estHebdo()) this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeure().toString());
         }
         majValeurSemaine(this.hmTxtSemaine);
     }
@@ -1015,7 +998,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     private void initTabPan()
     {
         this.tabPaneSemaine.getTabs().clear();
-        for (CategorieHeure cat : this.ensCatHrPresent) ajouterOnglet(cat.getNom());
+        for (CategorieHeure cat : ensCatHrPresent) ajouterOnglet(cat.getNom());
     }
 
     private void initGridPn()
@@ -1040,7 +1023,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (TextField txt: ensTxt)
         {
             String key = "TO";
-            for (CategorieHeure catHr: this.ensCatHrPresent)
+            for (CategorieHeure catHr: ensCatHrPresent)
                 if(txt.getId().contains(catHr.getNom()))
                     key = catHr.getNom().toUpperCase();
 
@@ -1058,9 +1041,9 @@ public class StageSaisieRessource extends Stage implements Initializable
     /*    Ajout des Listenner      */
     /*-----------------------------*/
 
-    private void ajouterListener(TextField txt) {txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerPn(txt, newValue));}
-    private void ajouterListenerSemaine(TextField txt) {txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerSemaine(txt, newValue));}
-    private void ajouterListenerTotal(TextField txt) {txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerRepart(txt, newValue));}
+    private void ajouterListener(TextField txt) {txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerPn(txt));}
+    private void ajouterListenerSemaine(TextField txt) {txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerSemaine(txt));}
+    private void ajouterListenerTotal(TextField txt) {txt.textProperty().addListener((observable, oldValue, newValue) -> valeurChangerRepart());}
 
     /*----------------*/
     /* Méthode outils */
@@ -1082,7 +1065,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     if (index > -1 && index < pnList.size())
                     {
                         int pnValue = 0;
-                        if(!pnList.get(index).getText().equals(""))
+                        if(!pnList.get(index).getText().isEmpty())
                             pnValue = Integer.parseInt(pnList.get(index).getText());
 
                         if (!repartitionList.contains(txtf) || Integer.parseInt(newText) <= pnValue)
@@ -1138,18 +1121,18 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void creationAttribution(Module mod)
     {
-        Fraction fractPn      = null;
-        Fraction fractNbHeure = null;
-        int nbSemaine         = 0;
+        Fraction fractPn;
+        Fraction fractNbHeure;
+        int nbSemaine;
 
-        for( CategorieHeure catHr : this.ensCatHrPresent)
+        for( CategorieHeure catHr : ensCatHrPresent)
         {
             //Recuperation des paramètres du module
             fractPn      = Fraction.valueOf(textOrDefault(getHeurePnByCatHr(catHr.getNom())));
             fractNbHeure = Fraction.valueOf(textOrDefault(getNbHeureByCatHr(catHr.getNom(),false)));
             nbSemaine    = Integer.parseInt(textOrDefault(getNbHeureByCatHr(catHr.getNom(),true )));
 
-            Attribution att = new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
+            new Attribution(fractPn, fractNbHeure,nbSemaine, mod, catHr);
         }
     }
 
@@ -1168,7 +1151,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     public String textOrDefault(String s)
     {
         if(s != null)
-            if(s.equals(""))
+            if(s.isEmpty())
                 return "0";
             else
                 return s;
