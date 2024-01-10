@@ -87,10 +87,14 @@ public class StageAnnee extends Stage implements Initializable
             Matcher matcher = pattern.matcher(nom);
 
             if ( matcher.find() && !Controleur.get().getMetier().existeAnnee(nom) && Integer.parseInt(matcher.group(2)) - Integer.parseInt(matcher.group(1)) == 1 ) {
-                LocalDate debut = LocalDate.of(Integer.parseInt(matcher.group(1)), dateDebDef.getDayOfMonth(), dateDebDef.getMonthValue());
-                LocalDate fin   = LocalDate.of(Integer.parseInt(matcher.group(2)), dateFinDef.getDayOfMonth(), dateFinDef.getMonthValue());
+                LocalDate debut = LocalDate.of(Integer.parseInt(matcher.group(1)), dateDebDef.getMonthValue(), dateDebDef.getDayOfMonth());
+                LocalDate fin   = LocalDate.of(Integer.parseInt(matcher.group(2)), dateFinDef.getMonthValue(), dateFinDef.getDayOfMonth());
 
-                an.dupliquer(nom, Date.valueOf(debut), Date.valueOf(fin));
+                Annee a = an.dupliquer(nom, Date.valueOf(debut), Date.valueOf(fin));
+
+                Controleur.get().getMetier().enregistrer();
+
+                PopUp.information("Année dupliquée", null, "L'année %s a été dupliquée en %s".formatted(an.getNom(), a.getNom())).showAndWait();
             }
             else
                 PopUp.warning("Nom incorrect", null, "Le nom '%s' n'est pas valide.".formatted(nom)).showAndWait();
