@@ -876,7 +876,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                             afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
                         }
                     }
-
+                    calculeAffecte();
                     tableau.refresh();
                 });
             }
@@ -907,6 +907,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     if (index >= 0 && index < getTableView().getItems().size()) {
                         Affectation afc = getTableView().getItems().get(index);
                         afc.setNbGroupe(Integer.parseInt(newValue));
+                        calculeAffecte();
                         tableau.refresh();
                     }
                 });
@@ -947,6 +948,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     if (index >= 0 && index < getTableView().getItems().size()) {
                         Affectation afc = getTableView().getItems().get(index);
                         afc.setNbGroupe(Integer.parseInt(newValue));
+                        calculeAffecte();
                         tableau.refresh();
                     }
                 });
@@ -987,6 +989,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     if (index >= 0 && index < getTableView().getItems().size()) {
                         Affectation afc = getTableView().getItems().get(index);
                         afc.setNbHeure(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                        calculeAffecte();
                         tableau.refresh();
                     }
                 });
