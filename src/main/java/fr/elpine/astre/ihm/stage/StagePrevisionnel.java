@@ -92,6 +92,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 			stage.showAndWait();
 
 			this.refresh();
+			this.initSemestre();
 		}
 	}
 
