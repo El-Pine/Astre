@@ -136,6 +136,8 @@ public class StageChoixCatH extends Stage implements Initializable {
 		{
 			stage.setSemestre(this.semestre);
 			stage.setTypeModule(type);
+
+            if(this.parent.getModuleModifier() != null) stage.setModule(this.parent.getModuleModifier());
             stage.setCatH(lstCatValide);
 			stage.init();
 
