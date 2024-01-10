@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.Annee;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class StagePrevisionnel extends Stage implements Initializable
@@ -114,6 +116,10 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@FXML
 	public void onBtnModifier()
 	{
+		modifierModule();
+	}
+
+	private void modifierModule(){
 		this.setChamps();
 
 		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
@@ -163,6 +169,15 @@ public class StagePrevisionnel extends Stage implements Initializable
 					(cellData.getValue().estValide() ? "✔" : "❌") +
 					(cellData.getValue().getSommeAffecte() > cellData.getValue().getSommePNPromo() ? " ⚠" : "")
 			));
+
+			view.setEditable(true);
+			view.setOnMousePressed(event -> {
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+					Module rowData = view.getSelectionModel().getSelectedItem();
+					if (rowData!=null)
+						modifierModule();
+				}
+			});
 		}
 
 		selectedModuleType.setItems(FXCollections.observableArrayList(Arrays.asList("Ressource", "SAÉ", "Stage/Suivi", "PPP")));

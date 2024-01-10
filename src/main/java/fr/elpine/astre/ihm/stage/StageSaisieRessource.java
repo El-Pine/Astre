@@ -25,8 +25,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
@@ -219,8 +217,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
         return b;
     }
-
-    //private void initializeAffectations() { ensAff = FXCollections.observableArrayList(this.moduleModif != null ? this.moduleModif.getAffectations() : new ArrayList<>()); }
 
     private void setupListenersAndFormatters()
     {
