@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
+import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -37,6 +38,7 @@ public class StageChoixCatH extends Stage implements Initializable {
     public void setType(String type) { this.type = type; }
 
 
+    //TODO: A finir
     public void onBtnAnnuler(ActionEvent actionEvent) {
     }
 
@@ -54,18 +56,61 @@ public class StageChoixCatH extends Stage implements Initializable {
     public void init()
     {
         // Créer une nouvelle rangée pour les checkboxes
-        int rowIndex = 4;
 
-        // Ajouter une colonne pour chaque CatégorieHeure
+
+        if(this.parent.getModifieCatHr())
+        {
+            completerCatHr(this.parent.getModuleModifier());
+        }
+        else
+        {
+            int rowIndex = 4;
+            for (CategorieHeure categorieHeure : ensCatHr) {
+                FlowPane fp = new FlowPane();
+                fp.setAlignment(Pos.CENTER);
+
+                // Créer une CheckBox pour chaque CatégorieHeure
+                CheckBox checkBox = new CheckBox(categorieHeure.getNom());
+                if (estTypeModule(categorieHeure))
+                {
+                    checkBox.setSelected(true);
+                }
+
+                ensCb.add(checkBox);
+                fp.getChildren().add(checkBox);
+
+                // Ajouter la colonne au GridPane
+                gPane.add(fp, rowIndex, 0);
+
+                // Augmenter l'index de la rangée pour la prochaine colonne
+                rowIndex++;
+            }
+        }
+    }
+
+    public boolean estDansModule(Module mod, CategorieHeure catHr2)
+    {
+        for (CategorieHeure catHr : mod.getEnsCatHr())
+        {
+            if(catHr.equals(catHr2)) return true;
+        }
+        return false;
+    }
+
+    public void completerCatHr(Module mod)
+    {
+        int rowIndex = 4;
         for (CategorieHeure categorieHeure : ensCatHr) {
             FlowPane fp = new FlowPane();
             fp.setAlignment(Pos.CENTER);
 
             // Créer une CheckBox pour chaque CatégorieHeure
             CheckBox checkBox = new CheckBox(categorieHeure.getNom());
-            if (estTypeModule(categorieHeure)) {
+            if (estDansModule(mod, categorieHeure))
+            {
                 checkBox.setSelected(true);
             }
+
             ensCb.add(checkBox);
             fp.getChildren().add(checkBox);
 

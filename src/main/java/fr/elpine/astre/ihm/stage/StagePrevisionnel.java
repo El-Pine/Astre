@@ -50,6 +50,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@FXML
 	private TabPane pnlControlSem;
 
+	private boolean modifieCatHr;
+
+	private Module moduleModifier;
 	private Semestre semestreActuel;
 	private TableView<Module> viewActuel;
 
@@ -60,6 +63,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 		this.setMinHeight(450);
 		this.setMinWidth(800);
 	}
+
+	public boolean getModifieCatHr  () { return  this.modifieCatHr;   }
+	public Module  getModuleModifier() { return  this.moduleModifier; }
 
 	@FXML
 	public void onBtnEnregistrer() {
@@ -108,10 +114,34 @@ public class StagePrevisionnel extends Stage implements Initializable
 	@FXML
 	public void onBtnModifier()
 	{
-		modifierModule();
+		if(PopUp.confirmationR("Modifiez les types d'heures", null, "Voulez-vous les types d'heures présente dans ce module ?"))
+			modifierCatHr();
+		else
+			modifierModule();
+
 	}
 
-	private void modifierModule(){
+	public void modifierCatHr()
+	{
+		this.modifieCatHr   = true;
+		this.moduleModifier = this.viewActuel.getSelectionModel().getSelectedItem();
+
+		this.setChamps();
+
+		String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
+
+
+		StageChoixCatH stage = Manager.creer("choisirCatHeure",this);
+		stage.setParent(this);
+		stage.setType(type);
+		stage.setSemestre(this.semestreActuel.getNumero());
+		stage.init();
+		stage.showAndWait();
+
+	}
+
+	private void modifierModule()
+	{
 		this.setChamps();
 
 		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();

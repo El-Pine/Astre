@@ -56,6 +56,14 @@ public class Module
     public boolean estValide      () { return validation                         ;}
     public Semestre getSemestre   () { return semestre                           ;}
 
+    public ArrayList<CategorieHeure> getEnsCatHr()
+    {
+        ArrayList<CategorieHeure> ensCatHr = new ArrayList<>();
+        for (Attribution att : this.ensAttribution) ensCatHr.add(att.getCatHr());
+
+        return ensCatHr;
+    }
+
     /*   SETTER   */
 
     public void setCode       ( String code        )   { this.code        = code        ; this.modifie = true; }
