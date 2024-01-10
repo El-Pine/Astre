@@ -192,13 +192,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void initializeDetail()
     {
-        for (CategorieHeure catHr : Controleur.get().getMetier().getCategorieHeures())
-        {
-            if(estTypeModule(catHr))
-                ensCatHrPresent.add(catHr);
-        }
-
-
         initGridPn();
         initTabPan();
         initRepartitionColumns();
@@ -1245,5 +1238,10 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void refresh()
     {
         tableau.setItems(ensAff);
+    }
+
+    public void setCatH(ArrayList<CategorieHeure> lstCatValide)
+    {
+        StageSaisieRessource.ensCatHrPresent = lstCatValide;
     }
 }

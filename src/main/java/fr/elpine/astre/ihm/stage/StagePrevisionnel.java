@@ -79,19 +79,12 @@ public class StagePrevisionnel extends Stage implements Initializable
 
 		String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
 
-		StageSaisieRessource stage = Manager.creer("saisieRessource",this);
-
-		if (stage != null)
-		{
-			stage.setSemestre(this.semestreActuel.getNumero());
-			stage.setTypeModule(type);
-			stage.init();
-
-			stage.showAndWait();
-
-			this.refresh();
-			this.initSemestre();
-		}
+		StageChoixCatH stage = Manager.creer("choisirCatHeure",this);
+		stage.setParent(this);
+		stage.setType(type);
+		stage.setSemestre(this.semestreActuel.getNumero());
+		stage.init();
+		stage.showAndWait();
 	}
 
 	@FXML
@@ -206,7 +199,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		else this.close();
 	}
 
-	private void initSemestre()
+	protected void initSemestre()
 	{
 		Annee a = Controleur.get().getMetier().getAnneeActuelle();
 
