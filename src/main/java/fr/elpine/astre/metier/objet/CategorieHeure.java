@@ -15,6 +15,7 @@ public class CategorieHeure
     private boolean  sae;
     private boolean  ppp;
     private boolean  stage;
+    private boolean  hebdo;
 
     private ArrayList<Attribution> ensAttribution;
 
@@ -23,7 +24,7 @@ public class CategorieHeure
     private boolean                 modifie;
     private HashMap<String, Object> rollbackDatas;
 
-    public CategorieHeure(String nom, Fraction equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage)
+    public CategorieHeure(String nom, Fraction equivalentTD,boolean ressource, boolean sae, boolean ppp, boolean stage, boolean hebdo)
     {
         this.nom           = nom;
         this.equivalentTD  = equivalentTD;
@@ -31,6 +32,7 @@ public class CategorieHeure
         this.sae           = sae;
         this.ppp           = ppp;
         this.stage         = stage;
+        this.hebdo         = hebdo;
 
         this.ensAttribution = new ArrayList<>();
 
@@ -52,9 +54,10 @@ public class CategorieHeure
     public String getNom          () { return this.nom          ;}
     public Fraction getEquivalentTD () { return this.equivalentTD ;}
     public boolean estRessource() { return ressource;}
-    public boolean estSae      () { return sae;      }
-    public boolean estPpp      () { return ppp;      }
-    public boolean estStage    () { return stage;    }
+    public boolean estSae      () { return sae;   }
+    public boolean estPpp      () { return ppp;   }
+    public boolean estStage    () { return stage; }
+    public boolean estHebdo    () { return hebdo; }
 
 
 

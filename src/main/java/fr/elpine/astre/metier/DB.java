@@ -635,6 +635,7 @@ public class DB
             ps.setBoolean(4, categorieHeure.estSae          () );
             ps.setBoolean(5, categorieHeure.estPpp          () );
             ps.setBoolean(6, categorieHeure.estStage        () );
+            ps.setBoolean(7, categorieHeure.estHebdo        () );
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une catégorie d'heure", e); }
@@ -643,7 +644,7 @@ public class DB
     //Méthode update
     public void majCategorieHeure(CategorieHeure catHr)
     {
-        String req = "UPDATE CategorieHeure SET eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ? WHERE nom = ?";
+        String req = "UPDATE CategorieHeure SET eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ?, hebdo=? WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString  (1,catHr.getEquivalentTD().toString());
@@ -652,6 +653,7 @@ public class DB
             ps.setBoolean (4,catHr.estStage       ());
             ps.setBoolean (5,catHr.estPpp         ());
             ps.setString  (6,catHr.getNom         ());
+            ps.setBoolean (7,catHr.estHebdo       ());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de la mise à jour d'une catégorie d'heure", e); }
@@ -682,12 +684,13 @@ public class DB
                 // Traiter les résultats du ResultSet
                 while (rs.next()) {
                     resultats.add(new CategorieHeure(
-                            rs.getString  ("nom"       ),
-                            Fraction.valueOf( rs.getString("eqtd") ),
-                            rs.getBoolean ("ressource" ),
-                            rs.getBoolean ("sae"       ),
-                            rs.getBoolean ("ppp"       ),
-                            rs.getBoolean ("stage"     )
+                            rs.getString  (1       ),
+                            Fraction.valueOf( rs.getString(2) ),
+                            rs.getBoolean (3 ),
+                            rs.getBoolean (4 ),
+                            rs.getBoolean (5 ),
+                            rs.getBoolean (6 ),
+                            rs.getBoolean (7 )
                     ));
                 }
             }

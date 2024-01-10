@@ -52,7 +52,9 @@ CREATE TABLE CategorieHeure (
 	ressource BOOLEAN,
 	sae BOOLEAN,
 	ppp BOOLEAN,
-	stage BOOLEAN
+	stage BOOLEAN,
+
+	hebdo BOOLEAN,
 );
 
 CREATE TABLE CategorieIntervenant (

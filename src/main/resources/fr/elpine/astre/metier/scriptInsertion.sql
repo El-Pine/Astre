@@ -1,31 +1,32 @@
 -- Insertion des données dans la table Annee
 INSERT INTO Annee (nom, debut, fin) VALUES
     ('2022-2023', '2022-09-01', '2023-08-31'),
-    ('2023-2024', '2023-09-01', '2024-08-31');
+    ('2023-2024', '2023-09-01', '2024-08-31'),
+    ('2024-2025', '2024-09-01', '2025-08-31');
 
 -- Insertion des données dans la table Semestre (pour 6 semestres par année)
 INSERT INTO Semestre (numero, annee, nbGrpTD, nbGrpTP, nbEtd, nbSemaine) VALUES
-    (1, '2022-2023', 5, 5, 100, 15),
-    (2, '2022-2023', 5, 5, 100, 15),
-    (3, '2022-2023', 5, 5, 100, 15),
-    (4, '2022-2023', 5, 5, 100, 15),
-    (5, '2022-2023', 5, 5, 100, 15),
-    (6, '2022-2023', 5, 5, 100, 15),
-    (1, '2023-2024', 5, 5, 66, 15),
-    (2, '2023-2024', 5, 5, 66, 15),
-    (3, '2023-2024', 5, 5, 66, 15),
-    (4, '2023-2024', 5, 5, 66, 15),
-    (5, '2023-2024', 5, 5, 66, 15),
-    (6, '2023-2024', 5, 5, 66, 15);
+    (1, '2022-2023', 4, 2, 70, 20),
+    (2, '2022-2023', 1, 6, 20, 10),
+    (3, '2022-2023', 9, 2, 90, 17),
+    (4, '2022-2023', 1, 1, 23, 19),
+    (5, '2022-2023', 3, 8, 10, 15),
+    (6, '2022-2023', 2, 10, 18, 4),
+    (1, '2023-2024', 1, 1, 15, 12),
+    (2, '2023-2024', 2, 3, 13, 11),
+    (3, '2023-2024', 4, 2, 1, 8),
+    (4, '2023-2024', 2, 4, 22, 2),
+    (5, '2023-2024', 3, 1, 12, 26),
+    (6, '2023-2024', 4, 2, 13, 12);
 
 -- Insertion des données dans la table Module
 INSERT INTO Module (code, numeroSemestre, annee, nom, abreviation, couleur, typeModule, validation) VALUES
-    ('MATH101', 1, '2022-2023', 'Mathématiques', 'MATH', 'rgb(255,255,255)', 'ressource', true),
-    ('MATH102', 1, '2022-2023', 'Analyse', 'ANA', 'rgb(255,255,255)', 'ressource', true),
-    ('PHYS101', 1, '2022-2023', 'Physique', 'PHY', 'rgb(255,255,255)', 'ressource', true),
-    ('MATH201', 2, '2022-2023', 'Algèbre', 'ALG', 'rgb(255,255,255)', 'ressource', false),
-    ('MATH202', 2, '2022-2023', 'Géométrie', 'GEO', 'rgb(255,255,255)', 'ressource', false),
-    ('PHYS201', 2, '2022-2023', 'Optique', 'OPT', 'rgb(255,255,255)', 'ressource', false);
+    ('R1.01', 1, '2022-2023', 'Mathématiques', 'MATH', 'rgb(255,255,255)', 'ressource', true),
+    ('R1.02', 1, '2022-2023', 'Analyse', 'ANA', 'rgb(255,255,255)', 'ressource', true),
+    ('R1.03', 1, '2022-2023', 'Physique', 'PHY', 'rgb(255,255,255)', 'ressource', true),
+    ('R2.01', 2, '2022-2023', 'Algèbre', 'ALG', 'rgb(255,255,255)', 'ressource', false),
+    ('R2.02', 2, '2022-2023', 'Géométrie', 'GEO', 'rgb(255,255,255)', 'ressource', false),
+    ('R2.03', 2, '2023-2024', 'Optique', 'OPT', 'rgb(255,255,255)', 'ressource', false);
 
 -- Insertion des données dans la table CategorieHeure
 INSERT INTO CategorieHeure (nom, eqtd, ressource, sae, ppp, stage) VALUES
