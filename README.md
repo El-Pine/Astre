@@ -16,9 +16,30 @@ Ouvrez un invité de commande et executez le .jar correspondant à votre systèm
 - Linux --> Astre-linux-1.0.jar
 - Windows --> Astre-windows-1.0.jar 
 
-```cmd
+```bash
 java -jar [ nom du fichier ].jar
 ```
+
+# Compilation du projet
+1. Clonez le dépôt Astre sur vôtre machine locale :
+   ```bash
+   git clone https://github.com/El-Pine/Astre.git
+   ```
+
+2. Naviguez dans le dossier Astre :
+   ```bash
+   cd Astre
+   ```
+
+3. Construisez le projet Gradle, cela va générer les fichiers nécessaires au fonctionnement :
+   ```bash
+   ./gradlew build
+   ```
+
+4. Une fois construit, lancez Astre avec :
+   ```bash
+   ./gradlew run
+   ```
 
 # Connexion à la base de donnée 
 
