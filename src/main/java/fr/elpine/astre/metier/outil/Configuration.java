@@ -50,15 +50,14 @@ public class Configuration
 		prepare();
 
 		try {
-			File           fichier  = new File(CONFIGURATION_FILE_NAME);
-			BufferedReader lecteur  = new BufferedReader(new FileReader(fichier));
-			BufferedWriter ecriture = new BufferedWriter(new FileWriter(fichier));
-			StringBuilder  contenu  = new StringBuilder();
+			File          fichier = new File(CONFIGURATION_FILE_NAME);
+			Scanner       sc      = new Scanner( fichier );
+			StringBuilder contenu = new StringBuilder();
 
 			boolean find = false;
 
-			String ligne;
-			while ((ligne = lecteur.readLine()) != null) {
+			while (sc.hasNextLine()) {
+				String ligne = sc.nextLine();
 
 				Pattern pattern = Pattern.compile(CONFIGURATION_FILE_REGEX);
 				Matcher matcher = pattern.matcher(ligne);
@@ -75,16 +74,17 @@ public class Configuration
 				}
 			}
 
+			sc.close();
+
 			if (!find) contenu.append(String.format("%s=%s", key, value)).append(System.lineSeparator());
 
-			ecriture.write(contenu.toString());
+			FileWriter writer = new FileWriter( fichier, false );
+			writer.write(contenu.toString());
+			writer.close();
 
-			lecteur.close();
-			ecriture.close();
-
-			logger.info("Configuration mise à jour {} -> {}", key, value);
+			logger.info("Configuration mise à jour ({})", key);
 		} catch (IOException e) {
-			logger.error(String.format("Erreur lors de la mise à jour de la configuration %s -> %s", key, value), e);
+			logger.error(String.format("Erreur lors de la mise à jour de la configuration (%s)", key), e);
 		}
 	}
 

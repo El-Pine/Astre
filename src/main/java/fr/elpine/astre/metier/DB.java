@@ -1,15 +1,16 @@
 package fr.elpine.astre.metier;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.objet.Module;
+import fr.elpine.astre.metier.objet.*;
+import fr.elpine.astre.metier.outil.Configuration;
 import fr.elpine.astre.metier.outil.Fraction;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,8 +27,8 @@ public class DB
         logger.info("Lancement de l'application");
 
         // Verification de l'existance du fichier de connexion
-        File fichier = new File("infoBd.txt");
-        try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
+        //File fichier = new File("infoBd.txt");
+        //try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
 
 	    /*
          * Pour créer un tunnel SSH
@@ -82,34 +83,36 @@ public class DB
         boolean valid = this.connexion( ip, port, database, identifiant, password );
 
         if (valid)
-            try
+            /*try
             {
                 FileWriter writer = new FileWriter("infoBd.txt", false);
 
                 writer.write(String.format("%s\t%s\t%s\t%s\t%s", ip, port, database, identifiant, password));
                 writer.close();
             }
-            catch (IOException e) { logger.error("Erreur lors du la sauvegarde des informations de connexion", e); }
+            catch (IOException e) { logger.error("Erreur lors du la sauvegarde des informations de connexion", e); }*/
+        {
+            Configuration.set("ip", ip);
+            Configuration.set("port", String.valueOf(port));
+            Configuration.set("database", database);
+            Configuration.set("identifiant", identifiant);
+            Configuration.set("password", password);
+        }
 
         return valid;
     }
 
     public static String[] getInformations()
     {
-        String[] elements = null;
+        String ip          = Configuration.get("ip");
+        String port        = Configuration.get("port");
+        String database    = Configuration.get("database");
+        String identifiant = Configuration.get("identifiant");
+        String password    = Configuration.get("password");
 
-        try
-        {
-            BufferedReader reader = new BufferedReader(new FileReader("infoBd.txt"));
+        if (ip == null || port == null || database == null || identifiant == null || password == null) return null;
 
-            String line = reader.readLine();
-            if ( line != null ) elements = line.split("\t");
-        }
-        catch (IOException e) { logger.error("Erreur lors de la récupération des informations", e); }
-
-        if ( elements == null || elements.length != 5 ) { return null; }
-
-        return elements;
+        return new String[] {ip, port, database, identifiant, password};
     }
 
     /*-----------------*/

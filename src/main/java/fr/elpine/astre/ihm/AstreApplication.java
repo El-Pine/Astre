@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.stage.Manager;
+import fr.elpine.astre.metier.outil.Configuration;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -13,19 +14,14 @@ import java.util.Objects;
 //TODO: Verifiez l'orthographe de l'application
 public class AstreApplication extends Application
 {
-	private static String theme = "cupertino-light";
-
 	@Override
 	public void start(Stage primaryStage)
 	{
 		Logger logger = LoggerFactory.getLogger(getClass());
 
-		/* STYLE
-		* Thèmes    : cupertino & dracula
-		* Variantes : dark & light
-		* */
 
-		setTheme("cupertino-light");
+		String theme = Configuration.get("theme");
+		setTheme(theme != null ? theme : "cupertino-light");
 
 
 		if ( !Controleur.get().getDb().reloadDB() ) {
@@ -39,14 +35,12 @@ public class AstreApplication extends Application
 		}
 	}
 
-	public static void setTheme(String t)
+	public static void setTheme(String theme)
 	{
-		theme = t;
+		if ( !theme.equals( Configuration.get("theme") ) ) Configuration.set("theme", theme);
 
 		setUserAgentStylesheet(Objects.requireNonNull(AstreApplication.class.getResource("styles/%s.css".formatted(theme))).toExternalForm());
 	}
-
-	public static String getTheme() { return theme; }
 
 	public static void refreshIcon(Stage stage)
 	{
