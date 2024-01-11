@@ -27,9 +27,6 @@ public class StageAjoutAffectation extends Stage
     @FXML private TextField             txtNbSemaine;
     @FXML private TextField             txtNbGp;
 
-    @FXML private RadioButton           rbHP;
-    @FXML private RadioButton           rbAutre;
-
     private Module module;
     private CategorieHeure catHp;
     private StageSaisieRessource parent;
@@ -42,12 +39,12 @@ public class StageAjoutAffectation extends Stage
     @FXML private void onBtnAjouter()
     {
         Affectation aff;
-        if(rbHP.isSelected() && cbIntervenant.getValue()!=null && !txtNbHeure.getText().isEmpty())
+        if(cbbCatHeure.getValue().estHebdo() && cbIntervenant.getValue()!=null && !txtNbHeure.getText().isEmpty())
         {
             aff = new Affectation(this.module, cbIntervenant.getValue(),this.catHp, Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
             StageSaisieRessource.ensAff.add( aff );
         }
-        else if (rbAutre.isSelected() && cbIntervenant.getValue()!=null && cbbCatHeure.getValue()!=null && !txtNbGp.getText().isEmpty() && !txtNbSemaine.getText().isEmpty())
+        else if (cbIntervenant.getValue()!=null && cbbCatHeure.getValue()!=null && !txtNbGp.getText().isEmpty() && !txtNbSemaine.getText().isEmpty())
         {
             aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Integer.parseInt(txtNbGp.getText()),Integer.parseInt(txtNbSemaine.getText()),txtCommentaire.getText());
             StageSaisieRessource.ensAff.add( aff );
@@ -62,54 +59,38 @@ public class StageAjoutAffectation extends Stage
     public void init()
     {
         cbIntervenant.setItems(FXCollections.observableList(Controleur.get().getMetier().getIntervenants()));
-
-        ObservableList<CategorieHeure> lst = FXCollections.observableList( new ArrayList<>() );
-        for (CategorieHeure catH : this.parent.getLstCatH() ) {
-            if (catH.getNom().equals("HP")) {
-                this.catHp = catH;
-            } else {
-                lst.add(catH);
-            }
-        }
-        cbbCatHeure.setItems(lst);
-
-        ToggleGroup toggleGroup = new ToggleGroup();
-
-        rbHP.setToggleGroup(toggleGroup);
-        rbAutre.setToggleGroup(toggleGroup);
+        cbbCatHeure.setItems(FXCollections.observableList(this.parent.getLstCatH()));
 
         // Ajouter des ChangeListeners pour chaque RadioButton
-        rbHP.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                rbAutre.setSelected(false); // Désélectionne l'autre bouton si celui-ci est sélectionné
-                this.txtNbHeure.setDisable(false);
-                this.cbbCatHeure.setDisable(true);
-                this.txtNbSemaine.setText("");
-                this.txtNbGp.setText("");
-                this.txtNbSemaine.setDisable(true);
-                this.txtNbGp.setDisable(true);
-            }
+        cbbCatHeure.setOnAction((observable) -> {
+            // Assurez-vous que cbbCatHeure.getValue() n'est pas null avant de l'utiliser
+            changementFocus();
         });
 
-        rbAutre.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                rbHP.setSelected(false); // Désélectionne l'autre bouton si celui-ci est sélectionné
-                this.txtNbHeure.setText("");
-                this.txtNbHeure.setDisable(true);
-                this.cbbCatHeure.setDisable(false);
-                this.txtNbSemaine.setDisable(false);
-                this.txtNbGp.setDisable(false);
-            }
-        });
-
-        rbHP.setSelected(true);
-        this.cbbCatHeure.setDisable(true);
-        this.txtNbSemaine.setDisable(true);
-        this.txtNbGp.setDisable(true);
+        cbbCatHeure.setValue(cbbCatHeure.getItems().get(0));
+        changementFocus();
 
         creerFormatter(this.txtNbGp);
         creerFormatter(this.txtNbHeure);
         creerFormatter(this.txtNbSemaine);
+    }
+
+    private void changementFocus()
+    {
+        if (cbbCatHeure.getValue() != null) {
+            if (cbbCatHeure.getValue().estHebdo()) {
+                this.txtNbGp.setDisable(false);
+                this.txtNbSemaine.setDisable(false);
+                this.txtNbHeure.setText("");
+                this.txtNbHeure.setDisable(true);
+            } else {
+                this.txtNbGp.setDisable(true);
+                this.txtNbSemaine.setDisable(true);
+                this.txtNbGp.setText("");
+                this.txtNbSemaine.setText("");
+                this.txtNbHeure.setDisable(false);
+            }
+        }
     }
 
     public void setModule(Module mod) { this.module = mod; }

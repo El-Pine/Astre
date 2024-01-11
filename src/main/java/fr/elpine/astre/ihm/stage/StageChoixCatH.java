@@ -39,9 +39,10 @@ public class StageChoixCatH extends Stage implements Initializable {
 
     public void setType(String type) { this.type = type; }
 
-
-    //TODO: A finir
-    public void onBtnAnnuler(ActionEvent actionEvent) {
+    public void onBtnAnnuler(ActionEvent actionEvent)
+    {
+        Controleur.get().getMetier().rollback();
+        this.close();
     }
 
     private ArrayList<CheckBox> ensCb = new ArrayList<>();

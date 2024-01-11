@@ -60,8 +60,8 @@
    <bottom>
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
-          <Button mnemonicParsing="false" onAction="#onBtnValider" prefWidth="75.0" text="Valider" />
-            <Button mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="75.0" text="Annuler" />
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" prefWidth="75.0" text="Valider" />
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="75.0" text="Annuler" />
         </items>
       </ToolBar>
    </bottom>

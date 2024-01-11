@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutAffectation">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutAffectation">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -64,17 +57,8 @@
          <children>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label text="Choisir répartition des heures :">
-                     <FlowPane.margin>
-                        <Insets right="40.0" />
-                     </FlowPane.margin>
-                  </Label>
-                  <RadioButton fx:id="rbHP" mnemonicParsing="false" text="HP">
-                     <FlowPane.margin>
-                        <Insets right="30.0" />
-                     </FlowPane.margin>
-                  </RadioButton>
-                  <RadioButton fx:id="rbAutre" mnemonicParsing="false" text="Autre types heure" />
+                  <Label text="Catégorie Heure : " />
+                  <ComboBox fx:id="cbbCatHeure" prefWidth="150.0" />
                </children>
             </FlowPane>
             <GridPane GridPane.rowIndex="1">
@@ -123,16 +107,8 @@
                               <TextField fx:id="txtNbGp" prefWidth="50.0" />
                            </children>
                         </FlowPane>
-                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Catégorie Heure : " />
-                           </children>
-                        </FlowPane>
-                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-                           <children>
-                              <ComboBox fx:id="cbbCatHeure" prefWidth="150.0" />
-                           </children>
-                        </FlowPane>
+                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" />
+                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </children>

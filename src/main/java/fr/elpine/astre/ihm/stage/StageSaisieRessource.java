@@ -776,6 +776,9 @@ public class StageSaisieRessource extends Stage implements Initializable
         if(this.typeModule != null)
         {
             txtCode.setText(definirCode(sem));
+            ensAff = FXCollections.observableArrayList();
+            tableau.setItems(ensAff);
+            tableau.requestFocus();
         }
         initializeDetail();
 
