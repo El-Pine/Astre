@@ -690,7 +690,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void ajouterColonne(String nom)
     {
-        if(!Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo())
+        if(Astre.rechercherCatHr(ensCatHrPresent,nom)!=null && !Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo())
         {
             ArrayList<FlowPane> ensFp = new ArrayList<>();
             for (int i = 0; i <= 2; i++)
@@ -1045,12 +1045,15 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
-            if(!Astre.rechercherCatHr(ensCatHrPresent,att.getCatHr().getNom()).estHebdo() && estTjrsPresent(att.getCatHr()))
+            if( !att.getCatHr().estHebdo() && estTjrsPresent(att.getCatHr()))
             {
-                this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeurePN().toString());
+                ArrayList<TextField> lstTxtf = this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase());
+                if ( lstTxtf!= null ) {
+                    lstTxtf.get(0).setText(att.getNbHeurePN().toString());
 
-                String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).getText())), att.getCatHr());
-                this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(1).setText(a);
+                    String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).getText())), att.getCatHr());
+                    this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(1).setText(a);
+                }
             }
     }
 
@@ -1074,7 +1077,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     {
         for (Attribution att : mod.getAttributions())
         {
-            if(estTjrsPresent(att.getCatHr()))
+            if( att.getCatHr().estHebdo() && estTjrsPresent(att.getCatHr()))
             {
                 this.hmTxtSemaine.get(att.getCatHr().getNom().toUpperCase()).get(0).setText("" + att.getNbSemaine());
 
