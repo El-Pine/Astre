@@ -32,7 +32,7 @@ import java.util.*;
 public class StageSaisieRessource extends Stage implements Initializable
 {
     @FXML
-    public TableView<Affectation> tableau;
+    private TableView<Affectation> tableau;
     public ColorPicker couleur;
     @FXML
     private TableColumn<Affectation,String> tc;
