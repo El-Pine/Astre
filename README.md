@@ -43,7 +43,7 @@ java -jar [ nom du fichier ].jar
 
 # Connexion à la base de donnée 
 
-Tout se fait automatiquement , vous n'avez donc aucune autre action à effectuer, la base de données est créee au lancement de l'application , après avoir renseigné les identifiants.
+Tout se fait automatiquement, vous n'avez donc aucune autre action à effectuer, la base de données est créee au lancement de l'application , après avoir renseigné les identifiants.
 
 # Erreur possible
 
