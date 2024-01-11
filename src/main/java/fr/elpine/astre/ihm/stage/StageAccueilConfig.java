@@ -3,15 +3,14 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
-import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.DB;
-import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.outil.Fraction;
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -90,9 +89,19 @@ public class StageAccueilConfig extends Stage implements Initializable
         stage.showAndWait();
     }
 
-    public void onBtnAjouter()
+    public void onBtnAjouterInter()
     {
-        Stage stage = Manager.creer( "ajouterCategories", this );
+        Stage stage = Manager.creer( "ajouterCategorieInter", this );
+
+        assert stage != null;
+        stage.showAndWait();
+
+        this.refresh();
+    }
+
+    public void onBtnAjouterHeure()
+    {
+        Stage stage = Manager.creer( "ajouterCategorieHeure", this );
 
         assert stage != null;
         stage.showAndWait();
@@ -270,7 +279,8 @@ public class StageAccueilConfig extends Stage implements Initializable
                     int index = getIndex();
                     if (index >= 0 && index < getTableView().getItems().size()) {
                         CategorieIntervenant afc = getTableView().getItems().get(index);
-                        afc.setRatioTPDefault(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+                        Fraction f = Fraction.valueOf(newValue);
+                        if (f != null) afc.setRatioTPDefault(f); // Mettre à jour votre donnée
                         tabCatInter.refresh();
                     }
                 });
@@ -322,7 +332,9 @@ public class StageAccueilConfig extends Stage implements Initializable
                     int index = getIndex();
                     if (index >= 0 && index < getTableView().getItems().size()) {
                         CategorieHeure afc = getTableView().getItems().get(index);
-                        afc.setEquivalentTD(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+
+                        Fraction f = Fraction.valueOf(newValue);
+                        if (f != null) afc.setEquivalentTD(f); // Mettre à jour votre donnée
                         tabCatHeures.refresh();
                     }
                 });
@@ -411,13 +423,13 @@ public class StageAccueilConfig extends Stage implements Initializable
                     String newValue = comboBox.getValue();
                     String oldValue = getItem();
 
-                    CategorieHeure cat = getTableView().getItems().get(getIndex());
-                    if(newValue != null && !oldValue.equals(newValue))
-                    {
-                        cat.setTypeGroupe(newValue.toLowerCase());
-                    }
+                    if (newValue != null && !newValue.equals(oldValue)) {
+                        CategorieHeure cat = getTableView().getItems().get(getIndex());
 
-                    tabCatHeures.refresh();
+                        cat.setTypeGroupe(newValue.toLowerCase());
+
+                        tabCatHeures.refresh();
+                    }
                 });
             }
 
@@ -528,7 +540,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         tabCatHeures.refresh();
     }
 
-    public void onThemeChange(ActionEvent actionEvent) {
+    public void onThemeChange() {
         int selected = this.theme.getToggles().indexOf(this.theme.getSelectedToggle());
 
         switch (selected) {

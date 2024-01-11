@@ -19,7 +19,7 @@ public class Manager
 		return Manager.creer( fxml, null );
 	}
 
-	public static <T> T creer( String fxml, Stage parent ) // "previsionnel"
+	public static <T> T creer( String fxml, Stage parent )
 	{
 		URL        fxmlUrl    = Manager.class.getResource(String.format("%s.fxml", fxml));
 		FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);

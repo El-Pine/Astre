@@ -6,12 +6,10 @@ import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -51,11 +49,11 @@ public class StageAjouterCategories extends Stage implements Initializable
     private ChoiceBox<String> cbbTypeGroupe;
 
 
-    public StageAjouterCategories() // fxml -> "ajouterCategories"
+    public StageAjouterCategories() // fxml -> "ajouterCategorieHeure" / "ajouterCategorieInter"
     {
         this.setTitle("Ajout d'une catégorie");
         this.setMinWidth(600);
-        this.setMinHeight(400);
+        this.setMinHeight(350);
         this.setResizable(false);
     }
 
@@ -118,7 +116,9 @@ public class StageAjouterCategories extends Stage implements Initializable
         this.setWidth( this.getMinWidth() );
         this.setHeight( this.getMinHeight() );
 
-        cbbTypeGroupe.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList("TD", "TP", "CM"))));
-        cbbTypeGroupe.setValue("TD");
+        if (cbbTypeGroupe != null) {
+            cbbTypeGroupe.setItems(FXCollections.observableList(new ArrayList<>(Arrays.asList("TD", "TP", "CM"))));
+            cbbTypeGroupe.setValue("TD");
+        }
     }
 }

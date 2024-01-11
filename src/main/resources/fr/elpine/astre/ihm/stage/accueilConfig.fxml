@@ -32,7 +32,7 @@
                               <Insets right="50.0" />
                            </FlowPane.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="100.0" text="Ajouter" />
+                        <Button mnemonicParsing="false" onAction="#onBtnAjouterInter" prefWidth="100.0" text="Ajouter" />
                         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBtnSupprimer" prefWidth="100.0" text="Supprimer">
                            <FlowPane.margin>
                               <Insets />
@@ -78,7 +78,7 @@
                                    <Insets right="50.0" />
                                </FlowPane.margin>
                            </Button>
-                           <Button mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="100.0" text="Ajouter" />
+                           <Button mnemonicParsing="false" onAction="#onBtnAjouterHeure" prefWidth="100.0" text="Ajouter" />
                            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBtnSupprimer" prefWidth="100.0" text="Supprimer">
                                <FlowPane.margin>
                                    <Insets />

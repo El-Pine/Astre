@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjouterCategories">
+   <center>
+      <GridPane prefHeight="250.0" prefWidth="450.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <left>
+                  <Label text=" Nom " BorderPane.alignment="CENTER" />
+               </left>
+               <center>
+                  <TextField fx:id="txtfNomCatH" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="50.0" />
+                     </BorderPane.margin>
+                  </TextField>
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
+               <left>
+                  <Label BorderPane.alignment="CENTER" />
+               </left>
+               <center>
+                  <CheckBox fx:id="cbHebdo" mnemonicParsing="false" text="Hebdomadaire " BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+            <GridPane GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Module(s) :" />
+                  <CheckBox fx:id="cbRessourcesCatH" mnemonicParsing="false" text="Ressources" wrapText="true" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="-10.0" />
+                     </GridPane.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="cbSaeCatH" mnemonicParsing="false" text="SAE" GridPane.columnIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="cbPppCatH" mnemonicParsing="false" text="PPP" GridPane.columnIndex="3">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="cbStageCatH" mnemonicParsing="false" text="Stage" GridPane.columnIndex="4">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </CheckBox>
+               </children>
+               </GridPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="6">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onBtnEnregistrerCatH" prefWidth="100.0" text="Enregistrer">
+                     <FlowPane.margin>
+                        <Insets right="20.0" />
+                     </FlowPane.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#onBtnAnnulerCatH" prefWidth="100.0" text="Annuler" />
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
+               <children>
+                  <Label text="Type de Groupe : " />
+                  <ChoiceBox fx:id="cbbTypeGroupe" prefWidth="150.0" />
+               </children>
+            </FlowPane>
+            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+               <children>
+                  <Label text="Equivalent TD : " />
+                  <TextField fx:id="txtfEqtdCatH" />
+               </children>
+            </FlowPane>
+         </children>
+      </GridPane>
+   </center>
+   <padding>
+      <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+   </padding>
+</BorderPane>
