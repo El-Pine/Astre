@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,7 +19,10 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -34,15 +36,10 @@ public class StageGeneration extends Stage implements Initializable
 
     private ObservableList<Object> ens;
 
-    @FXML
-    private TableView<Object>tabGeneration;
-    @FXML
-    private TableColumn<Object,String> g_1;
-    @FXML
-    private TableColumn<Object,Boolean>g_2;
-    @FXML
-    private TextField txtFieldRecherche;
-    public CheckBox dbPdf;
+    @FXML private TableView<Object>tabGeneration;
+    @FXML private TableColumn<Object,String> g_1;
+    @FXML private TableColumn<Object,Boolean>g_2;
+    @FXML private TextField txtFieldRecherche;
 
     private String vue;
 
@@ -390,7 +387,7 @@ public class StageGeneration extends Stage implements Initializable
         } catch (IOException ignored) { }
     }
 
-    public void onBtn() {
+    @FXML private void onBtn() {
         if (this.vue.equals("module"))
         {
             this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
@@ -414,18 +411,18 @@ public class StageGeneration extends Stage implements Initializable
         }
     }
 
-    public void onCheckAll() {
+    @FXML private void onCheckAll() {
         setCheckbox(true);
     }
-    public void onUnCheckAll() {
+    @FXML private void onUnCheckAll() {
         setCheckbox(false);
     }
 
-    public void onAnnuler() {
+    @FXML private void onAnnuler() {
         this.close();
     }
 
-    public void onRecherche() {
+    @FXML private void onRecherche() {
         if (this.vue.equals("module"))
         {
             // creer une recherche de modules

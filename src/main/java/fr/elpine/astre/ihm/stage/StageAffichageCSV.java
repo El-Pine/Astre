@@ -15,9 +15,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StageAffichageCSV extends Stage {
-
-    @FXML private Button btnAnnuler;
+public class StageAffichageCSV extends Stage
+{
     @FXML private TextField txtFieldRecherche;
 
     @FXML private TableView<ObservableList<String>> tabAffCsv;

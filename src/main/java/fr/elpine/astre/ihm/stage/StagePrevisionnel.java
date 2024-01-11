@@ -23,32 +23,21 @@ public class StagePrevisionnel extends Stage implements Initializable
 {
 	private ArrayList< TableView<Module> > lstViews;
 
-	@FXML
-	public TableView<Module>           tabs1;
-	@FXML
-	public TableView<Module>           tabs2;
-	@FXML
-	public TableView<Module>           tabs3;
-	@FXML
-	public TableView<Module>           tabs4;
-	@FXML
-	public TableView<Module>           tabs5;
-	@FXML
-	public TableView<Module>           tabs6;
+	@FXML private TableView<Module>           tabs1;
+	@FXML private TableView<Module>           tabs2;
+	@FXML private TableView<Module>           tabs3;
+	@FXML private TableView<Module>           tabs4;
+	@FXML private TableView<Module>           tabs5;
+	@FXML private TableView<Module>           tabs6;
 
-	@FXML
-	private TextField txtNbTD;
-	@FXML
-	private TextField txtNbTP;
-	@FXML
-	private TextField txtNbEtd;
-	@FXML
-	private TextField txtNbSemaine;
+	@FXML private TextField txtNbTD;
+	@FXML private TextField txtNbTP;
+	@FXML private TextField txtNbEtd;
+	@FXML private TextField txtNbSemaine;
 
-	public ChoiceBox<String> selectedModuleType;
+	@FXML private ChoiceBox<String> selectedModuleType;
 
-	@FXML
-	private TabPane pnlControlSem;
+	@FXML private TabPane pnlControlSem;
 
 	private boolean modifieCatHr;
 
@@ -67,20 +56,19 @@ public class StagePrevisionnel extends Stage implements Initializable
 	public boolean getModifieCatHr  () { return  this.modifieCatHr;   }
 	public Module  getModuleModifier() { return  this.moduleModifier; }
 
-	@FXML
-	public void onBtnEnregistrer() {
+	@FXML private void onBtnEnregistrer() {
 		this.setChamps();
 
 		Controleur.get().getMetier().enregistrer();
 		this.close();
 	}
 
-	public void onBtnFermer() {
+	@FXML private void onBtnFermer() {
 		Controleur.get().getMetier().rollback();
 		this.close();
 	}
 
-	public void onBtnCreer() {
+	@FXML private void onBtnCreer() {
 		this.setChamps();
 
 		String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
@@ -93,8 +81,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		stage.showAndWait();
 	}
 
-	@FXML
-	public void onBtnSupprimer()
+	@FXML private void onBtnSupprimer()
 	{
 		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
 
@@ -111,8 +98,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		this.refresh();
 	}
 
-	@FXML
-	public void onBtnModifier()
+	@FXML private void onBtnModifier()
 	{
 		if(PopUp.confirmationR("Modifiez les types d'heures", null, "Voulez-vous les types d'heures présente dans ce module ?"))
 			modifierCatHr();

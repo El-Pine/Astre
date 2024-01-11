@@ -22,27 +22,17 @@ import java.util.ResourceBundle;
 
 public class StageIntervenant extends Stage implements Initializable
 {
-	@FXML
-	private TableView<Intervenant> tabAffInter;
+	@FXML private TableView<Intervenant> tabAffInter;
 
-	@FXML
-	private TableColumn<Intervenant,String> tcS1;
-	@FXML
-	private TableColumn<Intervenant,String> tcS3;
-	@FXML
-	private TableColumn<Intervenant,String> tcS5;
-	@FXML
-	private TableColumn<Intervenant,String> tcTotImpair;
-	@FXML
-	private TableColumn<Intervenant,String> tcS2;
-	@FXML
-	private TableColumn<Intervenant,String> tcS4;
-	@FXML
-	private TableColumn<Intervenant,String> tcS6;
-	@FXML
-	private TableColumn<Intervenant,String> tcTotPair;
-	@FXML
-	private TableColumn<Intervenant,String> tcTot;
+	@FXML private TableColumn<Intervenant,String> tcS1;
+	@FXML private TableColumn<Intervenant,String> tcS3;
+	@FXML private TableColumn<Intervenant,String> tcS5;
+	@FXML private TableColumn<Intervenant,String> tcTotImpair;
+	@FXML private TableColumn<Intervenant,String> tcS2;
+	@FXML private TableColumn<Intervenant,String> tcS4;
+	@FXML private TableColumn<Intervenant,String> tcS6;
+	@FXML private TableColumn<Intervenant,String> tcTotPair;
+	@FXML private TableColumn<Intervenant,String> tcTot;
 
 	@FXML
 	private TableColumn<Intervenant,String> tcAjout;
@@ -73,21 +63,18 @@ public class StageIntervenant extends Stage implements Initializable
 		this.setMinHeight(600);
 	}
 
-	@FXML
-	protected void onBtnClickEnregistrer()
+	@FXML private void onBtnClickEnregistrer()
 	{
 		Controleur.get().getMetier().enregistrer();
 		this.close();
 	}
 
-	@FXML
-	protected void onBtnClickAnnuler() {
+	@FXML private void onBtnClickAnnuler() {
 		Controleur.get().getMetier().rollback();
 		this.close();
 	}
 
-	@FXML
-	protected void onBtnClickAjouter()
+	@FXML private void onBtnClickAjouter()
 	{
 		Stage stage = Manager.creer("saisieIntervenant", this);
 
@@ -96,8 +83,7 @@ public class StageIntervenant extends Stage implements Initializable
 		this.refresh();
 	}
 
-	@FXML
-	protected void onBtnClickSupprimer() {
+	@FXML private void onBtnClickSupprimer() {
 		Intervenant inter = tabAffInter.getSelectionModel().getSelectedItem();
 
 		if (PopUp.confirmationR("Suppression d'un intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer l'intervenant : %s %s", inter.getNom(), inter.getPrenom())))
@@ -459,7 +445,7 @@ public class StageIntervenant extends Stage implements Initializable
 		}));
 	}
 
-	public void onBtnRechercher()
+	@FXML private void onBtnRechercher()
 	{
 		String recherche = txtFieldRecherche.getText();
 		ObservableList<Intervenant> ensInter = FXCollections.observableList(Controleur.get().getMetier().rechercheIntervenantByText(recherche));

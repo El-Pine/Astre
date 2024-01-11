@@ -7,15 +7,11 @@ import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class StageAjoutAffectation extends Stage
 {

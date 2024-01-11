@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;

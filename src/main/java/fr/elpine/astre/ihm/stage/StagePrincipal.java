@@ -16,12 +16,11 @@ import java.util.ResourceBundle;
 
 public class StagePrincipal extends Stage implements Initializable
 {
-	public ImageView image;
-	public Button btnPrev;
-	public Button btnInter;
-	public Button btnEtat;
+	@FXML private ImageView image;
+	@FXML private Button btnPrev;
+	@FXML private Button btnInter;
+	@FXML private Button btnEtat;
 	@FXML private Button btnAnnee;
-	//private Stage stage;
 
 	public StagePrincipal() // fxml -> "accueil"
 	{
@@ -31,62 +30,35 @@ public class StagePrincipal extends Stage implements Initializable
 		this.setResizable(false);
 	}
 
-	/*public static Stage creer() throws IOException
-	{
-		Stage stage = new Stage();
-
-		AstreApplication.refreshIcon(stage);
-
-		FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("accueil.fxml"));
-
-		Scene scene = new Scene(fxmlLoader.load(), 300, 400);
-
-		StagePrincipal stageCtrl = fxmlLoader.getController();
-		if (stageCtrl != null) {
-			stageCtrl.setStage(stage);
-		}
-
-		stage.setTitle("A.S.T.R.E.");
-		stage.setScene(scene);
-
-		return stage;
-	}
-
-	private void setStage(Stage stage) { this.stage = stage; }*/
-
-	@FXML
-	protected void onBtnClickParametre() {
+	@FXML private void onBtnClickParametre() {
 		Stage stage = Manager.creer("accueilConfig", this);
 
         assert stage != null;
         stage.showAndWait();
 	}
 
-	@FXML
-	protected void onBtnClickPrevisionnel() {
+	@FXML private void onBtnClickPrevisionnel() {
 		Stage stage = Manager.creer("previsionnel", this);
 
         assert stage != null;
         stage.showAndWait();
 	}
 
-	@FXML
-	protected void onBtnClickIntervenant() {
+	@FXML private void onBtnClickIntervenant() {
 		Stage stage = Manager.creer("intervenant", this);
 
         assert stage != null;
         stage.showAndWait();
 	}
 
-	@FXML
-	protected void onBtnClickEtat() {
+	@FXML private void onBtnClickEtat() {
 		Stage stage = Manager.creer("etats", this);
 
         assert stage != null;
         stage.showAndWait();
 	}
 
-	public void onBtnClickAnnee() {
+	@FXML private void onBtnClickAnnee() {
 		Stage stage = Manager.creer("saisieAnnee", this);
 
         assert stage != null;

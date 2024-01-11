@@ -4,7 +4,6 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Module;
-import fr.elpine.astre.metier.objet.Semestre;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,13 +17,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class StageChoixCatH extends Stage implements Initializable {
-    @FXML
-    private GridPane gPane;
-    public  CheckBox cbTP;
-    public CheckBox cbTD;
-    public CheckBox cbCM;
-    public CheckBox cbHtut;
+public class StageChoixCatH extends Stage implements Initializable
+{
+    @FXML private GridPane gPane;
     private ArrayList<CategorieHeure> ensCatHr;
     private String type;
     private int semestre;
@@ -32,14 +27,14 @@ public class StageChoixCatH extends Stage implements Initializable {
 
     public StageChoixCatH() // fxml -> "choisirCatHeure"
     {
-        this.setTitle("Affectation");
+        this.setTitle("Attribution des catégories d'heure");
         this.setMinWidth(600);
         this.setMinHeight(220);
     }
 
     public void setType(String type) { this.type = type; }
 
-    public void onBtnAnnuler(ActionEvent actionEvent)
+    @FXML private void onBtnAnnuler(ActionEvent actionEvent)
     {
         Controleur.get().getMetier().rollback();
         this.close();
@@ -126,7 +121,7 @@ public class StageChoixCatH extends Stage implements Initializable {
     }
 
     // Méthode appelée lors du clic sur le bouton "Valider"
-    public void onBtnValider() {
+    @FXML private void onBtnValider() {
         ArrayList<CategorieHeure> lstCatValide = new ArrayList<>();
         for ( CheckBox cb : ensCb )
         {

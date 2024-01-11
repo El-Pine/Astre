@@ -3,7 +3,6 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.DB;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -18,20 +17,12 @@ import java.util.ResourceBundle;
 public class StageInitBd extends Stage implements Initializable
 {
     private ArrayList<TextField> textFields;
-    @FXML
-    public TextField txtfPort;
-    @FXML
-    public TextField txtfId;
-    @FXML
-    public TextField txtfMdp;
-    @FXML
-    public TextField txtfBdd;
-    @FXML
-    public TextField txtfIp;
 
-    //private Stage stage;
-    //private static StageAccueilConfig parent;
-
+    @FXML private TextField txtfPort;
+    @FXML private TextField txtfId;
+    @FXML private TextField txtfMdp;
+    @FXML private TextField txtfBdd;
+    @FXML private TextField txtfIp;
 
     public StageInitBd() // fxml -> "initDb"
     {
@@ -40,37 +31,6 @@ public class StageInitBd extends Stage implements Initializable
         this.setMinHeight(400);
         this.setResizable(false);
     }
-
-    /*public static Stage creer( StageAccueilConfig parent ) throws IOException
-    {
-        Stage stage = new Stage();
-
-        AstreApplication.refreshIcon(stage);
-
-        StageInitBd.parent = parent;
-
-        FXMLLoader fxmlLoader = new FXMLLoader(StagePrincipal.class.getResource("initDb.fxml"));
-
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-
-        StageInitBd stageCtrl = fxmlLoader.getController();
-        if (stageCtrl != null) {
-            stageCtrl.setStage(stage);
-            stageCtrl.addTxtField();
-        }
-
-        stage.setTitle("Config Base de données");
-        stage.setScene(scene);
-
-        stage.setOnCloseRequest(e -> {
-            if ( parent != null )
-                parent.activer();
-        });
-
-        return stage;
-    }
-
-    private void setStage(Stage stage) { this.stage = stage; }*/
 
     private void addTxtField()
     {
@@ -82,7 +42,7 @@ public class StageInitBd extends Stage implements Initializable
         this.textFields.add(this.txtfBdd);
     }
 
-    public void onBtnValider()
+    @FXML private void onBtnValider()
     {
         String ip          = txtfIp   .getText();
         String port        = txtfPort .getText();
@@ -102,20 +62,12 @@ public class StageInitBd extends Stage implements Initializable
 
                 stage.show();
             }
-
-            /*if ( parent != null ) parent.activer();
-            else
-            {
-                try {
-                    StagePrincipal.creer().show();
-                } catch (IOException e) { throw new RuntimeException(e); }
-            }*/
         }
         else
             PopUp.warning("Erreur de connexion", null, "Les informations entrées sont invalides, ou la base de données n'est pas accessible").showAndWait();
     }
 
-    public void onBtnAnnuler()
+    @FXML private void onBtnAnnuler()
     {
         //if ( parent != null ) parent.activer();
         this.close();

@@ -18,8 +18,7 @@ public class StageEtats extends Stage implements Initializable
         this.setResizable(false);
     }
 
-    @FXML
-    protected void onBtnClickEtatIntervenant() {
+    @FXML private void onBtnClickEtatIntervenant() {
         StageGeneration stage = Manager.creer("generation", this);
 
         assert stage != null;
@@ -27,7 +26,7 @@ public class StageEtats extends Stage implements Initializable
         stage.showAndWait();
     }
 
-    public void onBtnClickEtatModule() {
+    @FXML private void onBtnClickEtatModule() {
         StageGeneration stage = Manager.creer("generation", this);
 
         assert stage != null;
@@ -35,7 +34,7 @@ public class StageEtats extends Stage implements Initializable
         stage.showAndWait();
     }
 
-    public void onBtnClickEtatCSV() {
+    @FXML private void onBtnClickEtatCSV() {
         String nomAnnee = Controleur.get().getMetier().getAnneeActuelle().getNom();
         String fichier = Controleur.get().getMetier().getDonneesCSV( nomAnnee );
 
@@ -49,7 +48,7 @@ public class StageEtats extends Stage implements Initializable
         }
     }
 
-    public void onBtnClickEtatAnnuler() {
+    @FXML private void onBtnClickEtatAnnuler() {
         this.close();
     }
 
