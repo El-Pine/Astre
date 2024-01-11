@@ -261,11 +261,6 @@ public class StageGeneration extends Stage implements Initializable
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
 
-	    try {
-		    genererPdf( filePath, filePath.replace(".html", ".pdf") );
-	    } catch (IOException e) {
-		    throw new RuntimeException(e);
-	    }
         PopUp.information("Création fichier HTML", null , "Le fichier HTML a été crée avec succés");
     }
 
@@ -384,11 +379,6 @@ public class StageGeneration extends Stage implements Initializable
         // Appel de la méthode pour créer le fichier HTML
         createHTMLFile(htmlContent.toString(), filePath);
 
-	    try {
-		    genererPdf( filePath, filePath.replace(".html", ".pdf") );
-	    } catch (IOException e) {
-		    throw new RuntimeException(e);
-	    }
         PopUp.information("Création fichier HTML", null , "Le fichier HTML a été crée avec succés");
     }
 
@@ -452,53 +442,6 @@ public class StageGeneration extends Stage implements Initializable
             ObservableList<Object> ensResult =FXCollections.observableArrayList(ensInter);
             tabGeneration.setItems(ensResult);
         }
-    }
-
-    // TODO : le loup
-    //  finir le pdf
-
-    private static void genererPdf(String htmlFilePath, String pdfFilePath) throws IOException
-    {
-        // step 1: creation of a document-object
-        /*Document document = new Document();
-        try {
-            // step 2:
-            // we create a writer that listens to the document
-            // and directs a PDF-stream to a file
-            PdfWriter.getInstance(document,
-                    new FileOutputStream(pdfFilePath));
-
-            // step 3: we open the document
-            document.open();
-            // step 4: we add a paragraph to the document
-            document.add(new Paragraph("Hello World"));
-
-            HtmlParser.parse(document, new FileInputStream(htmlFilePath) );
-        } catch (DocumentException de) {
-            System.err.println(de.getMessage());
-        } catch (IOException ioe) {
-            System.err.println(ioe.getMessage());
-        }*/
-
-        // step 5: we close the document
-        //document.close();
-
-        /*try {
-            Document document = new Document(PageSize.A4);
-
-	        PdfWriter.getInstance(document, new FileOutputStream(pdfFilePath));
-
-	        document.open();
-
-            HTMLWorker htmlWorker = new HTMLWorker(document);
-            htmlWorker.parse(new StringReader(htmlCode));
-
-            document.close();
-
-            System.out.println("Conversion réussie. Le fichier PDF a été créé avec succès.");
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }
 
