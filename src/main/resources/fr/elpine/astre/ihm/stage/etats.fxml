@@ -3,23 +3,42 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:controller="fr.elpine.astre.ihm.stage.StageEtats" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="e_1" mnemonicParsing="false" onAction="#onBtnClickEtatIntervenant" prefHeight="25.0" prefWidth="180.0" text="Générer vue par intervenant" />
-            <Button fx:id="e_2" mnemonicParsing="false" onAction="#onBtnClickEtatModule" prefHeight="25.0" prefWidth="180.0" text="Générer vue par module">
-               <VBox.margin>
-                  <Insets top="25.0" />
-               </VBox.margin>
-            </Button>
-            <Button fx:id="e_3" mnemonicParsing="false" onAction="#onBtnClickEtatCSV" prefHeight="25.0" prefWidth="180.0" text="Générer CSV (tout)">
-               <VBox.margin>
-                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#onBtnClickEtatAnnuler" prefHeight="25.0" prefWidth="180.0" text="Annuler" />
-         </children></VBox>
-   </center>
-</BorderPane>
+
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageEtats">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" text="Génération de fichier HTML">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="5.0" />
+         </VBox.margin>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#onBtnClickEtatIntervenant" prefWidth="180.0" text="Par intervenant">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </Button>
+      <Button mnemonicParsing="false" onAction="#onBtnClickEtatModule" prefWidth="180.0" text="Par module">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Button>
+      <Label alignment="CENTER" text="CSV">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="5.0" top="25.0" />
+         </VBox.margin>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#onBtnClickEtatCSV" prefWidth="180.0" text="Générer">
+         <VBox.margin>
+            <Insets bottom="25.0" />
+         </VBox.margin>
+      </Button>
+      <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnClickEtatAnnuler" prefWidth="180.0" text="Fermer" />
+   </children>
+</VBox>
