@@ -48,6 +48,6 @@ Tout se fait automatiquement, vous n'avez donc aucune autre action à effectuer,
 # Erreur possible
 
 Sur linux une erreur de performance peut arriver, si c'est le cas utilisez la commande : 
-    ```bash
-    ulimit -c unlimited
-    ```
+   ```bash
+   ulimit -c unlimited
+   ```
