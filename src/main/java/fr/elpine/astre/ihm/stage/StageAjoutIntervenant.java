@@ -66,7 +66,7 @@ public class StageAjoutIntervenant extends Stage implements Initializable
         boolean test = true;
 
         for (Map.Entry<TextField, Boolean> e : this.hmChampValider.entrySet())
-	        if (!e.getValue()) { test = false; break; }
+	        if ((!e.getValue() && this.txtEmail != e.getKey()) || (this.txtEmail == e.getKey() && !this.txtEmail.getText().isEmpty() && !e.getValue() )) { test = false; break; }
 
         if (test) {
             new Intervenant(
