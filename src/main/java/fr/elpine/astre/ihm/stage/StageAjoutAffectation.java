@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class StageAjoutAffectation extends Stage implements Initializable
+public class StageAjoutAffectation extends Stage
 {
     @FXML private ComboBox<Intervenant>    cbIntervenant;
     @FXML private ComboBox<CategorieHeure> cbbCatHeure;
@@ -32,6 +32,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
 
     private Module module;
     private CategorieHeure catHp;
+    private StageSaisieRessource parent;
 
     public StageAjoutAffectation() //fxml -> ajoutAffectation
     {
@@ -58,14 +59,12 @@ public class StageAjoutAffectation extends Stage implements Initializable
         this.close();
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
+    public void init()
     {
         cbIntervenant.setItems(FXCollections.observableList(Controleur.get().getMetier().getIntervenants()));
 
         ObservableList<CategorieHeure> lst = FXCollections.observableList( new ArrayList<>() );
-        for (CategorieHeure catH : StageSaisieRessource.getLstCatH() ) {
+        for (CategorieHeure catH : this.parent.getLstCatH() ) {
             if (catH.getNom().equals("HP")) {
                 this.catHp = catH;
             } else {
@@ -127,5 +126,10 @@ public class StageAjoutAffectation extends Stage implements Initializable
                 return null;
             }
         }));
+    }
+
+    public void setParent(StageSaisieRessource stageSaisieRessource)
+    {
+        this.parent = stageSaisieRessource;
     }
 }

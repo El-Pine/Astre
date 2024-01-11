@@ -52,7 +52,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     @FXML
     public static ObservableList<Affectation> ensAff;
 
-    public static ArrayList<CategorieHeure> ensCatHrPresent;
+    public ArrayList<CategorieHeure> ensCatHrPresent;
 
     @FXML
     public TextField txtTypeModule;
@@ -148,7 +148,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
     }
 
-    public static ArrayList<CategorieHeure> getLstCatH() { return StageSaisieRessource.ensCatHrPresent; }
+    public ArrayList<CategorieHeure> getLstCatH() { return this.ensCatHrPresent; }
 
     /*-----------*/
     /*   SETTER  */
@@ -488,6 +488,8 @@ public class StageSaisieRessource extends Stage implements Initializable
 
         if(stage != null)
         {
+            stage.setParent(this);
+            stage.init();
             stage.setModule(this.moduleModif != null ? this.moduleModif : this.futurModule);
 
             stage.showAndWait();
@@ -790,6 +792,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             txtLibelleCourt.setText(this.moduleModif.getAbreviation());
             couleur        .setValue(this.moduleModif.getCouleur());
             cbValidation   .setSelected(this.moduleModif.estValide());
+            this.ensCatHrPresent = this.moduleModif.getEnsCatHr();
 
             initPn     (this.moduleModif);
             initSemaine(this.moduleModif);
@@ -817,14 +820,13 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void initTableColumns() {
 
-        ArrayList<CategorieHeure> ensCatH = ensCatHrPresent;
         ArrayList<String>      ensNomCatH = new ArrayList<>();
 
-        for (CategorieHeure catHr : ensCatH)
+        for (CategorieHeure catHr : ensCatHrPresent)
             if ( estTypeModule(catHr) && !catHr.getNom().equals("HP"))
                 ensNomCatH.add(catHr.getNom());
 
-        for (CategorieHeure cat : ensCatH)
+        for (CategorieHeure cat : ensCatHrPresent)
         {
             ajouterColonne(cat.getNom());
         }
@@ -868,11 +870,12 @@ public class StageSaisieRessource extends Stage implements Initializable
                     Affectation afc = getTableView().getItems().get(getIndex());
                     if(newValue != null && !oldValue.equals(newValue))
                     {
-                        if (!newValue.equals("CM")) {
-                            afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                        CategorieHeure catHTemp = Astre.rechercherCatHr(ensCatHrPresent, newValue);
+                        if (!catHTemp.getTypeGroupe().equals("CM")) {
+                            afc.setTypeHeure(catHTemp);
                         } else {
                             afc.setNbGroupe(1);
-                            afc.setTypeHeure(Astre.rechercherCatHr(ensCatH, newValue));
+                            afc.setTypeHeure(catHTemp);
                         }
                     }
                     calculeAffecte();
@@ -1044,7 +1047,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public boolean estTjrsPresent(CategorieHeure catHr2)
     {
-        for (CategorieHeure catHr: StageSaisieRessource.ensCatHrPresent)
+        for (CategorieHeure catHr: this.ensCatHrPresent)
             if(catHr.equals(catHr2)) return true;
         return false;
         
@@ -1241,6 +1244,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     public void setCatH(ArrayList<CategorieHeure> lstCatValide)
     {
-        StageSaisieRessource.ensCatHrPresent = lstCatValide;
+        this.ensCatHrPresent = lstCatValide;
     }
 }

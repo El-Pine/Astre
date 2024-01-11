@@ -137,7 +137,6 @@ public class StagePrevisionnel extends Stage implements Initializable
 		stage.setSemestre(this.semestreActuel.getNumero());
 		stage.init();
 		stage.showAndWait();
-
 	}
 
 	private void modifierModule()
@@ -153,6 +152,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 			{
 				stage.setSemestre(this.semestreActuel.getNumero());
 				stage.setModule(mod);
+				stage.setCatH(mod.getEnsCatHr());
 				stage.init();
 				stage.showAndWait();
 				this.refresh();
