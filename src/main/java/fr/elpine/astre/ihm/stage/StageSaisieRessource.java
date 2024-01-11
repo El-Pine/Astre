@@ -1047,8 +1047,6 @@ public class StageSaisieRessource extends Stage implements Initializable
         for (Attribution att : mod.getAttributions())
             if(!Astre.rechercherCatHr(ensCatHrPresent,att.getCatHr().getNom()).estHebdo() && estTjrsPresent(att.getCatHr()))
             {
-                System.out.println("att.getCatHr().getNom().toUpperCase() : " + att.getCatHr().getNom().toUpperCase());
-
                 this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).setText(att.getNbHeurePN().toString());
 
                 String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).getText())), att.getCatHr());

@@ -401,10 +401,7 @@ public class StageIntervenant extends Stage implements Initializable
                         }
                     cpt++;
                 }while(!nomCorrect);
-                System.out.println(nomTemp);
                 Intervenant duplicatedItem = new Intervenant(nomTemp,sltItem.getPrenom(),sltItem.getMail(),sltItem.getCategorie(),sltItem.getHeureService(),sltItem.getHeureMax(),sltItem.getRatioTP()); // Cloner l'élément sélectionné
-                // Ajouter l'élément cloné à la liste des données de votre TableView
-                System.out.println(duplicatedItem.getNom());
                 tabAffInter.getItems().add(duplicatedItem);
                 tabAffInter.refresh();
             } else {

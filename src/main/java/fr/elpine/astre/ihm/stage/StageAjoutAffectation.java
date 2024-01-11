@@ -43,13 +43,11 @@ public class StageAjoutAffectation extends Stage
         {
             aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
             StageSaisieRessource.ensAff.add( aff );
-            System.out.println(StageSaisieRessource.ensAff);
         }
         else if (cbIntervenant.getValue()!=null && cbbCatHeure.getValue()!=null && !txtNbGp.getText().isEmpty() && !txtNbSemaine.getText().isEmpty())
         {
             aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Integer.parseInt(txtNbGp.getText()),Integer.parseInt(txtNbSemaine.getText()),txtCommentaire.getText());
             StageSaisieRessource.ensAff.add( aff );
-            System.out.println(StageSaisieRessource.ensAff);
         }
 
         this.close();
