@@ -5,6 +5,7 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -22,10 +23,10 @@ import java.util.regex.Pattern;
 
 public class StageAnnee extends Stage implements Initializable
 {
-    public ComboBox<Annee> cbbAnnee;
-    public Button btnConsulter;
-    public Button btnDupliquer;
-    public Button btnSupprimer;
+    @FXML private ComboBox<Annee> cbbAnnee;
+    @FXML private Button          btnConsulter;
+    @FXML private Button btnDupliquer;
+    @FXML private Button btnSupprimer;
 
 
     public StageAnnee() // fxml -> "saisieAnnee"
@@ -53,7 +54,7 @@ public class StageAnnee extends Stage implements Initializable
         this.btnSupprimer.setDisable( disabled );
     }
 
-    public void onBtnAjouter() {
+    @FXML private void onBtnAjouter() {
         //StageAjouterAnnee.creer( this ).show();
         Stage stage = Manager.creer("ajouterAnnee", this);
 
@@ -62,7 +63,7 @@ public class StageAnnee extends Stage implements Initializable
         this.setCpbContrat();
     }
 
-    public void onBtnConsulter() {
+    @FXML private void onBtnConsulter() {
         Annee an = this.cbbAnnee.getValue();
 
         Controleur.get().getMetier().changerAnneeActuelle(an);
@@ -70,7 +71,7 @@ public class StageAnnee extends Stage implements Initializable
         this.close();
     }
 
-    public void onBtnDupliquer() {
+    @FXML private void onBtnDupliquer() {
         Annee an = this.cbbAnnee.getValue();
 
         LocalDate dateDebDef = an.getDateDeb().toLocalDate();
@@ -102,7 +103,7 @@ public class StageAnnee extends Stage implements Initializable
         this.setCpbContrat();
     }
 
-    public void onBtnSupprimer()
+    @FXML private void onBtnSupprimer()
     {
         Annee an = this.cbbAnnee.getValue();
 
@@ -140,7 +141,7 @@ public class StageAnnee extends Stage implements Initializable
         this.setCpbContrat();
     }
 
-    public void onBtnFermer()
+    @FXML private void onBtnFermer()
     {
         this.close();
     }

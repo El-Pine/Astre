@@ -21,20 +21,13 @@ import java.util.ResourceBundle;
 
 public class StageAjoutIntervenant extends Stage implements Initializable
 {
-    @FXML
-    private ComboBox<CategorieIntervenant>  cpbContrat;
-    @FXML
-    private TextField txtfRatio;
-    @FXML
-    private TextField txtNom;
-    @FXML
-    private TextField txtPrenom;
-    @FXML
-    private TextField txtService;
-    @FXML
-    private TextField txtComplementaire;
-    @FXML
-    private TextField txtEmail;
+    @FXML private ComboBox<CategorieIntervenant>  cpbContrat;
+    @FXML private TextField txtfRatio;
+    @FXML private TextField txtNom;
+    @FXML private TextField txtPrenom;
+    @FXML private TextField txtService;
+    @FXML private TextField txtComplementaire;
+    @FXML private TextField txtEmail;
 
     private HashMap<TextField,Boolean> hmChampValider;
 
@@ -61,7 +54,7 @@ public class StageAjoutIntervenant extends Stage implements Initializable
         }));
     }
 
-    public void onBtnValider()
+    @FXML private void onBtnValider()
     {
         boolean test = true;
 
@@ -85,7 +78,7 @@ public class StageAjoutIntervenant extends Stage implements Initializable
             PopUp.warning("Informations incorrectes", null, "Les informations entrées ne sont pas toutes valides").showAndWait();
     }
 
-    public void btnAnnuler() {
+    @FXML private void btnAnnuler() {
         this.close();
     }
 

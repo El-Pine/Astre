@@ -19,24 +19,16 @@ import java.util.ResourceBundle;
 
 public class StageAjoutAffectation extends Stage implements Initializable
 {
-    @FXML
-    private ComboBox<Intervenant>    cbIntervenant;
-    @FXML
-    private ComboBox<CategorieHeure> cbbCatHeure;
+    @FXML private ComboBox<Intervenant>    cbIntervenant;
+    @FXML private ComboBox<CategorieHeure> cbbCatHeure;
 
-    @FXML
-    private TextField             txtCommentaire;
-    @FXML
-    private TextField             txtNbHeure;
-    @FXML
-    private TextField             txtNbSemaine;
-    @FXML
-    private TextField             txtNbGp;
+    @FXML private TextField             txtCommentaire;
+    @FXML private TextField             txtNbHeure;
+    @FXML private TextField             txtNbSemaine;
+    @FXML private TextField             txtNbGp;
 
-    @FXML
-    private RadioButton           rbHP;
-    @FXML
-    private RadioButton           rbAutre;
+    @FXML private RadioButton           rbHP;
+    @FXML private RadioButton           rbAutre;
 
     private Module module;
     private CategorieHeure catHp;
@@ -46,8 +38,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
         this.setTitle("Ajout Affectation");
     }
 
-    @FXML
-    private void onBtnAjouter()
+    @FXML private void onBtnAjouter()
     {
         Affectation aff;
         if(rbHP.isSelected() && cbIntervenant.getValue()!=null && !txtNbHeure.getText().isEmpty())
@@ -63,8 +54,7 @@ public class StageAjoutAffectation extends Stage implements Initializable
 
         this.close();
     }
-    @FXML
-    private void onBtnAnnuler() {
+    @FXML private void onBtnAnnuler() {
         this.close();
     }
 
@@ -138,5 +128,4 @@ public class StageAjoutAffectation extends Stage implements Initializable
             }
         }));
     }
-
 }

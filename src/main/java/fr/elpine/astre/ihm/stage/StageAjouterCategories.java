@@ -20,33 +20,20 @@ import java.util.ResourceBundle;
 
 public class StageAjouterCategories extends Stage implements Initializable
 {
-    @FXML
-    private TextField txtfCodeCatInter;
-    @FXML
-    private TextField txtfNomCatInter;
-    @FXML
-    private TextField txtfRatioCatInter;
-    @FXML
-    private TextField txtfNbHMCatInter;
-    @FXML
-    private TextField txtfNbHServCatInter;
+    @FXML private TextField txtfCodeCatInter;
+    @FXML private TextField txtfNomCatInter;
+    @FXML private TextField txtfRatioCatInter;
+    @FXML private TextField txtfNbHMCatInter;
+    @FXML private TextField txtfNbHServCatInter;
 
-    @FXML
-    private TextField txtfNomCatH;
-    @FXML
-    private TextField txtfEqtdCatH;
-    @FXML
-    private CheckBox cbRessourcesCatH;
-    @FXML
-    private CheckBox cbSaeCatH;
-    @FXML
-    private CheckBox cbPppCatH;
-    @FXML
-    private CheckBox cbStageCatH;
-    @FXML
-    private CheckBox          cbHebdo;
-    @FXML
-    private ChoiceBox<String> cbbTypeGroupe;
+    @FXML private TextField txtfNomCatH;
+    @FXML private TextField txtfEqtdCatH;
+    @FXML private CheckBox cbRessourcesCatH;
+    @FXML private CheckBox cbSaeCatH;
+    @FXML private CheckBox cbPppCatH;
+    @FXML private CheckBox cbStageCatH;
+    @FXML private CheckBox          cbHebdo;
+    @FXML private ChoiceBox<String> cbbTypeGroupe;
 
 
     public StageAjouterCategories() // fxml -> "ajouterCategorieHeure" / "ajouterCategorieInter"
@@ -57,7 +44,7 @@ public class StageAjouterCategories extends Stage implements Initializable
         this.setResizable(false);
     }
 
-    public void onBtnEnregistrerCatInter()
+    @FXML private void onBtnEnregistrerCatInter()
     {
         String code    =                     txtfCodeCatInter   .getText();
         String nom     =                     txtfNomCatInter    .getText();
@@ -77,11 +64,11 @@ public class StageAjouterCategories extends Stage implements Initializable
         }
     }
 
-    public void onBtnAnnulerCatInter() {
+    @FXML private void onBtnAnnulerCatInter() {
         this.close();
     }
 
-    public void onBtnEnregistrerCatH() {
+    @FXML private void onBtnEnregistrerCatH() {
 
         String nom         = txtfNomCatH.getText();
         boolean ressources = cbRessourcesCatH.isSelected();
@@ -106,7 +93,7 @@ public class StageAjouterCategories extends Stage implements Initializable
     }
 
 
-    public void onBtnAnnulerCatH() {
+    @FXML private void onBtnAnnulerCatH() {
         this.close();
     }
 

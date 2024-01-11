@@ -77,12 +77,12 @@
                </GridPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="6">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onBtnEnregistrerCatH" prefWidth="100.0" text="Enregistrer">
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnEnregistrerCatH" prefWidth="100.0" text="Enregistrer">
                      <FlowPane.margin>
                         <Insets right="20.0" />
                      </FlowPane.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onBtnAnnulerCatH" prefWidth="100.0" text="Annuler" />
+                  <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnulerCatH" prefWidth="100.0" text="Annuler" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">

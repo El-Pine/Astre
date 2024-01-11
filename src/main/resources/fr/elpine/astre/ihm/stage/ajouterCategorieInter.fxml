@@ -97,12 +97,12 @@
                <children>
                   <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#onBtnEnregistrerCatInter" prefWidth="100.0" text=" Enregistrer ">
+                        <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnEnregistrerCatInter" prefWidth="100.0" text=" Enregistrer ">
                            <FlowPane.margin>
                               <Insets right="20.0" />
                            </FlowPane.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onBtnAnnulerCatInter" prefWidth="100.0" text=" Annuler " />
+                        <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnulerCatInter" prefWidth="100.0" text=" Annuler " />
                      </children>
                   </FlowPane>
                </children>

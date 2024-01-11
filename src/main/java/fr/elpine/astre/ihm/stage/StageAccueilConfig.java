@@ -6,6 +6,7 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
+import fr.elpine.astre.metier.outil.Configuration;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -28,49 +29,34 @@ import java.util.ResourceBundle;
 
 public class StageAccueilConfig extends Stage implements Initializable
 {
-    public Label lblState;
-    public Label lblIp;
-    public Label lblPort;
-    public Label lblIdentifiant;
-    public Label lblBase;
-    public ToggleGroup theme;
-    public ImageView imgSombre;
-    public ImageView imgClair;
-    public ImageView imgViolet;
+    @FXML private Label lblState;
+    @FXML private Label lblIp;
+    @FXML private Label lblPort;
+    @FXML private Label lblIdentifiant;
+    @FXML private Label lblBase;
+    @FXML private ToggleGroup theme;
+    @FXML private ImageView imgSombre;
+    @FXML private ImageView imgClair;
+    @FXML private ImageView imgViolet;
 
-    @FXML
-    private TableView<CategorieIntervenant> tabCatInter;
-    @FXML
-    private TableColumn<CategorieIntervenant,String> tcInter;
-    @FXML
-    private TableColumn<CategorieHeure ,String> tcHr;
-    @FXML
-    private TableColumn<CategorieIntervenant,String> tcCodeInter;
-    @FXML
-    private TableColumn<CategorieIntervenant,String> tcNomInter;
-    @FXML
-    private TableColumn<CategorieIntervenant,String> tcHMaxInter;
-    @FXML
-    private TableColumn<CategorieIntervenant,String> tcHServInter;
-    @FXML
-    private TableColumn<CategorieIntervenant,String> tcRatioInter;
+    @FXML private TableView<CategorieIntervenant> tabCatInter;
+    @FXML private TableColumn<CategorieIntervenant,String> tcInter;
+    @FXML private TableColumn<CategorieHeure ,String> tcHr;
+    @FXML private TableColumn<CategorieIntervenant,String> tcCodeInter;
+    @FXML private TableColumn<CategorieIntervenant,String> tcNomInter;
+    @FXML private TableColumn<CategorieIntervenant,String> tcHMaxInter;
+    @FXML private TableColumn<CategorieIntervenant,String> tcHServInter;
+    @FXML private TableColumn<CategorieIntervenant,String> tcRatioInter;
 
-    @FXML
-    private TableView<CategorieHeure>       tabCatHeures;
-    @FXML
-    private TableColumn<CategorieHeure,String >  tcNomHeures;
-    @FXML
-    private TableColumn<CategorieHeure,String > tcEqtdHeures;
-    @FXML
-    private TableColumn<CategorieHeure, Boolean> tcRessourcesHeures;
-    @FXML
-    private TableColumn<CategorieHeure,Boolean> tcSaeHeures;
-    @FXML
-    private TableColumn<CategorieHeure,Boolean> tcPppHeures;
-    @FXML
-    private TableColumn<CategorieHeure,Boolean> tcStageHeures;
-    public TableColumn<CategorieHeure,Boolean> tcHebdo;
-    public TableColumn<CategorieHeure,String> tcTypeGroupe;
+    @FXML private TableView<CategorieHeure>       tabCatHeures;
+    @FXML private TableColumn<CategorieHeure,String >  tcNomHeures;
+    @FXML private TableColumn<CategorieHeure,String > tcEqtdHeures;
+    @FXML private TableColumn<CategorieHeure, Boolean> tcRessourcesHeures;
+    @FXML private TableColumn<CategorieHeure,Boolean> tcSaeHeures;
+    @FXML private TableColumn<CategorieHeure,Boolean> tcPppHeures;
+    @FXML private TableColumn<CategorieHeure,Boolean> tcStageHeures;
+    @FXML private TableColumn<CategorieHeure,Boolean> tcHebdo;
+    @FXML private TableColumn<CategorieHeure,String> tcTypeGroupe;
 
 
     public StageAccueilConfig() // fxml -> "accueilConfig"
@@ -80,7 +66,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.setMinHeight(500);
     }
 
-    public void onBtnConfigBdd() {
+    @FXML private void onBtnConfigBdd() {
         //desactiver();
         //StageInitBd.creer( this ).show();
         Stage stage = Manager.creer( "initDb", this );
@@ -89,7 +75,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         stage.showAndWait();
     }
 
-    public void onBtnAjouterInter()
+    @FXML private void onBtnAjouterInter()
     {
         Stage stage = Manager.creer( "ajouterCategorieInter", this );
 
@@ -99,7 +85,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.refresh();
     }
 
-    public void onBtnAjouterHeure()
+    @FXML private void onBtnAjouterHeure()
     {
         Stage stage = Manager.creer( "ajouterCategorieHeure", this );
 
@@ -109,14 +95,14 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.refresh();
     }
 
-    public void onBtnEnregistrer()
+    @FXML private void onBtnEnregistrer()
     {
         Controleur.get().getMetier().enregistrer();
         this.refresh();
         this.close();
     }
 
-    public void onBtnAnnuler()
+    @FXML private void onBtnAnnuler()
     {
         Controleur.get().getMetier().rollback();
 
@@ -124,7 +110,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.close();
     }
 
-    public void onBtnSupprimer() throws IOException
+    @FXML private void onBtnSupprimer()
     {
         CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
         CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
@@ -481,6 +467,18 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.imgClair.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/cupertino-light.png"))));
         this.imgSombre.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/cupertino-dark.png"))));
         this.imgViolet.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/dracula.png"))));
+
+        String theme = Configuration.get("theme");
+
+        if (theme != null)
+        {
+            int id = 0;
+
+            if (theme.equals( "cupertino-light" )) id = 1;
+            if (theme.equals( "dracula"         )) id = 2;
+
+            this.theme.getToggles().get(id).setSelected(true);
+        }
     }
 
     public void enregistrerModification(CategorieHeure categorieHeure, boolean b,String s)
@@ -540,7 +538,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         tabCatHeures.refresh();
     }
 
-    public void onThemeChange() {
+    @FXML private void onThemeChange() {
         int selected = this.theme.getToggles().indexOf(this.theme.getSelectedToggle());
 
         switch (selected) {

@@ -55,11 +55,11 @@
             </DatePicker>
          </center>
       </BorderPane>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBtnValider" prefWidth="100.0" text="Valider" GridPane.rowIndex="1">
+      <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" prefWidth="100.0" text="Valider" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="50.0" />
          </GridPane.margin></Button>
-      <Button alignment="CENTER" mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Button alignment="CENTER" cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="-30.0" />
          </GridPane.margin></Button>

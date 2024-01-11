@@ -8,7 +8,7 @@
    <bottom>
       <ButtonBar prefHeight="35.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button fx:id="btnValider" defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
+          <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnValider" text="Valider" />
             <Button cancelButton="true" mnemonicParsing="false" onAction="#btnAnnuler" text="Annuler" />
         </buttons>
          <BorderPane.margin>

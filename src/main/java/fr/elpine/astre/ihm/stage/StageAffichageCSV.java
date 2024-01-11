@@ -17,36 +17,35 @@ import java.util.Arrays;
 
 public class StageAffichageCSV extends Stage {
 
-    public Button btnAnnuler;
-    public TextField txtFieldRecherche;
+    @FXML private Button btnAnnuler;
+    @FXML private TextField txtFieldRecherche;
 
-    @FXML
-    private TableView<ObservableList<String>> tabAffCsv;
-    public TableColumn<ObservableList<String>,String> tcCategorie;
-    public TableColumn<ObservableList<String>,String> tcNom;
-    public TableColumn<ObservableList<String>,String> tcPrenom;
-    public TableColumn<ObservableList<String>,String> tcHServ;
-    public TableColumn<ObservableList<String>,String> tcHMax;
-    public TableColumn<ObservableList<String>,String> tcRatioTP;
-    public TableColumn<ObservableList<String>,String> tcTheoTotImpair;
-    public TableColumn<ObservableList<String>,String> tcReelTotImpair;
-    public TableColumn<ObservableList<String>,String> tcTheoTotPair;
-    public TableColumn<ObservableList<String>,String> tcReelTotPair;
-    public TableColumn<ObservableList<String>,String> tcTheoTot;
-    public TableColumn<ObservableList<String>,String> tcReelTot;
-    public TableColumn<ObservableList<String>,String> tcTheoS1;
-    public TableColumn<ObservableList<String>,String> tcReelS1;
-    public TableColumn<ObservableList<String>,String> tcTheoS3;
-    public TableColumn<ObservableList<String>,String> tcReelS3;
-    public TableColumn<ObservableList<String>,String> tcTheoS5;
-    public TableColumn<ObservableList<String>,String> tcReelS5;
-    public TableColumn<ObservableList<String>,String> tcTheoS2;
-    public TableColumn<ObservableList<String>,String> tcReelS2;
-    public TableColumn<ObservableList<String>,String> tcTheoS4;
-    public TableColumn<ObservableList<String>,String> tcReelS4;
-    public TableColumn<ObservableList<String>,String> tcTheoS6;
-    public TableColumn<ObservableList<String>,String> tcReelS6;
-    public ChoiceBox<String> cbNomAnnee;
+    @FXML private TableView<ObservableList<String>> tabAffCsv;
+    @FXML private TableColumn<ObservableList<String>,String> tcCategorie;
+    @FXML private TableColumn<ObservableList<String>,String> tcNom;
+    @FXML private TableColumn<ObservableList<String>,String> tcPrenom;
+    @FXML private TableColumn<ObservableList<String>,String> tcHServ;
+    @FXML private TableColumn<ObservableList<String>,String> tcHMax;
+    @FXML private TableColumn<ObservableList<String>,String> tcRatioTP;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoTotImpair;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelTotImpair;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoTotPair;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelTotPair;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoTot;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelTot;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoS1;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelS1;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoS3;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelS3;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoS5;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelS5;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoS2;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelS2;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoS4;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelS4;
+    @FXML private TableColumn<ObservableList<String>,String> tcTheoS6;
+    @FXML private TableColumn<ObservableList<String>,String> tcReelS6;
+    @FXML private ChoiceBox<String> cbNomAnnee;
 
     private ArrayList<String[]> alDonnees;
 
@@ -89,12 +88,12 @@ public class StageAffichageCSV extends Stage {
 
     }
 
-    public void onBtnClickAnnuler()
+    @FXML private void onBtnClickAnnuler()
     {
         this.close();
     }
 
-    public void onBtnRechercher() {
+    @FXML private void onBtnRechercher() {
         String recherche = txtFieldRecherche.getText();
 
         ArrayList<String[]> ensTemp = new ArrayList<>();

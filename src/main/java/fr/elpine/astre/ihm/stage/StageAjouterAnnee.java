@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Annee;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -17,9 +18,10 @@ import java.util.regex.Pattern;
 
 public class StageAjouterAnnee extends Stage implements Initializable
 {
-    public TextField txtfNonAnnee;
-    public DatePicker dateDebut;
-    public DatePicker dateFin;
+    @FXML private TextField  txtfNonAnnee;
+
+    @FXML private DatePicker dateDebut;
+    @FXML private DatePicker dateFin;
 
     private boolean estValide;
 
@@ -31,7 +33,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
         this.setResizable(false);
     }
 
-    public void onBtnValider()
+    @FXML private void onBtnValider()
     {
         if ( !this.estValide ) { return; }
         String  nom      = txtfNonAnnee.getText();
@@ -48,7 +50,7 @@ public class StageAjouterAnnee extends Stage implements Initializable
         }
     }
 
-    public void onBtnAnnuler()
+    @FXML private void onBtnAnnuler()
     {
         this.close();
     }

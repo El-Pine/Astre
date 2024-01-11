@@ -6,6 +6,7 @@ import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
@@ -18,8 +19,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class StageChoixCatH extends Stage implements Initializable {
-    public GridPane gPane;
-    public CheckBox cbTP;
+    @FXML
+    private GridPane gPane;
+    public  CheckBox cbTP;
     public CheckBox cbTD;
     public CheckBox cbCM;
     public CheckBox cbHtut;
