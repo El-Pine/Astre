@@ -8,7 +8,7 @@ Executez l'installateur correspondant à votre système d'exploitation
 
 # Installation avec un .jar 
 
-Pré-requis : Version Java >= 17
+Pré-requis : Version Java supérieure ou égale à 17
 
 Ouvrez un invité de commande et executez le .jar correspondant à votre système d'exploitation 
 
