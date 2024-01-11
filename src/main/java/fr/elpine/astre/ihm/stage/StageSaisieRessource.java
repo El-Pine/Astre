@@ -112,12 +112,12 @@ public class StageSaisieRessource extends Stage implements Initializable
             String key                 = entry.getKey  ();
             ArrayList<TextField> value = entry.getValue();
 
-            if(key.equals(nom) && !key.equals("HP"))
+            if(key.equals(nom) && !Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo())
                 if(nbSemaine)
                     return value.get(0).getText();
                 else
                     return value.get(1).getText();
-            if (key.equals("HP")) return value.get(0).getText();
+            else return value.get(0).getText();
         }
         return "0";
     }
@@ -300,7 +300,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
             int a;
             if (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1 && !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty()) {
-                a = catHrTxtF.getNom().equalsIgnoreCase("HP") ? 1 : Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText());
+                a = catHrTxtF.estHebdo() ? 1 : Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText());
             } else {
                 // Si le HashMap contient seulement un élément, utilisez une valeur par défaut ou une autre logique selon vos besoins.
                 a = 1;  // Vous pouvez choisir une autre valeur par défaut si nécessaire.
@@ -690,7 +690,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void ajouterColonne(String nom)
     {
-        if(!nom.equals("HP")) //Astre.rechercherCategorie(nom).isPonctuelle()
+        if(!Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo())
         {
             ArrayList<FlowPane> ensFp = new ArrayList<>();
             for (int i = 0; i <= 2; i++)
@@ -826,8 +826,16 @@ public class StageSaisieRessource extends Stage implements Initializable
         ArrayList<String>      ensNomCatH = new ArrayList<>();
 
         for (CategorieHeure catHr : ensCatHrPresent)
-            if ( estTypeModule(catHr) && !catHr.getNom().equals("HP"))
                 ensNomCatH.add(catHr.getNom());
+
+        ArrayList<String> ensCatHHebdo    = new ArrayList<>();
+        ArrayList<String> ensCatHNonHebdo = new ArrayList<>();
+        for (String s : ensNomCatH) {
+            if (Astre.rechercherCatHr(ensCatHrPresent, s).estHebdo())
+                ensCatHHebdo.add(s);
+            else
+                ensCatHNonHebdo.add(s);
+        }
 
         for (CategorieHeure cat : ensCatHrPresent)
         {
@@ -864,12 +872,6 @@ public class StageSaisieRessource extends Stage implements Initializable
                     String newValue = comboBox.getValue();
                     String oldValue = getItem();
 
-                    if ("HP".equals(oldValue)) {
-                        event.consume(); // Annule l'édition si la valeur initiale est "HP"
-                        tableau.refresh();
-                        return;
-                    }
-
                     Affectation afc = getTableView().getItems().get(getIndex());
                     if(newValue != null && !oldValue.equals(newValue))
                     {
@@ -886,13 +888,19 @@ public class StageSaisieRessource extends Stage implements Initializable
                 });
             }
 
-            @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setGraphic(null);
                     setText(null);
                 } else {
+                    // Utilisez la liste appropriée en fonction du type de catégorie
+                    if (ensCatHHebdo.contains(item)) {
+                        comboBox.setItems(FXCollections.observableArrayList(ensCatHHebdo));
+                    } else {
+                        comboBox.setItems(FXCollections.observableArrayList(ensCatHNonHebdo));
+                    }
+
                     comboBox.setValue(item);
                     setGraphic(comboBox);
                 }
@@ -919,7 +927,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     Affectation afc = getTableView().getItems().get(getIndex());
-                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP");
+                    boolean isHP = !Astre.rechercherCatHr(ensCatHrPresent, afc.getTypeHeure().getNom()).estHebdo();
                     setEditable(isHP);
                 });
             }
@@ -935,7 +943,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     textField.setText("" + item); // Définit le texte dans le TextField
                     setGraphic(textField);
                     Affectation afc = getTableView().getItems().get(getIndex());
-                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP");
+                    boolean isHP = !Astre.rechercherCatHr(ensCatHrPresent, afc.getTypeHeure().getNom()).estHebdo();
                     setEditable(isHP);
                 }
             }
@@ -960,7 +968,7 @@ public class StageSaisieRessource extends Stage implements Initializable
 
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
                     Affectation afc = getTableView().getItems().get(getIndex());
-                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
+                    boolean isHP = !Astre.rechercherCatHr(ensCatHrPresent, afc.getTypeHeure().getNom()).estHebdo() && !afc.getTypeHeure().getTypeGroupe().equals("CM");
                     setEditable(isHP);
                 });
             }
@@ -976,7 +984,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     textField.setText("" + item); // Définit le texte dans le TextField
                     setGraphic(textField);
                     Affectation afc = getTableView().getItems().get(getIndex());
-                    boolean isHP = !afc.getTypeHeure().getNom().equals("HP") && !afc.getTypeHeure().getNom().equals("CM");
+                    boolean isHP = !Astre.rechercherCatHr(ensCatHrPresent, afc.getTypeHeure().getNom()).estHebdo() && !afc.getTypeHeure().getTypeGroupe().equals("CM");
                     setEditable(isHP);
                 }
             }
@@ -1000,7 +1008,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 });
 
                 textField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
+                    boolean isHP = Astre.rechercherCatHr(ensCatHrPresent, getTableView().getItems().get(getIndex()).getTypeHeure().getNom()).estHebdo();
                     setEditable(isHP);
                 });
             }
@@ -1015,7 +1023,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                     setText(null); // Assurez-vous que le texte dans la cellule de la TableView est vide
                     textField.setText(item); // Définit le texte dans le TextField
                     setGraphic(textField);
-                    boolean isHP = getTableView().getItems().get(getIndex()).getTypeHeure().getNom().equals("HP");
+                    boolean isHP = Astre.rechercherCatHr(ensCatHrPresent, getTableView().getItems().get(getIndex()).getTypeHeure().getNom()).estHebdo();
                     setEditable(isHP);
                 }
             }
@@ -1037,7 +1045,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
-            if(!att.getCatHr().getNom().equals("HP") && estTjrsPresent(att.getCatHr()))
+            if(!Astre.rechercherCatHr(ensCatHrPresent,att.getCatHr().getNom()).estHebdo() && estTjrsPresent(att.getCatHr()))
             {
                 System.out.println("att.getCatHr().getNom().toUpperCase() : " + att.getCatHr().getNom().toUpperCase());
 
@@ -1168,7 +1176,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 }
                 else
                 {
-                    if(nom.equals("HP")) txtf.setStyle("");
+                    if(Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo()) txtf.setStyle("");
                     else
                         txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
                 }
