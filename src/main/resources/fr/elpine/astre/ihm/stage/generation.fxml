@@ -4,39 +4,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<FlowPane prefHeight="577.0" prefWidth="584.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageGeneration">
-   <children>
-      <Label text="Génération " />
-      <TableView fx:id="tabGeneration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="497.0">
-        <columns>
-          <TableColumn fx:id="g_1" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Nom" />
-          <TableColumn fx:id="g_2" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Selectionner" />
-        </columns>
-      </TableView>
-      <Button mnemonicParsing="false" onAction="#onBtn" text="Générer ">
-         <FlowPane.margin>
-            <Insets left="60.0" right="15.0" />
-         </FlowPane.margin>
-      </Button>
-       <Button mnemonicParsing="false" onAction="#onCheckAll" text="Tout sélectionner ">
-         <FlowPane.margin>
-            <Insets right="15.0" />
-         </FlowPane.margin></Button>
-       <Button mnemonicParsing="false" onAction="#onUnCheckAll" text="Tout déselectionner ">
-         <FlowPane.margin>
-            <Insets right="15.0" />
-         </FlowPane.margin></Button>
-      <CheckBox fx:id="dbPdf" mnemonicParsing="false" text="PDF">
-         <FlowPane.margin>
-            <Insets right="40.0" />
-         </FlowPane.margin></CheckBox>
-      <Button mnemonicParsing="false" onAction="#onAnnuler" text="Annuler">
-         <FlowPane.margin>
-            <Insets right="15.0" />
-         </FlowPane.margin></Button>
-      <TextField fx:id="txtFieldRecherche" onAction="#onRecherche" prefHeight="26.0" prefWidth="336.0" promptText="Rechercher">
-         <FlowPane.margin>
-            <Insets left="60.0" top="10.0" />
-         </FlowPane.margin></TextField>
-   </children>
-</FlowPane>
+<BorderPane prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageGeneration">
+   <center>
+      <BorderPane>
+         <center>
+            <TableView fx:id="tabGeneration">
+              <columns>
+                <TableColumn fx:id="g_1" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="Nom" />
+                <TableColumn fx:id="g_2" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="Selectionner" />
+              </columns>
+               <BorderPane.margin>
+                  <Insets left="15.0" right="15.0" top="15.0" />
+               </BorderPane.margin>
+            </TableView>
+         </center>
+         <bottom>
+            <TextField fx:id="txtFieldRecherche" maxWidth="250.0" onAction="#onRecherche" promptText="Rechercher" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </TextField>
+         </bottom>
+      </BorderPane>
+   </center>
+   <bottom>
+      <FlowPane alignment="CENTER" hgap="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtn" prefWidth="75.0" text="Générer ">
+               <FlowPane.margin>
+                  <Insets />
+               </FlowPane.margin>
+            </Button>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#onAnnuler" prefWidth="75.0" text="Annuler">
+               <FlowPane.margin>
+                  <Insets right="20.0" />
+               </FlowPane.margin>
+            </Button>
+             <Button mnemonicParsing="false" onAction="#onCheckAll" prefWidth="135.0" text="Tout sélectionner ">
+               <FlowPane.margin>
+                  <Insets />
+               </FlowPane.margin>
+            </Button>
+             <Button mnemonicParsing="false" onAction="#onUnCheckAll" prefWidth="135.0" text="Tout déselectionner ">
+               <FlowPane.margin>
+                  <Insets />
+               </FlowPane.margin>
+            </Button>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin></FlowPane>
+   </bottom>
+</BorderPane>

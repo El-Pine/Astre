@@ -52,8 +52,8 @@ public class StageAffichageCSV extends Stage {
     public StageAffichageCSV() // fxml -> "affichageCSV"
     {
         this.setTitle("Affichage CSV");
-        this.setMinWidth(1370);
-        this.setMinHeight(450);
+        this.setMinWidth(1400);
+        this.setMinHeight(600);
     }
 
     public static ArrayList<String> listerFichiers() {
