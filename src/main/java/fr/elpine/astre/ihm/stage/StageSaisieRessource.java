@@ -299,14 +299,8 @@ public class StageSaisieRessource extends Stage implements Initializable
                 !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).get(0).getText().isEmpty()) {
 
             int a;
-            System.out.println("catHr.estHebdo " + catHrTxtF.estHebdo());
-            System.out.println("this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1" + (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1));
-            System.out.println("!this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty()" + !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty());
-
             if (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1 && !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty())
             {
-                System.out.println("je rentre ici ? " + catHrTxtF);
-                System.out.println("cat.estHebdo" + catHrTxtF.estHebdo());
                 a = catHrTxtF.estHebdo() ? Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText()) : 1;
             } else {
                 // Si le HashMap contient seulement un élément, utilisez une valeur par défaut ou une autre logique selon vos besoins.
@@ -375,11 +369,15 @@ public class StageSaisieRessource extends Stage implements Initializable
             ArrayList<TextField> value = entry.getValue();
 
             if (!key.equals("TO")) {
-                for (TextField txt : value) {
-                    if (!txt.getText().isEmpty()) {
-                        if (txt.isEditable()) {
+                for (TextField txt : value)
+                {
+                    if (!txt.getText().isEmpty())
+                    {
+                        if (txt.isEditable())
+                        {
                             total += Integer.parseInt(txt.getText());
-                        } else {
+                        } else
+                        {
                             totalPromo += Integer.parseInt(txt.getText());
                         }
                     }
@@ -698,9 +696,6 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void ajouterColonne(String nom)
     {
-        System.out.println(nom);
-        System.out.println(Astre.rechercherCatHr(ensCatHrPresent,nom));
-
         if(Astre.rechercherCatHr(ensCatHrPresent,nom)!=null && !nom.equals("HP") || nom.equals("TO"))
         {
             ArrayList<FlowPane> ensFp = new ArrayList<>();
@@ -811,7 +806,6 @@ public class StageSaisieRessource extends Stage implements Initializable
             initPn     (this.moduleModif);
             initSemaine(this.moduleModif);
 
-            calculeTotaux();
 
             ensAff = FXCollections.observableArrayList(this.moduleModif.getAffectations());
             tableau.setItems(ensAff);
@@ -1056,16 +1050,18 @@ public class StageSaisieRessource extends Stage implements Initializable
     public void initPn(Module mod)
     {
         for (Attribution att : mod.getAttributions())
-            if( !att.getCatHr().estHebdo() && estTjrsPresent(att.getCatHr()))
-            {
+        {
+            if (estTjrsPresent(att.getCatHr())) {
                 ArrayList<TextField> lstTxtf = this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase());
-                if ( lstTxtf!= null ) {
+                if (lstTxtf != null) {
                     lstTxtf.get(0).setText(att.getNbHeurePN().toString());
 
                     String a = calculeNvValeur(Integer.parseInt(textOrDefault(this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(0).getText())), att.getCatHr());
                     this.hmTxtPn.get(att.getCatHr().getNom().toUpperCase()).get(1).setText(a);
                 }
             }
+        }
+        calculeTotaux();
     }
 
     public boolean estTjrsPresent(CategorieHeure catHr2)
