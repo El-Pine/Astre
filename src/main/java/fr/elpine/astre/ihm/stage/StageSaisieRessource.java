@@ -299,8 +299,15 @@ public class StageSaisieRessource extends Stage implements Initializable
                 !this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).get(0).getText().isEmpty()) {
 
             int a;
-            if (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1 && !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty()) {
-                a = catHrTxtF.estHebdo() ? 1 : Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText());
+            System.out.println("catHr.estHebdo " + catHrTxtF.estHebdo());
+            System.out.println("this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1" + (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1));
+            System.out.println("!this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty()" + !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty());
+
+            if (this.hmTxtSemaine.get(catHrTxtF.getNom().toUpperCase()).size() > 1 && !this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText().isEmpty())
+            {
+                System.out.println("je rentre ici ? " + catHrTxtF);
+                System.out.println("cat.estHebdo" + catHrTxtF.estHebdo());
+                a = catHrTxtF.estHebdo() ? Integer.parseInt(this.hmTxtSemaine.get(catHrTxtF.getNom()).get(1).getText()) : 1;
             } else {
                 // Si le HashMap contient seulement un élément, utilisez une valeur par défaut ou une autre logique selon vos besoins.
                 a = 1;  // Vous pouvez choisir une autre valeur par défaut si nécessaire.
@@ -355,7 +362,8 @@ public class StageSaisieRessource extends Stage implements Initializable
         }
     }
 
-    private void calculeTotaux() {
+    private void calculeTotaux()
+    {
         int total               = 0;
         int totalPromo          = 0;
         TextField txtTotPn      = null;
