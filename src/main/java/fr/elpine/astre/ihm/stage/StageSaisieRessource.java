@@ -690,11 +690,11 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private void ajouterColonne(String nom)
     {
-        System.out.println("nom " + nom);
-        //System.out.println(" !Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo() " +  !Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo());
-        if(Astre.rechercherCatHr(ensCatHrPresent,nom)!=null && Astre.rechercherCatHr(ensCatHrPresent,nom).estHebdo() || nom.equals("TO"))
+        System.out.println(nom);
+        System.out.println(Astre.rechercherCatHr(ensCatHrPresent,nom));
+
+        if(Astre.rechercherCatHr(ensCatHrPresent,nom)!=null && !nom.equals("HP") || nom.equals("TO"))
         {
-            System.out.println("pk je rentre pas la dedans ?");
             ArrayList<FlowPane> ensFp = new ArrayList<>();
             for (int i = 0; i <= 2; i++)
             {
