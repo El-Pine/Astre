@@ -146,7 +146,7 @@ public class StageGeneration extends Stage implements Initializable
 
                 semestres.get(a.getModule().getSemestre()).get(a.getModule()).put(
                         a.getTypeHeure(),
-                        semestres.get(a.getModule().getSemestre()).get(a.getModule()).get(a.getTypeHeure()) + a.getTotalEqtd(true)
+                        semestres.get(a.getModule().getSemestre()).get(a.getModule()).get(a.getTypeHeure()) + a.getTotalEqtd()
                 );
             }
         }
@@ -274,7 +274,7 @@ public class StageGeneration extends Stage implements Initializable
 
             Double d = intervenants.get(a.getIntervenant()).get(a.getTypeHeure());
 
-            d += a.getTotalEqtd(true);
+            d += a.getTotalEqtd();
 
             intervenants.get(a.getIntervenant()).put(a.getTypeHeure(),d);
 

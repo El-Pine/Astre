@@ -173,7 +173,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 			));
 			validation.setCellValueFactory (cellData -> new SimpleStringProperty(
 					(cellData.getValue().estValide() ? "✔" : "❌") +
-					(cellData.getValue().getSommeAffecte() > cellData.getValue().getSommePNPromo() ? " ⚠" : "")
+					(cellData.getValue().estModuleValide() ? " ⚠" : "")
 			));
 
 			view.setEditable(true);

@@ -99,7 +99,7 @@ public class Attribution
         double nb = 0.0;
 
         for (Affectation aff : this.module.getAffectations())
-            if ( aff.getTypeHeure() == this.catHr ) nb += aff.getTotalEqtd( true );
+            if ( aff.getTypeHeure() == this.catHr ) nb += aff.getTotalEqtd();
 
         return nb;
     }

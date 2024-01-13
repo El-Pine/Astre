@@ -1035,7 +1035,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         });
 
 
-        tcTotalEqtd  .setCellValueFactory(cellData -> new SimpleStringProperty (Fraction.simplifyDouble(cellData.getValue().getTotalEqtd(true),true)));
+        tcTotalEqtd  .setCellValueFactory(cellData -> new SimpleStringProperty (Fraction.simplifyDouble(cellData.getValue().getTotalEqtd(),true)));
         tcCommentaire.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCommentaire()));
         tcCommentaire.setCellFactory(TextFieldTableCell.forTableColumn());
         tcCommentaire.setOnEditCommit(event -> {

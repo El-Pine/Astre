@@ -105,6 +105,11 @@ public class Module
         return s;
     }
 
+    public boolean estModuleValide()
+    {
+        return this.getSommeAffecte() <= this.getSommePNPromo();
+    }
+
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
