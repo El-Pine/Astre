@@ -137,27 +137,18 @@ public class StageGeneration extends Stage implements Initializable
     {
         HashMap<Semestre,HashMap<Module,HashMap<CategorieHeure,Double>>> semestres = new HashMap<>();
 
+        for(Affectation a : i.getAffectations())
+        {
+            if (a.getModule().getSemestre().getAnnee() == annee) {
+                semestres.computeIfAbsent(a.getModule().getSemestre(), k -> new HashMap<>());
+                semestres.get(a.getModule().getSemestre()).computeIfAbsent(a.getModule(), k -> new HashMap<>());
+                semestres.get(a.getModule().getSemestre()).get(a.getModule()).putIfAbsent(a.getTypeHeure(), 0.0);
 
-        for(Affectation a : i.getAffectations()) {
-            // si la hashmap de la categorie heure est double dans semestres existe pas pour le semestre de l'affectation alors on l'a créer
-            if (!semestres.containsKey(a.getModule().getSemestre())) {
-                semestres.put(a.getModule().getSemestre(), new HashMap<>());
+                semestres.get(a.getModule().getSemestre()).get(a.getModule()).put(
+                        a.getTypeHeure(),
+                        semestres.get(a.getModule().getSemestre()).get(a.getModule()).get(a.getTypeHeure()) + a.getTotalEqtd(true)
+                );
             }
-            // si la categorie heure de l'affectation n'existe pas dans la hashmap du semestre alors on l'a créer
-            if (!semestres.get(a.getModule().getSemestre()).containsKey(a.getModule())) {
-                semestres.get(a.getModule().getSemestre()).put(a.getModule(), new HashMap<>());
-            }
-            // si la categorie heure de l'affectation n'existe pas dans la hashmap du semestre alors on l'a créer
-            if (!semestres.get(a.getModule().getSemestre()).get(a.getModule()).containsKey(a.getTypeHeure())) {
-                semestres.get(a.getModule().getSemestre()).get(a.getModule()).put(a.getTypeHeure(), 0.0);
-            }
-
-            Double d = semestres.get(a.getModule().getSemestre()).get(a.getModule()).get(a.getTypeHeure());
-
-            d += a.getTotalEqtd(true);
-
-            semestres.get(a.getModule().getSemestre()).get(a.getModule()).put(a.getTypeHeure(), d);
-
         }
 
         StringBuilder htmlContent = new StringBuilder();

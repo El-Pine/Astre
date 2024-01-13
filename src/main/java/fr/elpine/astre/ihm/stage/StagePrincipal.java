@@ -35,6 +35,8 @@ public class StagePrincipal extends Stage implements Initializable
 
         assert stage != null;
         stage.showAndWait();
+
+		this.refresh();
 	}
 
 	@FXML private void onBtnClickPrevisionnel() {

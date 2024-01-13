@@ -68,10 +68,13 @@ public class StageAccueilConfig extends Stage implements Initializable
     @FXML private void onBtnConfigBdd() {
         //desactiver();
         //StageInitBd.creer( this ).show();
+
         Stage stage = Manager.creer( "initDb", this );
 
         assert stage != null;
         stage.showAndWait();
+
+        initDBMessage();
     }
 
     @FXML private void onBtnAjouterInter()
@@ -446,22 +449,7 @@ public class StageAccueilConfig extends Stage implements Initializable
             }
         });
 
-        if (Controleur.get().getDb().getStatus()) {
-            lblState.setText("Connecté");
-            lblState.setTextFill(Color.LIGHTGREEN);
-        } else {
-            lblState.setText("Déconnecté");
-            lblState.setTextFill(Color.RED);
-        }
-
-        String[] infos = DB.getInformations();
-
-        if (infos != null) {
-            this.lblIp.setText(infos[0]);
-            this.lblPort.setText(infos[1]);
-            this.lblBase.setText(infos[2]);
-            this.lblIdentifiant.setText(infos[3]);
-        }
+        initDBMessage();
 
         this.imgClair.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/cupertino-light.png"))));
         this.imgSombre.setImage(new Image(Objects.requireNonNull(AstreApplication.class.getResourceAsStream("theme_image/cupertino-dark.png"))));
@@ -477,6 +465,26 @@ public class StageAccueilConfig extends Stage implements Initializable
             if (theme.equals( "dracula"         )) id = 2;
 
             this.theme.getToggles().get(id).setSelected(true);
+        }
+    }
+
+    private void initDBMessage()
+    {
+        if (Controleur.get().getDb().getStatus()) {
+            lblState.setText("Connecté");
+            lblState.setTextFill(Color.LIGHTGREEN);
+        } else {
+            lblState.setText("Déconnecté");
+            lblState.setTextFill(Color.RED);
+        }
+
+        String[] infos = DB.getInformations();
+
+        if (infos != null) {
+            this.lblIp.setText(infos[0]);
+            this.lblPort.setText(infos[1]);
+            this.lblBase.setText(infos[2]);
+            this.lblIdentifiant.setText(infos[3]);
         }
     }
 
