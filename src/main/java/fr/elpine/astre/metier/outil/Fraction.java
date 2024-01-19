@@ -27,6 +27,11 @@ public class Fraction
 		this.fraction = false;
 	}
 
+	public boolean equals( Fraction f )
+	{
+		return this.n == f.n && this.d == f.d && this.fraction == f.fraction;
+	}
+
 	public static Fraction valueOf( String str )
 	{
 		if (str == null || ( !str.matches(REGEX) && !str.isEmpty() )) return null;

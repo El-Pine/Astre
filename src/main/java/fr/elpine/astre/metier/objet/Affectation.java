@@ -76,11 +76,11 @@ public class Affectation
 
 
     public void setId          ( int            id          ) { this.id          = id;                                }
-    public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifie = true;     }
-    public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifie = true;    }
-    public void setNbHeure     ( Fraction       nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = true;      }
-    public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifie = true;  }
-    public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = true;    }
+    public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifie = ((Integer) this.rollbackDatas.get("nbGroupe")) != nbGroupe;     }
+    public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifie = ((Integer) this.rollbackDatas.get("nbGroupe")) != nbSemaine;    }
+    public void setNbHeure     ( Fraction       nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeure")).equals(nbHeure);      }
+    public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifie = !this.rollbackDatas.get("commentaire").equals(commentaire);  }
+    public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = this.rollbackDatas.get("typeHeure") != typeHeure;    }
 
     /* Calculs */
     public double getTotalEqtd() {

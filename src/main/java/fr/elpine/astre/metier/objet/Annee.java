@@ -56,8 +56,8 @@ public class Annee
     public Date getDateDeb () { return dateDeb; }
     public Date getDateFin () { return dateFin; }
 
-    public void setDateDeb (Date dateDeb ) { this.dateDeb = dateDeb; this.modifie = true;  }
-    public void setDateFin (Date dateFin ) { this.dateFin = dateFin; this.modifie = true;  }
+    public void setDateDeb (Date dateDeb ) { this.dateDeb = dateDeb; this.modifie = ((Date) this.rollbackDatas.get("dateDeb")).compareTo(dateDeb) != 0;  }
+    public void setDateFin (Date dateFin ) { this.dateFin = dateFin; this.modifie = ((Date) this.rollbackDatas.get("dateFin")).compareTo(dateFin) != 0;  }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }

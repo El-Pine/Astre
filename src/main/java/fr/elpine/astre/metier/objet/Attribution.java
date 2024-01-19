@@ -62,9 +62,9 @@ public class Attribution
     public Module         getModule              () { return module;                 }
     public CategorieHeure getCatHr               () { return catHr;                  }
 
-    public void setNbHeurePN (Fraction nbHeurePN ) { this.nbHeurePN = nbHeurePN; this.modifie = true; }
-    public void setNbHeure   (Fraction nbHeure   ) { this.nbHeure   = nbHeure;   this.modifie = true; }
-    public void setNbSemaine (int nbSemaine      ) { this.nbSemaine = nbSemaine; this.modifie = true; }
+    public void setNbHeurePN (Fraction nbHeurePN ) { this.nbHeurePN = nbHeurePN; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeurePN")).equals(nbHeurePN); }
+    public void setNbHeure   (Fraction nbHeure   ) { this.nbHeure   = nbHeure;   this.modifie = !((Fraction) this.rollbackDatas.get("nbHeure")).equals(nbHeure); }
+    public void setNbSemaine (int nbSemaine      ) { this.nbSemaine = nbSemaine; this.modifie = ((Integer) this.rollbackDatas.get("nbSemaine")) != nbSemaine; }
 
     /* Calculs */
 

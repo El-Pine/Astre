@@ -66,12 +66,12 @@ public class Module
 
     /*   SETTER   */
 
-    public void setCode       ( String code        )   { this.code        = code        ; this.modifie = true; }
-    public void setNom         ( String nom        )   { this.nom         = nom         ; this.modifie = true; }
-    public void setAbreviation ( String  abreviation ) { this.abreviation = abreviation ; this.modifie = true; }
-    public void setCouleur     ( Color  couleur      ) { this.couleur     = couleur     ; this.modifie = true; }
-    public void setTypeModule  ( String  typeModule )  { this.typeModule  = typeModule  ; this.modifie = true; }
-    public void setValidation  ( boolean validation )  { this.validation  = validation  ; this.modifie = true; }
+    public void setCode       ( String code        )   { this.code        = code        ; this.modifie = !this.rollbackDatas.get("code").equals(code); }
+    public void setNom         ( String nom        )   { this.nom         = nom         ; this.modifie = !this.rollbackDatas.get("nom").equals(nom); }
+    public void setAbreviation ( String  abreviation ) { this.abreviation = abreviation ; this.modifie = !this.rollbackDatas.get("abreviation").equals(abreviation); }
+    public void setCouleur     ( Color  couleur      ) { this.couleur     = couleur     ; this.modifie = !((Color) this.rollbackDatas.get("couleur")).equals(couleur); }
+    public void setTypeModule  ( String  typeModule )  { this.typeModule  = typeModule  ; this.modifie = !this.rollbackDatas.get("typeModule").equals(typeModule); }
+    public void setValidation  ( boolean validation )  { this.validation  = validation  ; this.modifie = ((boolean) this.rollbackDatas.get("validation")) != validation; }
 
 
     /* Calculs */

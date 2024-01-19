@@ -66,13 +66,13 @@ public class CategorieHeure
 
     /*  SETTER   */
 
-    public void setEquivalentTD ( Fraction equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = true; }
-    public void setRessource    ( boolean estRessource   ) { this.ressource    = estRessource ; this.modifie = true; }
-    public void setSae          ( boolean estSae         ) { this.sae          = estSae       ; this.modifie = true; }
-    public void setPpp          ( boolean estPpp         ) { this.ppp          = estPpp       ; this.modifie = true; }
-    public void setStage        ( boolean estStage       ) { this.stage        = estStage     ; this.modifie = true; }
-    public void setTypeGroupe   ( String  typeGroupe     ) { this.typeGroupe   = typeGroupe   ; this.modifie = true; }
-    public void setHebdo        ( boolean hebdo          ) { this.hebdo        = hebdo        ; this.modifie = true; }
+    public void setEquivalentTD ( Fraction equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = !((Fraction) this.rollbackDatas.get("equivalentTD")).equals(equivalentTD); }
+    public void setRessource    ( boolean estRessource   ) { this.ressource    = estRessource ; this.modifie = ((boolean) this.rollbackDatas.get("estRessource")) != estRessource; }
+    public void setSae          ( boolean estSae         ) { this.sae          = estSae       ; this.modifie = ((boolean) this.rollbackDatas.get("estSae")) != estSae; }
+    public void setPpp          ( boolean estPpp         ) { this.ppp          = estPpp       ; this.modifie = ((boolean) this.rollbackDatas.get("estPpp")) != estPpp; }
+    public void setStage        ( boolean estStage       ) { this.stage        = estStage     ; this.modifie = ((boolean) this.rollbackDatas.get("estStage")) != estStage; }
+    public void setTypeGroupe   ( String  typeGroupe     ) { this.typeGroupe   = typeGroupe   ; this.modifie = !this.rollbackDatas.get("typeGroupe").equals(typeGroupe); }
+    public void setHebdo        ( boolean hebdo          ) { this.hebdo        = hebdo        ; this.modifie = ((boolean) this.rollbackDatas.get("hebdo")) != hebdo; }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
@@ -140,6 +140,7 @@ public class CategorieHeure
         this.ressource = (boolean) this.rollbackDatas.get("ressource");
         this.stage = (boolean) this.rollbackDatas.get("stage");
         this.sae = (boolean) this.rollbackDatas.get("sae");
+        this.hebdo = (boolean) this.rollbackDatas.get("hebdo");
 
         this.rollbackDatas.clear();
     }
@@ -154,6 +155,7 @@ public class CategorieHeure
         this.rollbackDatas.put("ressource", this.ressource);
         this.rollbackDatas.put("stage", this.stage);
         this.rollbackDatas.put("sae", this.sae);
+        this.rollbackDatas.put("hebdo", this.hebdo);
     }
 
 

@@ -65,22 +65,22 @@ public class Intervenant
     /*   SETTER   */
 
     public void setId     (int id               ) { this.id = id; }
-    public void setNom     (String nom             ) { this.nom = nom           ; this.modifie = true; }
-    public void setPrenom  (String prenom          ) { this.prenom = prenom     ; this.modifie = true; }
+    public void setNom     (String nom             ) { this.nom = nom           ; this.modifie = !this.rollbackDatas.get("nom").equals(nom); }
+    public void setPrenom  (String prenom          ) { this.prenom = prenom     ; this.modifie = !this.rollbackDatas.get("prenom").equals(prenom); }
     public boolean setMail  (String mail           )
     {
         if ( mail.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"))
         {
             this.mail = mail;
-            this.modifie = true;
+            this.modifie = !this.rollbackDatas.get("mail").equals(mail);
             return true;
         }
         return false;
     }
-    public void setHeureService (Fraction heureService  ) { this.heureService = heureService   ; this.modifie = true; }
-    public void setHeureMax (Fraction heureMax          ) { this.heureMax = heureMax   ; this.modifie = true; }
-    public void setRatioTP (Fraction ratioTP          ) { this.ratioTP = ratioTP   ; this.modifie = true; }
-    public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ; this.modifie = true; }
+    public void setHeureService (Fraction heureService  ) { this.heureService = heureService   ; this.modifie = !((Fraction) this.rollbackDatas.get("heureService")).equals(heureService); }
+    public void setHeureMax (Fraction heureMax          ) { this.heureMax = heureMax   ; this.modifie = !((Fraction) this.rollbackDatas.get("heureMax")).equals(heureMax); }
+    public void setRatioTP (Fraction ratioTP          ) { this.ratioTP = ratioTP   ; this.modifie = !((Fraction) this.rollbackDatas.get("ratioTP")).equals(ratioTP); }
+    public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ; this.modifie = this.rollbackDatas.get("categorie") != categorie; }
 
     /* Calculs */
 

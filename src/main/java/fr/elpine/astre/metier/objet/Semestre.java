@@ -52,10 +52,10 @@ public class Semestre
 
     /* SETTER */
 
-    public void setNbGrpTD   ( int nbGrpTD   ) { this.nbGrpTD   = nbGrpTD; this.modifie = true;    }
-    public void setNbGrpTP   ( int nbGrpTP   ) { this.nbGrpTP   = nbGrpTP; this.modifie = true;    }
-    public void setNbEtd     ( int nbEtd     ) { this.nbEtd     = nbEtd; this.modifie = true;      }
-    public void setNbSemaine ( int nbSemaine ) { this.nbSemaine = nbSemaine; this.modifie = true;  }
+    public void setNbGrpTD   ( int nbGrpTD   ) { this.nbGrpTD   = nbGrpTD; this.modifie = ((int) this.rollbackDatas.get("nbGrpTD")) != nbGrpTD;    }
+    public void setNbGrpTP   ( int nbGrpTP   ) { this.nbGrpTP   = nbGrpTP; this.modifie = ((int) this.rollbackDatas.get("nbGrpTP")) != nbGrpTP;    }
+    public void setNbEtd     ( int nbEtd     ) { this.nbEtd     = nbEtd; this.modifie = ((int) this.rollbackDatas.get("nbEtd")) != nbEtd;      }
+    public void setNbSemaine ( int nbSemaine ) { this.nbSemaine = nbSemaine; this.modifie = ((int) this.rollbackDatas.get("nbSemaine")) != nbSemaine;  }
 
 
     /* Synchronisation */

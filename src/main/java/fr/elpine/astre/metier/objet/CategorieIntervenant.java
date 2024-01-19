@@ -52,10 +52,10 @@ public class CategorieIntervenant
 
     /*   SETTER   */
 
-    public void setNom          ( String nom           ) { this.nom          = nom          ; this.modifie = true; }
-    public void setNbHeureMaxDefault   ( Fraction nbHeureMaxDefault       ) { this.nbHeureMaxDefault   = nbHeureMaxDefault   ; this.modifie = true; }
-    public void setNbHeureServiceDefault      ( Fraction nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ; this.modifie = true; }
-    public void setRatioTPDefault (Fraction ratioTPDefault      ) { this.ratioTPDefault = ratioTPDefault; this.modifie = true; }
+    public void setNom          ( String nom           ) { this.nom          = nom          ; this.modifie = !this.rollbackDatas.get("nom").equals(nom); }
+    public void setNbHeureMaxDefault   ( Fraction nbHeureMaxDefault       ) { this.nbHeureMaxDefault   = nbHeureMaxDefault   ; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeureMaxDefault")).equals(nbHeureMaxDefault); }
+    public void setNbHeureServiceDefault      ( Fraction nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeureServiceDefault")).equals(nbHeureServiceDefault); }
+    public void setRatioTPDefault (Fraction ratioTPDefault      ) { this.ratioTPDefault = ratioTPDefault; this.modifie = !((Fraction) this.rollbackDatas.get("ratioTPDefault")).equals(ratioTPDefault); }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
@@ -78,7 +78,6 @@ public class CategorieIntervenant
     {
         if (this.rollbackDatas == null) return;
 
-        this.code = (String) this.rollbackDatas.get("code");
         this.nom = (String) this.rollbackDatas.get("nom");
         this.nbHeureMaxDefault = (Fraction) this.rollbackDatas.get("nbHeureMaxDefault");
         this.nbHeureServiceDefault = (Fraction) this.rollbackDatas.get("nbHeureServiceDefault");
@@ -91,7 +90,6 @@ public class CategorieIntervenant
     {
         if (this.rollbackDatas == null) this.rollbackDatas = new HashMap<>(); else this.rollbackDatas.clear();
 
-        this.rollbackDatas.put("code", this.code);
         this.rollbackDatas.put("nom", this.nom);
         this.rollbackDatas.put("nbHeureMaxDefault", this.nbHeureMaxDefault);
         this.rollbackDatas.put("nbHeureServiceDefault", this.nbHeureServiceDefault);
