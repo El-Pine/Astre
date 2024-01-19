@@ -14,7 +14,7 @@
                <center>
                   <TableView fx:id="tabCatInter">
                     <columns>
-                        <TableColumn fx:id="tcInter" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" reorderable="false" resizable="false" sortable="false" />
+                        <TableColumn fx:id="tcInter" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" reorderable="false" resizable="false" sortable="false" />
                         <TableColumn fx:id="tcCodeInter" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Code" />
                         <TableColumn fx:id="tcNomInter" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" reorderable="false" resizable="false" text="Nom" />
                         <TableColumn fx:id="tcHMaxInter" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" reorderable="false" resizable="false" text="Heure max" />
@@ -53,7 +53,7 @@
                <center>
                   <TableView fx:id="tabCatHeures">
                     <columns>
-                        <TableColumn fx:id="tcHr" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" reorderable="false" resizable="false" sortable="false" />
+                        <TableColumn fx:id="tcHr" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" reorderable="false" resizable="false" sortable="false" />
                       <TableColumn fx:id="tcNomHeures" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" reorderable="false" resizable="false" text="Nom" />
                       <TableColumn fx:id="tcEqtdHeures" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Eqtd" />
                         <TableColumn maxWidth="50.0" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" sortable="false" text="Attribution aux modules">

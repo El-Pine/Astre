@@ -3,7 +3,9 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Emoji;
 import fr.elpine.astre.metier.objet.Annee;
+import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import fr.elpine.astre.metier.outil.Fraction;
@@ -171,10 +173,12 @@ public class StagePrevisionnel extends Stage implements Initializable
 						Fraction.simplifyDouble(cellData.getValue().getSommePNPromo(), true)
 					)
 			));
+
 			validation.setCellValueFactory (cellData -> new SimpleStringProperty(
-					(cellData.getValue().estValide() ? "✔" : "❌") +
-					(cellData.getValue().estModuleValide() ? " ⚠" : "")
+					(cellData.getValue().estValide() ? "V" : "I") +
+					(cellData.getValue().estModuleInvalide() ? "W" : "")
 			));
+			validation.setCellFactory(column -> Emoji.getCellFactory());
 
 			view.setEditable(true);
 			view.setOnMousePressed(event -> {

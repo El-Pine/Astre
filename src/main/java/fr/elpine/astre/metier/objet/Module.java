@@ -105,9 +105,9 @@ public class Module
         return s;
     }
 
-    public boolean estModuleValide()
+    public boolean estModuleInvalide()
     {
-        return this.getSommeAffecte() <= this.getSommePNPromo();
+        return this.getSommeAffecte() > this.getSommePNPromo();
     }
 
 

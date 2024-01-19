@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Emoji;
 import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -143,24 +144,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.setHeight( this.getMinHeight() );
 
         tcInter.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
-        tcInter.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-
-                if (item != null && item.equals("❌")) {
-                    setTextFill(Color.RED);
-                } else if (item != null && item.equals("➕")) {
-                    setTextFill(Color.LIGHTGREEN);
-                } else if (item != null && item.equals("🖉")) {
-                    setTextFill(Color.BLUE);
-                } else {
-                    setTextFill(Color.BLACK);
-                    setText("");
-                }
-            }
-        });
+        tcInter.setCellFactory(column -> Emoji.getCellFactory());
 
         tcCodeInter.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getCode()));
 
@@ -291,24 +275,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         tabCatInter.setItems( FXCollections.observableArrayList(Controleur.get().getMetier().getCategorieIntervenants()) );
 
         tcHr.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
-        tcHr.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-
-                if (item != null && item.equals("❌")) {
-                    setTextFill(Color.RED);
-                } else if (item != null && item.equals("➕")) {
-                    setTextFill(Color.LIGHTGREEN);
-                } else if (item != null && item.equals("🖉")) {
-                    setTextFill(Color.BLUE);
-                } else {
-                    setTextFill(Color.BLACK);
-                    setText("");
-                }
-            }
-        });
+        tcHr.setCellFactory(column -> Emoji.getCellFactory());
 
         tcNomHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
         tcEqtdHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEquivalentTD().toString()));
@@ -502,11 +469,11 @@ public class StageAccueilConfig extends Stage implements Initializable
     private String getCellValue(CategorieIntervenant categorieIntervenant)
     {
         if (categorieIntervenant.isSupprime()) {
-            return "❌";
+            return "S";
         } else if (categorieIntervenant.isAjoute()) {
-            return "➕";
+            return "A";
         } else if (categorieIntervenant.isModifie()) {
-            return "🖉";
+            return "M";
         } else {
             return "";
         }
@@ -514,11 +481,11 @@ public class StageAccueilConfig extends Stage implements Initializable
 
     private String getCellValue(CategorieHeure catHr) {
         if (catHr.isSupprime()) {
-            return "❌";
+            return "S";
         } else if (catHr.isAjoute()) {
-            return "➕";
+            return "A";
         } else if (catHr.isModifie()) {
-            return "🖉";
+            return "M";
         } else {
             return "";
         }

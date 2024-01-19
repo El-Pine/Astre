@@ -106,14 +106,14 @@ public class Intervenant
         return lst;
     }
 
-    public boolean estIntervenantValide()
+    public boolean estIntervenantInvalide()
     {
         for (Double d : this.getHeure( false ))
         {
-            if (d > this.getHeureMax().value() || d < this.getHeureService().value()) return false;
+            if (d > this.getHeureMax().value() || d < this.getHeureService().value()) return true;
         }
 
-        return true;
+        return false;
     }
 
 

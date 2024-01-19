@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Emoji;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
@@ -100,24 +101,7 @@ public class StageIntervenant extends Stage implements Initializable
 		this.setHeight( this.getMinHeight() );
 
 		tcAjout.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
-		tcAjout.setCellFactory(column -> new TableCell<>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				setText(item);
-
-				if (item != null && item.equals("❌")) {
-					setTextFill(Color.RED);
-				} else if (item != null && item.equals("➕")) {
-					setTextFill(Color.LIGHTGREEN);
-				} else if (item != null && item.equals("🖉")) {
-					setTextFill(Color.BLUE);
-				} else {
-					setTextFill(Color.BLACK);
-					setText("");
-				}
-			}
-		});
+		tcAjout.setCellFactory(column -> Emoji.getCellFactory());
 
 		tcCategorie.setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getCategorie()  .getCode  ()));
 
@@ -414,14 +398,16 @@ public class StageIntervenant extends Stage implements Initializable
 
 	private String getCellValue(Intervenant intervenant)
 	{
+		String warn = intervenant.estIntervenantInvalide() ? "W" : "";
+
 		if (intervenant.isSupprime()) {
-			return "❌";
+			return "S" + warn;
 		} else if (intervenant.isAjoute()) {
-			return "➕";
+			return "A" + warn;
 		} else if (intervenant.isModifie()) {
-			return "🖉";
+			return "M" + warn;
 		} else {
-			return "";
+			return warn;
 		}
 	}
 
