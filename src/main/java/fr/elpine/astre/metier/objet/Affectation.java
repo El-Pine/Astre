@@ -76,11 +76,26 @@ public class Affectation
 
 
     public void setId          ( int            id          ) { this.id          = id;                                }
-    public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifie = ((Integer) this.rollbackDatas.get("nbGroupe")) != nbGroupe;     }
-    public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifie = ((Integer) this.rollbackDatas.get("nbGroupe")) != nbSemaine;    }
-    public void setNbHeure     ( Fraction       nbHeure     ) { this.nbHeure     = nbHeure; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeure")).equals(nbHeure);      }
-    public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifie = !this.rollbackDatas.get("commentaire").equals(commentaire);  }
-    public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifie = this.rollbackDatas.get("typeHeure") != typeHeure;    }
+    public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifState();     }
+    public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifState();    }
+    public void setNbHeure     ( Fraction       nbHeure     ) { this.nbHeure     = nbHeure; this.modifState();      }
+    public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifState();  }
+    public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifState();    }
+
+    private void modifState()
+    {
+	    this.modifie = false;
+
+        if ( this.hasGrpAndNbSemaine() ) {
+            if (!this.rollbackDatas.get("nbGroupe").equals(this.nbGroupe)) this.modifie = true;
+            if (!this.rollbackDatas.get("nbSemaine").equals(this.nbSemaine)) this.modifie = true;
+        } else if ( this.hasNbHeure() ) {
+            if ( !((Fraction) this.rollbackDatas.get("nbHeure")).equals(this.nbHeure) ) this.modifie = true;
+        }
+
+        if ( !this.rollbackDatas.get("commentaire").equals(this.commentaire) ) this.modifie = true;
+        if ( this.rollbackDatas.get("typeHeure") != typeHeure ) this.modifie = true;
+    }
 
     /* Calculs */
     public double getTotalEqtd() {

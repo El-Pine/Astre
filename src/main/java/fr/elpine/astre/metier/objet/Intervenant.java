@@ -65,22 +65,33 @@ public class Intervenant
     /*   SETTER   */
 
     public void setId     (int id               ) { this.id = id; }
-    public void setNom     (String nom             ) { this.nom = nom           ; this.modifie = !this.rollbackDatas.get("nom").equals(nom); }
-    public void setPrenom  (String prenom          ) { this.prenom = prenom     ; this.modifie = !this.rollbackDatas.get("prenom").equals(prenom); }
+    public void setNom     (String nom             ) { this.nom = nom           ; this.modifState(); }
+    public void setPrenom  (String prenom          ) { this.prenom = prenom     ; this.modifState(); }
     public boolean setMail  (String mail           )
     {
         if ( mail.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"))
         {
             this.mail = mail;
-            this.modifie = !this.rollbackDatas.get("mail").equals(mail);
+            this.modifState();
             return true;
         }
         return false;
     }
-    public void setHeureService (Fraction heureService  ) { this.heureService = heureService   ; this.modifie = !((Fraction) this.rollbackDatas.get("heureService")).equals(heureService); }
-    public void setHeureMax (Fraction heureMax          ) { this.heureMax = heureMax   ; this.modifie = !((Fraction) this.rollbackDatas.get("heureMax")).equals(heureMax); }
-    public void setRatioTP (Fraction ratioTP          ) { this.ratioTP = ratioTP   ; this.modifie = !((Fraction) this.rollbackDatas.get("ratioTP")).equals(ratioTP); }
-    public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ; this.modifie = this.rollbackDatas.get("categorie") != categorie; }
+    public void setHeureService (Fraction heureService  ) { this.heureService = heureService   ; this.modifState(); }
+    public void setHeureMax (Fraction heureMax          ) { this.heureMax = heureMax   ; this.modifState(); }
+    public void setRatioTP (Fraction ratioTP          ) { this.ratioTP = ratioTP   ; this.modifState(); }
+    public void setCategorie  (CategorieIntervenant categorie) { this.categorie = categorie     ; this.modifState(); }
+
+    private void modifState()
+    {
+	    this.modifie = !this.rollbackDatas.get("nom").equals(this.nom);
+        if ( !this.rollbackDatas.get("prenom").equals(this.prenom) ) this.modifie = true;
+        if ( !this.rollbackDatas.get("mail").equals(this.mail) ) this.modifie = true;
+        if ( !((Fraction) this.rollbackDatas.get("heureService")).equals(this.heureService) ) this.modifie = true;
+        if ( !((Fraction) this.rollbackDatas.get("heureMax")).equals(this.heureMax) ) this.modifie = true;
+        if ( !((Fraction) this.rollbackDatas.get("ratioTP")).equals(this.ratioTP) ) this.modifie = true;
+        if ( this.rollbackDatas.get("categorie") != categorie ) this.modifie = true;
+    }
 
     /* Calculs */
 

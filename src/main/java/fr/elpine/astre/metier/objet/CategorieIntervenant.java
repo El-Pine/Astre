@@ -52,10 +52,18 @@ public class CategorieIntervenant
 
     /*   SETTER   */
 
-    public void setNom          ( String nom           ) { this.nom          = nom          ; this.modifie = !this.rollbackDatas.get("nom").equals(nom); }
-    public void setNbHeureMaxDefault   ( Fraction nbHeureMaxDefault       ) { this.nbHeureMaxDefault   = nbHeureMaxDefault   ; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeureMaxDefault")).equals(nbHeureMaxDefault); }
-    public void setNbHeureServiceDefault      ( Fraction nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeureServiceDefault")).equals(nbHeureServiceDefault); }
-    public void setRatioTPDefault (Fraction ratioTPDefault      ) { this.ratioTPDefault = ratioTPDefault; this.modifie = !((Fraction) this.rollbackDatas.get("ratioTPDefault")).equals(ratioTPDefault); }
+    public void setNom          ( String nom           ) { this.nom          = nom          ; this.modifState(); }
+    public void setNbHeureMaxDefault   ( Fraction nbHeureMaxDefault       ) { this.nbHeureMaxDefault   = nbHeureMaxDefault   ; this.modifState(); }
+    public void setNbHeureServiceDefault      ( Fraction nbHeureServiceDefault          ) { this.nbHeureServiceDefault      = nbHeureServiceDefault      ; this.modifState(); }
+    public void setRatioTPDefault (Fraction ratioTPDefault      ) { this.ratioTPDefault = ratioTPDefault; this.modifState(); }
+
+    private void modifState()
+    {
+	    this.modifie = !this.rollbackDatas.get("nom").equals(this.nom);
+        if ( !((Fraction) this.rollbackDatas.get("nbHeureMaxDefault")).equals(this.nbHeureMaxDefault) ) this.modifie = true;
+        if ( !((Fraction) this.rollbackDatas.get("nbHeureServiceDefault")).equals(this.nbHeureServiceDefault) ) this.modifie = true;
+        if ( !((Fraction) this.rollbackDatas.get("ratioTPDefault")).equals(this.ratioTPDefault) ) this.modifie = true;
+    }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }

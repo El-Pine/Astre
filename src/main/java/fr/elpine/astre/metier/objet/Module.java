@@ -1,6 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.metier.outil.Fraction;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -66,12 +67,22 @@ public class Module
 
     /*   SETTER   */
 
-    public void setCode       ( String code        )   { this.code        = code        ; this.modifie = !this.rollbackDatas.get("code").equals(code); }
-    public void setNom         ( String nom        )   { this.nom         = nom         ; this.modifie = !this.rollbackDatas.get("nom").equals(nom); }
-    public void setAbreviation ( String  abreviation ) { this.abreviation = abreviation ; this.modifie = !this.rollbackDatas.get("abreviation").equals(abreviation); }
-    public void setCouleur     ( Color  couleur      ) { this.couleur     = couleur     ; this.modifie = !((Color) this.rollbackDatas.get("couleur")).equals(couleur); }
-    public void setTypeModule  ( String  typeModule )  { this.typeModule  = typeModule  ; this.modifie = !this.rollbackDatas.get("typeModule").equals(typeModule); }
-    public void setValidation  ( boolean validation )  { this.validation  = validation  ; this.modifie = ((boolean) this.rollbackDatas.get("validation")) != validation; }
+    public void setCode       ( String code        )   { this.code        = code        ; this.modifState(); }
+    public void setNom         ( String nom        )   { this.nom         = nom         ; this.modifState(); }
+    public void setAbreviation ( String  abreviation ) { this.abreviation = abreviation ; this.modifState(); }
+    public void setCouleur     ( Color  couleur      ) { this.couleur     = couleur     ; this.modifState(); }
+    public void setTypeModule  ( String  typeModule )  { this.typeModule  = typeModule  ; this.modifState(); }
+    public void setValidation  ( boolean validation )  { this.validation  = validation  ; this.modifState(); }
+
+    private void modifState()
+    {
+	    this.modifie = !this.rollbackDatas.get("code").equals(this.code);
+        if ( !this.rollbackDatas.get("nom").equals(this.nom) ) this.modifie = true;
+        if ( !this.rollbackDatas.get("abreviation").equals(this.abreviation) ) this.modifie = true;
+        if ( !this.rollbackDatas.get("couleur").equals(couleur) ) this.modifie = true;
+        if ( !this.rollbackDatas.get("typeModule").equals(this.typeModule) ) this.modifie = true;
+        if ( ((boolean) this.rollbackDatas.get("validation")) != validation ) this.modifie = true;
+    }
 
 
     /* Calculs */

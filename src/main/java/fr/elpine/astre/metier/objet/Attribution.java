@@ -62,9 +62,17 @@ public class Attribution
     public Module         getModule              () { return module;                 }
     public CategorieHeure getCatHr               () { return catHr;                  }
 
-    public void setNbHeurePN (Fraction nbHeurePN ) { this.nbHeurePN = nbHeurePN; this.modifie = !((Fraction) this.rollbackDatas.get("nbHeurePN")).equals(nbHeurePN); }
-    public void setNbHeure   (Fraction nbHeure   ) { this.nbHeure   = nbHeure;   this.modifie = !((Fraction) this.rollbackDatas.get("nbHeure")).equals(nbHeure); }
-    public void setNbSemaine (int nbSemaine      ) { this.nbSemaine = nbSemaine; this.modifie = ((Integer) this.rollbackDatas.get("nbSemaine")) != nbSemaine; }
+    public void setNbHeurePN (Fraction nbHeurePN ) { this.nbHeurePN = nbHeurePN; this.modifState(); }
+    public void setNbHeure   (Fraction nbHeure   ) { this.nbHeure   = nbHeure;   this.modifState(); }
+    public void setNbSemaine (int nbSemaine      ) { this.nbSemaine = nbSemaine; this.modifState(); }
+
+    private void modifState()
+    {
+	    this.modifie = !((Fraction) this.rollbackDatas.get("nbHeurePN")).equals(this.nbHeurePN);
+        if ( !((Fraction) this.rollbackDatas.get("nbHeure")).equals(this.nbHeure) ) this.modifie = true;
+        if ( this.hasNbSemaine() )
+            if ( !this.rollbackDatas.get("nbSemaine").equals(this.nbSemaine) ) this.modifie = true;
+    }
 
     /* Calculs */
 

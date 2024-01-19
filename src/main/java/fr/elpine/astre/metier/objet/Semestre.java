@@ -1,6 +1,7 @@
 package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,10 +53,18 @@ public class Semestre
 
     /* SETTER */
 
-    public void setNbGrpTD   ( int nbGrpTD   ) { this.nbGrpTD   = nbGrpTD; this.modifie = ((int) this.rollbackDatas.get("nbGrpTD")) != nbGrpTD;    }
-    public void setNbGrpTP   ( int nbGrpTP   ) { this.nbGrpTP   = nbGrpTP; this.modifie = ((int) this.rollbackDatas.get("nbGrpTP")) != nbGrpTP;    }
-    public void setNbEtd     ( int nbEtd     ) { this.nbEtd     = nbEtd; this.modifie = ((int) this.rollbackDatas.get("nbEtd")) != nbEtd;      }
-    public void setNbSemaine ( int nbSemaine ) { this.nbSemaine = nbSemaine; this.modifie = ((int) this.rollbackDatas.get("nbSemaine")) != nbSemaine;  }
+    public void setNbGrpTD   ( int nbGrpTD   ) { this.nbGrpTD   = nbGrpTD; this.modifState();    }
+    public void setNbGrpTP   ( int nbGrpTP   ) { this.nbGrpTP   = nbGrpTP; this.modifState();    }
+    public void setNbEtd     ( int nbEtd     ) { this.nbEtd     = nbEtd; this.modifState();      }
+    public void setNbSemaine ( int nbSemaine ) { this.nbSemaine = nbSemaine; this.modifState();  }
+
+    private void modifState()
+    {
+	    this.modifie = ((int) this.rollbackDatas.get("nbGrpTD")) != nbGrpTD;
+        if ( ((int)  this.rollbackDatas.get("nbGrpTP")) != nbGrpTP ) this.modifie = true;
+        if ( ((int)  this.rollbackDatas.get("nbEtd")) != nbEtd ) this.modifie = true;
+        if ( ((int)  this.rollbackDatas.get("nbSemaine")) != nbSemaine ) this.modifie = true;
+    }
 
 
     /* Synchronisation */

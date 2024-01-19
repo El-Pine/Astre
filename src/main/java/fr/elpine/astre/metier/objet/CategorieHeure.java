@@ -66,13 +66,24 @@ public class CategorieHeure
 
     /*  SETTER   */
 
-    public void setEquivalentTD ( Fraction equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifie = !((Fraction) this.rollbackDatas.get("equivalentTD")).equals(equivalentTD); }
-    public void setRessource    ( boolean estRessource   ) { this.ressource    = estRessource ; this.modifie = ((boolean) this.rollbackDatas.get("estRessource")) != estRessource; }
-    public void setSae          ( boolean estSae         ) { this.sae          = estSae       ; this.modifie = ((boolean) this.rollbackDatas.get("estSae")) != estSae; }
-    public void setPpp          ( boolean estPpp         ) { this.ppp          = estPpp       ; this.modifie = ((boolean) this.rollbackDatas.get("estPpp")) != estPpp; }
-    public void setStage        ( boolean estStage       ) { this.stage        = estStage     ; this.modifie = ((boolean) this.rollbackDatas.get("estStage")) != estStage; }
-    public void setTypeGroupe   ( String  typeGroupe     ) { this.typeGroupe   = typeGroupe   ; this.modifie = !this.rollbackDatas.get("typeGroupe").equals(typeGroupe); }
-    public void setHebdo        ( boolean hebdo          ) { this.hebdo        = hebdo        ; this.modifie = ((boolean) this.rollbackDatas.get("hebdo")) != hebdo; }
+    public void setEquivalentTD ( Fraction equivalentTD  ) { this.equivalentTD = equivalentTD ; this.modifState(); }
+    public void setRessource    ( boolean estRessource   ) { this.ressource    = estRessource ; this.modifState(); }
+    public void setSae          ( boolean estSae         ) { this.sae          = estSae       ; this.modifState(); }
+    public void setPpp          ( boolean estPpp         ) { this.ppp          = estPpp       ; this.modifState(); }
+    public void setStage        ( boolean estStage       ) { this.stage        = estStage     ; this.modifState(); }
+    public void setTypeGroupe   ( String  typeGroupe     ) { this.typeGroupe   = typeGroupe   ; this.modifState(); }
+    public void setHebdo        ( boolean hebdo          ) { this.hebdo        = hebdo        ; this.modifState(); }
+
+    private void modifState()
+    {
+	    this.modifie = !((Fraction) this.rollbackDatas.get("equivalentTD")).equals(this.equivalentTD);
+        if ( ((boolean) this.rollbackDatas.get("ressource")) != ressource ) this.modifie = true;
+        if ( ((boolean) this.rollbackDatas.get("sae")) != sae ) this.modifie = true;
+        if ( ((boolean) this.rollbackDatas.get("ppp")) != ppp ) this.modifie = true;
+        if ( ((boolean) this.rollbackDatas.get("stage")) != stage ) this.modifie = true;
+        if ( !this.rollbackDatas.get("typeGroupe").equals(this.typeGroupe) ) this.modifie = true;
+        if ( ((boolean) this.rollbackDatas.get("hebdo")) != hebdo ) this.modifie = true;
+    }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }

@@ -2,6 +2,7 @@ package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.Astre;
+import fr.elpine.astre.metier.outil.Fraction;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -56,8 +57,14 @@ public class Annee
     public Date getDateDeb () { return dateDeb; }
     public Date getDateFin () { return dateFin; }
 
-    public void setDateDeb (Date dateDeb ) { this.dateDeb = dateDeb; this.modifie = ((Date) this.rollbackDatas.get("dateDeb")).compareTo(dateDeb) != 0;  }
-    public void setDateFin (Date dateFin ) { this.dateFin = dateFin; this.modifie = ((Date) this.rollbackDatas.get("dateFin")).compareTo(dateFin) != 0;  }
+    public void setDateDeb (Date dateDeb ) { this.dateDeb = dateDeb; this.modifState();  }
+    public void setDateFin (Date dateFin ) { this.dateFin = dateFin; this.modifState();  }
+
+    private void modifState()
+    {
+	    this.modifie = ((Date) this.rollbackDatas.get("dateDeb")).compareTo(dateDeb) != 0;
+        if ( ((Date) this.rollbackDatas.get("dateFin")).compareTo(dateFin) != 0 ) this.modifie = true;
+    }
 
     /* Synchronisation */
     public boolean isAjoute() { return this.ajoute; }
