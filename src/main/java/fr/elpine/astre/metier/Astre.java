@@ -238,9 +238,9 @@ public class Astre
 
 
         // débug
-        if (lstAction.isEmpty()) logger.debug("Aucune actions à sauvegarder");
+        if (lstAction.isEmpty()) logger.debug(String.format("Aucune actions à %s", rollback ? "annuler" : "sauvegarder"));
         else {
-            logger.debug("Listes des actions de sauvegarde :\n");
+            logger.debug(String.format("Listes des actions %s :\n", rollback ? "d'annulation" : "de sauvegarde"));
             for (Action a : lstAction) logger.debug(String.valueOf(a));
         }
 

@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutIntervenant">
    <bottom>
@@ -67,6 +68,9 @@
                      <FlowPane.margin>
                         <Insets />
                      </FlowPane.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
                   </Label>
                   <TextField fx:id="txtEmail" prefWidth="200.0">
                      <FlowPane.margin>
