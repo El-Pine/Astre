@@ -596,7 +596,7 @@
                <center>
                   <TableView fx:id="tableau">
                      <columns>
-                        <TableColumn fx:id="tc" prefWidth="35.999969482421875" />
+                        <TableColumn fx:id="tc" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" resizable="false" sortable="false" />
                         <TableColumn fx:id="tcIntervenant" maxWidth="189.6000518798828" minWidth="50.0" prefWidth="189.6000518798828" reorderable="false" resizable="false" text="Intervenant" />
                         <TableColumn fx:id="tcType" maxWidth="79.20001220703125" minWidth="30.0" prefWidth="76.800048828125" reorderable="false" resizable="false" text="Type" />
                         <TableColumn fx:id="tcSemaine" prefWidth="92.0" reorderable="false" resizable="false" text="Nb Semaine" />

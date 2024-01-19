@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Emoji;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
@@ -138,11 +139,11 @@ public class StageSaisieRessource extends Stage implements Initializable
 
     private String getCellValue(Affectation affectation) {
         if (affectation.isSupprime()) {
-            return "❌";
+            return "S";
         } else if (affectation.isAjoute()) {
-            return "➕";
+            return "A";
         } else if (affectation.isModifie()) {
-            return "🖉";
+            return "M";
         } else {
             return "";
         }
@@ -849,24 +850,7 @@ public class StageSaisieRessource extends Stage implements Initializable
         ajouterColonne("TO");
 
         tc.setCellValueFactory(cellData -> new SimpleStringProperty(getCellValue(cellData.getValue())));
-        tc.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(item);
-
-                if (item != null && item.equals("❌")) {
-                    setTextFill(Color.RED);
-                } else if (item != null && item.equals("➕")) {
-                    setTextFill(Color.LIGHTGREEN);
-                } else if (item != null && item.equals("🖉")) {
-                    setTextFill(Color.BLUE);
-                } else {
-                    setTextFill(Color.BLACK);
-                    setText("");
-                }
-            }
-        });
+        tc.setCellFactory(column -> Emoji.getCellFactory());
 
         tcIntervenant.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIntervenant().getNom() + " " + cellData.getValue().getIntervenant().getPrenom()));
         tcType       .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTypeHeure  ().getNom()));
