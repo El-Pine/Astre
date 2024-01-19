@@ -26,10 +26,6 @@ public class DB
     {
         logger.info("Lancement de l'application");
 
-        // Verification de l'existance du fichier de connexion
-        //File fichier = new File("infoBd.txt");
-        //try { fichier.createNewFile(); } catch (IOException e) { throw new RuntimeException(e); }
-
 	    /*
          * Pour créer un tunnel SSH
          * -> ssh -L 5432:woody:5432 -p 4660 bt220243@corton.iut.univ-lehavre.fr
@@ -83,14 +79,6 @@ public class DB
         boolean valid = this.connexion( ip, port, database, identifiant, password );
 
         if (valid)
-            /*try
-            {
-                FileWriter writer = new FileWriter("infoBd.txt", false);
-
-                writer.write(String.format("%s\t%s\t%s\t%s\t%s", ip, port, database, identifiant, password));
-                writer.close();
-            }
-            catch (IOException e) { logger.error("Erreur lors du la sauvegarde des informations de connexion", e); }*/
         {
             Configuration.set("ip", ip);
             Configuration.set("port", String.valueOf(port));
@@ -310,11 +298,11 @@ public class DB
         {
             ps.setString   (1,inter.getNom                 ()  );
             ps.setString   (2,inter.getPrenom              ()  );
-            ps.setString   (3, inter.getMail               ()  );
+            ps.setString   (3,inter.getMail                ()  );
             ps.setString   (4,inter.getCategorie().getCode ()  );
-            ps.setString   (5,inter.getHeureService().toString()  );
-            ps.setString   (6,inter.getHeureMax().toString()  );
-            ps.setString   (7,inter.getRatioTP().toString()  );
+            ps.setString   (5,inter.getHeureService().serialize()  );
+            ps.setString   (6,inter.getHeureMax().serialize()  );
+            ps.setString   (7,inter.getRatioTP().serialize()  );
 
             if (ps.executeUpdate() > 0)
             {
@@ -336,9 +324,9 @@ public class DB
             ps.setString(2,                 inter.getPrenom ()           );
             ps.setString(3,                 inter.getMail()           );
             ps.setString(4,                 inter.getCategorie().getCode() );
-            ps.setString(5, inter.getHeureService().toString()          );
-            ps.setString(6, inter.getHeureMax  ().toString()          );
-            ps.setString(7, inter.getRatioTP().toString());
+            ps.setString(5, inter.getHeureService().serialize()          );
+            ps.setString(6, inter.getHeureMax  ().serialize()          );
+            ps.setString(7, inter.getRatioTP().serialize());
             ps.setInt(8,inter.getId());
             ps.executeUpdate();
         }
@@ -554,9 +542,9 @@ public class DB
 
             ps.setString (1, categorieIntervenant.getCode       () );
             ps.setString (2, categorieIntervenant.getNom        () );
-            ps.setString    (3, categorieIntervenant.getNbHeureMaxDefault ().toString() );
-            ps.setString    (4, categorieIntervenant.getNbHeureServiceDefault    ().toString() );
-            ps.setString (5, categorieIntervenant.getRatioTPDefault    ().toString() );
+            ps.setString    (3, categorieIntervenant.getNbHeureMaxDefault ().serialize() );
+            ps.setString    (4, categorieIntervenant.getNbHeureServiceDefault    ().serialize() );
+            ps.setString (5, categorieIntervenant.getRatioTPDefault    ().serialize() );
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une catégorie d'intervenant", e); }
@@ -569,9 +557,9 @@ public class DB
         try(PreparedStatement ps = co.prepareStatement(req))
         {
             ps.setString (1,       catInter.getNom        ());
-            ps.setString    (2,       catInter.getNbHeureMaxDefault ().toString());
-            ps.setString    (3,       catInter.getNbHeureServiceDefault   ().toString());
-            ps.setString  (4,      catInter.getRatioTPDefault    ().toString());
+            ps.setString    (2,       catInter.getNbHeureMaxDefault ().serialize());
+            ps.setString    (3,       catInter.getNbHeureServiceDefault   ().serialize());
+            ps.setString  (4,      catInter.getRatioTPDefault    ().serialize());
             ps.setString (5,       catInter.getCode       ());
             ps.executeUpdate();
 
@@ -632,7 +620,7 @@ public class DB
         {
 
             ps.setString (1, categorieHeure.getNom          () );
-            ps.setString (2, categorieHeure.getEquivalentTD ().toString() );
+            ps.setString (2, categorieHeure.getEquivalentTD ().serialize() );
             ps.setBoolean(3, categorieHeure.estRessource    () );
             ps.setBoolean(4, categorieHeure.estSae          () );
             ps.setBoolean(5, categorieHeure.estPpp          () );
@@ -650,7 +638,7 @@ public class DB
         String req = "UPDATE CategorieHeure SET eqtd = ?,ressource = ?, sae = ?, ppp = ?,stage = ?, hebdo=?,typeGroupe=?  WHERE nom = ?";
         try(PreparedStatement ps = co.prepareStatement(req))
         {
-            ps.setString  (1,catHr.getEquivalentTD().toString());
+            ps.setString  (1,catHr.getEquivalentTD().serialize());
             ps.setBoolean (2,catHr.estRessource   ());
             ps.setBoolean (3,catHr.estSae         ());
             ps.setBoolean (4,catHr.estStage       ());
@@ -718,10 +706,10 @@ public class DB
             ps.setInt   (2, attribution.getModule().getSemestre().getNumero());
             ps.setString(3, attribution.getModule().getSemestre().getAnnee().getNom());
             ps.setString(4, attribution.getCatHr().getNom());
-            ps.setString(5, attribution.getNbHeure().toString());
+            ps.setString(5, attribution.getNbHeure().serialize());
             if (attribution.hasNbSemaine()) ps.setInt(6, attribution.getNbSemaine());
-            else                            ps.setNull(6, Types.INTEGER);
-            ps.setString(7, attribution.getNbHeurePN().toString());
+            else                            ps.setNull(6, Types.NULL);
+            ps.setString(7, attribution.getNbHeurePN().serialize());
             ps.executeUpdate();
         }
         catch (SQLException e) { logger.error("Erreur lors de l'ajout d'une attribution", e); }
@@ -731,10 +719,10 @@ public class DB
     public void majAttribution(Attribution att) {
         String req = "UPDATE Attribution SET nbHeure = ?, nbSemaine = ?, nbHeurePN = ? WHERE numeroSemestreModule = ? AND codeModule = ? AND anneeModule = ? AND nomCategorieHeure = ?";
         try (PreparedStatement ps = co.prepareStatement(req)) {
-            ps.setString   (1,att.getNbHeure  ().toString());
+            ps.setString   (1,att.getNbHeure  ().serialize());
             if (att.hasNbSemaine()) ps.setInt   (2,att.getNbSemaine());
-            else                    ps.setNull(2, Types.INTEGER);
-            ps.setString   (3,att.getNbHeurePN().toString());
+            else                    ps.setNull(2, Types.NULL);
+            ps.setString   (3,att.getNbHeurePN().serialize());
 
             ps.setInt   (4,att.getModule   ().getSemestre().getNumero());
             ps.setString(5,att.getModule   ().getCode    ());
@@ -828,12 +816,12 @@ public class DB
                 ps.setInt(6, affs.getNbGroupe());
                 ps.setInt(7, affs.getNbSemaine());
             } else {
-                ps.setNull(6, Types.INTEGER);
-                ps.setNull(7, Types.INTEGER);
+                ps.setNull(6, Types.NULL);
+                ps.setNull(7, Types.NULL);
             }
 
-            if (affs.hasNbHeure()) ps.setString(8, affs.getNbHeure().toString());
-            else                   ps.setNull  (8, Types.FLOAT);
+            if (affs.hasNbHeure()) ps.setString(8, affs.getNbHeure().serialize());
+            else                   ps.setNull  (8, Types.NULL);
 
             ps.setString   (9,affs.getCommentaire());
 
@@ -860,12 +848,12 @@ public class DB
                 ps.setInt(2, aff.getNbGroupe());
                 ps.setInt(3, aff.getNbSemaine());
             } else {
-                ps.setNull(2, Types.INTEGER);
-                ps.setNull(3, Types.INTEGER);
+                ps.setNull(2, Types.NULL);
+                ps.setNull(3, Types.NULL);
             }
 
-            if (aff.hasNbHeure()) ps.setString(4, aff.getNbHeure().toString());
-            else                   ps.setNull  (4, Types.FLOAT);
+            if (aff.hasNbHeure()) ps.setString(4, aff.getNbHeure().serialize());
+            else                   ps.setNull  (4, Types.NULL);
 
             ps.setString (5,aff.getCommentaire         ());
 
