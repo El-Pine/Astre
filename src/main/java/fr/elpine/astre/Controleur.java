@@ -25,6 +25,7 @@ public class Controleur
 
     public void startAstre()
     {
+        this.astre = null;
         this.astre = new Astre(this);
     }
 

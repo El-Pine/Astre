@@ -26,17 +26,14 @@
                <bottom>
                   <FlowPane alignment="CENTER" hgap="15.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnEnregistrer" prefWidth="100.0" text="Enregistrer" />
-                        <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler">
+                        <Button defaultButton="true" onAction="#onBtnEnregistrer" prefWidth="100.0" text="Enregistrer" />
+                        <Button cancelButton="true" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler">
                            <FlowPane.margin>
                               <Insets right="50.0" />
                            </FlowPane.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onBtnAjouterInter" prefWidth="100.0" text="Ajouter" />
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBtnSupprimer" prefWidth="100.0" text="Supprimer">
-                           <FlowPane.margin>
-                              <Insets />
-                           </FlowPane.margin>
+                        <Button onAction="#onBtnAjouterInter" prefWidth="100.0" text="Ajouter" />
+                        <Button onAction="#onBtnSupprimerInter" prefWidth="100.0" text="Supprimer">
                         </Button>
                      </children>
                      <padding>
@@ -72,17 +69,14 @@
                <bottom>
                    <FlowPane alignment="CENTER" hgap="15.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                        <children>
-                           <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnEnregistrer" prefWidth="100.0" text="Enregistrer" />
-                           <Button cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler">
+                           <Button defaultButton="true" onAction="#onBtnEnregistrer" prefWidth="100.0" text="Enregistrer" />
+                           <Button cancelButton="true" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler">
                                <FlowPane.margin>
                                    <Insets right="50.0" />
                                </FlowPane.margin>
                            </Button>
-                           <Button mnemonicParsing="false" onAction="#onBtnAjouterHeure" prefWidth="100.0" text="Ajouter" />
-                           <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBtnSupprimer" prefWidth="100.0" text="Supprimer">
-                               <FlowPane.margin>
-                                   <Insets />
-                               </FlowPane.margin>
+                           <Button onAction="#onBtnAjouterHeure" prefWidth="100.0" text="Ajouter" />
+                           <Button onAction="#onBtnSupprimerHeure" prefWidth="100.0" text="Supprimer">
                            </Button>
                        </children>
                        <padding>

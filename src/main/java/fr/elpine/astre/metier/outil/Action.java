@@ -259,6 +259,6 @@ public class Action implements Comparable<Action>
 
 	public String toString()
 	{
-		return String.format("Lvl: %d [db: %-5s] Obj: %s", this.lvl, this.affecteDB, this.objet);
+		return String.format("Action: %d [db: %-5s] Obj: %s", this.lvl, this.affecteDB, this.objet);
 	}
 }

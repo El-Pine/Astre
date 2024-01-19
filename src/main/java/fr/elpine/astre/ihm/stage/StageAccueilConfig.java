@@ -113,19 +113,11 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.close();
     }
 
-    @FXML private void onBtnSupprimer()
+    @FXML private void onBtnSupprimerHeure()
     {
-        CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
-        CategorieHeure       catHr    = tabCatHeures.getSelectionModel().getSelectedItem();
+        CategorieHeure catHr = tabCatHeures.getSelectionModel().getSelectedItem();
 
-        if (catInter != null)
-        {
-            if (catInter.supprimer( false ))
-                PopUp.confirmationR("Suppression d'une catégorie d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'intervenant : %s", catInter.getNom()));
-            else
-                PopUp.error("Catégorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ");
-        }
-        else if (catHr != null) {
+        if (catHr != null) {
             if(catHr.supprimer( false ))
                 PopUp.confirmationR("Suppression d'une catégorie d'heure", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'heure : %s", catHr.getNom()));
             else
@@ -133,6 +125,22 @@ public class StageAccueilConfig extends Stage implements Initializable
         }
 
         tabCatHeures.getSelectionModel().clearSelection();
+
+        this.refresh();
+    }
+
+    @FXML private void onBtnSupprimerInter()
+    {
+        CategorieIntervenant catInter = tabCatInter .getSelectionModel().getSelectedItem();
+
+        if (catInter != null)
+        {
+            if (catInter.supprimer( false ))
+                PopUp.confirmationR("Suppression d'une catégorie d'intervenant", null, String.format("Êtes-vous sûr de vouloir supprimer cette catégorie d'intervenant : %s", catInter.getNom()));
+            else
+                PopUp.error("Catégorie utilisé quelque part",null, "La catégorie que vous voulez supprimer est utilisé quelque part. ").showAndWait();
+        }
+
         tabCatInter.getSelectionModel().clearSelection();
 
         this.refresh();
