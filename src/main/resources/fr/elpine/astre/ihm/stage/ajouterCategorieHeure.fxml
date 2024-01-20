@@ -37,7 +37,7 @@
                   <Label BorderPane.alignment="CENTER" />
                </left>
                <center>
-                  <CheckBox fx:id="cbHebdo" mnemonicParsing="false" text="Hebdomadaire " BorderPane.alignment="CENTER" />
+                  <CheckBox fx:id="cbHebdoCatH" mnemonicParsing="false" text="Hebdomadaire " BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
             <GridPane GridPane.rowIndex="2">
@@ -88,7 +88,7 @@
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
                <children>
                   <Label text="Type de Groupe : " />
-                  <ChoiceBox fx:id="cbbTypeGroupe" prefWidth="150.0" />
+                  <ChoiceBox fx:id="cbbTypeGroupeCatH" prefWidth="150.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">

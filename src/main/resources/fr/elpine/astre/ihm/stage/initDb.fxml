@@ -24,7 +24,7 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="IP" />
-                  <TextField fx:id="txtfIp" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfIp" prefHeight="30.0" prefWidth="200.0" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -33,13 +33,13 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Port" />
-                  <TextField fx:id="txtfPort" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfPort" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Identifiant" />
-                  <TextField fx:id="txtfId" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfId" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
@@ -51,7 +51,7 @@
             <FlowPane alignment="CENTER" columnHalignment="CENTER" prefHeight="40.0" prefWidth="600.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="100.0" text="Base de données" />
-                  <TextField fx:id="txtfBdd" onKeyPressed="#handleTabKeyPressed" prefHeight="30.0" prefWidth="200.0" />
+                  <TextField fx:id="txtfBdd" prefHeight="30.0" prefWidth="200.0" />
                </children>
             </FlowPane>
          </children>

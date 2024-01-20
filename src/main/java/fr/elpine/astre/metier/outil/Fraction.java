@@ -2,9 +2,9 @@ package fr.elpine.astre.metier.outil;
 
 public class Fraction
 {
-	public static final String REGEX                  = "^((\\d+([\\.,]\\d+)?)|(\\d+\\/[1-9]\\d*))$";
-	public static final String REGEX_FRACTION         = "^\\d+\\/[1-9]\\d*$";
-	public static final String REGEX_CARACTERES_VALIDE = "^[\\d\\.,\\/]*$";
+	public static final String REGEX          = "^((\\d+([\\.,]\\d+)?)|(\\d+\\/[1-9]\\d*))$";
+	public static final String REGEX_FRACTION = "^\\d+\\/[1-9]\\d*$";
+	public static final String REGEX_CARAC    = "^[\\d\\.,\\/]*$";
 
 	private final int n; // numerator   / entier
 	private final int d; // denominator / decimal

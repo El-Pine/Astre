@@ -67,16 +67,7 @@ public class Intervenant
     public void setId     (int id               ) { this.id = id; }
     public void setNom     (String nom             ) { this.nom = nom           ; this.modifState(); }
     public void setPrenom  (String prenom          ) { this.prenom = prenom     ; this.modifState(); }
-    public boolean setMail  (String mail           )
-    {
-        if ( mail.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"))
-        {
-            this.mail = mail;
-            this.modifState();
-            return true;
-        }
-        return false;
-    }
+    public void setMail  (String mail           ) { this.mail = mail; this.modifState(); }
     public void setHeureService (Fraction heureService  ) { this.heureService = heureService   ; this.modifState(); }
     public void setHeureMax (Fraction heureMax          ) { this.heureMax = heureMax   ; this.modifState(); }
     public void setRatioTP (Fraction ratioTP          ) { this.ratioTP = ratioTP   ; this.modifState(); }
@@ -111,7 +102,7 @@ public class Intervenant
                     for (Affectation aff : m.getAffectations())
                         if (aff.getIntervenant() == this) d += aff.getTotalEqtd() * (aff.getTypeHeure().getTypeGroupe().equals("tp") && avecRatio ? this.ratioTP.value() : 1);
 
-                lst.add(s.getNumero(), d);
+                lst.add(s.getNumero() - 1, d);
             }
 
         return lst;

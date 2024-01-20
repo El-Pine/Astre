@@ -4,6 +4,7 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.outil.Emoji;
+import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -158,14 +160,15 @@ public class StageAccueilConfig extends Stage implements Initializable
 
         tcNomInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
         tcNomInter.setCellFactory(column -> new TableCell<>() {
+            final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
+                Regex.activerRegex(Regex.REGEX_NOM, Regex.REGEX_NOM_CARAC, textField, valid, false);
 
                 textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         CategorieIntervenant afc = getTableView().getItems().get(index);
                         afc.setNom(newValue); // Mettre à jour votre donnée
                         tabCatInter.refresh();
@@ -189,14 +192,15 @@ public class StageAccueilConfig extends Stage implements Initializable
 
         tcHMaxInter.setCellValueFactory (cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureMaxDefault().toString()));
         tcHMaxInter.setCellFactory(column -> new TableCell<>() {
+            final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^\\d+$");
+                Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, textField, valid, false);
 
                 textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         CategorieIntervenant afc = getTableView().getItems().get(index);
                         afc.setNbHeureMaxDefault(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
                         tabCatInter.refresh();
@@ -221,14 +225,15 @@ public class StageAccueilConfig extends Stage implements Initializable
 
         tcHServInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNbHeureServiceDefault().toString()));
         tcHServInter.setCellFactory(column -> new TableCell<>() {
+            final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^\\d+$");
+                Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, textField, valid, false);
 
                 textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         CategorieIntervenant afc = getTableView().getItems().get(index);
                         afc.setNbHeureServiceDefault(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
                         tabCatInter.refresh();
@@ -252,12 +257,15 @@ public class StageAccueilConfig extends Stage implements Initializable
 
         tcRatioInter.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTPDefault().toString()));
         tcRatioInter.setCellFactory(column -> new TableCell<>() {
+            final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
+                Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, textField, valid, false);
+
                 textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         CategorieIntervenant afc = getTableView().getItems().get(index);
                         Fraction f = Fraction.valueOf(newValue);
                         if (f != null) afc.setRatioTPDefault(f); // Mettre à jour votre donnée
@@ -288,12 +296,15 @@ public class StageAccueilConfig extends Stage implements Initializable
         tcNomHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNom()));
         tcEqtdHeures.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEquivalentTD().toString()));
         tcEqtdHeures.setCellFactory(column -> new TableCell<>() {
+            final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
+                Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, textField, valid, false);
+
                 textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         CategorieHeure afc = getTableView().getItems().get(index);
 
                         Fraction f = Fraction.valueOf(newValue);
@@ -497,18 +508,6 @@ public class StageAccueilConfig extends Stage implements Initializable
         } else {
             return "";
         }
-    }
-
-    private void creerFormatter(TextField txtf, String regex) {
-        txtf.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches(regex)) {
-                return change;
-            } else if (change.getText().isEmpty()) {
-                return change;
-            } else {
-                return null;
-            }
-        }));
     }
 
     public void refresh()

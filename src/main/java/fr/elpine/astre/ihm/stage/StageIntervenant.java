@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.outil.Emoji;
+import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class StageIntervenant extends Stage implements Initializable
@@ -63,6 +65,7 @@ public class StageIntervenant extends Stage implements Initializable
 		this.setMinWidth(1250);
 		this.setMinHeight(600);
 	}
+
 
 	@FXML private void onBtnClickEnregistrer()
 	{
@@ -142,14 +145,15 @@ public class StageIntervenant extends Stage implements Initializable
 
 		tcNom      .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getNom     ()));
 		tcNom.setCellFactory(column -> new TableCell<>() {
+			final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ\\s]+(\\(\\d+\\))?$");
+	            Regex.activerRegex(Regex.REGEX_NOM, Regex.REGEX_NOM_CARAC, textField, valid, false);
 
-                textField.setOnAction(event -> {
+	            textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         Intervenant afc = getTableView().getItems().get(index);
                         afc.setNom(newValue); // Mettre à jour votre donnée
                         tabAffInter.refresh();
@@ -173,14 +177,15 @@ public class StageIntervenant extends Stage implements Initializable
 
 		tcPrenom   .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getPrenom  ()));
 		tcPrenom.setCellFactory(column -> new TableCell<>() {
+			final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^[a-zA-ZÀ-ÖØ-öø-ÿ]+$");
+	            Regex.activerRegex(Regex.REGEX_NOM, Regex.REGEX_NOM_CARAC, textField, valid, false);
 
-                textField.setOnAction(event -> {
+	            textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         Intervenant afc = getTableView().getItems().get(index);
                         afc.setPrenom(newValue); // Mettre à jour votre donnée
                         tabAffInter.refresh();
@@ -204,20 +209,19 @@ public class StageIntervenant extends Stage implements Initializable
 
 		tcMail     .setCellValueFactory(cellData -> new SimpleStringProperty (cellData.getValue().getMail     ()));
 		tcMail.setCellFactory(column -> new TableCell<>() {
+			final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
 
             {
-                textField.setOnAction(event -> {
+	            Regex.activerRegex(Regex.REGEX_MAIL, Regex.REGEX_MAIL_CARAC, textField, valid, true);
+
+	            textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         Intervenant afc = getTableView().getItems().get(index);
-                        boolean updateSuccess = afc.setMail(newValue); // Mettre à jour votre donnée
-                        if (updateSuccess) {
-                            tabAffInter.refresh();
-                        } else {
-                            textField.setText(getItem()); // Réinitialise le texte avec la valeur précédente
-                        }
+                        afc.setMail(newValue); // Mettre à jour votre donnée
+	                    tabAffInter.refresh();
                     }
                 });
             }
@@ -238,14 +242,15 @@ public class StageIntervenant extends Stage implements Initializable
 
 		tcHServ    .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureService().toString() ));
 		tcHServ.setCellFactory(column -> new TableCell<>() {
+			final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^\\d+$");
+	            Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, textField, valid, false);
 
                 textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         Intervenant afc = getTableView().getItems().get(index);
                         afc.setHeureService(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
                         tabAffInter.refresh();
@@ -269,14 +274,15 @@ public class StageIntervenant extends Stage implements Initializable
 
 		tcHMax     .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHeureMax().toString() ));
 		tcHMax.setCellFactory(column -> new TableCell<>() {
+			final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                creerFormatter(textField,"^\\d+$");
+	            Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, textField, valid, false);
 
-                textField.setOnAction(event -> {
+	            textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         Intervenant afc = getTableView().getItems().get(index);
                         afc.setHeureMax(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
                         tabAffInter.refresh();
@@ -300,12 +306,15 @@ public class StageIntervenant extends Stage implements Initializable
 
 		tcRatioTP  .setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRatioTP  ().toString() ));
 		tcRatioTP.setCellFactory(column -> new TableCell<>() {
+			final HashMap<TextField, Boolean> valid = new HashMap<>();
             final TextField textField = new TextField();
             {
-                textField.setOnAction(event -> {
+	            Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, textField, valid, false);
+
+	            textField.setOnAction(event -> {
                     String newValue = textField.getText();
                     int index = getIndex();
-                    if (index >= 0 && index < getTableView().getItems().size()) {
+                    if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
                         Intervenant afc = getTableView().getItems().get(index);
                         afc.setRatioTP(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
                         tabAffInter.refresh();
@@ -327,28 +336,28 @@ public class StageIntervenant extends Stage implements Initializable
             }
         });
 
-		tcS1       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(1), true)));
-		tcS2       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(2), true)));
-		tcS3       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(3), true)));
-		tcS4       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(4), true)));
-		tcS5       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(5), true)));
-		tcS6       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(6), true)));
+		tcS1       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(0), true)));
+		tcS2       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(1), true)));
+		tcS3       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(2), true)));
+		tcS4       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(3), true)));
+		tcS5       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(4), true)));
+		tcS6       .setCellValueFactory(cellData -> new SimpleStringProperty(Fraction.simplifyDouble(cellData.getValue().getHeure( true ).get(5), true)));
 
 		tcTotImpair.setCellValueFactory(cellData -> {
 			ArrayList<Double> h = cellData.getValue().getHeure( true );
-			double s = h.get(1) + h.get(3) + h.get(5);
+			double s = h.get(0) + h.get(2) + h.get(4);
 			return new SimpleStringProperty(Fraction.simplifyDouble(s, true));
 		});
 
 		tcTotPair  .setCellValueFactory(cellData -> {
 			ArrayList<Double> h = cellData.getValue().getHeure( true );
-			double s = h.get(2) + h.get(4) + h.get(6);
+			double s = h.get(1) + h.get(3) + h.get(5);
 			return new SimpleStringProperty(Fraction.simplifyDouble(s, true));
 		});
 
 		tcTot      .setCellValueFactory(cellData -> {
 			ArrayList<Double> h = cellData.getValue().getHeure( true );
-			double s = h.get(1) + h.get(2) + h.get(3) + h.get(4) + h.get(5) + h.get(6);
+			double s = h.get(0) + h.get(1) + h.get(2) + h.get(3) + h.get(4) + h.get(5);
 			return new SimpleStringProperty(Fraction.simplifyDouble(s, true));
 		});
 
@@ -417,18 +426,6 @@ public class StageIntervenant extends Stage implements Initializable
 		txtFieldRecherche.clear();
 		tabAffInter.setItems(list);
 		tabAffInter.refresh();
-	}
-
-	private void creerFormatter(TextField txtf, String regex) {
-		txtf.setTextFormatter(new TextFormatter<>(change -> {
-			if (change.getControlNewText().matches(regex)) {
-				return change;
-			} else if (change.getText().isEmpty()) {
-				return change;
-			} else {
-				return null;
-			}
-		}));
 	}
 
 	@FXML private void onBtnRechercher()

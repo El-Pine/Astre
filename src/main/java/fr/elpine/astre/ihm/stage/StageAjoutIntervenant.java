@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
 import fr.elpine.astre.metier.objet.Intervenant;
 import fr.elpine.astre.metier.outil.Fraction;
@@ -39,29 +40,10 @@ public class StageAjoutIntervenant extends Stage implements Initializable
         this.setMinHeight(450);
     }
 
-    private void creerFormatter(String regex, TextField txtf) {
-        txtf.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches(regex)) {
-                txtf.setStyle("");
-                this.hmChampValider.put(txtf,true);
-            } else if (change.getControlNewText().isEmpty()) {
-                this.hmChampValider.put(txtf,false);
-            } else {
-                txtf.setStyle("-fx-border-color: red; -fx-border-radius: 5px; -fx-border-width: 2px");
-                this.hmChampValider.put(txtf,false);
-            }
-            return change;
-        }));
-    }
 
     @FXML private void onBtnValider()
     {
-        boolean test = true;
-
-        for (Map.Entry<TextField, Boolean> e : this.hmChampValider.entrySet())
-	        if ((!e.getValue() && this.txtEmail != e.getKey()) || (this.txtEmail == e.getKey() && !this.txtEmail.getText().isEmpty() && !e.getValue() )) { test = false; break; }
-
-        if (test) {
+        if ( Regex.estValide(this.hmChampValider) ) {
             new Intervenant(
                     this.txtNom.getText(),
                     this.txtPrenom.getText(),
@@ -89,19 +71,12 @@ public class StageAjoutIntervenant extends Stage implements Initializable
 
         this.hmChampValider = new HashMap<>();
 
-        this.hmChampValider.put(this.txtNom,false);
-        this.hmChampValider.put(this.txtPrenom,false);
-        this.hmChampValider.put(this.txtEmail,false);
-        this.hmChampValider.put(this.txtService,false);
-        this.hmChampValider.put(this.txtComplementaire,false);
-        this.hmChampValider.put(this.txtfRatio,false);
-
-        this.creerFormatter("[\\p{L}]+",this.txtNom);
-        this.creerFormatter("[\\p{L}]+",this.txtPrenom);
-        this.creerFormatter("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$",this.txtEmail);
-        this.creerFormatter("\\b[1-9]\\d*\\b",this.txtService);
-        this.creerFormatter("\\b[1-9]\\d*\\b",this.txtComplementaire);
-        this.creerFormatter("^(0*(0(\\.\\d+)?|0\\.[0-9]*[1-9]+)|0*([1-9]\\d*|0)\\/[1-9]\\d*)$",this.txtfRatio);
+        Regex.activerRegex(Regex.REGEX_NOM, Regex.REGEX_NOM_CARAC, this.txtNom, this.hmChampValider, false);
+        Regex.activerRegex(Regex.REGEX_NOM, Regex.REGEX_NOM_CARAC, this.txtPrenom, this.hmChampValider, false);
+        Regex.activerRegex(Regex.REGEX_MAIL, Regex.REGEX_MAIL_CARAC, this.txtEmail, this.hmChampValider, true);
+        Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, this.txtService, this.hmChampValider, false);
+        Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, this.txtComplementaire, this.hmChampValider, false);
+        Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, this.txtfRatio, this.hmChampValider, false);
 
         ObservableList<CategorieIntervenant> enscatInter = FXCollections.observableList(Controleur.get().getMetier().getCategorieIntervenants());
         cpbContrat.setItems(enscatInter);
