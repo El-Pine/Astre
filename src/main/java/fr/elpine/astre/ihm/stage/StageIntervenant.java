@@ -251,9 +251,13 @@ public class StageIntervenant extends Stage implements Initializable
                     String newValue = textField.getText();
                     int index = getIndex();
                     if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
-                        Intervenant afc = getTableView().getItems().get(index);
-                        afc.setHeureService(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
-                        tabAffInter.refresh();
+	                    Intervenant afc = getTableView().getItems().get(index);
+	                    Fraction value = Fraction.valueOf(newValue);
+						if (afc.getHeureMax().value() >= value.value()) {
+							afc.setHeureService(value); // Mettre à jour votre donnée
+							tabAffInter.refresh();
+						}
+						else PopUp.warning("Informations incorrectes", null, "Le nombre d'heure de service doit être inférieur au nombre d'heure maximal").showAndWait();
                     }
                 });
             }
@@ -283,9 +287,13 @@ public class StageIntervenant extends Stage implements Initializable
                     String newValue = textField.getText();
                     int index = getIndex();
                     if (index >= 0 && index < getTableView().getItems().size() && Regex.estValide(valid)) {
-                        Intervenant afc = getTableView().getItems().get(index);
-                        afc.setHeureMax(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
-                        tabAffInter.refresh();
+	                    Intervenant afc = getTableView().getItems().get(index);
+	                    Fraction value = Fraction.valueOf(newValue);
+						if (value.value() >= afc.getHeureService().value()) {
+							afc.setHeureMax(Fraction.valueOf(newValue)); // Mettre à jour votre donnée
+							tabAffInter.refresh();
+						}
+						else PopUp.warning("Informations incorrectes", null, "Le nombre d'heure de service doit être inférieur au nombre d'heure maximal").showAndWait();
                     }
                 });
             }

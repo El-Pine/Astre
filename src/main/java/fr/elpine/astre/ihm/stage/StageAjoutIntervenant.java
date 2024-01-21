@@ -44,17 +44,24 @@ public class StageAjoutIntervenant extends Stage implements Initializable
     @FXML private void onBtnValider()
     {
         if ( Regex.estValide(this.hmChampValider) ) {
-            new Intervenant(
-                    this.txtNom.getText(),
-                    this.txtPrenom.getText(),
-                    this.txtEmail.getText(),
-                    this.cpbContrat.getValue(),
-                    Fraction.valueOf(this.txtService.getText()),
-                    Fraction.valueOf(this.txtComplementaire.getText()),
-                    Fraction.valueOf(this.txtfRatio.getText())
-            );
+            Fraction hSer = Fraction.valueOf(this.txtService.getText());
+            Fraction hMax = Fraction.valueOf(this.txtComplementaire.getText());
 
-            this.close();
+            if (hMax.value() >= hSer.value()) {
+                new Intervenant(
+                        this.txtNom.getText(),
+                        this.txtPrenom.getText(),
+                        this.txtEmail.getText(),
+                        this.cpbContrat.getValue(),
+                        hSer,
+                        hMax,
+                        Fraction.valueOf(this.txtfRatio.getText())
+                );
+
+                this.close();
+            }
+            else
+                PopUp.warning("Informations incorrectes", null, "Le nombre d'heure de service doit être inférieur au nombre d'heure maximal").showAndWait();
         }
         else
             PopUp.warning("Informations incorrectes", null, "Les informations entrées ne sont pas toutes valides").showAndWait();
