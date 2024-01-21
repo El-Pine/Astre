@@ -88,3 +88,14 @@ jobs:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-pkg
         path: build/jpackage/*.pkg
         retention-days: 4
+  release:
+    runs-on: ubuntu-latest
+    name: release
+
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+        merge-multiple: true
+    - name: Display structure of downloaded files
+      run: ls -R artifacts
