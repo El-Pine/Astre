@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.outil.Emoji;
+import fr.elpine.astre.ihm.outil.Manager;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
@@ -21,7 +22,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 

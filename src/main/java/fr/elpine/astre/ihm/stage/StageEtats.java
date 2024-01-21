@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Manager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;

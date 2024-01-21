@@ -4,6 +4,7 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.AstreApplication;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.outil.Emoji;
+import fr.elpine.astre.ihm.outil.Manager;
 import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.DB;
 import fr.elpine.astre.metier.objet.CategorieHeure;

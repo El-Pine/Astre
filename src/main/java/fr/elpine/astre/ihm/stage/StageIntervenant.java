@@ -3,6 +3,7 @@ package fr.elpine.astre.ihm.stage;
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.outil.Emoji;
+import fr.elpine.astre.ihm.outil.Manager;
 import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieIntervenant;
@@ -15,7 +16,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;

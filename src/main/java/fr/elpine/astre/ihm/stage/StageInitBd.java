@@ -2,17 +2,15 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Manager;
 import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.DB;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -50,7 +48,9 @@ public class StageInitBd extends Stage implements Initializable
             if (dbReloaded) {
                 this.close();
 
-                if (this.getOwner() == null) {
+                if (this.getOwner() != null)
+                    ((Stage) this.getOwner()).close();
+                else {
                     Stage stage = Manager.creer("accueil");
 
                     stage.show();

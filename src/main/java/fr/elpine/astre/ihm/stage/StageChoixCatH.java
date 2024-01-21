@@ -1,6 +1,7 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.outil.Manager;
 import fr.elpine.astre.metier.Astre;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Module;

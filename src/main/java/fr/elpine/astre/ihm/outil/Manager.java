@@ -1,4 +1,4 @@
-package fr.elpine.astre.ihm.stage;
+package fr.elpine.astre.ihm.outil;
 
 import fr.elpine.astre.ihm.AstreApplication;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,7 @@ public class Manager
 
 	public static <T> T creer( String fxml, Stage parent )
 	{
-		URL        fxmlUrl    = Manager.class.getResource(String.format("%s.fxml", fxml));
+		URL        fxmlUrl    = AstreApplication.class.getResource(String.format("stage/%s.fxml", fxml));
 		FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
 
 		try

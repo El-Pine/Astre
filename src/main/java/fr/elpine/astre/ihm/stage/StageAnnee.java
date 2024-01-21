@@ -2,6 +2,7 @@ package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Manager;
 import fr.elpine.astre.metier.objet.Annee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

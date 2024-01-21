@@ -1,7 +1,7 @@
 package fr.elpine.astre.ihm;
 
 import fr.elpine.astre.Controleur;
-import fr.elpine.astre.ihm.stage.Manager;
+import fr.elpine.astre.ihm.outil.Manager;
 import fr.elpine.astre.metier.outil.Configuration;
 import javafx.application.Application;
 import javafx.scene.image.Image;
