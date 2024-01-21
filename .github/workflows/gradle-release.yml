@@ -7,7 +7,10 @@
 
 name: All Package
 
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   gradle:
@@ -17,6 +20,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }}
+    needs: release
     
     steps:
     - uses: actions/checkout@v4
@@ -88,3 +92,27 @@ jobs:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-pkg
         path: build/jpackage/*.pkg
         retention-days: 4
+    - name: Upload /jpackage/ to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/jpackage/*.*
+
+  release:
+    runs-on: ubuntu-latest
+    name: release
+
+    steps:
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: Release notes for ${{ github.ref }}
+        draft: false
+        prerelease: false
