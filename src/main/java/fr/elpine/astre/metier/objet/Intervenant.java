@@ -110,12 +110,10 @@ public class Intervenant
 
     public boolean estIntervenantInvalide()
     {
-        for (Double d : this.getHeure( false ))
-        {
-            if (d > this.getHeureMax().value() || d < this.getHeureService().value()) return true;
-        }
+        Double somme = 0d;
+        for (Double d : this.getHeure( false )) somme += d;
 
-        return false;
+	    return somme > this.getHeureMax().value() || somme < this.getHeureService().value();
     }
 
 
