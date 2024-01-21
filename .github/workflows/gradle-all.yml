@@ -97,11 +97,9 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: build/jpackage/*.*
-
   release:
     runs-on: ubuntu-latest
     name: release
-
     steps:
       - name: Create Release
         id: create_release
