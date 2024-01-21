@@ -17,8 +17,8 @@
                         <TableColumn fx:id="tcInter" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" reorderable="false" resizable="false" sortable="false" />
                         <TableColumn fx:id="tcCodeInter" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" reorderable="false" resizable="false" text="Code" />
                         <TableColumn fx:id="tcNomInter" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" reorderable="false" resizable="false" text="Nom" />
-                        <TableColumn fx:id="tcHMaxInter" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" reorderable="false" resizable="false" text="Heure max" />
                         <TableColumn fx:id="tcHServInter" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" reorderable="false" resizable="false" text="Heure de service" />
+                        <TableColumn fx:id="tcHMaxInter" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" reorderable="false" resizable="false" text="Heure max" />
                         <TableColumn fx:id="tcRatioInter" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" reorderable="false" resizable="false" text="RatioTP" />
                     </columns>
                   </TableView>
