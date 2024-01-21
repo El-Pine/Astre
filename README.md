@@ -21,7 +21,7 @@ java -jar [ nom du fichier ].jar
 ```
 
 # Compilation du projet
-1. Clonez le dépôt Astre sur vôtre machine locale :
+1. Clonez le dépôt Astre sur votre machine locale :
    ```bash
    git clone https://github.com/El-Pine/Astre.git
    ```
