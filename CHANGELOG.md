@@ -2,4 +2,5 @@
 Tous les changements notables apportés à ce projet seront documentés dans ce dossier.
 
 ## v1.0.0
-- Premier code
+- Setup des workflows
+- Code de base de l'application
