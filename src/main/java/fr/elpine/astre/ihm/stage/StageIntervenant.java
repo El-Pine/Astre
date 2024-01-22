@@ -61,9 +61,9 @@ public class StageIntervenant extends Stage implements Initializable
 	public StageIntervenant() // fxml -> "intervenant"
 	{
 		this.setTitle("Intervenants");
-
 		this.setMinWidth(1250);
 		this.setMinHeight(600);
+		this.setOnCloseRequest(e -> Controleur.get().getMetier().rollback());
 	}
 
 

@@ -67,6 +67,7 @@ public class StageAccueilConfig extends Stage implements Initializable
         this.setTitle("Paramètres");
         this.setMinWidth(900);
         this.setMinHeight(500);
+        this.setOnCloseRequest(e -> Controleur.get().getMetier().rollback());
     }
 
     @FXML private void onBtnConfigBdd() {
