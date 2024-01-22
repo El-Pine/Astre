@@ -7,7 +7,10 @@
 
 name: All Package
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   gradle:
@@ -17,7 +20,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }}
-    needs: release
     
     steps:
     - uses: actions/checkout@v4
@@ -89,26 +91,3 @@ jobs:
         name: astre-jdk${{ matrix.java }}-${{ matrix.os }}-pkg
         path: build/jpackage/*.pkg
         retention-days: 4
-    - name: Upload /jpackage/ to Release
-      if: steps.create_release.outputs.released == true
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/jpackage/*.*
-  release:
-    runs-on: ubuntu-latest
-    name: release
-    steps:
-      - uses: actions/checkout@v4
-      - name: Create Release
-        id: create_release
-        uses: CupOfTea696/gh-action-auto-release@v1.0.2
-        with:
-          title: "Release: $version"
-          tag: "v$semver"
-          draft: false
-          regex: "/^Release: #{semver}$/i"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
