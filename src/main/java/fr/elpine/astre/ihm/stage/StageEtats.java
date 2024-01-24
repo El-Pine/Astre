@@ -6,6 +6,8 @@ import fr.elpine.astre.ihm.outil.Manager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,9 +37,24 @@ public class StageEtats extends Stage implements Initializable
         stage.showAndWait();
     }
 
-    @FXML private void onBtnClickEtatCSV() {
+    @FXML private void onBtnClickEtatCSV()
+    {
+        // Vérifier si le répertoire existe, sinon le créer
+        File dossierSrc    = new File("Export"      );
+        File dossierCSV  = new File("Export/CSV" );
+        if (dossierSrc.exists()) {
+            if (!dossierCSV.exists()) {
+                if (!(dossierCSV.mkdirs()))
+                    System.err.println("Impossible de créer le répertoire");
+            }
+        } else {
+            if (!(dossierSrc.mkdirs() && dossierCSV.mkdirs()))
+                System.err.println("Impossible de créer le répertoire");
+        }
+
+
         String nomAnnee = Controleur.get().getMetier().getAnneeActuelle().getNom();
-        String fichier = Controleur.get().getMetier().getDonneesCSV( nomAnnee );
+        String fichier = Controleur.get().getMetier().getDonneesCSV( nomAnnee, this );
 
         if ( fichier.equals("0") ) {
             PopUp.warning("Erreur de génération",null,"Les données n'ont pas pus être récupérées");

@@ -126,7 +126,7 @@ public class StageGeneration extends Stage implements Initializable
         }
         else if (this.vue.equals("module"))
         {
-            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( String.format("%s -%s", ((Module)cellData.getValue()).getCode(), ((Module)cellData.getValue()).getNom()) ) );
+            this.g_1.setCellValueFactory( cellData -> new SimpleStringProperty( String.format("%s - %s", ((Module)cellData.getValue()).getCode(), ((Module)cellData.getValue()).getNom()) ) );
         }
 
         this.tabGeneration.setItems(this.ens);
@@ -381,24 +381,39 @@ public class StageGeneration extends Stage implements Initializable
     @FXML private void onBtn() {
         if (this.vue.equals("module"))
         {
-            this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
-            try {
-                File folder = new File("./Export/module");
-                Desktop desktop = Desktop.getDesktop();
-                desktop.open(folder);
+            String lst = "";
 
-            } catch (IOException ignored) { }
+            for (Object m : this.checkedObjects) if (((Module) m).estModuleInvalide())
+                lst += String.format(lst.isEmpty() ? "%s - %s" : ", %s - %s", ((Module) m).getAbreviation(), ((Module) m).getNom());
 
+            if (!lst.isEmpty()) PopUp.warning("Sélection invalide", "Vous avez sélectionné des modules invalides", lst).showAndWait();
+            else {
+                this.checkedObjects.forEach(m -> genererModules(Controleur.get().getMetier().getAnneeActuelle(), (Module) m));
+                try {
+                    File folder = new File("./Export/module");
+                    Desktop desktop = Desktop.getDesktop();
+                    desktop.open(folder);
+
+                } catch (IOException ignored) { }
+            }
         }
         else if(this.vue.equals("intervenant"))
         {
-            this.checkedObjects.forEach(i -> genrerIntervenant(Controleur.get().getMetier().getAnneeActuelle(), (Intervenant) i));
-            try {
-                File folder = new File("./Export/intervenant");
-                Desktop desktop = Desktop.getDesktop();
-                desktop.open(folder);
+            String lst = "";
 
-            } catch (IOException ignored) { }
+            for (Object m : this.checkedObjects) if (((Intervenant) m).estIntervenantInvalide())
+                lst += String.format(lst.isEmpty() ? "%s %s" : ", %s %s", ((Intervenant) m).getPrenom(), ((Intervenant) m).getNom());
+
+            if (!lst.isEmpty()) PopUp.warning("Sélection invalide", "Vous avez sélectionné des intervenants invalides", lst).showAndWait();
+            else {
+                this.checkedObjects.forEach(i -> genrerIntervenant(Controleur.get().getMetier().getAnneeActuelle(), (Intervenant) i));
+                try {
+                    File folder = new File("./Export/intervenant");
+                    Desktop desktop = Desktop.getDesktop();
+                    desktop.open(folder);
+
+                } catch (IOException ignored) { }
+            }
         }
     }
 

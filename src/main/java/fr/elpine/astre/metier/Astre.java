@@ -6,6 +6,8 @@ import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.outil.Action;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -404,33 +406,53 @@ public class Astre
         return lstAction;
     }
 
-    public String getDonneesCSV(String annee) {
+    public String getDonneesCSV(String annee, Stage stage) {
         String nomDossier    = "Export/CSV";
-        String nomFichierCSV = "resultat-" + annee + ".csv";
 
-        // Vérifier si le répertoire existe, sinon le créer
-        File dossier    = new File( nomDossier );
-        if (!dossier.exists()) {
-            boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
-            if (!success) {
-                System.err.println("Impossible de créer le répertoire");
-                return "0";
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().add( new FileChooser.ExtensionFilter("CSV (Comma-separated values)", "*.csv") );
+        fileChooser.setInitialDirectory(new File(nomDossier));
+        fileChooser.setInitialFileName("resultat-" + annee + ".csv");
+        File f = fileChooser.showOpenDialog(stage);
+
+        if (f != null)
+        {
+            // Vérifier si le répertoire existe, sinon le créer
+            File dossier    = f.getParentFile();//new File( nomDossier );
+            if (!dossier.exists()) {
+                boolean success = dossier.mkdirs(); // Créer le répertoire si besoin
+                if (!success) {
+                    System.err.println("Impossible de créer le répertoire");
+                    return "0";
+                }
             }
-        }
 
-        File fichier = new File(nomDossier + "/" + nomFichierCSV);
-        while (fichier.exists() || !fichier.getPath().endsWith(".csv")) {
-            nomFichierCSV =  demanderNouveauNom(nomFichierCSV);
-            if (nomFichierCSV.isEmpty()) return "0"; // Si l'utilisateur annule
-            fichier = new File(nomDossier + "/" + nomFichierCSV);
+            //File fichier = f;//new File(nomDossier + "/" + nomFichierCSV);
+            /*while (fichier.exists() || !fichier.getPath().endsWith(".csv")) {
+                nomFichierCSV =  demanderNouveauNom(nomFichierCSV);
+                if (nomFichierCSV.isEmpty()) return "0"; // Si l'utilisateur annule
+                fichier = new File(nomDossier + "/" + nomFichierCSV);
 
-        }
+            }*/
+            if (f.exists()) {
+                if (!PopUp.confirmationR("Remplacer", null, "Remplacer le fichier %s".formatted(f.getName())))
+                    return "0";
+                else {
+	                try {
+                        f.delete();
+		                f.createNewFile();
+	                } catch (IOException e) {
+		                return "0";
+	                }
+                }
+            }
 
-        try (FileWriter writer = new FileWriter(nomDossier + "/" + nomFichierCSV);
-             CSVWriter csvWriter = new CSVWriter(writer)) {
+            try (FileWriter writer = new FileWriter(f);//nomDossier + "/" + nomFichierCSV);
+                 CSVWriter csvWriter = new CSVWriter(writer)) {
 
-            String[] headerRecord = {"codeCategorie", "nom", "prenom", "heureService", "heureMax", "ratioTP", "S1 Théo", "S1 Réel", "S3 Théo", "S3 Réel", "S5 Théo", "S5 Réel", "TotImp Théo", "TotImp Réel", "S2 Théo", "S2 Réel", "S4 Théo", "S4 Réel", "S6 Théo", "S6 Réel", "TotPair Théo", "TotPair Réel", "Total Théo", "Total Réel"};
-            csvWriter.writeNext(headerRecord);
+                String[] headerRecord = {"codeCategorie", "nom", "prenom", "heureService", "heureMax", "ratioTP", "S1 Théo", "S1 Réel", "S3 Théo", "S3 Réel", "S5 Théo", "S5 Réel", "TotImp Théo", "TotImp Réel", "S2 Théo", "S2 Réel", "S4 Théo", "S4 Réel", "S6 Théo", "S6 Réel", "TotPair Théo", "TotPair Réel", "Total Théo", "Total Réel"};
+                csvWriter.writeNext(headerRecord);
 
                 for ( Intervenant intervenant : this.ensIntervenant)
                 {
@@ -464,9 +486,14 @@ public class Astre
                     };
                     csvWriter.writeNext(data);
                 }
-            return nomFichierCSV;
+                return f.getAbsolutePath();
+            }
+            catch (IOException e) { logger.error("Erreur lors de la récupération des données pour le fichier csv", e); return "0"; }
         }
-        catch (IOException e) { logger.error("Erreur lors de la récupération des données pour le fichier csv", e); return "0"; }
+        else
+        {
+            return "0";
+        }
     }
 
     private String demanderNouveauNom(String nomFichierCSV) {

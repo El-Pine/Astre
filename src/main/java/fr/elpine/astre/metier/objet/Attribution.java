@@ -22,7 +22,7 @@ public class Attribution
 
     public Attribution(Fraction nbHeurePN, Fraction nbHeure, int nbSemaine, Module module, CategorieHeure catHr)
     {
-        this.nbHeurePN = catHr.getNom().equals("HP") ? Fraction.valueOf("") : nbHeurePN;
+        this.nbHeurePN = catHr.getNom().equalsIgnoreCase("HP") ? Fraction.valueOf("") : nbHeurePN;
         this.nbHeure   = nbHeure;
         this.nbSemaine = nbSemaine;
         this.module    = module;

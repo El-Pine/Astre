@@ -75,7 +75,8 @@ public class StageAffichageCSV extends Stage
     }
 
     public ArrayList<String[]> lireCSV(String cheminFichierCSV ) {
-        try (CSVReader reader = new CSVReader(new FileReader("Export/CSV/" + cheminFichierCSV))) {
+        File f = cheminFichierCSV.contains("/") ? new File(cheminFichierCSV) : new File("Export/CSV/" + cheminFichierCSV);
+        try (CSVReader reader = new CSVReader(new FileReader(f))) {
             ArrayList<String[]> alLigne = new ArrayList<>();
             String[] ligne;
             reader.readNext();
