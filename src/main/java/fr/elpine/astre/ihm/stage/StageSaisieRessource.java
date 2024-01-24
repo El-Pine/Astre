@@ -74,6 +74,7 @@ public class StageSaisieRessource extends Stage implements Initializable
     private ModuleType typeModule;
     private Module module;
     private Semestre                semestre;
+    private boolean warn = false;
 
     private HashMap<Attribution, ArrayList<TextField>> mapTxt;
 
@@ -858,14 +859,14 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.btnTypeHeure.setText(" ... ");
 
         // todo : générer le détails
-        this.gestionDetails( true );
+        this.gestionDetails();
 
         this.initAttribution(); // le btn des attributions
 
         // initializeDetail(); initPn(); initSemaine(); calculeAffecte();
     }
 
-    private void gestionDetails( boolean firstCall )
+    private void gestionDetails()
     {
         // refaire la structure du détails en fonction des attributions (textField, données)
         this.gridPn.getChildren().clear();
@@ -943,6 +944,11 @@ public class StageSaisieRessource extends Stage implements Initializable
         this.txtTORepartion.setText(Fraction.simplifyDouble(this.module.getSomme(), false));
         this.txtTOPromo.setText(Fraction.simplifyDouble(this.module.getSommePromo(), false));
         this.txtTOAffecte.setText(Fraction.simplifyDouble(this.module.getSommeAffecte(), false));
+
+        if ( this.module.estModuleInvalide() && !this.warn ) {
+            PopUp.warning("Module invalide", null, "Le nombre d'heure affectées dépasse le nombre d'heure du programme national").showAndWait();
+            this.warn = true;
+        }
     }
 
     private void initAttribution()
@@ -972,7 +978,7 @@ public class StageSaisieRessource extends Stage implements Initializable
                 }
 
                 // todo : re générer le détails
-                this.gestionDetails( false );
+                this.gestionDetails();
             });
 
             items.add(item);
@@ -1037,6 +1043,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             Affectation a = event.getRowValue();
             a.setTypeHeure(event.getNewValue());
             this.tableau.refresh();
+            this.chargerCalculs();
         });
 
         tcNbH.setCellValueFactory(cellData -> cellData.getValue().hasNbHeure() ? new SimpleStringProperty (cellData.getValue().getNbHeure().toString()) : null);
@@ -1059,6 +1066,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             Affectation a = event.getRowValue();
             a.setNbHeure(Fraction.valueOf(event.getNewValue()));
             this.tableau.refresh();
+            this.chargerCalculs();
         });
 
         tcSemaine.setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleStringProperty (String.valueOf(cellData.getValue().getNbSemaine())) : null);
@@ -1081,6 +1089,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             Affectation a = event.getRowValue();
             a.setNbSemaine(Integer.parseInt(event.getNewValue()));
             this.tableau.refresh();
+            this.chargerCalculs();
         });
 
         tcGrp.setCellValueFactory(cellData -> cellData.getValue().hasGrpAndNbSemaine() ? new SimpleStringProperty (String.valueOf(cellData.getValue().getNbGroupe())) : null);
@@ -1105,6 +1114,7 @@ public class StageSaisieRessource extends Stage implements Initializable
             Affectation a = event.getRowValue();
             a.setNbGroupe(Integer.parseInt(event.getNewValue()));
             this.tableau.refresh();
+            this.chargerCalculs();
         });
 
         tcTotalEqtd.setCellValueFactory(cellData -> new SimpleStringProperty (Fraction.simplifyDouble(cellData.getValue().getTotalEqtd(),true)));
