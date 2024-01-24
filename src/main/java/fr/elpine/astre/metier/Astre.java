@@ -408,13 +408,14 @@ public class Astre
 
     public String getDonneesCSV(String annee, Stage stage) {
         String nomDossier    = "Export/CSV";
+        File export = new File(nomDossier);
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
+        fileChooser.setTitle("Enregistrement du CSV");
         fileChooser.getExtensionFilters().add( new FileChooser.ExtensionFilter("CSV (Comma-separated values)", "*.csv") );
-        fileChooser.setInitialDirectory(new File(nomDossier));
+        fileChooser.setInitialDirectory(export);
         fileChooser.setInitialFileName("resultat-" + annee + ".csv");
-        File f = fileChooser.showOpenDialog(stage);
+        File f = fileChooser.showSaveDialog(stage);
 
         if (f != null)
         {
@@ -436,16 +437,16 @@ public class Astre
 
             }*/
             if (f.exists()) {
-                if (!PopUp.confirmationR("Remplacer", null, "Remplacer le fichier %s".formatted(f.getName())))
+                /*if (!PopUp.confirmationR("Remplacer", null, "Remplacer le fichier %s".formatted(f.getName())))
                     return "0";
-                else {
+                else {*/
 	                try {
                         f.delete();
 		                f.createNewFile();
 	                } catch (IOException e) {
 		                return "0";
 	                }
-                }
+                //}
             }
 
             try (FileWriter writer = new FileWriter(f);//nomDossier + "/" + nomFichierCSV);
@@ -486,7 +487,7 @@ public class Astre
                     };
                     csvWriter.writeNext(data);
                 }
-                return f.getAbsolutePath();
+                return f.getName();
             }
             catch (IOException e) { logger.error("Erreur lors de la récupération des données pour le fichier csv", e); return "0"; }
         }
