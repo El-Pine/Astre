@@ -122,11 +122,13 @@ public class Attribution
 
     public void supprimer()
     {
-        //if (this.module != null) this.module.supprimerAttribution(this);
-        //if (this.catHr  != null) this.catHr .supprimerAttribution(this);
-
         // supprimer l'élement
         this.supprime = true;
+    }
+    public void reactiver()
+    {
+        // supprimer l'élement
+        this.supprime = false;
     }
 
     public void rollback()

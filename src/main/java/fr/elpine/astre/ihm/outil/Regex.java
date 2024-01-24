@@ -8,7 +8,8 @@ import java.util.HashMap;
 public class Regex
 {
 	// All
-	public static final String REGEX_ALL = "^.*$";
+	public static final String REGEX_ALL           = "^.*$";
+	public static final String REGEX_ALL_NOT_EMPTY = "^.+$";
 
 	// Nom, Prénom
 	public static final String REGEX_NOM = "^[A-Za-zÀ-ÿ'-]+(?: [A-Za-zÀ-ÿ'-]+)*$";
@@ -20,6 +21,7 @@ public class Regex
 
 	// Entier
 	public static final String REGEX_INT = "^\\d*$";
+	public static final String REGEX_INT_NOT_EMPTY = "^\\d+$";
 
 	private Regex() {}
 

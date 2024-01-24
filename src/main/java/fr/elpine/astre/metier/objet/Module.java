@@ -2,6 +2,7 @@ package fr.elpine.astre.metier.objet;
 
 import fr.elpine.astre.Controleur;
 import fr.elpine.astre.metier.outil.Fraction;
+import fr.elpine.astre.metier.outil.ModuleType;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -11,9 +12,9 @@ public class Module
 {
     private String code;
     private String nom;
-    private String abreviation;
-    private String typeModule;
-    private Color couleur;
+    private String     abreviation;
+    private ModuleType typeModule;
+    private Color      couleur;
     private boolean validation;
 
     private final Semestre semestre;
@@ -25,7 +26,7 @@ public class Module
     private boolean                 modifie;
     private HashMap<String, Object> rollbackDatas;
 
-    public Module(String nom, String code, String abreviation, String typeModule, Color couleur, boolean validation, Semestre semestre)
+    public Module(String nom, String code, String abreviation, ModuleType typeModule, Color couleur, boolean validation, Semestre semestre)
     {
         this.nom            = nom;
         this.code           = code;
@@ -53,14 +54,15 @@ public class Module
     public String  getAbreviation () { return abreviation                        ;}
     public Color   getCouleur     () { return couleur                            ;}
     public String  getCouleurF    () { return String.format("rgb(%d,%d,%d)", (int) (couleur.getRed()*255), (int) (couleur.getGreen()*255), (int) (couleur.getBlue()*255)); }
-    public String  getTypeModule  () { return typeModule                         ;}
+    public ModuleType  getTypeModule  () { return typeModule                         ;}
     public boolean estValide      () { return validation                         ;}
     public Semestre getSemestre   () { return semestre                           ;}
 
     public ArrayList<CategorieHeure> getEnsCatHr()
     {
         ArrayList<CategorieHeure> ensCatHr = new ArrayList<>();
-        for (Attribution att : this.ensAttribution) ensCatHr.add(att.getCatHr());
+        for (Attribution att : this.ensAttribution)
+            if (!att.isSupprime()) ensCatHr.add(att.getCatHr());
 
         return ensCatHr;
     }
@@ -71,7 +73,7 @@ public class Module
     public void setNom         ( String nom        )   { this.nom         = nom         ; this.modifState(); }
     public void setAbreviation ( String  abreviation ) { this.abreviation = abreviation ; this.modifState(); }
     public void setCouleur     ( Color  couleur      ) { this.couleur     = couleur     ; this.modifState(); }
-    public void setTypeModule  ( String  typeModule )  { this.typeModule  = typeModule  ; this.modifState(); }
+    public void setTypeModule  ( ModuleType  typeModule )  { this.typeModule  = typeModule  ; this.modifState(); }
     public void setValidation  ( boolean validation )  { this.validation  = validation  ; this.modifState(); }
 
     private void modifState()
@@ -89,30 +91,30 @@ public class Module
 
     public double getSommePN() {
         double s = 0.0;
-        for (Attribution att : this.ensAttribution) s += att.getNbHeurePN().value();
+        for (Attribution att : this.ensAttribution) if (!att.isSupprime()) s += att.getNbHeurePN().value();
         return s;
     }
     public double getSommePNPromo() {
         double s = 0.0;
-        for (Attribution att : this.ensAttribution) s += att.getNbHeurePNPromo();
+        for (Attribution att : this.ensAttribution) if (!att.isSupprime()) s += att.getNbHeurePNPromo();
         return s;
     }
 
     public double getSomme() {
         double s = 0.0;
-        for (Attribution att : this.ensAttribution) s += att.getNbHeureEtd();
+        for (Attribution att : this.ensAttribution) if (!att.isSupprime()) s += att.getNbHeureEtd();
         return s;
     }
 
     public double getSommePromo() {
         double s = 0.0;
-        for (Attribution att : this.ensAttribution) s += att.getNbHeurePromo();
+        for (Attribution att : this.ensAttribution) if (!att.isSupprime()) s += att.getNbHeurePromo();
         return s;
     }
 
     public double getSommeAffecte() {
         double s = 0.0;
-        for (Attribution att : this.ensAttribution) s += att.getNbHeureAffecte();
+        for (Attribution att : this.ensAttribution) if (!att.isSupprime()) s += att.getNbHeureAffecte();
         return s;
     }
 
@@ -191,7 +193,7 @@ public class Module
         this.nom = (String) this.rollbackDatas.get("nom");
         this.abreviation = (String) this.rollbackDatas.get("abreviation");
         this.couleur = (Color) this.rollbackDatas.get("couleur");
-        this.typeModule = (String) this.rollbackDatas.get("typeModule");
+        this.typeModule = (ModuleType) this.rollbackDatas.get("typeModule");
         this.validation = (boolean) this.rollbackDatas.get("validation");
 
         this.rollbackDatas.clear();

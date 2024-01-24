@@ -1,6 +1,8 @@
 package fr.elpine.astre.ihm.stage;
 
 import fr.elpine.astre.Controleur;
+import fr.elpine.astre.ihm.PopUp;
+import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.objet.Affectation;
 import fr.elpine.astre.metier.objet.CategorieHeure;
 import fr.elpine.astre.metier.objet.Intervenant;
@@ -8,12 +10,17 @@ import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.outil.Fraction;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
-public class StageAjoutAffectation extends Stage
+import java.net.URL;
+import java.util.HashMap;
+import java.util.ResourceBundle;
+
+public class StageAjoutAffectation extends Stage implements Initializable
 {
     @FXML private ComboBox<Intervenant>    cbIntervenant;
     @FXML private ComboBox<CategorieHeure> cbbCatHeure;
@@ -24,31 +31,52 @@ public class StageAjoutAffectation extends Stage
     @FXML private TextField             txtNbGp;
 
     private Module module;
-    private CategorieHeure catHp;
-    private StageSaisieRessource parent;
+
+    private HashMap<TextField, Boolean> validHebdo;
+    private HashMap<TextField, Boolean> valid;
+
 
     public StageAjoutAffectation() //fxml -> ajoutAffectation
     {
         this.setTitle("Ajout Affectation");
+        this.setMinWidth(600);
+        this.setMinHeight(350);
+        this.setResizable(false);
     }
 
     @FXML private void onBtnAjouter()
     {
-        Affectation aff;
-        if(!cbbCatHeure.getValue().estHebdo() && cbIntervenant.getValue()!=null && !txtNbHeure.getText().isEmpty())
+        if (cbbCatHeure.getValue().estHebdo())
         {
-            aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Fraction.valueOf(txtNbHeure.getText()), txtCommentaire.getText() );
-            StageSaisieRessource.ensAff.add( aff );
-            System.out.println(StageSaisieRessource.ensAff);
-        }
-        else if (cbIntervenant.getValue()!=null && cbbCatHeure.getValue()!=null && !txtNbGp.getText().isEmpty() && !txtNbSemaine.getText().isEmpty())
-        {
-            aff = new Affectation(this.module, cbIntervenant.getValue(),cbbCatHeure.getValue(), Integer.parseInt(txtNbGp.getText()),Integer.parseInt(txtNbSemaine.getText()),txtCommentaire.getText());
-            StageSaisieRessource.ensAff.add( aff );
-            System.out.println(StageSaisieRessource.ensAff);
-        }
+            if (Regex.estValide(validHebdo)) {
+                new Affectation(
+                        this.module,
+                        cbIntervenant.getValue(),
+                        cbbCatHeure.getValue(),
+                        Integer.parseInt(txtNbGp.getText()),
+                        Integer.parseInt(txtNbSemaine.getText()),
+                        txtCommentaire.getText()
+                );
 
-        this.close();
+                this.close();
+            }
+            else
+                PopUp.warning("Informations incorrectes", null, "Les informations entrées ne sont pas toutes valides").showAndWait();
+        } else {
+            if (Regex.estValide(valid)) {
+                new Affectation(
+                        this.module,
+                        cbIntervenant.getValue(),
+                        cbbCatHeure.getValue(),
+                        Fraction.valueOf(txtNbHeure.getText()),
+                        txtCommentaire.getText()
+                );
+
+                this.close();
+            }
+            else
+                PopUp.warning("Informations incorrectes", null, "Les informations entrées ne sont pas toutes valides").showAndWait();
+        }
     }
     @FXML private void onBtnAnnuler() {
         this.close();
@@ -56,35 +84,41 @@ public class StageAjoutAffectation extends Stage
 
     public void init()
     {
+        this.valid      = new HashMap<>();
+        this.validHebdo = new HashMap<>();
+
         cbIntervenant.setItems(FXCollections.observableList(Controleur.get().getMetier().getIntervenants()));
-        cbbCatHeure.setItems(FXCollections.observableList(this.parent.getLstCatH()));
+        cbIntervenant.setValue(cbIntervenant.getItems().get(0));
 
-        // Ajouter des ChangeListeners pour chaque RadioButton
-        cbbCatHeure.setOnAction((observable) -> {
-            // Assurez-vous que cbbCatHeure.getValue() n'est pas null avant de l'utiliser
-            changementFocus();
-        });
-
+        cbbCatHeure.setItems(FXCollections.observableList(this.module.getEnsCatHr()));
         cbbCatHeure.setValue(cbbCatHeure.getItems().get(0));
+
+        cbbCatHeure.setOnAction((observable) -> changementFocus());
+
         changementFocus();
 
-        creerFormatter(this.txtNbGp);
-        creerFormatter(this.txtNbHeure);
-        creerFormatter(this.txtNbSemaine);
+        Regex.activerRegex(Regex.REGEX_INT_NOT_EMPTY, Regex.REGEX_INT, this.txtNbGp,        validHebdo, false);
+        Regex.activerRegex(Regex.REGEX_INT_NOT_EMPTY, Regex.REGEX_INT, this.txtNbSemaine,   validHebdo, false);
+        Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, this.txtNbHeure, valid,      false);
     }
 
     private void changementFocus()
     {
         if (cbbCatHeure.getValue() != null) {
             if (cbbCatHeure.getValue().estHebdo()) {
-                this.txtNbGp.setDisable(false);
+                if (cbbCatHeure.getValue().getTypeGroupe().equalsIgnoreCase("CM"))
+                {
+                    this.txtNbGp.setDisable(true);
+                    this.txtNbGp.setText("1");
+                } else this.txtNbGp.setDisable(false);
+
                 this.txtNbSemaine.setDisable(false);
                 this.txtNbHeure.setText("");
                 this.txtNbHeure.setDisable(true);
             } else {
                 this.txtNbGp.setDisable(true);
-                this.txtNbSemaine.setDisable(true);
                 this.txtNbGp.setText("");
+                this.txtNbSemaine.setDisable(true);
                 this.txtNbSemaine.setText("");
                 this.txtNbHeure.setDisable(false);
             }
@@ -93,22 +127,9 @@ public class StageAjoutAffectation extends Stage
 
     public void setModule(Module mod) { this.module = mod; }
 
-    private void creerFormatter(TextField txtf) {
-        txtf.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches("^\\d+$")) {
-                txtf.setStyle("");
-                return change;
-            } else if (change.getText().isEmpty()) {
-                txtf.setStyle("");
-                return change;
-            } else {
-                return null;
-            }
-        }));
-    }
-
-    public void setParent(StageSaisieRessource stageSaisieRessource)
-    {
-        this.parent = stageSaisieRessource;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setWidth( this.getMinWidth() );
+        this.setHeight( this.getMinHeight() );
     }
 }

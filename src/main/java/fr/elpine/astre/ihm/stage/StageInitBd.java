@@ -84,6 +84,6 @@ public class StageInitBd extends Stage implements Initializable
 
         this.hmChampValider = new HashMap<>();
 
-        Regex.activerRegex(Regex.REGEX_INT, Regex.REGEX_INT, this.txtfPort, this.hmChampValider, false);
+        Regex.activerRegex(Regex.REGEX_INT_NOT_EMPTY, Regex.REGEX_INT, this.txtfPort, this.hmChampValider, false);
     }
 }

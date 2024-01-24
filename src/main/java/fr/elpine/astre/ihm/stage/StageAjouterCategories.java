@@ -125,8 +125,8 @@ public class StageAjouterCategories extends Stage implements Initializable
         this.hmChampValider = new HashMap<>();
 
         if (this.txtfCodeCatInter != null) { // Catégorie d'intervenants
-            Regex.activerRegex(Regex.REGEX_ALL, Regex.REGEX_ALL, this.txtfCodeCatInter, this.hmChampValider, false);
-            Regex.activerRegex(Regex.REGEX_ALL, Regex.REGEX_ALL, this.txtfNomCatInter, this.hmChampValider, false);
+            Regex.activerRegex(Regex.REGEX_ALL_NOT_EMPTY, Regex.REGEX_ALL, this.txtfCodeCatInter, this.hmChampValider, false);
+            Regex.activerRegex(Regex.REGEX_ALL_NOT_EMPTY, Regex.REGEX_ALL, this.txtfNomCatInter, this.hmChampValider, false);
             Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, this.txtfRatioCatInter, this.hmChampValider, false);
             Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, this.txtfNbHServCatInter, this.hmChampValider, false);
             Regex.activerRegex(Fraction.REGEX, Fraction.REGEX_CARAC, this.txtfNbHMCatInter, this.hmChampValider, false);

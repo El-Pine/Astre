@@ -25,12 +25,17 @@ public class Affectation
     public Affectation(Module module, Intervenant intervenant, CategorieHeure typeHeure, int nbGroupe, int nbSemaine, String commentaire)
     {
         this.id          = null;
-        this.nbGroupe    = nbGroupe;
         this.nbSemaine   = nbSemaine;
         this.commentaire = commentaire;
         this.typeHeure   = typeHeure;
         this.intervenant = intervenant;
         this.module      = module;
+
+        this.nbGroupe    = Math.min(nbGroupe, switch(this.typeHeure.getTypeGroupe().toUpperCase()) {
+            case "TD" -> this.module.getSemestre().getNbGrpTD();
+            case "TP" -> this.module.getSemestre().getNbGrpTP();
+            default   -> 1;
+        });
 
         if (intervenant != null) intervenant.ajouterAffectation(this);
         if (module      != null) module     .ajouterAffectation(this);
@@ -76,11 +81,25 @@ public class Affectation
 
 
     public void setId          ( int            id          ) { this.id          = id;                                }
-    public void setNbGroupe    ( int            nbGroupe    ) { this.nbGroupe    = nbGroupe; this.modifState();     }
     public void setNbSemaine   ( int            nbSemaine   ) { this.nbSemaine   = nbSemaine; this.modifState();    }
     public void setNbHeure     ( Fraction       nbHeure     ) { this.nbHeure     = nbHeure; this.modifState();      }
     public void setCommentaire ( String         commentaire ) { this.commentaire = commentaire; this.modifState();  }
-    public void setTypeHeure   ( CategorieHeure typeHeure   ) { this.typeHeure   = typeHeure; this.modifState();    }
+    public void setTypeHeure   ( CategorieHeure typeHeure   )
+    {
+        this.typeHeure = typeHeure;
+        this.setNbGroupe(this.nbGroupe);
+        this.modifState();
+    }
+    public void setNbGroupe    ( int            nbGroupe    )
+    {
+        this.nbGroupe = Math.min(nbGroupe, switch(this.typeHeure.getTypeGroupe().toUpperCase()) {
+            case "TD" -> this.module.getSemestre().getNbGrpTD();
+            case "TP" -> this.module.getSemestre().getNbGrpTP();
+            default   -> 1;
+        });
+
+        this.modifState();
+    }
 
     private void modifState()
     {

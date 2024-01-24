@@ -150,7 +150,7 @@ public class Astre
                         m.getNom(),
                         m.getAbreviation(),
                         m.getCouleur(),
-                        m.getTypeModule()
+                        m.getTypeModule().getLabel()
                 ).toLowerCase();
 
                 if (r.contains(text.toLowerCase())) ensTemp.add( m );
@@ -228,14 +228,14 @@ public class Astre
     /* Gestion enregistrement et rollback */
     /*------------------------------------*/
 
-    public void enregistrer() { this.validation( false ); }
-    public void rollback()    { this.validation( true  ); }
+    public void    enregistrer()    { this.validation( false ); }
+    public void    rollback()       { this.validation( true  ); }
+    public boolean saveNecessaire() { return !ordreExecution().isEmpty(); }
 
     private void validation( boolean rollback )
     {
         // preparer l'ordre d'exécution
         ArrayList<Action> lstAction = rollback ? ordreExecutionRollback() : ordreExecution();
-
 
         // débug
         if (lstAction.isEmpty()) logger.debug(String.format("Aucune actions à %s", rollback ? "annuler" : "sauvegarder"));

@@ -11,223 +11,394 @@
          <tabs>
             <Tab text="Semestre 1">
                <BorderPane>
-                  <center>
-                     <TableView fx:id="tabs1">
-                        <columns>
-                           <TableColumn fx:id="s1code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
-                           <TableColumn fx:id="s1liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
-                           <TableColumn fx:id="s1hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
-                           <TableColumn fx:id="s1validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
-                        </columns>
-                        <opaqueInsets>
-                           <Insets />
-                        </opaqueInsets>
-                        <BorderPane.margin>
-                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
-                        </BorderPane.margin>
-                     </TableView>
-                  </center>
                   <top>
-                     <Label alignment="CENTER" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
+                     <FlowPane alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
+                              <FlowPane.margin>
+                                 <Insets right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTDs1" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTPs1" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbEtds1" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbSemaines1" prefWidth="50.0" />
+                        </children>
                         <BorderPane.margin>
-                           <Insets top="10.0" />
+                           <Insets bottom="10.0" top="10.0" />
                         </BorderPane.margin>
-                        <font>
-                           <Font name="System Bold Italic" size="12.0" />
-                        </font>
-                     </Label>
+                     </FlowPane>
                   </top>
+                  <center>
+                     <BorderPane BorderPane.alignment="CENTER">
+                        <center>
+                           <TableView fx:id="tabs1">
+                              <columns>
+                                 <TableColumn fx:id="s1code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
+                                 <TableColumn fx:id="s1liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
+                                 <TableColumn fx:id="s1hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                                 <TableColumn fx:id="s1validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
+                              </columns>
+                              <opaqueInsets>
+                                 <Insets />
+                              </opaqueInsets>
+                           </TableView>
+                        </center>
+                        <top>
+                           <Label alignment="CENTER" prefHeight="20.0" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <font>
+                                 <Font name="System Bold Italic" size="12.0" />
+                              </font>
+                              <BorderPane.margin>
+                                 <Insets bottom="5.0" top="5.0" />
+                              </BorderPane.margin>
+                           </Label>
+                        </top>
+                     </BorderPane>
+                  </center>
                </BorderPane>
             </Tab>
             <Tab text="Semestre 2">
                <BorderPane>
-                  <center>
-                     <TableView fx:id="tabs2">
-                        <columns>
-                           <TableColumn fx:id="s2code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
-                           <TableColumn fx:id="s2liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
-                           <TableColumn fx:id="s2hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
-                           <TableColumn fx:id="s2validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
-                        </columns>
-                        <opaqueInsets>
-                           <Insets />
-                        </opaqueInsets>
-                        <BorderPane.margin>
-                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
-                        </BorderPane.margin>
-                     </TableView>
-                  </center>
                   <top>
-                     <Label alignment="CENTER" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
+                     <FlowPane alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
+                              <FlowPane.margin>
+                                 <Insets right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTDs2" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTPs2" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbEtds2" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbSemaines2" prefWidth="50.0" />
+                        </children>
                         <BorderPane.margin>
-                           <Insets top="10.0" />
+                           <Insets bottom="10.0" top="10.0" />
                         </BorderPane.margin>
-                        <font>
-                           <Font name="System Bold Italic" size="12.0" />
-                        </font>
-                     </Label>
+                     </FlowPane>
                   </top>
+                  <center>
+                     <BorderPane BorderPane.alignment="CENTER">
+                        <center>
+                           <TableView fx:id="tabs2">
+                              <columns>
+                                 <TableColumn fx:id="s2code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
+                                 <TableColumn fx:id="s2liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
+                                 <TableColumn fx:id="s2hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                                 <TableColumn fx:id="s2validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
+                              </columns>
+                              <opaqueInsets>
+                                 <Insets />
+                              </opaqueInsets>
+                           </TableView>
+                        </center>
+                        <top>
+                           <Label alignment="CENTER" prefHeight="20.0" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <font>
+                                 <Font name="System Bold Italic" size="12.0" />
+                              </font>
+                              <BorderPane.margin>
+                                 <Insets bottom="5.0" top="5.0" />
+                              </BorderPane.margin>
+                           </Label>
+                        </top>
+                     </BorderPane>
+                  </center>
                </BorderPane>
             </Tab>
             <Tab text="Semestre 3">
                <BorderPane>
-                  <center>
-                     <TableView fx:id="tabs3">
-                        <columns>
-                           <TableColumn fx:id="s3code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
-                           <TableColumn fx:id="s3liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
-                           <TableColumn fx:id="s3hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
-                           <TableColumn fx:id="s3validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
-                        </columns>
-                        <opaqueInsets>
-                           <Insets />
-                        </opaqueInsets>
-                        <BorderPane.margin>
-                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
-                        </BorderPane.margin>
-                     </TableView>
-                  </center>
                   <top>
-                     <Label alignment="CENTER" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
+                     <FlowPane alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
+                              <FlowPane.margin>
+                                 <Insets right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTDs3" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTPs3" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbEtds3" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbSemaines3" prefWidth="50.0" />
+                        </children>
                         <BorderPane.margin>
-                           <Insets top="10.0" />
+                           <Insets bottom="10.0" top="10.0" />
                         </BorderPane.margin>
-                        <font>
-                           <Font name="System Bold Italic" size="12.0" />
-                        </font>
-                     </Label>
+                     </FlowPane>
                   </top>
+                  <center>
+                     <BorderPane BorderPane.alignment="CENTER">
+                        <center>
+                           <TableView fx:id="tabs3">
+                              <columns>
+                                 <TableColumn fx:id="s3code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
+                                 <TableColumn fx:id="s3liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
+                                 <TableColumn fx:id="s3hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                                 <TableColumn fx:id="s3validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
+                              </columns>
+                              <opaqueInsets>
+                                 <Insets />
+                              </opaqueInsets>
+                           </TableView>
+                        </center>
+                        <top>
+                           <Label alignment="CENTER" prefHeight="20.0" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <font>
+                                 <Font name="System Bold Italic" size="12.0" />
+                              </font>
+                              <BorderPane.margin>
+                                 <Insets bottom="5.0" top="5.0" />
+                              </BorderPane.margin>
+                           </Label>
+                        </top>
+                     </BorderPane>
+                  </center>
                </BorderPane>
             </Tab>
             <Tab text="Semestre 4">
                <BorderPane>
-                  <center>
-                     <TableView fx:id="tabs4">
-                        <columns>
-                           <TableColumn fx:id="s4code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
-                           <TableColumn fx:id="s4liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
-                           <TableColumn fx:id="s4hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
-                           <TableColumn fx:id="s4validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
-                        </columns>
-                        <opaqueInsets>
-                           <Insets />
-                        </opaqueInsets>
-                        <BorderPane.margin>
-                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
-                        </BorderPane.margin>
-                     </TableView>
-                  </center>
                   <top>
-                     <Label alignment="CENTER" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
+                     <FlowPane alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
+                              <FlowPane.margin>
+                                 <Insets right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTDs4" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTPs4" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbEtds4" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbSemaines4" prefWidth="50.0" />
+                        </children>
                         <BorderPane.margin>
-                           <Insets top="10.0" />
+                           <Insets bottom="10.0" top="10.0" />
                         </BorderPane.margin>
-                        <font>
-                           <Font name="System Bold Italic" size="12.0" />
-                        </font>
-                     </Label>
+                     </FlowPane>
                   </top>
+                  <center>
+                     <BorderPane BorderPane.alignment="CENTER">
+                        <center>
+                           <TableView fx:id="tabs4">
+                              <columns>
+                                 <TableColumn fx:id="s4code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
+                                 <TableColumn fx:id="s4liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
+                                 <TableColumn fx:id="s4hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                                 <TableColumn fx:id="s4validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
+                              </columns>
+                              <opaqueInsets>
+                                 <Insets />
+                              </opaqueInsets>
+                           </TableView>
+                        </center>
+                        <top>
+                           <Label alignment="CENTER" prefHeight="20.0" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <font>
+                                 <Font name="System Bold Italic" size="12.0" />
+                              </font>
+                              <BorderPane.margin>
+                                 <Insets bottom="5.0" top="5.0" />
+                              </BorderPane.margin>
+                           </Label>
+                        </top>
+                     </BorderPane>
+                  </center>
                </BorderPane>
             </Tab>
             <Tab text="Semestre 5">
                <BorderPane>
-                  <center>
-                     <TableView fx:id="tabs5">
-                        <columns>
-                           <TableColumn fx:id="s5code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
-                           <TableColumn fx:id="s5liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
-                           <TableColumn fx:id="s5hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
-                           <TableColumn fx:id="s5validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
-                        </columns>
-                        <opaqueInsets>
-                           <Insets />
-                        </opaqueInsets>
-                        <BorderPane.margin>
-                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
-                        </BorderPane.margin>
-                     </TableView>
-                  </center>
                   <top>
-                     <Label alignment="CENTER" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
+                     <FlowPane alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
+                              <FlowPane.margin>
+                                 <Insets right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTDs5" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTPs5" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbEtds5" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbSemaines5" prefWidth="50.0" />
+                        </children>
                         <BorderPane.margin>
-                           <Insets top="10.0" />
+                           <Insets bottom="10.0" top="10.0" />
                         </BorderPane.margin>
-                        <font>
-                           <Font name="System Bold Italic" size="12.0" />
-                        </font>
-                     </Label>
+                     </FlowPane>
                   </top>
+                  <center>
+                     <BorderPane BorderPane.alignment="CENTER">
+                        <center>
+                           <TableView fx:id="tabs5">
+                              <columns>
+                                 <TableColumn fx:id="s5code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
+                                 <TableColumn fx:id="s5liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
+                                 <TableColumn fx:id="s5hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                                 <TableColumn fx:id="s5validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
+                              </columns>
+                              <opaqueInsets>
+                                 <Insets />
+                              </opaqueInsets>
+                           </TableView>
+                        </center>
+                        <top>
+                           <Label alignment="CENTER" prefHeight="20.0" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <font>
+                                 <Font name="System Bold Italic" size="12.0" />
+                              </font>
+                              <BorderPane.margin>
+                                 <Insets bottom="5.0" top="5.0" />
+                              </BorderPane.margin>
+                           </Label>
+                        </top>
+                     </BorderPane>
+                  </center>
                </BorderPane>
             </Tab>
             <Tab text="Semestre 6">
                <BorderPane>
-                  <center>
-                     <TableView fx:id="tabs6">
-                        <columns>
-                           <TableColumn fx:id="s6code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
-                           <TableColumn fx:id="s6liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
-                           <TableColumn fx:id="s6hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
-                           <TableColumn fx:id="s6validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
-                        </columns>
-                        <opaqueInsets>
-                           <Insets />
-                        </opaqueInsets>
-                        <BorderPane.margin>
-                           <Insets bottom="-1.0" left="-1.0" right="-1.0" top="-1.0" />
-                        </BorderPane.margin>
-                     </TableView>
-                  </center>
                   <top>
-                     <Label alignment="CENTER" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="BOTTOM_CENTER">
+                     <FlowPane alignment="CENTER" prefHeight="30.0" BorderPane.alignment="CENTER">
+                        <children>
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
+                              <FlowPane.margin>
+                                 <Insets right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTDs6" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbTPs6" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbEtds6" prefWidth="50.0" />
+                           <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
+                              <FlowPane.margin>
+                                 <Insets left="10.0" right="5.0" />
+                              </FlowPane.margin>
+                           </Label>
+                           <TextField fx:id="txtNbSemaines6" prefWidth="50.0" />
+                        </children>
                         <BorderPane.margin>
-                           <Insets top="10.0" />
+                           <Insets bottom="10.0" top="10.0" />
                         </BorderPane.margin>
-                        <font>
-                           <Font name="System Bold Italic" size="12.0" />
-                        </font>
-                     </Label>
+                     </FlowPane>
                   </top>
+                  <center>
+                     <BorderPane BorderPane.alignment="CENTER">
+                        <center>
+                           <TableView fx:id="tabs6">
+                              <columns>
+                                 <TableColumn fx:id="s6code" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Code" />
+                                 <TableColumn fx:id="s6liblong" minWidth="250.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Libelle long" />
+                                 <TableColumn fx:id="s6hahpn" minWidth="175.0" prefWidth="-1.0" reorderable="false" resizable="false" text="Heures Affectés / Heures PN" />
+                                 <TableColumn fx:id="s6validation" minWidth="75.0" prefWidth="-1.0" reorderable="false" resizable="false" sortable="false" text="Validation" />
+                              </columns>
+                              <opaqueInsets>
+                                 <Insets />
+                              </opaqueInsets>
+                           </TableView>
+                        </center>
+                        <top>
+                           <Label alignment="CENTER" prefHeight="20.0" text="Liste des modules" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                              <font>
+                                 <Font name="System Bold Italic" size="12.0" />
+                              </font>
+                              <BorderPane.margin>
+                                 <Insets bottom="5.0" top="5.0" />
+                              </BorderPane.margin>
+                           </Label>
+                        </top>
+                     </BorderPane>
+                  </center>
                </BorderPane>
             </Tab>
         </tabs>
-         <padding>
-            <Insets bottom="4.0" top="4.0" />
-         </padding>
+         <BorderPane.margin>
+            <Insets top="5.0" />
+         </BorderPane.margin>
        </TabPane>
    </center>
-   <top>
-      <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="700.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TD">
-               <FlowPane.margin>
-                  <Insets right="5.0" />
-               </FlowPane.margin>
-            </Label>
-            <TextField fx:id="txtNbTD" prefWidth="50.0" />
-            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Groupe TP">
-               <FlowPane.margin>
-                  <Insets left="10.0" right="5.0" />
-               </FlowPane.margin>
-            </Label>
-            <TextField fx:id="txtNbTP" prefWidth="50.0" />
-            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Étudiant">
-               <FlowPane.margin>
-                  <Insets left="10.0" right="5.0" />
-               </FlowPane.margin>
-            </Label>
-            <TextField fx:id="txtNbEtd" prefWidth="50.0" />
-            <Label alignment="CENTER_RIGHT" prefWidth="60.0" text="Semaine">
-               <FlowPane.margin>
-                  <Insets left="10.0" right="5.0" />
-               </FlowPane.margin>
-            </Label>
-            <TextField fx:id="txtNbSemaine" prefWidth="50.0" />
-         </children>
-         <BorderPane.margin>
-            <Insets bottom="10.0" top="10.0" />
-         </BorderPane.margin>
-      </FlowPane>
-   </top>
    <bottom>
       <FlowPane alignment="CENTER" prefHeight="30.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>

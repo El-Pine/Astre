@@ -5,47 +5,74 @@ import fr.elpine.astre.Controleur;
 import fr.elpine.astre.ihm.PopUp;
 import fr.elpine.astre.ihm.outil.Emoji;
 import fr.elpine.astre.ihm.outil.Manager;
+import fr.elpine.astre.ihm.outil.Regex;
 import fr.elpine.astre.metier.objet.Annee;
 import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.Semestre;
 import fr.elpine.astre.metier.outil.Fraction;
+import fr.elpine.astre.metier.outil.ModuleType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class StagePrevisionnel extends Stage implements Initializable
 {
 	private ArrayList< TableView<Module> > lstViews;
+	private ArrayList< TextField > lstTxtNbTD;
+	private ArrayList< TextField > lstTxtNbTP;
+	private ArrayList< TextField > lstTxtNbEtd;
+	private ArrayList< TextField > lstTxtNbSemaine;
 
-	@FXML private TableView<Module>           tabs1;
-	@FXML private TableView<Module>           tabs2;
-	@FXML private TableView<Module>           tabs3;
-	@FXML private TableView<Module>           tabs4;
-	@FXML private TableView<Module>           tabs5;
-	@FXML private TableView<Module>           tabs6;
+	@FXML private TableView<Module> tabs1;
+	@FXML private TableView<Module> tabs2;
+	@FXML private TableView<Module> tabs3;
+	@FXML private TableView<Module> tabs4;
+	@FXML private TableView<Module> tabs5;
+	@FXML private TableView<Module> tabs6;
 
-	@FXML private TextField txtNbTD;
-	@FXML private TextField txtNbTP;
-	@FXML private TextField txtNbEtd;
-	@FXML private TextField txtNbSemaine;
+	@FXML private TextField txtNbTDs1;
+	@FXML private TextField txtNbTDs2;
+	@FXML private TextField txtNbTDs3;
+	@FXML private TextField txtNbTDs4;
+	@FXML private TextField txtNbTDs5;
+	@FXML private TextField txtNbTDs6;
 
-	@FXML private ChoiceBox<String> selectedModuleType;
+	@FXML private TextField txtNbTPs1;
+	@FXML private TextField txtNbTPs2;
+	@FXML private TextField txtNbTPs3;
+	@FXML private TextField txtNbTPs4;
+	@FXML private TextField txtNbTPs5;
+	@FXML private TextField txtNbTPs6;
+
+	@FXML private TextField txtNbEtds1;
+	@FXML private TextField txtNbEtds2;
+	@FXML private TextField txtNbEtds3;
+	@FXML private TextField txtNbEtds4;
+	@FXML private TextField txtNbEtds5;
+	@FXML private TextField txtNbEtds6;
+
+	@FXML private TextField txtNbSemaines1;
+	@FXML private TextField txtNbSemaines2;
+	@FXML private TextField txtNbSemaines3;
+	@FXML private TextField txtNbSemaines4;
+	@FXML private TextField txtNbSemaines5;
+	@FXML private TextField txtNbSemaines6;
+
+	@FXML private ChoiceBox<ModuleType> selectedModuleType;
 
 	@FXML private TabPane pnlControlSem;
 
-	private boolean modifieCatHr;
-
-	private Module moduleModifier;
 	private Semestre semestreActuel;
 	private TableView<Module> viewActuel;
+
+	private final ArrayList< ArrayList< HashMap<TextField,Boolean> > > valids = new ArrayList<>();
 
 
 	public StagePrevisionnel() // fxml -> "previsionnel"
@@ -53,10 +80,9 @@ public class StagePrevisionnel extends Stage implements Initializable
 		this.setTitle("Prévisionnel");
 		this.setMinHeight(450);
 		this.setMinWidth(800);
+		this.setOnCloseRequest(e -> Controleur.get().getMetier().rollback());
 	}
 
-	public boolean getModifieCatHr  () { return  this.modifieCatHr;   }
-	public Module  getModuleModifier() { return  this.moduleModifier; }
 
 	@FXML private void onBtnEnregistrer() {
 		this.setChamps();
@@ -71,80 +97,85 @@ public class StagePrevisionnel extends Stage implements Initializable
 	}
 
 	@FXML private void onBtnCreer() {
-		this.setChamps();
+		if (verification()) {
+			//String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
 
-		String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
-
-		StageChoixCatH stage = Manager.creer("choisirCatHeure",this);
-		stage.setParent(this);
-		stage.setType(type);
-		stage.setSemestre(this.semestreActuel.getNumero());
-		stage.init();
-		stage.showAndWait();
+			this.saisieModule(this.selectedModuleType.getValue(), null);
+			this.refresh();
+		}
 	}
 
 	@FXML private void onBtnSupprimer()
 	{
-		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
+		if (verification()) {
+			Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
 
-		if ( mod != null )
-		{
-			if (PopUp.confirmationR("Suppression d'un module",null, "Êtes-vous sûr de vouloir supprimer ce module : " + mod.getCode())) {
-				if (!mod.supprimer(false, true)) {
-					if (PopUp.confirmationR("Suppression d'un module",null, "Êtes-vous sûr de vouloir supprimer le module '%s' ainsi que ces affectations".formatted(mod.getCode()))) mod.supprimer(true, false);
-				}
-			}
+			if (mod != null)
+				if (PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de vouloir supprimer ce module : " + mod.getCode()))
+					if (!mod.supprimer(false, true))
+						if (PopUp.confirmationR("Suppression d'un module", null, "Êtes-vous sûr de vouloir supprimer le module '%s' ainsi que ces affectations".formatted(mod.getCode())))
+							mod.supprimer(true, false);
+
+			Controleur.get().getMetier().enregistrer();
+			this.refresh();
 		}
-
-		Controleur.get().getMetier().enregistrer();
-		this.refresh();
 	}
 
 	@FXML private void onBtnModifier()
 	{
-		if(PopUp.confirmationR("Modifiez les types d'heures", null, "Voulez-vous les types d'heures présente dans ce module ?"))
-			modifierCatHr();
-		else
-			modifierModule();
+		if (verification()) {
+			Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
 
-	}
-
-	public void modifierCatHr()
-	{
-		this.modifieCatHr   = true;
-		this.moduleModifier = this.viewActuel.getSelectionModel().getSelectedItem();
-
-		this.setChamps();
-
-		String type = this.selectedModuleType.getValue().replace("SAÉ", "Sae").replace("Stage/Suivi", "Stage");
-
-
-		StageChoixCatH stage = Manager.creer("choisirCatHeure",this);
-		stage.setParent(this);
-		stage.setType(type);
-		stage.setSemestre(this.semestreActuel.getNumero());
-		stage.init();
-		stage.showAndWait();
-	}
-
-	private void modifierModule()
-	{
-		this.setChamps();
-
-		Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
-		if ( mod != null )
-		{
-			StageSaisieRessource stage = Manager.creer("saisieRessource", this);
-
-			if (stage != null)
-			{
-				stage.setSemestre(this.semestreActuel.getNumero());
-				stage.setModule(mod);
-				stage.setCatH(mod.getEnsCatHr());
-				stage.init();
-				stage.showAndWait();
+			if (mod != null) {
+				this.saisieModule(mod.getTypeModule(), mod);
 				this.refresh();
 			}
+		}
+	}
+
+	private boolean verification()
+	{
+		this.setChamps();
+
+		if (!Controleur.get().getMetier().saveNecessaire()) return true;
+
+		Alert a = PopUp.confirmation("Enregistrement", null, "Voulez-vous enregistrer les changements ?");
+
+		ButtonType btnTypeE = new ButtonType("Oui");
+		ButtonType btnTypeA = new ButtonType("Non");
+		ButtonType btnTypeR = new ButtonType("Retour", ButtonData.CANCEL_CLOSE);
+
+		a.getButtonTypes().setAll(btnTypeE, btnTypeA, btnTypeR);
+
+		Optional<ButtonType> result = a.showAndWait();
+
+		if (result.isPresent())
+		{
+			if (result.get() == btnTypeE){
+				Controleur.get().getMetier().enregistrer();
+				return true;
+			} else if (result.get() == btnTypeA) {
+				Controleur.get().getMetier().rollback();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void saisieModule(ModuleType typeModule, Module module)
+	{
+		StageSaisieRessource stage = Manager.creer("saisieRessource", this);
+
+		if (stage != null)
+		{
+			stage.setSemestre(this.semestreActuel);
+			stage.setTypeModule(typeModule);
+
+			if (module != null) stage.setModule(module);
+
+			stage.init();
+			stage.showAndWait();
 		}
 	}
 
@@ -154,7 +185,13 @@ public class StagePrevisionnel extends Stage implements Initializable
 		this.setWidth( this.getMinWidth() );
 		this.setHeight( this.getMinHeight() );
 
-		this.lstViews  = new ArrayList<>(Arrays.asList(tabs1, tabs2, tabs3, tabs4, tabs5, tabs6));
+		for (int i = 0; i < 6; i++) valids.add( new ArrayList<>(Arrays.asList( new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>() )) );
+
+		this.lstViews        = new ArrayList<>(Arrays.asList(tabs1, tabs2, tabs3, tabs4, tabs5, tabs6));
+		this.lstTxtNbTD      = new ArrayList<>(Arrays.asList(txtNbTDs1, txtNbTDs2, txtNbTDs3, txtNbTDs4, txtNbTDs5, txtNbTDs6));
+		this.lstTxtNbTP      = new ArrayList<>(Arrays.asList(txtNbTPs1, txtNbTPs2, txtNbTPs3, txtNbTPs4, txtNbTPs5, txtNbTPs6));
+		this.lstTxtNbEtd     = new ArrayList<>(Arrays.asList(txtNbEtds1, txtNbEtds2, txtNbEtds3, txtNbEtds4, txtNbEtds5, txtNbEtds6));
+		this.lstTxtNbSemaine = new ArrayList<>(Arrays.asList(txtNbSemaines1, txtNbSemaines2, txtNbSemaines3, txtNbSemaines4, txtNbSemaines5, txtNbSemaines6));
 
 		initSemestre();
 
@@ -183,15 +220,22 @@ public class StagePrevisionnel extends Stage implements Initializable
 			view.setEditable(true);
 			view.setOnMousePressed(event -> {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-					Module rowData = view.getSelectionModel().getSelectedItem();
-					if (rowData!=null)
-						modifierModule();
+					if (verification()) {
+						Module mod = this.viewActuel.getSelectionModel().getSelectedItem();
+
+						if (mod != null) {
+							this.saisieModule(mod.getTypeModule(), mod);
+							this.refresh();
+						}
+					}
 				}
 			});
 		}
 
-		selectedModuleType.setItems(FXCollections.observableArrayList(Arrays.asList("Ressource", "SAÉ", "Stage/Suivi", "PPP")));
-		selectedModuleType.setValue("Ressource");
+		//selectedModuleType.setItems(FXCollections.observableArrayList(Arrays.asList("Ressource", "SAÉ", "Stage/Suivi", "PPP")));
+		//selectedModuleType.setValue("Ressource");
+		selectedModuleType.setItems(FXCollections.observableArrayList(ModuleType.values()));
+		selectedModuleType.setValue(ModuleType.RESSOURCE);
 
 		pnlControlSem.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) ->
 		{
@@ -200,11 +244,18 @@ public class StagePrevisionnel extends Stage implements Initializable
 			initSemestre();
 		});
 
+		for (TextField t : this.lstTxtNbTD)      Regex.activerRegex(Regex.REGEX_INT_NOT_EMPTY, Regex.REGEX_INT, t, this.valids.get( this.lstTxtNbTD.indexOf(t)      ).get(0), false);
+		for (TextField t : this.lstTxtNbTP)      Regex.activerRegex(Regex.REGEX_INT_NOT_EMPTY, Regex.REGEX_INT, t, this.valids.get( this.lstTxtNbTP.indexOf(t)      ).get(1), false);
+		for (TextField t : this.lstTxtNbEtd)     Regex.activerRegex(Regex.REGEX_INT_NOT_EMPTY, Regex.REGEX_INT, t, this.valids.get( this.lstTxtNbEtd.indexOf(t)     ).get(2), false);
+		for (TextField t : this.lstTxtNbSemaine) Regex.activerRegex(Regex.REGEX_INT_NOT_EMPTY, Regex.REGEX_INT, t, this.valids.get( this.lstTxtNbSemaine.indexOf(t) ).get(3), false);
+
 		this.refresh();
 	}
 
 	public void refresh()
 	{
+		this.initSemestre();
+
 		Annee a = Controleur.get().getMetier().getAnneeActuelle();
 
 		if ( a != null )
@@ -219,7 +270,7 @@ public class StagePrevisionnel extends Stage implements Initializable
 		else this.close();
 	}
 
-	protected void initSemestre()
+	private void initSemestre()
 	{
 		Annee a = Controleur.get().getMetier().getAnneeActuelle();
 
@@ -241,17 +292,19 @@ public class StagePrevisionnel extends Stage implements Initializable
 		if ( this.semestreActuel != null ) {
 			Semestre s = this.semestreActuel;
 
-			txtNbTD     .setText(s.getNbGrpTD()   > 0 ? String.valueOf(s.getNbGrpTD())   : "");
-			txtNbTP     .setText(s.getNbGrpTP()   > 0 ? String.valueOf(s.getNbGrpTP())   : "");
-			txtNbEtd    .setText(s.getNbEtd()     > 0 ? String.valueOf(s.getNbEtd())     : "");
-			txtNbSemaine.setText(s.getNbSemaine() > 0 ? String.valueOf(s.getNbSemaine()) : "");
+			lstTxtNbTD     .get(s.getNumero() - 1).setText(s.getNbGrpTD()   > 0 ? String.valueOf(s.getNbGrpTD())   : "");
+			lstTxtNbTP     .get(s.getNumero() - 1).setText(s.getNbGrpTP()   > 0 ? String.valueOf(s.getNbGrpTP())   : "");
+			lstTxtNbEtd    .get(s.getNumero() - 1).setText(s.getNbEtd()     > 0 ? String.valueOf(s.getNbEtd())     : "");
+			lstTxtNbSemaine.get(s.getNumero() - 1).setText(s.getNbSemaine() > 0 ? String.valueOf(s.getNbSemaine()) : "");
 		}
 	}
 
 	private void setChamps() {
-		if ( txtNbEtd    .getText().matches("\\d+") ) semestreActuel.setNbEtd    (Integer.parseInt(txtNbEtd    .getText()));
-		if ( txtNbTD     .getText().matches("\\d+") ) semestreActuel.setNbGrpTD  (Integer.parseInt(txtNbTD     .getText()));
-		if ( txtNbTP     .getText().matches("\\d+") ) semestreActuel.setNbGrpTP  (Integer.parseInt(txtNbTP     .getText()));
-		if ( txtNbSemaine.getText().matches("\\d+") ) semestreActuel.setNbSemaine(Integer.parseInt(txtNbSemaine.getText()));
+		int num = semestreActuel.getNumero() - 1;
+
+		if ( Regex.estValide( this.valids.get(num).get(0) ) ) semestreActuel.setNbGrpTD  (Integer.parseInt(lstTxtNbTD     .get(num).getText()));
+		if ( Regex.estValide( this.valids.get(num).get(1) ) ) semestreActuel.setNbGrpTP  (Integer.parseInt(lstTxtNbTP     .get(num).getText()));
+		if ( Regex.estValide( this.valids.get(num).get(2) ) ) semestreActuel.setNbEtd    (Integer.parseInt(lstTxtNbEtd    .get(num).getText()));
+		if ( Regex.estValide( this.valids.get(num).get(3) ) ) semestreActuel.setNbSemaine(Integer.parseInt(lstTxtNbSemaine.get(num).getText()));
 	}
 }

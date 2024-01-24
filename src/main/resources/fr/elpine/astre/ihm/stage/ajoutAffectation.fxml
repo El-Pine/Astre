@@ -5,132 +5,105 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutAffectation">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="134.39998779296874" minHeight="10.0" prefHeight="134.39998779296874" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="259.39996948242185" minHeight="10.0" prefHeight="220.00001220703123" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="132.2000183105469" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <GridPane>
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="193.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="404.0" minWidth="10.0" prefWidth="377.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Label alignment="CENTER_RIGHT" text="Intervenant : " />
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <children>
-                  <ComboBox fx:id="cbIntervenant" prefWidth="150.0" />
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-               <children>
-                  <Label text="Commentaire : ">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Label>
-               </children>
-            </FlowPane>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <TextField fx:id="txtCommentaire" prefHeight="26.0" prefWidth="241.0" />
-               </children>
-            </FlowPane>
-         </children>
-      </GridPane>
-      <GridPane GridPane.rowIndex="1">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="79.79997940063477" minHeight="10.0" prefHeight="50.39997787475586" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="117.99997940063477" minHeight="10.0" prefHeight="109.60002212524414" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Label text="Catégorie Heure : " />
-                  <ComboBox fx:id="cbbCatHeure" prefWidth="150.0" />
-               </children>
-            </FlowPane>
-            <GridPane GridPane.rowIndex="1">
+<BorderPane prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.elpine.astre.ihm.stage.StageAjoutAffectation">
+   <center>
+      <BorderPane>
+         <center>
+            <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="228.99998474121094" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="344.00001525878906" minWidth="10.0" prefWidth="341.00001525878906" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="175.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="175.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="175.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <FlowPane alignment="CENTER" prefHeight="118.0" prefWidth="260.0">
+                  <FlowPane alignment="CENTER_RIGHT" columnHalignment="CENTER">
                      <children>
-                        <Label text="Nb Heure : " />
+                        <Label alignment="CENTER" prefWidth="75.0" text="Nb Heure : " />
                         <TextField fx:id="txtNbHeure" prefHeight="26.0" prefWidth="71.0" />
                      </children>
                   </FlowPane>
-                  <GridPane GridPane.columnIndex="1">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.4000244140625" minWidth="10.0" prefWidth="110.60003662109376" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.20001220703125" minWidth="10.0" prefWidth="187.39996337890625" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                  <FlowPane alignment="CENTER" columnHalignment="CENTER" GridPane.columnIndex="1">
                      <children>
-                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                           <children>
-                              <Label text="Nb Semaine : " />
-                           </children>
-                        </FlowPane>
-                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
-                           <children>
-                              <Label text="Nb Gp : " />
-                           </children>
-                        </FlowPane>
-                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <children>
-                              <TextField fx:id="txtNbSemaine" prefHeight="26.0" prefWidth="50.0" />
-                           </children>
-                        </FlowPane>
-                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <children>
-                              <TextField fx:id="txtNbGp" prefWidth="50.0" />
-                           </children>
-                        </FlowPane>
-                        <FlowPane alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="200.0" />
-                        <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER" prefWidth="75.0" text="Nb Semaine : " />
+                        <TextField fx:id="txtNbSemaine" prefHeight="26.0" prefWidth="50.0" />
                      </children>
-                  </GridPane>
+                  </FlowPane>
+                  <FlowPane alignment="CENTER_LEFT" GridPane.columnIndex="2">
+                     <children>
+                        <Label alignment="CENTER" prefWidth="75.0" text="Nb Grp : " />
+                        <TextField fx:id="txtNbGp" prefWidth="50.0" />
+                     </children>
+                  </FlowPane>
                </children>
             </GridPane>
-         </children>
-      </GridPane>
-      <FlowPane alignment="CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         </center>
+         <top>
+            <FlowPane alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefWidth="100.0" text="Catégorie Heure : ">
+                     <FlowPane.margin>
+                        <Insets right="10.0" />
+                     </FlowPane.margin>
+                  </Label>
+                  <ComboBox fx:id="cbbCatHeure" prefWidth="150.0" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="20.0" />
+               </padding>
+            </FlowPane>
+         </top>
+      </BorderPane>
+   </center>
+   <top>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <FlowPane alignment="CENTER" columnHalignment="CENTER" orientation="VERTICAL" prefWrapLength="75.0">
+               <children>
+                  <Label text="Commentaire : ">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                     <FlowPane.margin>
+                        <Insets right="10.0" />
+                     </FlowPane.margin>
+                  </Label>
+                  <TextField fx:id="txtCommentaire" prefWidth="450.0" />
+               </children>
+            </FlowPane>
+         </center>
+         <top>
+            <FlowPane alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefWidth="100.0" text="Intervenant : ">
+                     <FlowPane.margin>
+                        <Insets right="10.0" />
+                     </FlowPane.margin>
+                  </Label>
+                  <ComboBox fx:id="cbIntervenant" prefWidth="150.0" />
+               </children>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </FlowPane>
+         </top>
+      </BorderPane>
+   </top>
+   <bottom>
+      <FlowPane alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onBtnAjouter" prefHeight="26.0" prefWidth="90.0" text="Ajouter">
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#onBtnAjouter" prefWidth="100.0" text="Ajouter">
                <FlowPane.margin>
                   <Insets right="30.0" />
                </FlowPane.margin>
             </Button>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#onBtnAnnuler" prefHeight="26.0" prefWidth="90.0" text="Annuler" />
+            <Button alignment="CENTER" cancelButton="true" mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler" />
          </children>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
       </FlowPane>
-   </children>
-</GridPane>
+   </bottom>
+</BorderPane>

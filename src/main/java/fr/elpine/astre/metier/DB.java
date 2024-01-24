@@ -5,6 +5,7 @@ import fr.elpine.astre.metier.objet.Module;
 import fr.elpine.astre.metier.objet.*;
 import fr.elpine.astre.metier.outil.Configuration;
 import fr.elpine.astre.metier.outil.Fraction;
+import fr.elpine.astre.metier.outil.ModuleType;
 import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -163,7 +164,7 @@ public class DB
             ps.setString  (3, module.getSemestre().getAnnee().getNom());
             ps.setString  (4, module.getNom         ());
             ps.setString  (5, module.getAbreviation ());
-            ps.setString  (6, module.getTypeModule  ());
+            ps.setString  (6, module.getTypeModule  ().name());
             ps.setString  (7, couleur);
             ps.setBoolean (8, module.estValide      ());
             ps.executeUpdate();
@@ -183,7 +184,7 @@ public class DB
 
             ps.setString  (1, module.getNom         ());
             ps.setString  (2, module.getAbreviation ());
-            ps.setString  (3, module.getTypeModule  ());
+            ps.setString  (3, module.getTypeModule  ().name());
             ps.setString  (4, couleur);
             ps.setBoolean (5, module.estValide      ());
             ps.setString  (6, module.getCode        ());
@@ -232,7 +233,7 @@ public class DB
                         ensModule.add(new Module(rs.getString("nom"),
                                 rs.getString("code"),
                                 rs.getString("abreviation"),
-                                rs.getString("typeModule"),
+                                ModuleType.valueOf(rs.getString("typeModule").toUpperCase()),
                                 Color.valueOf(rs.getString("couleur")),
                                 rs.getBoolean("validation"),
                                 semestre));
