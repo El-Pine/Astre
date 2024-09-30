@@ -51,3 +51,4 @@ Sur linux une erreur de performance peut arriver, si c'est le cas utilisez la co
    ```bash
    ulimit -c unlimited
    ```
+
